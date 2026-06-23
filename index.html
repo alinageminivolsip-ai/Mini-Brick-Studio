@@ -27,9 +27,17 @@
 </div>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="modal-card"><h2>Форма заказа</h2><textarea id="orderText" readonly></textarea><div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary" id="copyOrder">Скопировать</button><button class="btn" id="closeModal">Закрыть</button></div></div></div>
-<script type="module">
-import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+  <script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const CACHE_NOTE='После правок увеличивай CACHE_NAME в sw.js';
 const skinColors=['#ffd09a','#f2b779','#d89255','#8a5a3c','#fff4dc','#f2d6bf','#3b3028'];
 const bodyColors=['#ffffff','#ffd900','#ff6fa8','#ec2d58','#7cc9ff','#4875cb','#222222','#7cd96b','#b88cff'];
