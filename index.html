@@ -17,7 +17,7 @@
 <body>
 <div class="splash" id="splash"><div class="splash-card"><div class="logo-bubble"><img src="./logo.png" alt=""></div><div class="loading">собираем мини-мир...</div></div></div>
 <div class="app">
-<header><div class="brand"><img src="./assets/logo.png" alt=""><div><h1>MiniBrick Studio</h1><p>3D конструктор мини-фигурок</p></div></div><div class="top-actions"><button class="pill" id="modeBtn">Рамка</button><button class="pill" id="orderBtn">Заказ</button></div></header>
+<header><div class="brand"><img src="./logo.png" alt=""><div><h1>MiniBrick Studio</h1><p>3D конструктор мини-фигурок</p></div></div><div class="top-actions"><button class="pill" id="modeBtn">Рамка</button><button class="pill" id="orderBtn">Заказ</button></div></header>
 <div class="main" id="main">
 <aside class="panel left" id="peoplePanel"><div class="section-title">Человечки до 20 шт.</div><div class="people" id="people"></div><button class="btn primary add" id="addPerson">+ Добавить</button><div class="fields"><label class="field">Имя <input id="nameInput" placeholder="Например, Вика"></label><label class="field">Комментарий <input id="noteInput" placeholder="что учесть мастеру"></label></div><div class="frame-list" id="frameList"></div></aside>
 <main class="panel viewer"><span class="heart h1">❤</span><span class="heart h2">❤</span><span class="heart h3">❤</span><canvas id="stage"></canvas><button class="arrow leftA" id="prevColor">‹</button><button class="arrow rightA" id="nextColor">›</button><div class="hint" id="hint">стрелки меняют цвет кожи, модель можно крутить</div></main>
@@ -27,17 +27,9 @@
 </div>
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="modal-card"><h2>Форма заказа</h2><textarea id="orderText" readonly></textarea><div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary" id="copyOrder">Скопировать</button><button class="btn" id="closeModal">Закрыть</button></div></div></div>
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-  }
-}
-</script>
   <script type="module">
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import * as THREE from 'https://esm.sh/three@0.160.0';
+import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 const CACHE_NOTE='После правок увеличивай CACHE_NAME в sw.js';
 const skinColors=['#ffd09a','#f2b779','#d89255','#8a5a3c','#fff4dc','#f2d6bf','#3b3028'];
 const bodyColors=['#ffffff','#ffd900','#ff6fa8','#ec2d58','#7cc9ff','#4875cb','#222222','#7cd96b','#b88cff'];
