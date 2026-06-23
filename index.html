@@ -54,7 +54,7 @@ let group=new THREE.Group(); scene.add(group); let frameGroup=new THREE.Group();
 
 const loader = new GLTFLoader();
 loader.load(
-  './models/minibrick_stylized_plastic_figure.glb',
+  './models/minibrick_realistic_block_figure.glb',
   (gltf) => {
     baseFigureModel = gltf.scene;
     baseFigureModel.traverse((obj) => {
