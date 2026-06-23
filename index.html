@@ -30,6 +30,7 @@
   <script type="module">
 import * as THREE from 'https://esm.sh/three@0.160.0';
 import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 const CACHE_NOTE='После правок увеличивай CACHE_NAME в sw.js';
 const skinColors=['#ffd09a','#f2b779','#d89255','#8a5a3c','#fff4dc','#f2d6bf','#3b3028'];
 const bodyColors=['#ffffff','#ffd900','#ff6fa8','#ec2d58','#7cc9ff','#4875cb','#222222','#7cd96b','#b88cff'];
@@ -46,10 +47,82 @@ let people=JSON.parse(localStorage.getItem('mb_people')||'null')||[newPerson(1)]
 function newPerson(n){return{name:`Человек ${n}`,note:'',skin:0,torso:2,legs:0,hair:1,accessory:0,face:0,x:0,y:0,z:0,rot:0}}
 function save(){localStorage.setItem('mb_people',JSON.stringify(people))}
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800)}
-setTimeout(()=>document.getElementById('splash').classList.add('hide'),1100);
 const canvas=document.getElementById('stage'); const scene=new THREE.Scene(); scene.background=new THREE.Color(0xfff5f9); const camera=new THREE.PerspectiveCamera(45,1,.1,100); camera.position.set(0,2.3,6); const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); const controls=new OrbitControls(camera,canvas); controls.enableDamping=true; controls.target.set(0,1.25,0); controls.enablePan=false;
 scene.add(new THREE.HemisphereLight(0xffffff,0xffc6d9,2)); const dl=new THREE.DirectionalLight(0xffffff,2.2); dl.position.set(4,6,5); scene.add(dl);
 let group=new THREE.Group(); scene.add(group); let frameGroup=new THREE.Group(); scene.add(frameGroup);
+    let baseFigureModel = null;
+
+const loader = new GLTFLoader();
+loader.load(
+  './models/minibrick_stylized_plastic_figure.glb',
+  (gltf) => {
+    baseFigureModel = gltf.scene;
+    baseFigureModel.traverse((obj) => {
+      if (obj.isMesh) {
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+        obj.material = obj.material.clone();
+        obj.material.roughness = 0.32;
+        obj.material.metalness = 0;
+      }
+    });
+    syncUI();
+    document.getElementById('splash').classList.add('hide');
+  },
+  undefined,
+  (error) => {
+    console.error('GLB load error:', error);
+    toast('Модель не загрузилась');
+    document.getElementById('splash').classList.add('hide');
+  }
+);
+
+function applyFigureColors(model, p) {
+  const skin = skinColors[p.skin];
+  const torso = optionsData.torso[p.torso].color;
+  const legs = optionsData.legs[p.legs].color;
+
+  model.traverse((obj) => {
+    if (!obj.isMesh) return;
+
+    const name = obj.name.toLowerCase();
+
+    if (name.includes('head') || name.includes('hand') || name.includes('arm')) {
+      obj.material.color.set(skin);
+    } else if (name.includes('torso') || name.includes('body')) {
+      obj.material.color.set(torso);
+    } else if (name.includes('leg') || name.includes('foot')) {
+      obj.material.color.set(legs);
+    } else {
+      obj.material.color.set(torso);
+    }
+
+    obj.material.roughness = 0.3;
+    obj.material.metalness = 0;
+  });
+}
+
+function buildRealFigure(p, scale = 1) {
+  if (!baseFigureModel) {
+    return buildFigure(p, scale);
+  }
+
+  const model = baseFigureModel.clone(true);
+
+  model.traverse((obj) => {
+    if (obj.isMesh) {
+      obj.material = obj.material.clone();
+    }
+  });
+
+  applyFigureColors(model, p);
+
+  model.scale.setScalar(scale);
+  model.position.y = 0;
+  model.rotation.y = 0;
+
+  return model;
+}
 function mat(c,rough=.55){return new THREE.MeshStandardMaterial({color:c,roughness:rough,metalness:.03})}
 function block(w,h,d,c,r=.08){const g=new THREE.BoxGeometry(w,h,d); const m=mat(c); const mesh=new THREE.Mesh(g,m); mesh.castShadow=true; return mesh}
 function cyl(r,h,c){const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,32),mat(c)); return mesh}
@@ -68,8 +141,23 @@ function buildFigure(p,scale=1){const g=new THREE.Group(); const skin=skinColors
  if(p.accessory==4){const ph=block(.22,.38,.06,'#111');ph.position.set(.9,1.52,.2);g.add(ph)}
  if(p.accessory==5){const gift=block(.38,.32,.32,'#ffd900');gift.position.set(.9,1.45,.18);g.add(gift)}
  g.scale.setScalar(scale); return g}
-function renderModel(){group.clear(); frameGroup.clear(); const p=people[active]; if(!frameMode){group.add(buildFigure(p,1)); document.getElementById('hint').textContent='стрелки меняют цвет кожи, модель можно крутить';} else {buildFrame(); document.getElementById('hint').textContent='3D фоторамка: до 20 фигурок внутри';}}
-function buildFrame(){const base=block(4.6,.12,3.2,'#f9f9f9');base.position.y=-.06;frameGroup.add(base); const back=block(4.2,2.7,.08,'#fff8fb');back.position.set(0,1.35,-.42);frameGroup.add(back); const top=block(4.8,.22,.35,'#ffffff');top.position.set(0,2.84,-.3);frameGroup.add(top); const bottom=top.clone(); bottom.position.y=-.08; frameGroup.add(bottom); const side=block(.22,2.9,.35,'#ffffff');side.position.set(-2.4,1.38,-.3);frameGroup.add(side); const side2=side.clone();side2.position.x=2.4;frameGroup.add(side2); people.forEach((p,i)=>{const fig=buildFigure(p,.28); const col=i%5,row=Math.floor(i/5); fig.position.set(-1.55+col*.78,.12+row*.66,-.15); fig.rotation.y=p.rot||0; frameGroup.add(fig);});}
+function renderModel(){
+  group.clear();
+  frameGroup.clear();
+
+  const p = people[active];
+
+  if (!frameMode) {
+    const fig = buildRealFigure(p, 1.15);
+    fig.position.y = -0.15;
+    group.add(fig);
+    document.getElementById('hint').textContent = 'стрелки меняют цвет кожи, модель можно крутить';
+  } else {
+    buildFrame();
+    document.getElementById('hint').textContent = '3D фоторамка: до 20 фигурок внутри';
+  }
+}
+function buildFrame(){const base=block(4.6,.12,3.2,'#f9f9f9');base.position.y=-.06;frameGroup.add(base); const back=block(4.2,2.7,.08,'#fff8fb');back.position.set(0,1.35,-.42);frameGroup.add(back); const top=block(4.8,.22,.35,'#ffffff');top.position.set(0,2.84,-.3);frameGroup.add(top); const bottom=top.clone(); bottom.position.y=-.08; frameGroup.add(bottom); const side=block(.22,2.9,.35,'#ffffff');side.position.set(-2.4,1.38,-.3);frameGroup.add(side); const side2=side.clone();side2.position.x=2.4;frameGroup.add(side2); people.forEach((p,i)=>{const fig=buildRealFigure(p,.32); const col=i%5,row=Math.floor(i/5); fig.position.set(-1.55+col*.78,.12+row*.66,-.15); fig.rotation.y=p.rot||0; frameGroup.add(fig);});}
 function resize(){const r=canvas.getBoundingClientRect(); renderer.setSize(r.width,r.height,false); camera.aspect=r.width/r.height; camera.updateProjectionMatrix()} window.addEventListener('resize',resize);
 function animate(){resize(); controls.update(); renderer.render(scene,camera); requestAnimationFrame(animate)} animate();
 function uiPeople(){const box=document.getElementById('people'); box.innerHTML=''; people.forEach((p,i)=>{const b=document.createElement('button'); b.className='person'+(i==active?' active':''); b.innerHTML=`${i+1}<small>${p.name||'без имени'}</small>`; b.onclick=()=>{active=i; frameMode=false; syncUI()}; box.appendChild(b)}); document.getElementById('nameInput').value=people[active].name; document.getElementById('noteInput').value=people[active].note||''; document.getElementById('frameList').innerHTML=people.map((p,i)=>`<div class="frame-item"><span>${i+1}. ${p.name}</span><span>${optionsData.accessory[p.accessory].name}</span></div>`).join('')}
