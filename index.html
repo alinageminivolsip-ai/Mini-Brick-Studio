@@ -504,7 +504,6 @@ function renderFrame(){
   peoplePanel.classList.remove('open');
   optionsPanel.classList.add('open');
   sync();
-};
 };orderBtn.onclick=()=>{navigator.clipboard?.writeText(orderText());alert(orderText())};document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{peoplePanel.classList.toggle('open',b.dataset.open==='people');optionsPanel.classList.toggle('open',b.dataset.open==='options')});document.querySelector('[data-tab="face"]').onclick=()=>{
   tab='face';
   frameMode=false;
