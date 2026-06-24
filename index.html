@@ -572,13 +572,21 @@ body.frame-active .frame-bg-tools{
 }
 
 .splash-logo-wrap{
-  width:140px;
-  height:140px;
+  width:148px;
+  height:148px;
+  border-radius:50%;
+  background:#fff;
+  display:grid;
+  place-items:center;
+  box-shadow:0 22px 55px rgba(86,24,55,.24);
+  animation:splashPop 1.4s ease-in-out infinite;
 }
 
 .splash-logo{
-  width:120px;
-  height:120px;
+  width:124px;
+  height:124px;
+  border-radius:50%;
+  object-fit:cover;
 }
 
 .splash-title{
@@ -1097,10 +1105,10 @@ loadCatalog().then(()=>{
   }
   sync();
 });
-  window.addEventListener('load',()=>{
+ window.addEventListener('load',()=>{
   setTimeout(()=>{
-    splashScreen.classList.add('hide');
-  },900);
+    document.getElementById('splashScreen')?.classList.add('hide');
+  },2200);
 });
 </script>
 </body>
