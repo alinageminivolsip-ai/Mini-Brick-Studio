@@ -799,6 +799,23 @@ body.customization-started .start-view{
     max-height:364px;
   }
 }
+    .mobile-person-chip{
+  position:relative;
+  padding-right:30px;
+}
+
+.mobile-delete-person{
+  position:absolute;
+  top:5px;
+  right:5px;
+  width:22px;
+  height:22px;
+  border:0;
+  border-radius:50%;
+  background:#fff0f5;
+  color:#ed2b63;
+  font-weight:950;
+}
   </style>
 </head>
 <body>
@@ -1195,18 +1212,39 @@ function renderMobileEditor(){
   mobileEditorInner.appendChild(peopleRow);
 
   people.forEach((person,i)=>{
-    const btn=document.createElement('button');
-    btn.className='mobile-chip '+(i===active?'active':'');
-    btn.textContent=person.name || `Человек ${i+1}`;
+  const btn=document.createElement('button');
+  btn.className='mobile-chip mobile-person-chip '+(i===active?'active':'');
+  btn.innerHTML=`
+    <span>${person.name || `Человек ${i+1}`}</span>
+    <span class="mobile-delete-person" data-delete-mobile="${i}">×</span>
+  `;
 
-    btn.onclick=()=>{
-      active=i;
-      frameMode=false;
+  btn.onclick=(e)=>{
+    if(e.target.dataset.deleteMobile !== undefined){
+      e.stopPropagation();
+
+      if(people.length===1){
+        alert('Нужен хотя бы один человечек');
+        return;
+      }
+
+      people.splice(i,1);
+
+      if(active>=people.length){
+        active=people.length-1;
+      }
+
       sync();
-    };
+      return;
+    }
 
-    peopleRow.appendChild(btn);
-  });
+    active=i;
+    frameMode=false;
+    sync();
+  };
+
+  peopleRow.appendChild(btn);
+});
 
   return;
 }
