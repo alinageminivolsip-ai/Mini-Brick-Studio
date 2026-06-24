@@ -623,6 +623,44 @@ body.frame-active .frame-bg-tools{
   0%{transform:translateX(-100%)}
   100%{transform:translateX(250%)}
 }
+    .start-view{
+  position:absolute;
+  inset:0;
+  z-index:20;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  gap:18px;
+  padding:24px;
+  text-align:center;
+  background:linear-gradient(180deg,#fff9fc,#fff0f6);
+}
+
+.start-logo{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  box-shadow:0 18px 40px rgba(86,24,55,.18);
+}
+
+.start-view h2{
+  margin:0;
+  font-size:24px;
+  line-height:1.1;
+  font-weight:950;
+}
+
+body:not(.customization-started) .figure-wrap,
+body:not(.customization-started) .frame-preview,
+body:not(.customization-started) .mobile-nav,
+body:not(.customization-started) .mobile-editor{
+  display:none!important;
+}
+
+body.customization-started .start-view{
+  display:none;
+}
   </style>
 </head>
 <body>
@@ -637,7 +675,11 @@ body.frame-active .frame-bg-tools{
   <header><img class="logo" src="./logo.png" alt=""><div><h1>MiniBrick Studio</h1><div class="sub">PNG-конструктор мини-фигурок</div></div><div class="top-actions"><button class="btn" id="frameBtn">Рамка</button><button class="btn" id="orderBtn">Заказ</button></div></header>
   <div class="layout">
     <aside class="panel left open" id="peoplePanel"><div class="panel-pad"><h2 class="title">Человечки до 10 шт.</h2><div class="people" id="people"></div><button class="btn dark" style="width:100%" id="addPerson">+ Добавить</button><label class="field">Имя<input id="nameInput" placeholder="Например, Вика"></label><label class="field">Комментарий<input id="noteInput" placeholder="что учесть мастеру"></label></div></aside>
-    <main class="stage panel"><span class="heart h1">❤</span><span class="heart h2">❤</span><span class="heart h3">❤</span><section id="constructorView" class="figure-wrap">
+    <main class="stage panel"><span class="heart h1">❤</span><span class="heart h2">❤</span><span class="heart h3">❤</span><section id="startView" class="start-view">
+  <img src="./logo.png" alt="" class="start-logo">
+  <h2>Собери свою мини-фигурку</h2>
+  <button class="btn dark" id="startCustomize">Начать кастомизацию</button>
+</section><section id="constructorView" class="figure-wrap">
   <div class="part skin"></div>
   <div class="part torso"></div>
   <div class="part legs"></div>
@@ -1098,6 +1140,15 @@ async function loadCatalog(){
   }catch(e){
     console.log('Каталог ассетов не загрузился', e);
   }
+}
+  startCustomize.onclick = () => {
+  document.body.classList.add('customization-started');
+  localStorage.setItem('mb_started','1');
+  sync();
+};
+
+if(localStorage.getItem('mb_started') === '1'){
+  document.body.classList.add('customization-started');
 }
 loadCatalog().then(()=>{
   if('serviceWorker' in navigator){
