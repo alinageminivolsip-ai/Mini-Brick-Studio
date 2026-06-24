@@ -597,10 +597,16 @@ body.frame-active .frame-bg-tools{
 <script>
 const bodyColors={2:'#F2EFE6',4:'#9FA3A5',5:'#4D5B5A',7:'#111111',8:'#C7BA76',9:'#8A7A33',10:'#C8941E',11:'#B76A1C',12:'#C84A1D',13:'#6E2F18',14:'#2D1610',15:'#FFD200',16:'#F7A500',17:'#D98A2B',18:'#FF6A13',19:'#D81919',20:'#B61212',21:'#7A1010',22:'#6A7A1A',23:'#84C71A',24:'#8FA89A',25:'#52A88D',26:'#10B43C',27:'#157C27',28:'#0B3A23',29:'#25C5D8',30:'#7BC5F1',31:'#1B8DDB',32:'#1A72D6',33:'#1A4DFF88',34:'#1D4FB3',35:'#0D245F',36:'#E5A8D4',37:'#E83D9E',38:'#C40063',39:'#B39AD9',40:'#8F59C6',41:'#5122B7',42:'#6B8794',43:'#A7E4D0',44:'#F2EFE6',45:'#4A4F55',46:'#111111',47:'#C8A33A',48:'#FF6A13',49:'#6FC4F0'};
 const skinColors={1:'#FFD200',2:'#F3C28B',3:'#D89A62',4:'#A86A3D',5:'#6B3F28',6:'#F7E3C3',7:'#111111',8:'#FFFFFF'};
-const faces=['A1','A2','A3','A4','A5','A6','A7','A8','Б1','Б2','Б3','Б4','Б5','Б6','Б7','Б8','В1','В3','В4','В5','В6','В7','В8','Г1','Г2','Г3','Г4','Г5','Г6','Г7','Г8','Д1','Д2','Д3','Д4','Д5','Д6','Д7','Д8','Е1','Е2','Е3','Е5','Е6','Е7','Е8','Ж1','Ж2','Ж3','Ж4','Ж5','Ж6','Ж7','Ж8'];
-const hair=[1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,98,99,100,101,102,103,104,105,106,107,108,109];
+let faces=['A1'];
+let hair=[1];
 const frames=[{id:'white-small',name:'Белая 15,5×20,5',cls:'frame-white f-small'},{id:'white-square',name:'Белая 22×22',cls:'frame-white f-square'},{id:'white-big',name:'Белая 22,5×31,5',cls:'frame-white f-big'},{id:'black-small',name:'Черная 15,5×20,5',cls:'frame-black f-small'},{id:'black-square',name:'Черная 22×22',cls:'frame-black f-square'},{id:'black-big',name:'Черная 22,5×31,5',cls:'frame-black f-big'}];
-const tabLabels={face:'Лица',hair:'Прически',skin:'Кожа',torso:'Торс',legs:'Ноги',frame:'Рамка'};let people=JSON.parse(localStorage.getItem('mb_layer_people')||'null')||[newPerson(1)];let active=0;let tab='face';let frameMode=false;let frame=localStorage.getItem('mb_layer_frame')||'white-square';
+const tabLabels={face:'Лица',hair:'Прически',skin:'Кожа',torso:'Торс',legs:'Ноги',frame:'Рамка'};let people=JSON.parse(localStorage.getItem('mb_layer_people')||'null')||[newPerson(1)];
+  people = people.map((p,i)=>({
+  ...newPerson(i+1),
+  ...p,
+  names: p.names || [p.name || `Человек ${i+1}`],
+  namesEnabled: p.namesEnabled || false
+}));let active=0;let tab='face';let frameMode=false;let frame=localStorage.getItem('mb_layer_frame')||'white-square';
   let mobileTab='face';
 let mobileColorPart='skin';
  function newPerson(n){
@@ -731,6 +737,7 @@ function renderFrame(){
     btn.classList.toggle('active', btn.dataset.mobileTab===mobileTab);
   });
 }const peopleEl=document.getElementById('people'),nameInput=document.getElementById('nameInput'),noteInput=document.getElementById('noteInput');addPerson.onclick=()=>{if(people.length>=10)return alert('Можно добавить максимум 10 человечков');people.push(newPerson(people.length+1));active=people.length-1;sync()};nameInput.oninput=e=>{people[active].name=e.target.value;save();renderPeople()};noteInput.oninput=e=>{people[active].note=e.target.value;save()};frameBtn.onclick=()=>{
+  mobileTab='frame';
   tab='frame';
   frameMode=true;
   sync();
@@ -818,25 +825,6 @@ function renderMobileEditor(){
 
   return;
 }
-
-  if(mobileTab==='people'){
-    people.forEach((person,i)=>{
-      mobileChip(person.name,i===active,()=>{
-        active=i;
-        frameMode=false;
-        sync();
-      });
-    });
-
-    mobileChip('+',false,()=>{
-      if(people.length>=10) return alert('Можно добавить максимум 10 человечков');
-      people.push(newPerson(people.length+1));
-      active=people.length-1;
-      sync();
-    });
-
-    return;
-  }
 
   if(mobileTab==='face'){
     faces.forEach(id=>{
@@ -991,7 +979,30 @@ clearBg.onclick = () => {
 };
 
 applyFrameBg();
-  if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');sync();
+  async function loadCatalog(){
+  try{
+    const res = await fetch('./assets/catalog.json?v=' + Date.now());
+    if(!res.ok) throw new Error('catalog not found');
+
+    const data = await res.json();
+
+    if(Array.isArray(data.faces) && data.faces.length){
+      faces = data.faces;
+    }
+
+    if(Array.isArray(data.hair) && data.hair.length){
+      hair = data.hair;
+    }
+  }catch(e){
+    console.log('Каталог ассетов не загрузился, работаем на базовом наборе', e);
+  }
+}
+loadCatalog().then(()=>{
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./sw.js');
+  }
+  sync();
+});
 </script>
 </body>
 </html>
