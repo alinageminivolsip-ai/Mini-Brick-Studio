@@ -661,6 +661,107 @@ body:not(.customization-started) .mobile-editor{
 body.customization-started .start-view{
   display:none;
 }
+    .order-modal{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:none;
+  place-items:center;
+  padding:18px;
+  background:rgba(40,10,25,.38);
+  backdrop-filter:blur(12px);
+}
+
+.order-modal.open{
+  display:grid;
+}
+
+.order-card{
+  width:min(520px,100%);
+  max-height:88dvh;
+  overflow:auto;
+  background:#fff;
+  border-radius:28px;
+  padding:18px;
+  box-shadow:0 24px 70px rgba(0,0,0,.24);
+}
+
+.order-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.order-head h2{
+  margin:0;
+  font-size:22px;
+  font-weight:950;
+}
+
+.order-close{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:50%;
+  background:#fff0f5;
+  color:var(--red);
+  font-size:24px;
+  font-weight:950;
+}
+
+.order-preview{
+  width:100%;
+  border-radius:22px;
+  background:#fff7fb;
+  border:1px solid var(--line);
+  overflow:hidden;
+  margin-bottom:12px;
+}
+
+.order-preview img{
+  width:100%;
+  display:block;
+}
+
+.order-info{
+  display:grid;
+  gap:8px;
+  padding:12px;
+  border-radius:18px;
+  background:#fff0f6;
+  font-weight:950;
+  color:#7f4b61;
+  margin-bottom:12px;
+}
+
+.order-text{
+  width:100%;
+  min-height:180px;
+  border:2px solid var(--line);
+  border-radius:18px;
+  padding:12px;
+  font-weight:800;
+  resize:vertical;
+}
+
+.order-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+@media(max-width:980px){
+  .order-card{
+    max-height:82dvh;
+  }
+
+  .order-actions{
+    grid-template-columns:1fr;
+  }
+}
   </style>
 </head>
 <body>
@@ -726,6 +827,27 @@ body.customization-started .start-view{
 
 <div class="mobile-editor" id="mobileEditor">
   <div class="mobile-editor-inner" id="mobileEditorInner"></div>
+</div>
+  <div class="order-modal" id="orderModal">
+  <div class="order-card">
+    <div class="order-head">
+      <h2>Заказ</h2>
+      <button class="order-close" id="orderClose" type="button">×</button>
+    </div>
+
+    <div class="order-preview">
+      <img id="orderPreviewImg" alt="">
+    </div>
+
+    <div class="order-info" id="orderInfo"></div>
+
+    <textarea class="order-text" id="orderTextarea" readonly></textarea>
+
+    <div class="order-actions">
+      <button class="btn dark" id="downloadOrderImg" type="button">Скачать PNG</button>
+      <button class="btn" id="copyOrderText" type="button">Скопировать текст</button>
+    </div>
+  </div>
 </div>
 <script>
 const bodyColors={2:'#F2EFE6',4:'#9FA3A5',5:'#4D5B5A',7:'#111111',8:'#C7BA76',9:'#8A7A33',10:'#C8941E',11:'#B76A1C',12:'#C84A1D',13:'#6E2F18',14:'#2D1610',15:'#FFD200',16:'#F7A500',17:'#D98A2B',18:'#FF6A13',19:'#D81919',20:'#B61212',21:'#7A1010',22:'#6A7A1A',23:'#84C71A',24:'#8FA89A',25:'#52A88D',26:'#10B43C',27:'#157C27',28:'#0B3A23',29:'#25C5D8',30:'#7BC5F1',31:'#1B8DDB',32:'#1A72D6',33:'#1A4DFF88',34:'#1D4FB3',35:'#0D245F',36:'#E5A8D4',37:'#E83D9E',38:'#C40063',39:'#B39AD9',40:'#8F59C6',41:'#5122B7',42:'#6B8794',43:'#A7E4D0',44:'#F2EFE6',45:'#4A4F55',46:'#111111',47:'#C8A33A',48:'#FF6A13',49:'#6FC4F0'};
@@ -957,7 +1079,7 @@ function renderFrame(){
     .map((p,i)=>miniFigureHTML(p,positions[i][0],positions[i][1]))
     .join('');
 }
-  function orderText(){return `MiniBrick Studio — заказ\n\nРамка: ${frames.find(f=>f.id===frame).name}\nКоличество человечков: ${people.length}\n\n`+people.map((p,i)=>`${i+1}. ${p.name}\nЛицо: ${p.face}\nПрическа: ${p.hair}\nКожа: ${p.skin}\nТорс: ${p.torso}\nНоги: ${p.legs}\nКомментарий: ${p.note||'нет'}`).join('\n\n')}function sync(){
+  function sync(){
   save();
   renderPeople();
   renderTabs();
@@ -974,7 +1096,9 @@ function renderFrame(){
   frameMode=true;
   sync();
 };
-  orderBtn.onclick=()=>{navigator.clipboard?.writeText(orderText());alert(orderText())};
+ orderBtn.onclick=async()=>{
+  await openOrderModal();
+};
   let frameBgData = localStorage.getItem('mb_frame_bg') || '';
 let frameBgScale = localStorage.getItem('mb_frame_bg_scale') || '1';
 let frameBgX = localStorage.getItem('mb_frame_bg_x') || '0';
@@ -1150,6 +1274,186 @@ document.querySelectorAll('[data-mobile-tab]').forEach(btn=>{
     sync();
   };
 });
+  function frameInfo(){
+  const f=frames.find(x=>x.id===frame);
+  const color=f.id.includes('black') ? 'черная' : 'белая';
+  const size=f.name.replace('Белая ','').replace('Черная ','');
+  return {f,color,size};
+}
+
+function orderText(){
+  const info=frameInfo();
+
+  return `MiniBrick Studio — заказ
+
+Рамка: ${info.color}
+Размер рамки: ${info.size}
+Количество человечков: ${people.length}
+
+Файлы для сборки:
+` + people.map((p,i)=>`
+${i+1}. ${p.name}
+Лицо: assets/faces/${p.face}.png
+Прическа: assets/hair/${p.hair}.png
+Кожа: ${p.skin}
+Торс: ${p.torso}
+Ноги: ${p.legs}
+Комментарий: ${p.note || 'нет'}
+`).join('\n');
+}
+
+function loadImg(src){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=reject;
+    img.src=src;
+  });
+}
+
+async function exportOrderImage(){
+  const info=frameInfo();
+
+  const canvas=document.createElement('canvas');
+  canvas.width=1200;
+  canvas.height=1400;
+
+  const ctx=canvas.getContext('2d');
+
+  ctx.fillStyle='#fff7fb';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle='#7f4b61';
+  ctx.font='900 46px Inter, Arial';
+  ctx.textAlign='center';
+  ctx.fillText(`Рамка: ${info.color}, ${info.size}`,600,90);
+
+  const frameX=180;
+  const frameY=150;
+  const frameW=840;
+  const frameH=840;
+
+  ctx.fillStyle=info.color==='черная' ? '#111' : '#fff';
+  ctx.fillRect(frameX,frameY,frameW,frameH);
+
+  ctx.strokeStyle='rgba(0,0,0,.12)';
+  ctx.lineWidth=18;
+  ctx.strokeRect(frameX+28,frameY+28,frameW-56,frameH-56);
+
+  ctx.fillStyle='#f7f7f7';
+  ctx.fillRect(frameX+54,frameY+54,frameW-108,frameH-108);
+
+  if(frameBgData){
+    try{
+      const bg=await loadImg(frameBgData);
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(frameX+54,frameY+54,frameW-108,frameH-108);
+      ctx.clip();
+
+      const scale=Number(frameBgScale || 1);
+      const bw=(frameW-108)*scale;
+      const bh=bw*(bg.height/bg.width);
+      const bx=frameX+54+(frameW-108-bw)/2+Number(frameBgX || 0)*2;
+      const by=frameY+54+(frameH-108-bh)/2+Number(frameBgY || 0)*2;
+
+      ctx.drawImage(bg,bx,by,bw,bh);
+      ctx.restore();
+    }catch(e){}
+  }
+
+  const positions=getFrameLayout(people.length);
+
+  for(let i=0;i<people.length;i++){
+    const p=people[i];
+    const [px,py]=positions[i];
+
+    const x=frameX + frameW*px/100;
+    const y=frameY + frameH*py/100;
+    const w=120;
+    const h=180;
+
+    try{
+      const skin=await loadImg('./assets/body/skin-mask.png');
+      const torso=await loadImg('./assets/body/torso-mask.png');
+      const legs=await loadImg('./assets/body/legs-mask.png');
+      const outline=await loadImg('./assets/body/base-outline.png');
+      const face=await loadImg(`./assets/faces/${p.face}.png`);
+      const hairImg=await loadImg(`./assets/hair/${p.hair}.png`);
+
+      drawTinted(ctx,skin,skinColors[p.skin],x-w/2,y-h/2,w,h);
+      drawTinted(ctx,torso,bodyColors[p.torso],x-w/2,y-h/2,w,h);
+      drawTinted(ctx,legs,bodyColors[p.legs],x-w/2,y-h/2,w,h);
+
+      ctx.globalAlpha=.18;
+      ctx.drawImage(outline,x-w/2,y-h/2,w,h);
+      ctx.globalAlpha=1;
+
+      ctx.drawImage(face,x-w/2,y-h/2,w,h);
+      ctx.drawImage(hairImg,x-w/2,y-h/2,w,h);
+    }catch(e){}
+  }
+
+  ctx.fillStyle='#171717';
+  ctx.font='900 34px Inter, Arial';
+  ctx.textAlign='left';
+  ctx.fillText('Файлы для заказа:',90,1070);
+
+  ctx.font='700 24px Inter, Arial';
+  let y=1120;
+
+  people.forEach((p,i)=>{
+    ctx.fillText(`${i+1}. ${p.name}: лицо ${p.face}, прическа ${p.hair}`,90,y);
+    y+=38;
+  });
+
+  return canvas.toDataURL('image/png');
+}
+
+function drawTinted(ctx,img,color,x,y,w,h){
+  const temp=document.createElement('canvas');
+  temp.width=w;
+  temp.height=h;
+
+  const t=temp.getContext('2d');
+  t.drawImage(img,0,0,w,h);
+  t.globalCompositeOperation='source-in';
+  t.fillStyle=color;
+  t.fillRect(0,0,w,h);
+
+  ctx.drawImage(temp,x,y,w,h);
+}
+
+async function openOrderModal(){
+  const info=frameInfo();
+  const imgData=await exportOrderImage();
+
+  orderPreviewImg.src=imgData;
+  orderInfo.innerHTML=`
+    <div>Цвет рамки: ${info.color}</div>
+    <div>Размер рамки: ${info.size}</div>
+    <div>Человечков: ${people.length}</div>
+  `;
+
+  orderTextarea.value=orderText();
+  orderModal.classList.add('open');
+}
+
+orderClose.onclick=()=>{
+  orderModal.classList.remove('open');
+};
+
+copyOrderText.onclick=()=>{
+  navigator.clipboard?.writeText(orderTextarea.value);
+  alert('Текст заказа скопирован');
+};
+
+downloadOrderImg.onclick=()=>{
+  const a=document.createElement('a');
+  a.href=orderPreviewImg.src;
+  a.download='minibrick-order.png';
+  a.click();
+};
 function applyFrameBg(){
   document.documentElement.style.setProperty('--frame-bg', frameBgData ? `url(${frameBgData})` : 'none');
   document.documentElement.style.setProperty('--bg-scale', frameBgScale);
