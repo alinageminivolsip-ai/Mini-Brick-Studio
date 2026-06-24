@@ -123,25 +123,6 @@ function applyFigureColors(model, p) {
     }
   });
 }
-  const skin = skinColors[p.skin];
-  const torso = optionsData.torso[p.torso].color;
-  const legs = optionsData.legs[p.legs].color;
-
-  model.traverse((obj) => {
-    if (!obj.isMesh) return;
-
-    const name = obj.name.toLowerCase();
-
-    if (name.includes('head') || name.includes('hand') || name.includes('arm')) {
-      obj.material.color.set(skin);
-    } else if (name.includes('torso') || name.includes('body')) {
-      obj.material.color.set(torso);
-    } else if (name.includes('leg') || name.includes('foot')) {
-      obj.material.color.set(legs);
-    } else {
-      obj.material.color.set(torso);
-    }
-
     obj.material.roughness = 0.3;
     obj.material.metalness = 0;
   });
