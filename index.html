@@ -107,24 +107,13 @@ function applyFigureColors(model, p) {
     const box = new THREE.Box3().setFromObject(obj);
     const centerY = (box.min.y + box.max.y) / 2;
 
-    // верх: голова, шея, руки, кисти
     if (centerY > 1.55) {
       obj.material.color.set(skin);
-    }
-
-    // середина: торс
-    if (centerY <= 1.55 && centerY > 0.45) {
+    } else if (centerY > 0.45) {
       obj.material.color.set(torso);
-    }
-
-    // низ: ноги
-    if (centerY <= 0.45) {
+    } else {
       obj.material.color.set(legs);
     }
-  });
-}
-    obj.material.roughness = 0.3;
-    obj.material.metalness = 0;
   });
 }
 
