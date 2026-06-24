@@ -331,6 +331,114 @@ body.frame-active .frame-bg-tools{
     padding-bottom:90px;
   }
 }
+    .mobile-editor{
+  display:none;
+}
+
+@media(max-width:980px){
+  .panel.left,
+  .panel.right{
+    display:none!important;
+  }
+
+  .app{
+    padding:12px 12px 170px;
+  }
+
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .stage{
+    min-height:calc(100dvh - 250px);
+    padding-bottom:24px;
+  }
+
+  .figure-wrap{
+    width:min(72vw,280px);
+    transform:translateY(-6px);
+  }
+
+  .mobile-nav{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    bottom:92px;
+  }
+
+  .mobile-editor{
+    display:block;
+    position:fixed;
+    left:12px;
+    right:12px;
+    bottom:12px;
+    z-index:49;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(18px);
+    border-radius:24px;
+    box-shadow:0 16px 40px rgba(86,24,55,.18);
+    padding:10px;
+    overflow:hidden;
+  }
+
+  .mobile-editor-inner{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:4px;
+  }
+
+  .mobile-chip{
+    flex:0 0 auto;
+    min-width:72px;
+    height:58px;
+    border:2px solid transparent;
+    border-radius:18px;
+    background:#fff;
+    font-weight:950;
+    color:#1684f2;
+    box-shadow:0 8px 18px rgba(0,0,0,.06);
+    display:grid;
+    place-items:center;
+    padding:8px;
+  }
+
+  .mobile-chip.active{
+    border-color:var(--red);
+    color:var(--red);
+  }
+
+  .mobile-swatch{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:2px solid rgba(0,0,0,.14);
+  }
+
+  .mobile-color-tabs{
+    flex:0 0 100%;
+    display:flex;
+    gap:8px;
+    margin-bottom:8px;
+  }
+
+  .mobile-color-tabs button{
+    border:0;
+    border-radius:999px;
+    padding:10px 14px;
+    background:#fff0f5;
+    font-weight:950;
+    color:#86536a;
+  }
+
+  .mobile-color-tabs button.active{
+    background:var(--pink);
+    color:#fff;
+  }
+
+  .frame-bg-tools{
+    display:none;
+  }
+}
   </style>
 </head>
 <body>
@@ -375,14 +483,27 @@ body.frame-active .frame-bg-tools{
 </aside>
   </div>
 </div>
-<nav class="mobile-nav"><button data-open="people">Люди</button><button data-tab="face">Лица</button><button data-open="options">Детали</button><button id="mobFrame">Рамка</button></nav>
+<nav class="mobile-nav">
+  <button data-mobile-tab="people">Люди</button>
+  <button data-mobile-tab="face">Лица</button>
+  <button data-mobile-tab="hair">Волосы</button>
+  <button data-mobile-tab="colors">Цвета</button>
+  <button data-mobile-tab="frame">Рамка</button>
+</nav>
+
+<div class="mobile-editor" id="mobileEditor">
+  <div class="mobile-editor-inner" id="mobileEditorInner"></div>
+</div>
 <script>
 const bodyColors={2:'#F2EFE6',4:'#9FA3A5',5:'#4D5B5A',7:'#111111',8:'#C7BA76',9:'#8A7A33',10:'#C8941E',11:'#B76A1C',12:'#C84A1D',13:'#6E2F18',14:'#2D1610',15:'#FFD200',16:'#F7A500',17:'#D98A2B',18:'#FF6A13',19:'#D81919',20:'#B61212',21:'#7A1010',22:'#6A7A1A',23:'#84C71A',24:'#8FA89A',25:'#52A88D',26:'#10B43C',27:'#157C27',28:'#0B3A23',29:'#25C5D8',30:'#7BC5F1',31:'#1B8DDB',32:'#1A72D6',33:'#1A4DFF88',34:'#1D4FB3',35:'#0D245F',36:'#E5A8D4',37:'#E83D9E',38:'#C40063',39:'#B39AD9',40:'#8F59C6',41:'#5122B7',42:'#6B8794',43:'#A7E4D0',44:'#F2EFE6',45:'#4A4F55',46:'#111111',47:'#C8A33A',48:'#FF6A13',49:'#6FC4F0'};
 const skinColors={1:'#FFD200',2:'#F3C28B',3:'#D89A62',4:'#A86A3D',5:'#6B3F28',6:'#F7E3C3',7:'#111111',8:'#FFFFFF'};
 const faces=['A1','A2','A3','A4','A5','A6','A7','A8','Б1','Б2','Б3','Б4','Б5','Б6','Б7','Б8','В1','В3','В4','В5','В6','В7','В8','Г1','Г2','Г3','Г4','Г5','Г6','Г7','Г8','Д1','Д2','Д3','Д4','Д5','Д6','Д7','Д8','Е1','Е2','Е3','Е5','Е6','Е7','Е8','Ж1','Ж2','Ж3','Ж4','Ж5','Ж6','Ж7','Ж8'];
 const hair=[1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,98,99,100,101,102,103,104,105,106,107,108,109];
 const frames=[{id:'white-small',name:'Белая 15,5×20,5',cls:'frame-white f-small'},{id:'white-square',name:'Белая 22×22',cls:'frame-white f-square'},{id:'white-big',name:'Белая 22,5×31,5',cls:'frame-white f-big'},{id:'black-small',name:'Черная 15,5×20,5',cls:'frame-black f-small'},{id:'black-square',name:'Черная 22×22',cls:'frame-black f-square'},{id:'black-big',name:'Черная 22,5×31,5',cls:'frame-black f-big'}];
-const tabLabels={face:'Лица',hair:'Прически',skin:'Кожа',torso:'Торс',legs:'Ноги',frame:'Рамка'};let people=JSON.parse(localStorage.getItem('mb_layer_people')||'null')||[newPerson(1)];let active=0;let tab='face';let frameMode=false;let frame=localStorage.getItem('mb_layer_frame')||'white-square';function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:1,skin:1,torso:36,legs:31}}function save(){localStorage.setItem('mb_layer_people',JSON.stringify(people));localStorage.setItem('mb_layer_frame',frame)}function renderPeople(){
+const tabLabels={face:'Лица',hair:'Прически',skin:'Кожа',torso:'Торс',legs:'Ноги',frame:'Рамка'};let people=JSON.parse(localStorage.getItem('mb_layer_people')||'null')||[newPerson(1)];let active=0;let tab='face';let frameMode=false;let frame=localStorage.getItem('mb_layer_frame')||'white-square';
+  let mobileTab='face';
+let mobileColorPart='skin';
+  function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:1,skin:1,torso:36,legs:31}}function save(){localStorage.setItem('mb_layer_people',JSON.stringify(people));localStorage.setItem('mb_layer_frame',frame)}function renderPeople(){
   peopleEl.innerHTML='';
 
   people.forEach((p,i)=>{
@@ -487,11 +608,11 @@ function renderFrame(){
 }
   function orderText(){return `MiniBrick Studio — заказ\n\nРамка: ${frames.find(f=>f.id===frame).name}\nКоличество человечков: ${people.length}\n\n`+people.map((p,i)=>`${i+1}. ${p.name}\nЛицо: ${p.face}\nПрическа: ${p.hair}\nКожа: ${p.skin}\nТорс: ${p.torso}\nНоги: ${p.legs}\nКомментарий: ${p.note||'нет'}`).join('\n\n')}function sync(){
   save();
-  document.body.classList.toggle('frame-active', tab==='frame' || frameMode);
   renderPeople();
   renderTabs();
   renderOptions();
   renderFigure();
+  renderMobileEditor();
 }const peopleEl=document.getElementById('people'),nameInput=document.getElementById('nameInput'),noteInput=document.getElementById('noteInput');addPerson.onclick=()=>{if(people.length>=10)return alert('Можно добавить максимум 10 человечков');people.push(newPerson(people.length+1));active=people.length-1;sync()};nameInput.oninput=e=>{people[active].name=e.target.value;save();renderPeople()};noteInput.oninput=e=>{people[active].note=e.target.value;save()};frameBtn.onclick=()=>{
   tab='frame';
   frameMode=true;
@@ -504,18 +625,141 @@ function renderFrame(){
   peoplePanel.classList.remove('open');
   optionsPanel.classList.add('open');
   sync();
-};orderBtn.onclick=()=>{navigator.clipboard?.writeText(orderText());alert(orderText())};document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{peoplePanel.classList.toggle('open',b.dataset.open==='people');optionsPanel.classList.toggle('open',b.dataset.open==='options')});document.querySelector('[data-tab="face"]').onclick=()=>{
-  tab='face';
-  frameMode=false;
-  peoplePanel.classList.remove('open');
-  optionsPanel.classList.add('open');
-  sync();
-};
+};orderBtn.onclick=()=>{navigator.clipboard?.writeText(orderText());alert(orderText())};
   let frameBgData = localStorage.getItem('mb_frame_bg') || '';
 let frameBgScale = localStorage.getItem('mb_frame_bg_scale') || '1';
 let frameBgX = localStorage.getItem('mb_frame_bg_x') || '0';
 let frameBgY = localStorage.getItem('mb_frame_bg_y') || '0';
 
+  function mobileChip(label,isActive,onClick,color){
+  const b=document.createElement('button');
+  b.className='mobile-chip '+(isActive?'active':'');
+  b.innerHTML=color ? `<span class="mobile-swatch" style="background:${color}"></span><small>${label}</small>` : label;
+  b.onclick=onClick;
+  mobileEditorInner.appendChild(b);
+}
+
+function renderMobileEditor(){
+  if(!mobileEditorInner) return;
+
+  mobileEditorInner.innerHTML='';
+  const p=people[active];
+
+  if(mobileTab==='people'){
+    people.forEach((person,i)=>{
+      mobileChip(person.name,i===active,()=>{
+        active=i;
+        frameMode=false;
+        sync();
+      });
+    });
+
+    mobileChip('+',false,()=>{
+      if(people.length>=10) return alert('Можно добавить максимум 10 человечков');
+      people.push(newPerson(people.length+1));
+      active=people.length-1;
+      sync();
+    });
+
+    return;
+  }
+
+  if(mobileTab==='face'){
+    faces.forEach(id=>{
+      mobileChip(id,p.face===id,()=>{
+        p.face=id;
+        sync();
+      });
+    });
+    return;
+  }
+
+  if(mobileTab==='hair'){
+    hair.forEach(id=>{
+      mobileChip(id,p.hair===id,()=>{
+        p.hair=id;
+        sync();
+      });
+    });
+    return;
+  }
+
+  if(mobileTab==='colors'){
+    const tabsWrap=document.createElement('div');
+    tabsWrap.className='mobile-color-tabs';
+    tabsWrap.innerHTML=`
+      <button class="${mobileColorPart==='skin'?'active':''}" data-color-part="skin">Кожа</button>
+      <button class="${mobileColorPart==='torso'?'active':''}" data-color-part="torso">Торс</button>
+      <button class="${mobileColorPart==='legs'?'active':''}" data-color-part="legs">Ноги</button>
+    `;
+    mobileEditorInner.appendChild(tabsWrap);
+
+    tabsWrap.querySelectorAll('button').forEach(btn=>{
+      btn.onclick=()=>{
+        mobileColorPart=btn.dataset.colorPart;
+        renderMobileEditor();
+      };
+    });
+
+    const palette=mobileColorPart==='skin' ? skinColors : bodyColors;
+
+    Object.entries(palette).forEach(([id,c])=>{
+      mobileChip(id,+p[mobileColorPart]===+id,()=>{
+        p[mobileColorPart]=+id;
+        sync();
+      },c);
+    });
+
+    return;
+  }
+
+  if(mobileTab==='frame'){
+    frameMode=true;
+    tab='frame';
+
+    frames.forEach(f=>{
+      mobileChip(f.name,frame===f.id,()=>{
+        frame=f.id;
+        frameMode=true;
+        sync();
+      });
+    });
+
+    mobileChip('Фон',false,()=>{
+      bgInput.click();
+    });
+
+    mobileChip('−',false,()=>{
+      frameBgScale=Math.max(0.5, Number(frameBgScale)-0.1).toFixed(2);
+      localStorage.setItem('mb_frame_bg_scale', frameBgScale);
+      applyFrameBg();
+    });
+
+    mobileChip('+',false,()=>{
+      frameBgScale=Math.min(2.5, Number(frameBgScale)+0.1).toFixed(2);
+      localStorage.setItem('mb_frame_bg_scale', frameBgScale);
+      applyFrameBg();
+    });
+  }
+}
+
+document.querySelectorAll('[data-mobile-tab]').forEach(btn=>{
+  btn.onclick=()=>{
+    mobileTab=btn.dataset.mobileTab;
+
+    if(mobileTab==='frame'){
+      tab='frame';
+      frameMode=true;
+    }else{
+      frameMode=false;
+      if(mobileTab==='face') tab='face';
+      if(mobileTab==='hair') tab='hair';
+      if(mobileTab==='colors') tab='skin';
+    }
+
+    sync();
+  };
+});
 function applyFrameBg(){
   document.documentElement.style.setProperty('--frame-bg', frameBgData ? `url(${frameBgData})` : 'none');
   document.documentElement.style.setProperty('--bg-scale', frameBgScale);
