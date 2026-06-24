@@ -233,13 +233,20 @@
 }
 
 .mobile-nav button{
-  border:0;
+  border:2px solid transparent;
   background:transparent;
   border-radius:16px;
   padding:9px 4px;
   color:#1684f2;
   font-size:14px;
   font-weight:950;
+}
+
+.mobile-nav button.active{
+  background:#ff6fa8;
+  border-color:#ed2b63;
+  color:#fff;
+  box-shadow:0 8px 18px rgba(237,43,99,.22);
 }@media(max-width:980px){.app{
   padding:12px 12px 92px;
 }.layout{grid-template-columns:1fr}.stage{
@@ -459,6 +466,27 @@ body.frame-active .frame-bg-tools{
   border-color:var(--red);
   box-shadow:0 0 0 3px rgba(237,43,99,.12);
 }
+    .mobile-name-box{
+  flex:0 0 100%;
+  padding:2px 2px 8px;
+}
+
+.mobile-name-box input{
+  width:100%;
+  height:52px;
+  border:2px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  padding:0 16px;
+  font-weight:950;
+  color:#171717;
+}
+
+.mobile-name-box input:focus{
+  outline:none;
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(237,43,99,.12);
+}
   </style>
 </head>
 <body>
@@ -633,6 +661,10 @@ function renderFrame(){
   renderOptions();
   renderFigure();
   renderMobileEditor();
+
+  document.querySelectorAll('[data-mobile-tab]').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.mobileTab===mobileTab);
+  });
 }const peopleEl=document.getElementById('people'),nameInput=document.getElementById('nameInput'),noteInput=document.getElementById('noteInput');addPerson.onclick=()=>{if(people.length>=10)return alert('Можно добавить максимум 10 человечков');people.push(newPerson(people.length+1));active=people.length-1;sync()};nameInput.oninput=e=>{people[active].name=e.target.value;save();renderPeople()};noteInput.oninput=e=>{people[active].note=e.target.value;save()};frameBtn.onclick=()=>{
   tab='frame';
   frameMode=true;
@@ -657,6 +689,37 @@ function renderMobileEditor(){
 
   mobileEditorInner.innerHTML='';
   const p=people[active];
+  if(mobileTab==='people'){
+  const nameBox=document.createElement('div');
+  nameBox.className='mobile-name-box';
+  nameBox.innerHTML=`
+    <input id="mobileNameInput" value="${people[active].name}" placeholder="Имя человечка">
+  `;
+  mobileEditorInner.appendChild(nameBox);
+
+  nameBox.querySelector('input').oninput=e=>{
+    people[active].name=e.target.value || `Человек ${active+1}`;
+    save();
+    renderPeople();
+  };
+
+  people.forEach((person,i)=>{
+    mobileChip(person.name,i===active,()=>{
+      active=i;
+      frameMode=false;
+      sync();
+    });
+  });
+
+  mobileChip('+',false,()=>{
+    if(people.length>=10) return alert('Можно добавить максимум 10 человечков');
+    people.push(newPerson(people.length+1));
+    active=people.length-1;
+    sync();
+  });
+
+  return;
+}
 
   if(mobileTab==='people'){
     people.forEach((person,i)=>{
