@@ -32,7 +32,16 @@ import * as THREE from 'https://esm.sh/three@0.160.0';
 import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 const CACHE_NOTE='После правок увеличивай CACHE_NAME в sw.js';
-const skinColors=['#ffd09a','#f2b779','#d89255','#8a5a3c','#fff4dc','#f2d6bf','#3b3028'];
+const skinColors=[
+  '#FFD200',
+  '#F3C28B',
+  '#D89A62',
+  '#A86A3D',
+  '#6B3F28',
+  '#F7E3C3',
+  '#111111',
+  '#FFFFFF'
+];
 const bodyColors=['#ffffff','#ffd900','#ff6fa8','#ec2d58','#7cc9ff','#4875cb','#222222','#7cd96b','#b88cff'];
 const cats={skin:'Кожа',hair:'Причёски',torso:'Торс',legs:'Ноги',accessory:'Аксессуары',face:'Лицо'};
 const optionsData={
@@ -78,6 +87,42 @@ loader.load(
 );
 
 function applyFigureColors(model, p) {
+  const skin = skinColors[p.skin];
+  const torso = optionsData.torso[p.torso].color;
+  const legs = optionsData.legs[p.legs].color;
+
+  model.updateWorldMatrix(true, true);
+
+  model.traverse((obj) => {
+    if (!obj.isMesh) return;
+
+    obj.material = new THREE.MeshPhysicalMaterial({
+      color: '#FFD200',
+      roughness: 0.2,
+      metalness: 0,
+      clearcoat: 0.75,
+      clearcoatRoughness: 0.18
+    });
+
+    const box = new THREE.Box3().setFromObject(obj);
+    const centerY = (box.min.y + box.max.y) / 2;
+
+    // верх: голова, шея, руки, кисти
+    if (centerY > 1.55) {
+      obj.material.color.set(skin);
+    }
+
+    // середина: торс
+    if (centerY <= 1.55 && centerY > 0.45) {
+      obj.material.color.set(torso);
+    }
+
+    // низ: ноги
+    if (centerY <= 0.45) {
+      obj.material.color.set(legs);
+    }
+  });
+}
   const skin = skinColors[p.skin];
   const torso = optionsData.torso[p.torso].color;
   const legs = optionsData.legs[p.legs].color;
@@ -148,8 +193,8 @@ function renderModel(){
   const p = people[active];
 
   if (!frameMode) {
-    const fig = buildRealFigure(p, 1.15);
-    fig.position.y = -0.15;
+    const fig = buildRealFigure(p, 0.55);
+fig.position.y = -1.15;
     group.add(fig);
     document.getElementById('hint').textContent = 'стрелки меняют цвет кожи, модель можно крутить';
   } else {
@@ -157,7 +202,7 @@ function renderModel(){
     document.getElementById('hint').textContent = '3D фоторамка: до 20 фигурок внутри';
   }
 }
-function buildFrame(){const base=block(4.6,.12,3.2,'#f9f9f9');base.position.y=-.06;frameGroup.add(base); const back=block(4.2,2.7,.08,'#fff8fb');back.position.set(0,1.35,-.42);frameGroup.add(back); const top=block(4.8,.22,.35,'#ffffff');top.position.set(0,2.84,-.3);frameGroup.add(top); const bottom=top.clone(); bottom.position.y=-.08; frameGroup.add(bottom); const side=block(.22,2.9,.35,'#ffffff');side.position.set(-2.4,1.38,-.3);frameGroup.add(side); const side2=side.clone();side2.position.x=2.4;frameGroup.add(side2); people.forEach((p,i)=>{const fig=buildRealFigure(p,.32); const col=i%5,row=Math.floor(i/5); fig.position.set(-1.55+col*.78,.12+row*.66,-.15); fig.rotation.y=p.rot||0; frameGroup.add(fig);});}
+function buildFrame(){const base=block(4.6,.12,3.2,'#f9f9f9');base.position.y=-.06;frameGroup.add(base); const back=block(4.2,2.7,.08,'#fff8fb');back.position.set(0,1.35,-.42);frameGroup.add(back); const top=block(4.8,.22,.35,'#ffffff');top.position.set(0,2.84,-.3);frameGroup.add(top); const bottom=top.clone(); bottom.position.y=-.08; frameGroup.add(bottom); const side=block(.22,2.9,.35,'#ffffff');side.position.set(-2.4,1.38,-.3);frameGroup.add(side); const side2=side.clone();side2.position.x=2.4;frameGroup.add(side2); people.forEach((p,i)=>{const fig=buildRealFigure(p,.14); const col=i%5,row=Math.floor(i/5); fig.position.set(-1.55+col*.78,.12+row*.66,-.15); fig.rotation.y=p.rot||0; frameGroup.add(fig);});}
 function resize(){const r=canvas.getBoundingClientRect(); renderer.setSize(r.width,r.height,false); camera.aspect=r.width/r.height; camera.updateProjectionMatrix()} window.addEventListener('resize',resize);
 function animate(){resize(); controls.update(); renderer.render(scene,camera); requestAnimationFrame(animate)} animate();
 function uiPeople(){const box=document.getElementById('people'); box.innerHTML=''; people.forEach((p,i)=>{const b=document.createElement('button'); b.className='person'+(i==active?' active':''); b.innerHTML=`${i+1}<small>${p.name||'без имени'}</small>`; b.onclick=()=>{active=i; frameMode=false; syncUI()}; box.appendChild(b)}); document.getElementById('nameInput').value=people[active].name; document.getElementById('noteInput').value=people[active].note||''; document.getElementById('frameList').innerHTML=people.map((p,i)=>`<div class="frame-item"><span>${i+1}. ${p.name}</span><span>${optionsData.accessory[p.accessory].name}</span></div>`).join('')}
