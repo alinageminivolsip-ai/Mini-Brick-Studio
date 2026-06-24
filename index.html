@@ -493,6 +493,12 @@ body.frame-active .frame-bg-tools{
   gap:8px;
   padding:2px 2px 8px;
 }
+    .people-row{
+  width:100%;
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+}
 
 .names-toggle{
   display:flex;
@@ -784,6 +790,9 @@ function renderMobileEditor(){
   `;
 
   mobileEditorInner.appendChild(nameBox);
+   const peopleRow = document.createElement('div');
+peopleRow.className = 'people-row';
+mobileEditorInner.appendChild(peopleRow);
 
   nameBox.querySelector('.names-toggle input').onchange=e=>{
     p.namesEnabled=e.target.checked;
@@ -809,19 +818,35 @@ function renderMobileEditor(){
   });
 
   people.forEach((person,i)=>{
-    mobileChip(person.name,i===active,()=>{
-      active=i;
-      frameMode=false;
-      sync();
-    });
-  });
+  const btn=document.createElement('button');
+  btn.className='mobile-chip '+(i===active?'active':'');
+  btn.textContent=person.name;
 
-  mobileChip('+',false,()=>{
-    if(people.length>=10) return alert('Можно добавить максимум 10 человечков');
-    people.push(newPerson(people.length+1));
-    active=people.length-1;
+  btn.onclick=()=>{
+    active=i;
+    frameMode=false;
     sync();
-  });
+  };
+
+  peopleRow.appendChild(btn);
+});
+
+const addBtn=document.createElement('button');
+addBtn.className='mobile-chip';
+addBtn.textContent='+';
+
+addBtn.onclick=()=>{
+  if(people.length>=10){
+    alert('Можно добавить максимум 10 человечков');
+    return;
+  }
+
+  people.push(newPerson(people.length+1));
+  active=people.length-1;
+  sync();
+};
+
+peopleRow.appendChild(addBtn);
 
   return;
 }
