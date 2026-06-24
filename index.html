@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ff6fa8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="MiniBrick Studio" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <title>MiniBrick Studio</title>
+
+  <style>
+    :root{
+      --pink:#ff6fa8;--pink2:#ff8fbd;--red:#ed2b63;--ink:#171717;
+      --soft:#fff5f9;--line:#f1d7e2;--shadow:0 20px 50px rgba(86,24,55,.16);
+      --skin:#FFD200;--torso:#FF6FA8;--legs:#254F9B;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#fff2f7,#ffeaf3 45%,#fff);color:var(--ink)}
+    button,input,textarea{font:inherit}
+    .app{min-height:100dvh;padding:16px;display:grid;grid-template-rows:auto 1fr;gap:14px}
+    header{display:flex;align-items:center;gap:12px}
+    .logo{width:58px;height:58px;border-radius:50%;box-shadow:0 10px 25px rgba(0,0,0,.14);object-fit:cover}
+    h1{margin:0;font-size:24px;line-height:1;font-weight:950}.sub{margin:4px 0 0;font-size:13px;color:#86536a;font-weight:850}
+    .top-actions{margin-left:auto;display:flex;gap:8px}.btn{border:0;border-radius:20px;padding:13px 16px;font-weight:950;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.08);color:#111}.btn.dark{background:#151515;color:#fff}.btn.pink{background:var(--pink);color:#fff}
+    .layout{display:grid;grid-template-columns:300px minmax(0,1fr) 340px;gap:14px;min-height:0}
+    .panel{background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.75);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
+    .panel-pad{padding:18px}.title{font-weight:950;margin:0 0 12px;font-size:16px}
+    .people{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}.person{height:58px;border:2px solid transparent;border-radius:18px;background:#fff;font-weight:950;box-shadow:0 8px 18px rgba(0,0,0,.06)}.person.active{border-color:var(--red);color:var(--red)}
+    .field{display:grid;gap:6px;margin-top:10px;font-size:12px;color:#86536a;font-weight:900}.field input{border:1px solid var(--line);border-radius:18px;padding:13px 14px;background:#fff;font-weight:850}
+    .stage{position:relative;display:grid;place-items:center;min-height:620px;background:linear-gradient(180deg,#fff9fc,#fff0f6);border-radius:28px;overflow:hidden}.heart{position:absolute;color:#ff7aa9;opacity:.22;font-size:44px}.h1{left:8%;top:12%}.h2{right:12%;top:14%}.h3{left:22%;bottom:10%}
+    .figure-wrap{width:min(46vw,360px);aspect-ratio:768/1152;position:relative;filter:drop-shadow(0 22px 24px rgba(70,20,40,.18));transform:translateY(8px)}
+    .base-img,.tint,.face-layer,.hair-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.base-img{z-index:5;mix-blend-mode:multiply;opacity:.78;filter:contrast(1.08)}
+    .tint{z-index:1;mask:url('./assets/body/base-white.png') center/contain no-repeat;-webkit-mask:url('./assets/body/base-white.png') center/contain no-repeat}
+    .skinTint{background:var(--skin);clip-path:polygon(0 0,100% 0,100% 58%,0 58%)}
+    .torsoTint{background:var(--torso);clip-path:polygon(0 31%,100% 31%,100% 66%,0 66%)}
+    .legsTint{background:var(--legs);clip-path:polygon(0 58%,100% 58%,100% 100%,0 100%)}
+    .face-layer{z-index:12}.eye,.mouth,.brow,.glasses,.beard,.freckle{position:absolute;background:#111}.eye{width:3.2%;height:2.4%;border-radius:50%;top:25.4%}.eye.l{left:45.1%}.eye.r{left:52%}.mouth{left:46.5%;top:31%;width:7%;height:2.2%;border-radius:0 0 999px 999px;background:#111}.mouth.red{background:#b4142f;height:1.4%;border-radius:999px}.brow{width:5%;height:.7%;top:23.6%;border-radius:999px}.brow.l{left:43.8%;transform:rotate(-12deg)}.brow.r{left:52%;transform:rotate(12deg)}.glasses{background:transparent;border:3px solid #111;width:6%;height:3.5%;top:24.5%;border-radius:50%}.glasses.l{left:42.8%}.glasses.r{left:51.2%}.bridge{left:48.8%;top:26%;width:3%;height:3px}.beard{left:44%;top:31.2%;width:15%;height:6%;background:transparent;border-bottom:7px solid #5a2c19;border-radius:0 0 50% 50%}.freckle{width:1%;height:1%;border-radius:50%;top:29%;background:#8d583a}.f1{left:42.5%}.f2{left:56.5%}
+    .hair-layer{z-index:14}.hair{position:absolute;background:#5a2c19;filter:drop-shadow(0 4px 4px rgba(0,0,0,.18))}.hair.short{left:37%;top:14.5%;width:28%;height:10%;border-radius:55% 55% 22% 22%}.hair.bob{left:36.5%;top:14%;width:29%;height:18%;border-radius:48% 48% 20% 20%;clip-path:polygon(0 0,100% 0,93% 100%,8% 100%)}.hair.long{left:34.5%;top:13.5%;width:33%;height:28%;border-radius:44% 44% 28% 28%;clip-path:polygon(10% 0,90% 0,100% 100%,0 100%)}.hair.ponytail{left:37%;top:14%;width:26%;height:11%;border-radius:50%;}.hair.ponytail:after{content:"";position:absolute;right:-20%;top:30%;width:40%;height:100%;background:inherit;border-radius:50%;transform:rotate(20deg)}.hair.curls{left:35%;top:13.8%;width:32%;height:18%;border-radius:50%;background:radial-gradient(circle at 20% 40%,#4b2416 0 12%,transparent 13%),radial-gradient(circle at 40% 20%,#4b2416 0 13%,transparent 14%),radial-gradient(circle at 62% 35%,#4b2416 0 14%,transparent 15%),radial-gradient(circle at 80% 60%,#4b2416 0 12%,transparent 13%),#6a321d}.hair.cap{left:36%;top:15%;width:30%;height:9%;border-radius:50% 50% 15% 15%;background:#111}.hair.cap:after{content:"";position:absolute;left:30%;bottom:-28%;width:55%;height:25%;background:inherit;border-radius:0 0 999px 999px}
+    .hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:#fff;border-radius:999px;padding:10px 18px;font-size:12px;font-weight:950;color:#78475e;box-shadow:0 10px 24px rgba(0,0,0,.08);white-space:nowrap}
+    .tabs{display:flex;gap:8px;padding:14px;border-bottom:1px solid var(--line);overflow:auto}.tab{border:0;border-radius:999px;padding:11px 14px;background:#fff;font-weight:950;color:#78475e;white-space:nowrap}.tab.active{background:var(--pink);color:#fff}
+    .options{padding:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-height:520px;overflow:auto}.opt{min-height:70px;border:2px solid transparent;background:#fff;border-radius:20px;display:grid;place-items:center;text-align:center;font-size:12px;font-weight:950;box-shadow:0 8px 20px rgba(0,0,0,.06);padding:8px}.opt.active{border-color:var(--red);color:var(--red)}.swatch{width:34px;height:34px;border-radius:50%;border:2px solid rgba(0,0,0,.14)}
+    .frame-preview{display:grid;place-items:center;gap:16px}.frame-box{background:#f7f7f7;display:grid;place-items:center;box-shadow:inset 0 0 0 12px var(--frameColor,#fff),inset 0 0 0 16px rgba(0,0,0,.06),0 18px 36px rgba(0,0,0,.12)}.frame-black{--frameColor:#111}.frame-white{--frameColor:#fff}.f-small{width:210px;height:278px}.f-square{width:270px;height:270px}.f-big{width:250px;height:350px}.mini-grid{display:grid;grid-template-columns:repeat(5,34px);gap:8px}.mini-person{width:34px;height:52px;border-radius:8px;background:linear-gradient(var(--skin) 0 30%,var(--torso) 30% 64%,var(--legs) 64%);box-shadow:0 5px 10px rgba(0,0,0,.12)}
+    .orderText{width:100%;height:260px;border:1px solid var(--line);border-radius:18px;padding:14px;resize:none;font-weight:800}.hidden{display:none!important}
+    @media(max-width:980px){.app{padding:12px}.layout{grid-template-columns:1fr}.stage{min-height:520px}.figure-wrap{width:min(78vw,330px)}.panel.left,.panel.right{display:none}.panel.left.open,.panel.right.open{display:block}.mobile-nav{display:grid!important}.top-actions .btn{padding:11px 13px}h1{font-size:20px}.sub{font-size:12px}.options{grid-template-columns:repeat(4,1fr);max-height:42dvh}}
+    .mobile-nav{position:fixed;z-index:50;left:12px;right:12px;bottom:12px;display:none;grid-template-columns:repeat(4,1fr);gap:8px;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);border-radius:24px;padding:8px;box-shadow:var(--shadow)}.mobile-nav button{border:0;background:#fff;border-radius:18px;padding:11px 4px;color:#1684f2;font-weight:950}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <img class="logo" src="./logo.png" alt="">
+    <div><h1>MiniBrick Studio</h1><div class="sub">PNG-конструктор мини-фигурок</div></div>
+    <div class="top-actions"><button class="btn" id="frameBtn">Рамка</button><button class="btn" id="orderBtn">Заказ</button></div>
+  </header>
+
+  <div class="layout">
+    <aside class="panel left open" id="peoplePanel"><div class="panel-pad">
+      <h2 class="title">Человечки до 10 шт.</h2>
+      <div class="people" id="people"></div>
+      <button class="btn dark" style="width:100%" id="addPerson">+ Добавить</button>
+      <label class="field">Имя<input id="nameInput" placeholder="Например, Вика"></label>
+      <label class="field">Комментарий<input id="noteInput" placeholder="что учесть мастеру"></label>
+    </div></aside>
+
+    <main class="stage panel">
+      <span class="heart h1">❤</span><span class="heart h2">❤</span><span class="heart h3">❤</span>
+      <section id="constructorView" class="figure-wrap">
+        <div class="tint skinTint"></div><div class="tint torsoTint"></div><div class="tint legsTint"></div>
+        <img class="base-img" src="./assets/body/base-white.png" alt="">
+        <div class="face-layer" id="faceLayer"></div><div class="hair-layer" id="hairLayer"></div>
+      </section>
+      <section id="frameView" class="frame-preview hidden"><div class="frame-box f-square frame-white" id="frameBox"><div class="mini-grid" id="miniGrid"></div></div><b id="frameLabel">Белая 22×22</b></section>
+      <div class="hint" id="hint">выбирай лицо, прическу, цвета и рамку</div>
+    </main>
+
+    <aside class="panel right open" id="optionsPanel">
+      <div class="tabs" id="tabs"></div><div class="options" id="options"></div>
+    </aside>
+  </div>
+</div>
+
+<nav class="mobile-nav"><button data-open="people">Люди</button><button data-tab="face">Лица</button><button data-open="options">Детали</button><button id="mobFrame">Рамка</button></nav>
+
+<script>
+const bodyColors={2:'#F2EFE6',4:'#9FA3A5',5:'#4D5B5A',7:'#111111',8:'#C7BA76',9:'#8A7A33',10:'#C8941E',11:'#B76A1C',12:'#C84A1D',13:'#6E2F18',14:'#2D1610',15:'#FFD200',16:'#F7A500',17:'#D98A2B',18:'#FF6A13',19:'#D81919',20:'#B61212',21:'#7A1010',22:'#6A7A1A',23:'#84C71A',24:'#8FA89A',25:'#52A88D',26:'#10B43C',27:'#157C27',28:'#0B3A23',29:'#25C5D8',30:'#7BC5F1',31:'#1B8DDB',32:'#1A72D6',33:'#1A4DFF88',34:'#1D4FB3',35:'#0D245F',36:'#E5A8D4',37:'#E83D9E',38:'#C40063',39:'#B39AD9',40:'#8F59C6',41:'#5122B7',42:'#6B8794',43:'#A7E4D0',44:'#F2EFE6',45:'#4A4F55',46:'#111111',47:'#C8A33A',48:'#FF6A13',49:'#6FC4F0'};
+const skinColors={1:'#FFD200',2:'#F3C28B',3:'#D89A62',4:'#A86A3D',5:'#6B3F28',6:'#F7E3C3',7:'#111111',8:'#FFFFFF'};
+const faces=['A1','A2','A3','A4','A5','A6','A7','A8','Б1','Б2','Б3','Б4','Б5','Б6','Б7','Б8','В1','В3','В4','В5','В6','В7','В8','Г1','Г2','Г3','Г4','Г5','Г6','Г7','Г8','Д1','Д2','Д3','Д4','Д5','Д6','Д7','Д8','Е1','Е2','Е3','Е5','Е6','Е7','Е8','Ж1','Ж2','Ж3','Ж4','Ж5','Ж6','Ж7','Ж8'];
+const hair=[1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,98,99,100,101,102,103,104,105,106,107,108,109];
+const frames=[{id:'white-small',name:'Белая 15,5×20,5',cls:'frame-white f-small'},{id:'white-square',name:'Белая 22×22',cls:'frame-white f-square'},{id:'white-big',name:'Белая 22,5×31,5',cls:'frame-white f-big'},{id:'black-small',name:'Черная 15,5×20,5',cls:'frame-black f-small'},{id:'black-square',name:'Черная 22×22',cls:'frame-black f-square'},{id:'black-big',name:'Черная 22,5×31,5',cls:'frame-black f-big'}];
+const tabs={face:'Лица',hair:'Прически',skin:'Кожа',torso:'Торс',legs:'Ноги',frame:'Рамка'};
+let people=JSON.parse(localStorage.getItem('mb_png_people')||'null')||[newPerson(1)];let active=0;let tab='face';let frameMode=false;let frame='white-square';
+function newPerson(n){return{name:'Человек '+n,note:'',face:'Б3',hair:23,skin:1,torso:36,legs:31}}
+function save(){localStorage.setItem('mb_png_people',JSON.stringify(people));localStorage.setItem('mb_png_frame',frame)}
+frame=localStorage.getItem('mb_png_frame')||frame;
+function renderPeople(){const box=document.getElementById('people');box.innerHTML='';people.forEach((p,i)=>{const b=document.createElement('button');b.className='person '+(i===active?'active':'');b.innerHTML=(i+1)+'<br><small>'+p.name+'</small>';b.onclick=()=>{active=i;frameMode=false;sync()};box.appendChild(b)});nameInput.value=people[active].name;noteInput.value=people[active].note}
+function renderTabs(){tabsEl.innerHTML='';Object.entries(tabs).forEach(([k,v])=>{const b=document.createElement('button');b.className='tab '+(tab===k?'active':'');b.textContent=v;b.onclick=()=>{tab=k;frameMode=k==='frame';sync()};tabsEl.appendChild(b)})}
+function optButton(label,active,onClick,color){const b=document.createElement('button');b.className='opt '+(active?'active':'');b.innerHTML=color?`<span class="swatch" style="background:${color}"></span><span>${label}</span>`:label;b.onclick=onClick;options.appendChild(b)}
+function renderOptions(){options.innerHTML='';const p=people[active];if(tab==='face')faces.forEach(id=>optButton(id,p.face===id,()=>{p.face=id;sync()}));if(tab==='hair')hair.forEach(id=>optButton(id,p.hair===id,()=>{p.hair=id;sync()}));if(tab==='skin')Object.entries(skinColors).forEach(([id,c])=>optButton(id,+p.skin===+id,()=>{p.skin=+id;sync()},c));if(tab==='torso')Object.entries(bodyColors).forEach(([id,c])=>optButton(id,+p.torso===+id,()=>{p.torso=+id;sync()},c));if(tab==='legs')Object.entries(bodyColors).forEach(([id,c])=>optButton(id,+p.legs===+id,()=>{p.legs=+id;sync()},c));if(tab==='frame')frames.forEach(f=>optButton(f.name,frame===f.id,()=>{frame=f.id;frameMode=true;sync()}))}
+function renderFigure(){const p=people[active];document.documentElement.style.setProperty('--skin',skinColors[p.skin]);document.documentElement.style.setProperty('--torso',bodyColors[p.torso]);document.documentElement.style.setProperty('--legs',bodyColors[p.legs]);faceLayer.innerHTML=faceHTML(p.face);hairLayer.innerHTML=hairHTML(p.hair);constructorView.classList.toggle('hidden',frameMode);frameView.classList.toggle('hidden',!frameMode);renderFrame()}
+function faceHTML(id){let s='<span class="eye l"></span><span class="eye r"></span><span class="mouth"></span>';if(id.includes('A')||id.includes('Г'))s+='<span class="brow l"></span><span class="brow r"></span>';if(id.includes('7')||id.includes('2'))s+='<span class="glasses l"></span><span class="glasses r"></span><span class="bridge"></span>';if(id.includes('8')||id.includes('Ж'))s+='<span class="beard"></span>';if(id.includes('5'))s+='<span class="mouth red"></span>';if(id.includes('6'))s+='<span class="freckle f1"></span><span class="freckle f2"></span>';return s}
+function hairHTML(id){let cls='short';if([7,9,12,13,16,27,39,50,99,109].includes(+id))cls='long';if([23,24,25,44,45,46,105].includes(+id))cls='bob';if([29,30,34,106,107].includes(+id))cls='ponytail';if([18,19,31,32,35,100,104].includes(+id))cls='curls';if([87,88,91,92,93,94].includes(+id))cls='cap';const colors=['#111','#5a2c19','#d8a228','#a45b28','#6b3b24','#d96f2a','#9b7a45'];const color=colors[Math.abs(+id)%colors.length];return `<span class="hair ${cls}" style="background:${color}"></span>`}
+function renderFrame(){const f=frames.find(x=>x.id===frame);frameBox.className='frame-box '+f.cls;frameLabel.textContent=f.name;miniGrid.innerHTML=people.map(p=>`<span class="mini-person" style="--skin:${skinColors[p.skin]};--torso:${bodyColors[p.torso]};--legs:${bodyColors[p.legs]}"></span>`).join('')}
+function orderText(){return `MiniBrick Studio — заказ\n\nРамка: ${frames.find(f=>f.id===frame).name}\nКоличество человечков: ${people.length}\n\n`+people.map((p,i)=>`${i+1}. ${p.name}\nЛицо: ${p.face}\nПрическа: ${p.hair}\nКожа: ${p.skin}\nТорс: ${p.torso}\nНоги: ${p.legs}\nКомментарий: ${p.note||'нет'}`).join('\n\n')}
+function sync(){save();renderPeople();renderTabs();renderOptions();renderFigure()}
+const tabsEl=document.getElementById('tabs'),options=document.getElementById('options'),nameInput=document.getElementById('nameInput'),noteInput=document.getElementById('noteInput');
+addPerson.onclick=()=>{if(people.length>=10)return alert('Можно добавить максимум 10 человечков');people.push(newPerson(people.length+1));active=people.length-1;sync()};
+nameInput.oninput=e=>{people[active].name=e.target.value;save();renderPeople()};noteInput.oninput=e=>{people[active].note=e.target.value;save()};
+frameBtn.onclick=()=>{tab='frame';frameMode=!frameMode;sync()};mobFrame.onclick=frameBtn.onclick;orderBtn.onclick=()=>{navigator.clipboard?.writeText(orderText());alert(orderText())};
+document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{peoplePanel.classList.toggle('open',b.dataset.open==='people');optionsPanel.classList.toggle('open',b.dataset.open==='options')});document.querySelector('[data-tab="face"]').onclick=()=>{tab='face';frameMode=false;sync()};
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+sync();
+</script>
+</body>
+</html>
