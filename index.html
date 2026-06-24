@@ -439,6 +439,26 @@ body.frame-active .frame-bg-tools{
     display:none;
   }
 }
+    .back-to-person{
+  flex:0 0 auto;
+  min-width:140px;
+  height:58px;
+  border:2px solid var(--red);
+  border-radius:18px;
+  background:#fff0f5;
+  color:var(--red);
+  font-weight:950;
+  box-shadow:0 8px 18px rgba(0,0,0,.06);
+}
+
+.mobile-color-tabs button{
+  border:2px solid transparent;
+}
+
+.mobile-color-tabs button.active{
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(237,43,99,.12);
+}
   </style>
 </head>
 <body>
@@ -633,7 +653,7 @@ let frameBgY = localStorage.getItem('mb_frame_bg_y') || '0';
 
   function mobileChip(label,isActive,onClick,color){
   const b=document.createElement('button');
-  b.className='mobile-chip '+(isActive?'active':'');
+ b.className=(label==='← К персонажу'?'back-to-person':'mobile-chip')+' '+(isActive?'active':'');
   b.innerHTML=color ? `<span class="mobile-swatch" style="background:${color}"></span><small>${label}</small>` : label;
   b.onclick=onClick;
   mobileEditorInner.appendChild(b);
@@ -716,7 +736,12 @@ function renderMobileEditor(){
   if(mobileTab==='frame'){
     frameMode=true;
     tab='frame';
-
+mobileChip('← К персонажу',false,()=>{
+  mobileTab='face';
+  tab='face';
+  frameMode=false;
+  sync();
+});
     frames.forEach(f=>{
       mobileChip(f.name,frame===f.id,()=>{
         frame=f.id;
