@@ -636,16 +636,9 @@ function renderFrame(){
 }const peopleEl=document.getElementById('people'),nameInput=document.getElementById('nameInput'),noteInput=document.getElementById('noteInput');addPerson.onclick=()=>{if(people.length>=10)return alert('Можно добавить максимум 10 человечков');people.push(newPerson(people.length+1));active=people.length-1;sync()};nameInput.oninput=e=>{people[active].name=e.target.value;save();renderPeople()};noteInput.oninput=e=>{people[active].note=e.target.value;save()};frameBtn.onclick=()=>{
   tab='frame';
   frameMode=true;
-  peoplePanel.classList.remove('open');
-  optionsPanel.classList.add('open');
   sync();
-};mobFrame.onclick=()=>{
-  tab='frame';
-  frameMode=true;
-  peoplePanel.classList.remove('open');
-  optionsPanel.classList.add('open');
-  sync();
-};orderBtn.onclick=()=>{navigator.clipboard?.writeText(orderText());alert(orderText())};
+};
+  orderBtn.onclick=()=>{navigator.clipboard?.writeText(orderText());alert(orderText())};
   let frameBgData = localStorage.getItem('mb_frame_bg') || '';
 let frameBgScale = localStorage.getItem('mb_frame_bg_scale') || '1';
 let frameBgX = localStorage.getItem('mb_frame_bg_x') || '0';
