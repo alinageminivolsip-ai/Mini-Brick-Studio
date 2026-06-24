@@ -11,7 +11,69 @@
   <title>MiniBrick Studio</title>
   <style>
     :root{--pink:#ff6fa8;--red:#ed2b63;--ink:#171717;--line:#f1d7e2;--shadow:0 20px 50px rgba(86,24,55,.16);--skin:#FFD200;--torso:#FF6FA8;--legs:#254F9B}
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#fff2f7,#ffeaf3 45%,#fff);color:var(--ink)}button,input,textarea{font:inherit}.app{min-height:100dvh;padding:16px;display:grid;grid-template-rows:auto 1fr;gap:14px}header{display:flex;align-items:center;gap:12px}.logo{width:58px;height:58px;border-radius:50%;box-shadow:0 10px 25px rgba(0,0,0,.14);object-fit:cover}h1{margin:0;font-size:24px;line-height:1;font-weight:950}.sub{margin:4px 0 0;font-size:13px;color:#86536a;font-weight:850}.top-actions{margin-left:auto;display:flex;gap:8px}.btn{border:0;border-radius:20px;padding:13px 16px;font-weight:950;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.08);color:#111}.btn.dark{background:#151515;color:#fff}.layout{display:grid;grid-template-columns:300px minmax(0,1fr) 340px;gap:14px;min-height:0}.panel{background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.75);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}.panel-pad{padding:18px}.title{font-weight:950;margin:0 0 12px;font-size:16px}.people{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}.person{height:58px;border:2px solid transparent;border-radius:18px;background:#fff;font-weight:950;box-shadow:0 8px 18px rgba(0,0,0,.06)}.person.active{border-color:var(--red);color:var(--red)}.field{display:grid;gap:6px;margin-top:10px;font-size:12px;color:#86536a;font-weight:900}.field input{border:1px solid var(--line);border-radius:18px;padding:13px 14px;background:#fff;font-weight:850}.stage{position:relative;display:grid;place-items:center;min-height:620px;background:linear-gradient(180deg,#fff9fc,#fff0f6);border-radius:28px;overflow:hidden}.heart{position:absolute;color:#ff7aa9;opacity:.22;font-size:44px}.h1{left:8%;top:12%}.h2{right:12%;top:14%}.h3{left:22%;bottom:10%}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#fff2f7,#ffeaf3 45%,#fff);color:var(--ink)}button,input,textarea{font:inherit}.app{min-height:100dvh;padding:16px;display:grid;grid-template-rows:auto 1fr;gap:14px}header{display:flex;align-items:center;gap:12px}.logo{width:58px;height:58px;border-radius:50%;box-shadow:0 10px 25px rgba(0,0,0,.14);object-fit:cover}h1{margin:0;font-size:24px;line-height:1;font-weight:950}.sub{margin:4px 0 0;font-size:13px;color:#86536a;font-weight:850}.top-actions{margin-left:auto;display:flex;gap:8px}.btn{border:0;border-radius:20px;padding:13px 16px;font-weight:950;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.08);color:#111}.btn.dark{background:#151515;color:#fff}.layout{display:grid;grid-template-columns:300px minmax(0,1fr) 340px;gap:14px;min-height:0}.panel{background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.75);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}.panel-pad{padding:18px}.title{font-weight:950;margin:0 0 12px;font-size:16px}.people{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:12px;
+  max-height:260px;
+  overflow:auto;
+}
+
+.person{
+  position:relative;
+  height:104px;
+  border:2px solid transparent;
+  border-radius:22px;
+  background:#fff;
+  font-weight:950;
+  box-shadow:0 8px 18px rgba(0,0,0,.06);
+  display:grid;
+  place-items:center;
+  padding:8px;
+}
+
+.person.active{
+  border-color:var(--red);
+}
+
+.person-preview{
+  width:46px;
+  height:68px;
+  border-radius:10px;
+  background:
+    linear-gradient(
+      var(--p-skin) 0 30%,
+      var(--p-torso) 30% 62%,
+      var(--p-legs) 62% 100%
+    );
+  box-shadow:0 6px 12px rgba(0,0,0,.14);
+}
+
+.person-name{
+  font-size:10px;
+  line-height:1.1;
+  color:#7f4b61;
+  max-width:68px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.delete-person{
+  position:absolute;
+  top:5px;
+  right:5px;
+  width:24px;
+  height:24px;
+  border:0;
+  border-radius:50%;
+  background:#fff0f5;
+  color:var(--red);
+  font-weight:950;
+  box-shadow:none;
+  padding:0;
+}.field{display:grid;gap:6px;margin-top:10px;font-size:12px;color:#86536a;font-weight:900}.field input{border:1px solid var(--line);border-radius:18px;padding:13px 14px;background:#fff;font-weight:850}.stage{position:relative;display:grid;place-items:center;min-height:620px;background:linear-gradient(180deg,#fff9fc,#fff0f6);border-radius:28px;overflow:hidden}.heart{position:absolute;color:#ff7aa9;opacity:.22;font-size:44px}.h1{left:8%;top:12%}.h2{right:12%;top:14%}.h3{left:22%;bottom:10%}
     .figure-wrap{width:min(46vw,360px);aspect-ratio:1024/1536;position:relative;filter:drop-shadow(0 22px 24px rgba(70,20,40,.18));transform:translateY(8px)}
  .part,
 .shadow-layer,
@@ -146,7 +208,53 @@ const skinColors={1:'#FFD200',2:'#F3C28B',3:'#D89A62',4:'#A86A3D',5:'#6B3F28',6:
 const faces=['A1','A2','A3','A4','A5','A6','A7','A8','Б1','Б2','Б3','Б4','Б5','Б6','Б7','Б8','В1','В3','В4','В5','В6','В7','В8','Г1','Г2','Г3','Г4','Г5','Г6','Г7','Г8','Д1','Д2','Д3','Д4','Д5','Д6','Д7','Д8','Е1','Е2','Е3','Е5','Е6','Е7','Е8','Ж1','Ж2','Ж3','Ж4','Ж5','Ж6','Ж7','Ж8'];
 const hair=[1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,98,99,100,101,102,103,104,105,106,107,108,109];
 const frames=[{id:'white-small',name:'Белая 15,5×20,5',cls:'frame-white f-small'},{id:'white-square',name:'Белая 22×22',cls:'frame-white f-square'},{id:'white-big',name:'Белая 22,5×31,5',cls:'frame-white f-big'},{id:'black-small',name:'Черная 15,5×20,5',cls:'frame-black f-small'},{id:'black-square',name:'Черная 22×22',cls:'frame-black f-square'},{id:'black-big',name:'Черная 22,5×31,5',cls:'frame-black f-big'}];
-const tabLabels={face:'Лица',hair:'Прически',skin:'Кожа',torso:'Торс',legs:'Ноги',frame:'Рамка'};let people=JSON.parse(localStorage.getItem('mb_layer_people')||'null')||[newPerson(1)];let active=0;let tab='face';let frameMode=false;let frame=localStorage.getItem('mb_layer_frame')||'white-square';function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:1,skin:1,torso:36,legs:31}}function save(){localStorage.setItem('mb_layer_people',JSON.stringify(people));localStorage.setItem('mb_layer_frame',frame)}function renderPeople(){peopleEl.innerHTML='';people.forEach((p,i)=>{const b=document.createElement('button');b.className='person '+(i===active?'active':'');b.innerHTML=(i+1)+'<br><small>'+p.name+'</small>';b.onclick=()=>{active=i;frameMode=false;sync()};peopleEl.appendChild(b)});nameInput.value=people[active].name;noteInput.value=people[active].note}function renderTabs(){tabs.innerHTML='';Object.entries(tabLabels).forEach(([k,v])=>{const b=document.createElement('button');b.className='tab '+(tab===k?'active':'');b.textContent=v;b.onclick=()=>{tab=k;frameMode=k==='frame';sync()};tabs.appendChild(b)})}function optButton(label,isActive,onClick,color){const b=document.createElement('button');b.className='opt '+(isActive?'active':'');b.innerHTML=color?`<span class="swatch" style="background:${color}"></span><span>${label}</span>`:label;b.onclick=onClick;options.appendChild(b)}function renderOptions(){options.innerHTML='';const p=people[active];if(tab==='face')faces.forEach(id=>optButton(id,p.face===id,()=>{p.face=id;sync()}));if(tab==='hair')hair.forEach(id=>optButton(id,p.hair===id,()=>{p.hair=id;sync()}));if(tab==='skin')Object.entries(skinColors).forEach(([id,c])=>optButton(id,+p.skin===+id,()=>{p.skin=+id;sync()},c));if(tab==='torso')Object.entries(bodyColors).forEach(([id,c])=>optButton(id,+p.torso===+id,()=>{p.torso=+id;sync()},c));if(tab==='legs')Object.entries(bodyColors).forEach(([id,c])=>optButton(id,+p.legs===+id,()=>{p.legs=+id;sync()},c));if(tab==='frame')frames.forEach(f=>optButton(f.name,frame===f.id,()=>{frame=f.id;frameMode=true;sync()}))}function renderFigure(){const p=people[active];document.documentElement.style.setProperty('--skin',skinColors[p.skin]);document.documentElement.style.setProperty('--torso',bodyColors[p.torso]);document.documentElement.style.setProperty('--legs',bodyColors[p.legs]);faceImg.src=`./assets/faces/${p.face}.png`;faceImg.onerror=()=>{faceImg.removeAttribute('src')};hairImg.src=`./assets/hair/${p.hair}.png`;hairImg.onerror=()=>{hairImg.removeAttribute('src')};constructorView.classList.toggle('hidden',frameMode);frameView.classList.toggle('hidden',!frameMode);renderFrame()}function getFrameLayout(count){
+const tabLabels={face:'Лица',hair:'Прически',skin:'Кожа',torso:'Торс',legs:'Ноги',frame:'Рамка'};let people=JSON.parse(localStorage.getItem('mb_layer_people')||'null')||[newPerson(1)];let active=0;let tab='face';let frameMode=false;let frame=localStorage.getItem('mb_layer_frame')||'white-square';function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:1,skin:1,torso:36,legs:31}}function save(){localStorage.setItem('mb_layer_people',JSON.stringify(people));localStorage.setItem('mb_layer_frame',frame)}function renderPeople(){
+  peopleEl.innerHTML='';
+
+  people.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.className='person '+(i===active?'active':'');
+
+    b.innerHTML=`
+      <button class="delete-person" data-delete="${i}" type="button">×</button>
+      <div class="person-preview" style="
+        --p-skin:${skinColors[p.skin]};
+        --p-torso:${bodyColors[p.torso]};
+        --p-legs:${bodyColors[p.legs]};
+      "></div>
+      <div class="person-name">${p.name}</div>
+    `;
+
+    b.onclick=(e)=>{
+      if(e.target.dataset.delete !== undefined){
+        e.stopPropagation();
+
+        if(people.length===1){
+          alert('Нужен хотя бы один человечек');
+          return;
+        }
+
+        people.splice(i,1);
+
+        if(active>=people.length){
+          active=people.length-1;
+        }
+
+        sync();
+        return;
+      }
+
+      active=i;
+      frameMode=false;
+      sync();
+    };
+
+    peopleEl.appendChild(b);
+  });
+
+  nameInput.value=people[active].name;
+  noteInput.value=people[active].note;
+}function renderTabs(){tabs.innerHTML='';Object.entries(tabLabels).forEach(([k,v])=>{const b=document.createElement('button');b.className='tab '+(tab===k?'active':'');b.textContent=v;b.onclick=()=>{tab=k;frameMode=k==='frame';sync()};tabs.appendChild(b)})}function optButton(label,isActive,onClick,color){const b=document.createElement('button');b.className='opt '+(isActive?'active':'');b.innerHTML=color?`<span class="swatch" style="background:${color}"></span><span>${label}</span>`:label;b.onclick=onClick;options.appendChild(b)}function renderOptions(){options.innerHTML='';const p=people[active];if(tab==='face')faces.forEach(id=>optButton(id,p.face===id,()=>{p.face=id;sync()}));if(tab==='hair')hair.forEach(id=>optButton(id,p.hair===id,()=>{p.hair=id;sync()}));if(tab==='skin')Object.entries(skinColors).forEach(([id,c])=>optButton(id,+p.skin===+id,()=>{p.skin=+id;sync()},c));if(tab==='torso')Object.entries(bodyColors).forEach(([id,c])=>optButton(id,+p.torso===+id,()=>{p.torso=+id;sync()},c));if(tab==='legs')Object.entries(bodyColors).forEach(([id,c])=>optButton(id,+p.legs===+id,()=>{p.legs=+id;sync()},c));if(tab==='frame')frames.forEach(f=>optButton(f.name,frame===f.id,()=>{frame=f.id;frameMode=true;sync()}))}function renderFigure(){const p=people[active];document.documentElement.style.setProperty('--skin',skinColors[p.skin]);document.documentElement.style.setProperty('--torso',bodyColors[p.torso]);document.documentElement.style.setProperty('--legs',bodyColors[p.legs]);faceImg.src=`./assets/faces/${p.face}.png`;faceImg.onerror=()=>{faceImg.removeAttribute('src')};hairImg.src=`./assets/hair/${p.hair}.png`;hairImg.onerror=()=>{hairImg.removeAttribute('src')};constructorView.classList.toggle('hidden',frameMode);frameView.classList.toggle('hidden',!frameMode);renderFrame()}function getFrameLayout(count){
   if(count <= 2){
     return [[38,50],[62,50]].slice(0,count);
   }
