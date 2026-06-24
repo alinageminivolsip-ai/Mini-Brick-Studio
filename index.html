@@ -831,7 +831,98 @@ let mobileColorPart='skin';
     tabs.appendChild(b);
   });
 }
+function optButton(label,isActive,onClick,color){
+  const b=document.createElement('button');
+  b.className='opt '+(isActive?'active':'');
+  b.innerHTML=color
+    ? `<span class="swatch" style="background:${color}"></span><span>${label}</span>`
+    : label;
+  b.onclick=onClick;
+  options.appendChild(b);
+}
 
+function renderOptions(){
+  options.innerHTML='';
+  const p=people[active];
+
+  if(tab==='face'){
+    faces.forEach(id=>optButton(id,p.face===id,()=>{
+      p.face=id;
+      sync();
+    }));
+  }
+
+  if(tab==='hair'){
+    hair.forEach(id=>optButton(id,p.hair===id,()=>{
+      p.hair=id;
+      sync();
+    }));
+  }
+
+  if(tab==='skin'){
+    Object.entries(skinColors).forEach(([id,c])=>optButton(id,+p.skin===+id,()=>{
+      p.skin=+id;
+      sync();
+    },c));
+  }
+
+  if(tab==='torso'){
+    Object.entries(bodyColors).forEach(([id,c])=>optButton(id,+p.torso===+id,()=>{
+      p.torso=+id;
+      sync();
+    },c));
+  }
+
+  if(tab==='legs'){
+    Object.entries(bodyColors).forEach(([id,c])=>optButton(id,+p.legs===+id,()=>{
+      p.legs=+id;
+      sync();
+    },c));
+  }
+
+  if(tab==='frame'){
+    frames.forEach(f=>optButton(f.name,frame===f.id,()=>{
+      frame=f.id;
+      frameMode=true;
+      sync();
+    }));
+  }
+}
+
+function renderFigure(){
+  const p=people[active];
+
+  document.documentElement.style.setProperty('--skin',skinColors[p.skin]);
+  document.documentElement.style.setProperty('--torso',bodyColors[p.torso]);
+  document.documentElement.style.setProperty('--legs',bodyColors[p.legs]);
+
+  faceImg.src=`./assets/faces/${p.face}.png`;
+  faceImg.onerror=()=>{faceImg.removeAttribute('src')};
+
+  hairImg.src=`./assets/hair/${p.hair}.png`;
+  hairImg.onerror=()=>{hairImg.removeAttribute('src')};
+
+  constructorView.classList.toggle('hidden',frameMode);
+  frameView.classList.toggle('hidden',!frameMode);
+
+  renderFrame();
+}
+
+function getFrameLayout(count){
+  if(count <= 2){
+    return [[38,50],[62,50]].slice(0,count);
+  }
+
+  if(count <= 5){
+    return [[50,30],[32,58],[50,58],[68,58],[50,76]].slice(0,count);
+  }
+
+  return [
+    [42,24],[58,24],
+    [25,48],[42,48],[58,48],[75,48],
+    [25,72],[42,72],[58,72],[75,72]
+  ].slice(0,count);
+}
 function miniFigureHTML(p,x,y){
   return `
     <div class="mini-figure" style="
@@ -1152,6 +1243,11 @@ async function loadCatalog(){
   startCustomize.onclick = () => {
   document.body.classList.add('customization-started');
   localStorage.setItem('mb_started','1');
+
+  mobileTab='people';
+  tab='face';
+  frameMode=false;
+
   sync();
 };
 
