@@ -491,13 +491,20 @@ body.frame-active .frame-bg-tools{
   flex:0 0 100%;
   display:grid;
   gap:8px;
-  padding:2px 2px 8px;
+  padding:2px 2px 6px;
 }
-    .people-row{
+
+.people-row{
+  flex:0 0 100%;
   width:100%;
   display:flex;
   gap:10px;
   overflow-x:auto;
+  padding-bottom:4px;
+}
+
+.people-row .mobile-chip{
+  min-width:110px;
 }
 
 .names-toggle{
@@ -768,89 +775,61 @@ function renderMobileEditor(){
   mobileEditorInner.innerHTML='';
   const p=people[active];
  if(mobileTab==='people'){
+  const p=people[active];
+
   if(!p.names) p.names=[p.name || `Человек ${active+1}`];
 
   const nameBox=document.createElement('div');
   nameBox.className='mobile-names-box';
 
   nameBox.innerHTML=`
-    <label class="names-toggle">
-      <input type="checkbox" ${p.namesEnabled?'checked':''}>
-      <span>Имена</span>
-    </label>
-
-    <div class="names-list">
-      ${p.names.map((name,i)=>`
-        <div class="name-row">
-          <input data-name-index="${i}" value="${name}" placeholder="Имя">
-          ${p.namesEnabled ? `<button data-add-name="${i}" type="button">+</button>` : ''}
-        </div>
-      `).join('')}
+    <div class="name-row">
+      <input data-name-index="0" value="${p.names[0] || ''}" placeholder="Имя">
+      <button data-add-name type="button">+</button>
     </div>
   `;
 
   mobileEditorInner.appendChild(nameBox);
-   const peopleRow = document.createElement('div');
-peopleRow.className = 'people-row';
-mobileEditorInner.appendChild(peopleRow);
 
-  nameBox.querySelector('.names-toggle input').onchange=e=>{
-    p.namesEnabled=e.target.checked;
+  const input=nameBox.querySelector('[data-name-index]');
+  input.oninput=e=>{
+    p.names[0]=e.target.value;
+    p.name=e.target.value || `Человек ${active+1}`;
+    save();
+    renderPeople();
+  };
+
+  nameBox.querySelector('[data-add-name]').onclick=()=>{
+    if(people.length>=10){
+      alert('Можно добавить максимум 10 человечков');
+      return;
+    }
+
+    people.push(newPerson(people.length+1));
+    active=people.length-1;
     sync();
   };
 
-  nameBox.querySelectorAll('[data-name-index]').forEach(input=>{
-    input.oninput=e=>{
-      const i=+e.target.dataset.nameIndex;
-      p.names[i]=e.target.value;
-      p.name=p.names.filter(Boolean).join(' + ') || `Человек ${active+1}`;
-      save();
-      renderPeople();
-    };
-  });
-
-  nameBox.querySelectorAll('[data-add-name]').forEach(btn=>{
-    btn.onclick=()=>{
-      if(p.names.length>=3) return alert('Максимум 3 имени на человечка');
-      p.names.push('');
-      sync();
-    };
-  });
+  const peopleRow=document.createElement('div');
+  peopleRow.className='people-row';
+  mobileEditorInner.appendChild(peopleRow);
 
   people.forEach((person,i)=>{
-  const btn=document.createElement('button');
-  btn.className='mobile-chip '+(i===active?'active':'');
-  btn.textContent=person.name;
+    const btn=document.createElement('button');
+    btn.className='mobile-chip '+(i===active?'active':'');
+    btn.textContent=person.name || `Человек ${i+1}`;
 
-  btn.onclick=()=>{
-    active=i;
-    frameMode=false;
-    sync();
-  };
+    btn.onclick=()=>{
+      active=i;
+      frameMode=false;
+      sync();
+    };
 
-  peopleRow.appendChild(btn);
-});
-
-const addBtn=document.createElement('button');
-addBtn.className='mobile-chip';
-addBtn.textContent='+';
-
-addBtn.onclick=()=>{
-  if(people.length>=10){
-    alert('Можно добавить максимум 10 человечков');
-    return;
-  }
-
-  people.push(newPerson(people.length+1));
-  active=people.length-1;
-  sync();
-};
-
-peopleRow.appendChild(addBtn);
+    peopleRow.appendChild(btn);
+  });
 
   return;
 }
-
   if(mobileTab==='face'){
     faces.forEach(id=>{
       mobileChip(id,p.face===id,()=>{
