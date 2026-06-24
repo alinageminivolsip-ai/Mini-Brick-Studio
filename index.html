@@ -166,7 +166,7 @@ function renderModel(){
    const fig = buildRealFigure(p, 0.13);
 fig.position.y = -1.6;
     group.add(fig);
-    document.getElementById('hint').textContent = 'стрелки меняют цвет кожи, модель можно крутить';
+    document.getElementById('hint').textContent = 'выбери вкладку: кожа, торс или ноги, стрелки меняют цвет';
   } else {
     buildFrame();
     document.getElementById('hint').textContent = '3D фоторамка: до 20 фигурок внутри';
@@ -179,8 +179,27 @@ function uiPeople(){const box=document.getElementById('people'); box.innerHTML='
 function uiTabs(){const t=document.getElementById('tabs'); t.innerHTML=''; Object.entries(cats).forEach(([k,v])=>{const b=document.createElement('button'); b.className='tab'+(k==category?' active':''); b.textContent=v; b.onclick=()=>{category=k; syncUI()}; t.appendChild(b)})}
 function uiOptions(){const o=document.getElementById('options'); o.innerHTML=''; optionsData[category].forEach(it=>{const b=document.createElement('button'); b.className='opt'+(people[active][category]==it.id-((category=='skin'||category=='torso'||category=='legs')?1:0)?' active':''); b.innerHTML=it.color?`<span class="swatch" style="background:${it.color}"></span><span>${it.id}</span>`:`<span>${it.name}</span>`; b.onclick=()=>{people[active][category]=it.id-((category=='skin'||category=='torso'||category=='legs')?1:0); save(); syncUI()}; o.appendChild(b)})}
 function syncUI(){save(); uiPeople(); uiTabs(); uiOptions(); renderModel()}
-document.getElementById('prevColor').onclick=()=>{const p=people[active]; p.skin=(p.skin-1+skinColors.length)%skinColors.length; syncUI()};
-document.getElementById('nextColor').onclick=()=>{const p=people[active]; p.skin=(p.skin+1)%skinColors.length; syncUI()};
+function cycleOption(dir) {
+  const p = people[active];
+
+  if (category === 'skin') {
+    p.skin = (p.skin + dir + skinColors.length) % skinColors.length;
+  }
+
+  if (category === 'torso') {
+    p.torso = (p.torso + dir + optionsData.torso.length) % optionsData.torso.length;
+  }
+
+  if (category === 'legs') {
+    p.legs = (p.legs + dir + optionsData.legs.length) % optionsData.legs.length;
+  }
+
+  save();
+  syncUI();
+}
+
+document.getElementById('prevColor').onclick = () => cycleOption(-1);
+document.getElementById('nextColor').onclick = () => cycleOption(1);
 document.getElementById('addPerson').onclick=()=>{if(people.length>=20)return toast('Максимум 20 человечков'); people.push(newPerson(people.length+1)); active=people.length-1; syncUI()};
 document.getElementById('duplicatePerson').onclick=()=>{if(people.length>=20)return toast('Максимум 20 человечков'); people.push({...people[active],name:people[active].name+' копия'}); active=people.length-1; syncUI()};
 document.getElementById('clearAll').onclick=()=>{if(confirm('Очистить всех человечков?')){people=[newPerson(1)];active=0;syncUI()}};
