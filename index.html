@@ -552,9 +552,87 @@ body.frame-active .frame-bg-tools{
   font-size:24px;
   font-weight:950;
 }
+    .splash-screen{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  gap:18px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.65), transparent 28%),
+    linear-gradient(180deg,#ff6fa8,#ffd5e6);
+  transition:opacity .45s ease, visibility .45s ease;
+}
+
+.splash-screen.hide{
+  opacity:0;
+  visibility:hidden;
+}
+
+.splash-logo-wrap{
+  width:132px;
+  height:132px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 20px 50px rgba(86,24,55,.24);
+  animation:splashPop .9s ease both;
+}
+
+.splash-logo{
+  width:112px;
+  height:112px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.splash-title{
+  font-size:24px;
+  font-weight:950;
+  color:#fff;
+  text-shadow:0 4px 14px rgba(86,24,55,.28);
+}
+
+.splash-loader{
+  width:88px;
+  height:8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.45);
+  overflow:hidden;
+}
+
+.splash-loader:before{
+  content:"";
+  display:block;
+  width:42%;
+  height:100%;
+  border-radius:999px;
+  background:#fff;
+  animation:splashLoad 1s ease-in-out infinite;
+}
+
+@keyframes splashPop{
+  from{transform:scale(.82);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+@keyframes splashLoad{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(250%)}
+}
   </style>
 </head>
 <body>
+  <div id="splashScreen" class="splash-screen">
+  <div class="splash-logo-wrap">
+    <img src="./logo.png" alt="MiniBrick Studio" class="splash-logo">
+  </div>
+  <div class="splash-title">MiniBrick Studio</div>
+  <div class="splash-loader"></div>
+</div>
 <div class="app">
   <header><img class="logo" src="./logo.png" alt=""><div><h1>MiniBrick Studio</h1><div class="sub">PNG-конструктор мини-фигурок</div></div><div class="top-actions"><button class="btn" id="frameBtn">Рамка</button><button class="btn" id="orderBtn">Заказ</button></div></header>
   <div class="layout">
@@ -1026,6 +1104,11 @@ loadCatalog().then(()=>{
     navigator.serviceWorker.register('./sw.js');
   }
   sync();
+});
+  window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    splashScreen.classList.add('hide');
+  },900);
 });
 </script>
 </body>
