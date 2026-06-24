@@ -487,6 +487,58 @@ body.frame-active .frame-bg-tools{
   border-color:var(--red);
   box-shadow:0 0 0 3px rgba(237,43,99,.12);
 }
+    .mobile-names-box{
+  flex:0 0 100%;
+  display:grid;
+  gap:8px;
+  padding:2px 2px 8px;
+}
+
+.names-toggle{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:950;
+  color:#86536a;
+}
+
+.names-toggle input{
+  width:20px;
+  height:20px;
+  accent-color:#ed2b63;
+}
+
+.names-list{
+  display:grid;
+  gap:8px;
+}
+
+.name-row{
+  display:flex;
+  gap:8px;
+}
+
+.name-row input{
+  min-width:0;
+  flex:1;
+  height:50px;
+  border:2px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  padding:0 14px;
+  font-weight:950;
+}
+
+.name-row button{
+  width:50px;
+  height:50px;
+  border:0;
+  border-radius:18px;
+  background:#ed2b63;
+  color:#fff;
+  font-size:24px;
+  font-weight:950;
+}
   </style>
 </head>
 <body>
@@ -551,7 +603,20 @@ const frames=[{id:'white-small',name:'Белая 15,5×20,5',cls:'frame-white f-
 const tabLabels={face:'Лица',hair:'Прически',skin:'Кожа',torso:'Торс',legs:'Ноги',frame:'Рамка'};let people=JSON.parse(localStorage.getItem('mb_layer_people')||'null')||[newPerson(1)];let active=0;let tab='face';let frameMode=false;let frame=localStorage.getItem('mb_layer_frame')||'white-square';
   let mobileTab='face';
 let mobileColorPart='skin';
-  function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:1,skin:1,torso:36,legs:31}}function save(){localStorage.setItem('mb_layer_people',JSON.stringify(people));localStorage.setItem('mb_layer_frame',frame)}function renderPeople(){
+ function newPerson(n){
+  return{
+    name:'Человек '+n,
+    names:['Человек '+n],
+    namesEnabled:false,
+    note:'',
+    face:'A1',
+    hair:1,
+    skin:1,
+    torso:36,
+    legs:31
+  }
+}
+  function save(){localStorage.setItem('mb_layer_people',JSON.stringify(people));localStorage.setItem('mb_layer_frame',frame)}function renderPeople(){
   peopleEl.innerHTML='';
 
   people.forEach((p,i)=>{
@@ -689,19 +754,52 @@ function renderMobileEditor(){
 
   mobileEditorInner.innerHTML='';
   const p=people[active];
-  if(mobileTab==='people'){
+ if(mobileTab==='people'){
+  if(!p.names) p.names=[p.name || `Человек ${active+1}`];
+
   const nameBox=document.createElement('div');
-  nameBox.className='mobile-name-box';
+  nameBox.className='mobile-names-box';
+
   nameBox.innerHTML=`
-    <input id="mobileNameInput" value="${people[active].name}" placeholder="Имя человечка">
+    <label class="names-toggle">
+      <input type="checkbox" ${p.namesEnabled?'checked':''}>
+      <span>Имена</span>
+    </label>
+
+    <div class="names-list">
+      ${p.names.map((name,i)=>`
+        <div class="name-row">
+          <input data-name-index="${i}" value="${name}" placeholder="Имя">
+          ${p.namesEnabled ? `<button data-add-name="${i}" type="button">+</button>` : ''}
+        </div>
+      `).join('')}
+    </div>
   `;
+
   mobileEditorInner.appendChild(nameBox);
 
-  nameBox.querySelector('input').oninput=e=>{
-    people[active].name=e.target.value || `Человек ${active+1}`;
-    save();
-    renderPeople();
+  nameBox.querySelector('.names-toggle input').onchange=e=>{
+    p.namesEnabled=e.target.checked;
+    sync();
   };
+
+  nameBox.querySelectorAll('[data-name-index]').forEach(input=>{
+    input.oninput=e=>{
+      const i=+e.target.dataset.nameIndex;
+      p.names[i]=e.target.value;
+      p.name=p.names.filter(Boolean).join(' + ') || `Человек ${active+1}`;
+      save();
+      renderPeople();
+    };
+  });
+
+  nameBox.querySelectorAll('[data-add-name]').forEach(btn=>{
+    btn.onclick=()=>{
+      if(p.names.length>=3) return alert('Максимум 3 имени на человечка');
+      p.names.push('');
+      sync();
+    };
+  });
 
   people.forEach((person,i)=>{
     mobileChip(person.name,i===active,()=>{
