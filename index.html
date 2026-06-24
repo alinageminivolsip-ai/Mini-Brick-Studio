@@ -56,7 +56,7 @@ let people=JSON.parse(localStorage.getItem('mb_people')||'null')||[newPerson(1)]
 function newPerson(n){return{name:`Человек ${n}`,note:'',skin:0,torso:2,legs:0,hair:1,accessory:0,face:0,x:0,y:0,z:0,rot:0}}
 function save(){localStorage.setItem('mb_people',JSON.stringify(people))}
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800)}
-const canvas=document.getElementById('stage'); const scene=new THREE.Scene(); scene.background=new THREE.Color(0xfff5f9); const camera=new THREE.PerspectiveCamera(45,1,.1,100); camera.position.set(0,2.3,6); const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); const controls=new OrbitControls(camera,canvas); controls.enableDamping=true; controls.target.set(0,1.25,0); controls.enablePan=false;
+const canvas=document.getElementById('stage'); const scene=new THREE.Scene(); scene.background=new THREE.Color(0xfff5f9); const camera=new THREE.PerspectiveCamera(45,1,.1,100); camera.position.set(0,1.8,8); const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); const controls=new OrbitControls(camera,canvas); controls.enableDamping=true; controls.target.set(0,1.25,0); controls.enablePan=false;
 scene.add(new THREE.HemisphereLight(0xffffff,0xffc6d9,2)); const dl=new THREE.DirectionalLight(0xffffff,2.2); dl.position.set(4,6,5); scene.add(dl);
 let group=new THREE.Group(); scene.add(group); let frameGroup=new THREE.Group(); scene.add(frameGroup);
     let baseFigureModel = null;
@@ -163,8 +163,8 @@ function renderModel(){
   const p = people[active];
 
   if (!frameMode) {
-    const fig = buildRealFigure(p, 0.55);
-fig.position.y = -1.15;
+   const fig = buildRealFigure(p, 0.13);
+fig.position.y = -1.6;
     group.add(fig);
     document.getElementById('hint').textContent = 'стрелки меняют цвет кожи, модель можно крутить';
   } else {
@@ -172,7 +172,7 @@ fig.position.y = -1.15;
     document.getElementById('hint').textContent = '3D фоторамка: до 20 фигурок внутри';
   }
 }
-function buildFrame(){const base=block(4.6,.12,3.2,'#f9f9f9');base.position.y=-.06;frameGroup.add(base); const back=block(4.2,2.7,.08,'#fff8fb');back.position.set(0,1.35,-.42);frameGroup.add(back); const top=block(4.8,.22,.35,'#ffffff');top.position.set(0,2.84,-.3);frameGroup.add(top); const bottom=top.clone(); bottom.position.y=-.08; frameGroup.add(bottom); const side=block(.22,2.9,.35,'#ffffff');side.position.set(-2.4,1.38,-.3);frameGroup.add(side); const side2=side.clone();side2.position.x=2.4;frameGroup.add(side2); people.forEach((p,i)=>{const fig=buildRealFigure(p,.14); const col=i%5,row=Math.floor(i/5); fig.position.set(-1.55+col*.78,.12+row*.66,-.15); fig.rotation.y=p.rot||0; frameGroup.add(fig);});}
+function buildFrame(){const base=block(4.6,.12,3.2,'#f9f9f9');base.position.y=-.06;frameGroup.add(base); const back=block(4.2,2.7,.08,'#fff8fb');back.position.set(0,1.35,-.42);frameGroup.add(back); const top=block(4.8,.22,.35,'#ffffff');top.position.set(0,2.84,-.3);frameGroup.add(top); const bottom=top.clone(); bottom.position.y=-.08; frameGroup.add(bottom); const side=block(.22,2.9,.35,'#ffffff');side.position.set(-2.4,1.38,-.3);frameGroup.add(side); const side2=side.clone();side2.position.x=2.4;frameGroup.add(side2); people.forEach((p,i)=>{const fig=buildRealFigure(p,.045); const col=i%5,row=Math.floor(i/5); fig.position.set(-1.55+col*.78,.12+row*.66,-.15); fig.rotation.y=p.rot||0; frameGroup.add(fig);});}
 function resize(){const r=canvas.getBoundingClientRect(); renderer.setSize(r.width,r.height,false); camera.aspect=r.width/r.height; camera.updateProjectionMatrix()} window.addEventListener('resize',resize);
 function animate(){resize(); controls.update(); renderer.render(scene,camera); requestAnimationFrame(animate)} animate();
 function uiPeople(){const box=document.getElementById('people'); box.innerHTML=''; people.forEach((p,i)=>{const b=document.createElement('button'); b.className='person'+(i==active?' active':''); b.innerHTML=`${i+1}<small>${p.name||'без имени'}</small>`; b.onclick=()=>{active=i; frameMode=false; syncUI()}; box.appendChild(b)}); document.getElementById('nameInput').value=people[active].name; document.getElementById('noteInput').value=people[active].note||''; document.getElementById('frameList').innerHTML=people.map((p,i)=>`<div class="frame-item"><span>${i+1}. ${p.name}</span><span>${optionsData.accessory[p.accessory].name}</span></div>`).join('')}
