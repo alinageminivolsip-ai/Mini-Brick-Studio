@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ff6fa8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="MiniBrick Studio" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <title>MiniBrick Studio v2</title>
+  <style>
+    :root{
+      --pink:#ff6fa8;--pink2:#fff0f6;--red:#ed2b63;--ink:#171717;--muted:#86536a;--line:#f1d7e2;
+      --paper:#fff;--soft:#fff7fb;--shadow:0 20px 55px rgba(86,24,55,.16);
+      --skin:#FFD200;--torso:#FF6FA8;--legs:#254F9B;--frameColor:#fff;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#fff2f7,#ffeaf3 45%,#fff);color:var(--ink)}
+    button,input,textarea{font:inherit} button{cursor:pointer} .hidden{display:none!important}
+    .app{min-height:100dvh;padding:16px;display:grid;grid-template-rows:auto 1fr;gap:14px}
+    header{display:flex;align-items:center;gap:12px}.logo{width:58px;height:58px;border-radius:50%;box-shadow:0 10px 25px rgba(0,0,0,.14);object-fit:cover}
+    h1{margin:0;font-size:24px;line-height:1;font-weight:950}.sub{margin:4px 0 0;font-size:13px;color:var(--muted);font-weight:850}
+    .top-actions{margin-left:auto;display:flex;gap:8px}.btn{border:0;border-radius:20px;padding:13px 16px;font-weight:950;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.08);color:#111}.btn.dark{background:#151515;color:#fff}.btn.pink{background:var(--pink);color:#fff}
+    .layout{display:grid;grid-template-columns:320px minmax(0,1fr) 360px;gap:14px;min-height:0}.panel{background:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.75);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}.panel-pad{padding:18px}.title{font-weight:950;margin:0 0 12px;font-size:16px}.small{font-size:12px;color:var(--muted);font-weight:850}
+    .screen{display:none}.screen.active{display:block}
+    .people-list{display:grid;gap:10px;max-height:calc(100dvh - 210px);overflow:auto}.person-card{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;border:2px solid transparent;background:#fff;border-radius:22px;padding:10px;box-shadow:0 8px 18px rgba(0,0,0,.06);transition:border-color .15s}.person-card.active{border-color:var(--red)}.person-actions{display:flex;gap:6px}.icon-btn{width:36px;height:36px;border:0;border-radius:14px;background:#fff0f5;color:var(--red);font-weight:950}.add-card{width:100%;margin-top:12px}
+    .stage{position:relative;display:grid;place-items:center;min-height:620px;background:linear-gradient(180deg,#fff9fc,#fff0f6);border-radius:28px;overflow:hidden}.stage-toolbar{position:absolute;top:16px;left:16px;right:16px;z-index:4;display:flex;justify-content:space-between;gap:10px}.tool-group{display:flex;gap:8px}.heart{position:absolute;color:#ff7aa9;opacity:.18;font-size:44px}.h1{left:8%;top:12%}.h2{right:12%;top:14%}.h3{left:22%;bottom:10%}
+    .start-view{position:absolute;inset:0;z-index:8;display:grid;place-items:center;align-content:center;gap:18px;text-align:center;padding:28px;background:linear-gradient(180deg,#fff9fc,#fff0f6)}.start-logo{width:124px;height:124px;border-radius:50%;object-fit:cover;box-shadow:0 18px 40px rgba(86,24,55,.18)}.start-view h2{margin:0;font-size:28px;line-height:1.05;font-weight:950}.start-view p{margin:0;max-width:360px;color:var(--muted);font-weight:850;line-height:1.45}
+    .figure-wrap{width:min(44vw,360px);aspect-ratio:1024/1536;position:relative;filter:drop-shadow(0 22px 24px rgba(70,20,40,.18));transform:translateY(12px)}
+    .part,.shadow-layer,.face-img,.hair-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.part{pointer-events:none}.skin{z-index:1;background:var(--skin);mask:url('./assets/body/skin-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/skin-mask.png') center/contain no-repeat}.torso{z-index:2;background:var(--torso);mask:url('./assets/body/torso-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/torso-mask.png') center/contain no-repeat}.legs{z-index:3;background:var(--legs);mask:url('./assets/body/legs-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/legs-mask.png') center/contain no-repeat}.shadow-layer{z-index:8;opacity:.18;mix-blend-mode:multiply;pointer-events:none;filter:contrast(.85) brightness(1.35)}.face-img{z-index:15;pointer-events:none}.hair-img{z-index:18;pointer-events:none}
+    .mini-preview{position:relative;width:54px;aspect-ratio:1024/1536;filter:drop-shadow(0 6px 8px rgba(0,0,0,.14))}.mini-preview .part,.mini-preview .shadow-layer,.mini-preview .face-img,.mini-preview .hair-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.mini-preview .skin{background:var(--p-skin)}.mini-preview .torso{background:var(--p-torso)}.mini-preview .legs{background:var(--p-legs)}
+
+    /* ── TABS: improved active state ── */
+    .editor-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:14px;border-bottom:1px solid var(--line)}
+    .tab{border:2px solid transparent;border-radius:18px;background:#fff;color:var(--muted);font-weight:950;padding:10px 6px;display:grid;gap:4px;place-items:center;transition:all .15s;position:relative}
+    .tab span:first-child{font-size:20px}
+    .tab.active{background:var(--pink);border-color:var(--red);color:#fff;box-shadow:0 8px 18px rgba(237,43,99,.28);transform:translateY(-1px)}
+    .tab.active::after{content:'✓';position:absolute;top:4px;right:6px;font-size:10px;opacity:.85}
+
+    /* ── OPTIONS grid (faces, hair, frame) ── */
+    .options{padding:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-height:520px;overflow:auto}
+    .opt{min-height:70px;border:2px solid transparent;background:#fff;border-radius:20px;display:grid;place-items:center;text-align:center;font-size:12px;font-weight:950;box-shadow:0 8px 20px rgba(0,0,0,.06);padding:8px;transition:all .15s;position:relative;cursor:pointer}
+    .opt:active{transform:scale(.94)}
+    .opt.active{border-color:var(--red);color:var(--red);background:#fff5f8;box-shadow:0 8px 20px rgba(237,43,99,.18)}
+    .opt.active::after{content:'✓';position:absolute;top:4px;right:6px;width:16px;height:16px;background:var(--red);color:#fff;border-radius:50%;font-size:10px;display:grid;place-items:center;font-weight:900}
+    .swatch{width:34px;height:34px;border-radius:50%;border:2px solid rgba(0,0,0,.14)}
+    .opt.active .swatch{outline:3px solid var(--red);outline-offset:2px}
+
+    /* ── COLOR PICKER (skin/torso/legs tabs) ── */
+    .color-picker{padding:0 16px 16px;display:flex;flex-direction:column;gap:0}
+
+    /* Part selector tabs inside color panel */
+    .color-part-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px 16px;border-bottom:1px solid var(--line)}
+    .color-part-tab{border:2px solid transparent;border-radius:14px;background:#fff;color:var(--muted);font-weight:950;font-size:13px;padding:10px 6px;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;cursor:pointer;position:relative}
+    .color-part-tab.active{background:var(--pink);border-color:var(--red);color:#fff;box-shadow:0 6px 14px rgba(237,43,99,.22)}
+    .color-part-tab .part-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.6);flex-shrink:0}
+
+    /* Selected color preview bar */
+    .color-selected-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--soft);border-bottom:1px solid var(--line)}
+    .color-selected-swatch{width:36px;height:36px;border-radius:12px;border:2px solid rgba(0,0,0,.12);flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.14)}
+    .color-selected-label{font-size:13px;font-weight:850;color:var(--muted);flex:1}
+    .color-selected-check{font-size:18px;color:var(--red)}
+
+    /* Color groups */
+    .color-group{padding:10px 16px 2px}
+    .color-group-title{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+    .color-swatches{display:flex;flex-wrap:wrap;gap:8px}
+    .color-swatch-btn{
+      width:40px;height:40px;border-radius:12px;
+      border:3px solid transparent;
+      cursor:pointer;transition:all .15s;
+      position:relative;flex-shrink:0;
+      box-shadow:0 3px 8px rgba(0,0,0,.15);
+    }
+    .color-swatch-btn:active{transform:scale(.88)}
+    .color-swatch-btn.active{
+      border-color:var(--ink);
+      transform:scale(1.18);
+      box-shadow:0 4px 12px rgba(0,0,0,.25);
+      z-index:2;
+    }
+    .color-swatch-btn.active::after{
+      content:'✓';
+      position:absolute;inset:0;
+      display:grid;place-items:center;
+      font-size:14px;font-weight:900;
+      color:rgba(255,255,255,.95);
+      text-shadow:0 1px 3px rgba(0,0,0,.5);
+    }
+    /* scroll hint fade at bottom */
+    .color-scroll-wrap{overflow-y:auto;max-height:380px;position:relative}
+    .color-scroll-wrap::after{
+      content:'';position:sticky;bottom:0;left:0;right:0;height:28px;
+      display:block;
+      background:linear-gradient(to bottom,transparent,rgba(255,247,251,.95));
+      pointer-events:none;
+    }
+
+    /* ── MOBILE NAV: improved active ── */
+    .mobile-nav button{border:2px solid transparent;background:transparent;border-radius:16px;padding:9px 4px;color:#1684f2;font-size:13px;font-weight:950;transition:all .15s;position:relative}
+    .mobile-nav button.active{background:var(--pink);border-color:var(--red);color:#fff;box-shadow:0 6px 14px rgba(237,43,99,.22)}
+    .mobile-nav button.active::after{content:'';position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:6px;height:6px;background:var(--red);border-radius:50%}
+
+    /* ── MOBILE CHIP: improved active ── */
+    .mobile-chip{flex:0 0 auto;min-width:112px;height:58px;border-radius:18px;font-size:16px;padding:8px 12px;border:2px solid transparent;background:#fff;box-shadow:0 6px 14px rgba(0,0,0,.07);transition:all .15s}
+    .mobile-chip.active{border-color:var(--red);background:#fff5f8;color:var(--red);box-shadow:0 6px 14px rgba(237,43,99,.2)}
+
+    .field{display:grid;gap:6px;margin-top:10px;font-size:12px;color:var(--muted);font-weight:900}.field input,.field textarea{border:2px solid var(--line);border-radius:18px;padding:13px 14px;background:#fff;font-weight:850}.field input:focus,.field textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(237,43,99,.12)}
+    .frame-preview{display:grid;place-items:center;gap:16px}
+
+    /* ── FRAME BOX: inset border is 16px each side = 32px total ── */
+    .frame-box{position:relative;overflow:hidden;background:#f7f7f7;display:grid;place-items:center;box-shadow:inset 0 0 0 12px var(--frameColor,#fff),inset 0 0 0 16px rgba(0,0,0,.08),0 18px 36px rgba(0,0,0,.12)}
+    .frame-black{--frameColor:#111}.frame-white{--frameColor:#fff}
+    .f-small{width:210px;height:278px}.f-square{width:270px;height:270px}.f-big{width:250px;height:350px}
+
+    /* ── FRAME BG: now covers the inner area precisely ── */
+    .frame-bg{
+      position:absolute;
+      /* sits inside the 16px border */
+      inset:16px;
+      z-index:0;
+      /* background-image set via JS */
+      background-size:cover;           /* DEFAULT: cover inner area */
+      background-position:center;
+      background-repeat:no-repeat;
+      transition:background-size .2s, background-position .2s;
+    }
+
+    .mini-grid{position:relative;width:100%;height:100%;z-index:2}
+
+    /* ── MINI-FIGURE: sized by JS via CSS vars, default fallback ── */
+    .mini-figure{
+      position:absolute;
+      /* width/height injected per-frame by JS */
+      width:var(--fig-w, 18px);
+      height:var(--fig-h, 45px);
+      transform:translate(-50%,-50%);
+    }
+    .mini-figure .part,.mini-figure .shadow-layer,.mini-figure .face-img,.mini-figure .hair-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+    .mini-figure .skin{background:var(--skin)}.mini-figure .torso{background:var(--torso)}.mini-figure .legs{background:var(--legs)}
+
+    .frame-tools{padding:16px;border-top:1px solid var(--line);display:grid;gap:12px}.bg-upload{display:grid;place-items:center;min-height:52px;border-radius:18px;background:#151515;color:#fff;font-weight:950;cursor:pointer}.bg-upload input{display:none}.range-field{display:grid;gap:6px;font-size:12px;color:var(--muted);font-weight:900}.range-field input{width:100%}
+    .mobile-nav{position:fixed;z-index:50;left:12px;right:12px;bottom:92px;display:none;grid-template-columns:repeat(5,1fr);gap:6px;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-radius:22px;padding:6px;box-shadow:0 14px 34px rgba(86,24,55,.18)}.mobile-editor{display:none}
+    .modal{position:fixed;inset:0;z-index:90;display:none;place-items:center;padding:18px;background:rgba(40,10,25,.38);backdrop-filter:blur(12px)}.modal.open{display:grid}.modal-card{width:min(560px,100%);max-height:88dvh;overflow:auto;background:#fff;border-radius:28px;padding:18px;box-shadow:0 24px 70px rgba(0,0,0,.24)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.modal-head h2{margin:0;font-size:22px;font-weight:950}.close{width:42px;height:42px;border:0;border-radius:50%;background:#fff0f5;color:var(--red);font-size:24px;font-weight:950}.onboard-card{text-align:center;display:grid;gap:14px}.onboard-emoji{font-size:56px}.onboard-title{font-size:26px;font-weight:950}.onboard-text{color:var(--muted);font-weight:850;line-height:1.45}.dots{display:flex;gap:8px;justify-content:center}.dot{width:9px;height:9px;border-radius:99px;background:#f3bad0}.dot.active{width:28px;background:var(--red)}.order-preview{width:100%;border-radius:22px;background:#fff7fb;border:1px solid var(--line);overflow:hidden;margin-bottom:12px}.order-preview img{width:100%;display:block}.order-info{display:grid;gap:8px;padding:12px;border-radius:18px;background:#fff0f6;font-weight:950;color:#7f4b61;margin-bottom:12px}.order-text{display:none;width:100%;min-height:160px;border:2px solid var(--line);border-radius:18px;padding:12px;font-weight:800;resize:vertical}.order-steps{display:grid;gap:10px;margin-top:12px}.contact-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+    /* ── ORDER STEPS: improved with numbered badges ── */
+    .order-step-row{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:center;padding:12px;background:#fff7fb;border-radius:18px;border:1px solid var(--line)}
+    .step-badge{width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;font-size:15px;font-weight:950;display:grid;place-items:center;flex-shrink:0}
+    .step-body strong{display:block;font-size:14px;font-weight:950;margin-bottom:2px}
+    .step-body span{font-size:12px;color:var(--muted)}
+
+    .splash-screen{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;align-content:center;gap:18px;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.65),transparent 28%),linear-gradient(180deg,#ff6fa8,#ffd5e6);transition:opacity .45s ease,visibility .45s ease}.splash-screen.hide{opacity:0;visibility:hidden}.splash-logo-wrap{width:148px;height:148px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 22px 55px rgba(86,24,55,.24);animation:splashPop 1.4s ease-in-out infinite}.splash-logo{width:124px;height:124px;border-radius:50%;object-fit:cover}.splash-title{font-size:24px;font-weight:950;color:#fff;text-shadow:0 4px 14px rgba(86,24,55,.28)}.splash-loader{width:88px;height:8px;border-radius:999px;background:rgba(255,255,255,.45);overflow:hidden}.splash-loader:before{content:"";display:block;width:42%;height:100%;border-radius:999px;background:#fff;animation:splashLoad 1s ease-in-out infinite}@keyframes splashPop{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}@keyframes splashLoad{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+    body:not(.started) .figure-wrap,body:not(.started) .frame-preview,body:not(.started) .mobile-nav,body:not(.started) .mobile-editor{display:none!important}body.started .start-view{display:none}
+    @media(max-width:980px){
+  html,body{width:100%;overflow-x:hidden}
+  .app{min-height:100dvh;padding:12px 12px 170px;display:grid;grid-template-rows:auto 1fr;gap:12px;overflow:hidden}
+  header{display:grid;grid-template-columns:58px 1fr;gap:10px;align-items:center}
+  .logo{width:54px;height:54px}
+  h1{font-size:22px;line-height:.95}
+  .sub{font-size:13px;line-height:1.15}
+  .top-actions{grid-column:1 / -1;width:100%;margin-left:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .top-actions .btn{width:100%;min-width:0;height:54px;padding:0 8px;font-size:18px;border-radius:24px}
+  .layout{display:block;min-height:0}
+  .panel.left,.panel.right{display:none!important}
+  .stage{width:100%;min-height:calc(100dvh - 300px);border-radius:28px;padding:12px;overflow:hidden}
+  .stage-toolbar{top:14px;left:14px;right:14px;justify-content:center}
+  .tool-group{width:100%;display:grid;grid-template-columns:1fr 1.35fr;gap:10px}
+  .tool-group .btn{height:48px;padding:0 10px;border-radius:18px;font-size:15px;line-height:1;white-space:nowrap}
+  .figure-wrap{width:min(68vw,270px);margin:86px auto 132px;transform:none}
+  .frame-preview{margin:86px auto 132px}
+  .frame-box.f-small{width:180px;height:238px}
+  .frame-box.f-square{width:230px;height:230px}
+  .frame-box.f-big{width:180px;height:252px}
+  .heart{font-size:38px}
+  .h1{left:8%;top:18%}.h2{right:8%;top:18%}.h3{left:24%;bottom:14%}
+  .mobile-nav{display:grid;position:fixed;z-index:50;left:12px;right:12px;bottom:112px;grid-template-columns:repeat(5,1fr);gap:6px;padding:8px;border-radius:24px;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);box-shadow:0 14px 34px rgba(86,24,55,.18)}
+  .mobile-nav button{min-height:64px;border-radius:18px;font-size:13px;line-height:1.15;padding:8px 4px}
+  .mobile-editor{display:block;position:fixed;z-index:49;left:12px;right:12px;bottom:12px;max-height:96px;padding:12px;border-radius:26px;background:rgba(255,255,255,.96);backdrop-filter:blur(18px);box-shadow:0 16px 40px rgba(86,24,55,.18);overflow:hidden}
+  .mobile-editor-inner{display:flex;align-items:center;gap:10px;overflow-x:auto;padding:0}
+  .mobile-names-box{flex:0 0 190px;padding:0}
+  .name-row{width:100%;display:grid;grid-template-columns:1fr 52px;gap:8px}
+  .name-row input{min-width:0;height:58px;border-radius:18px;font-size:17px;padding:0 14px}
+  .name-row button{width:52px;height:58px;border-radius:18px;font-size:26px}
+  .people-row{flex:0 0 auto;display:flex;align-items:center;gap:10px;overflow-x:auto;padding:0}
+  .add-person-chip{min-width:58px!important;width:58px;background:#fff0f5;color:var(--red);font-size:28px}
+  .mobile-swatch{width:34px;height:34px}
+  .mobile-color-tabs{flex:0 0 100%;display:flex;gap:8px;margin:0}
+  .mobile-color-tabs button{height:48px;border-radius:999px;padding:0 14px;white-space:nowrap}
+  body:not(.started) .mobile-nav,body:not(.started) .mobile-editor{display:none!important}
+  body:not(.started) .stage-toolbar{display:none!important}
+}
+  </style>
+</head>
+<body>
+  <div id="splashScreen" class="splash-screen"><div class="splash-logo-wrap"><img src="./logo.png" class="splash-logo" alt=""></div><div class="splash-title">MiniBrick Studio</div><div class="splash-loader"></div></div>
+  <div class="app">
+    <header><img class="logo" src="./logo.png" alt=""><div><h1>MiniBrick Studio</h1><div class="sub">Конструктор мини-фигурок</div></div><div class="top-actions"><button class="btn" id="showPeopleBtn">Фигурки</button><button class="btn" id="frameBtn">Рамка</button><button class="btn dark" id="orderBtn">Заказ</button></div></header>
+    <div class="layout">
+      <aside class="panel left"><div class="panel-pad"><h2 class="title">Фигурки <span id="countLabel" class="small"></span></h2><div class="people-list" id="peopleList"></div><button class="btn dark add-card" id="addPerson">+ Добавить фигурку</button></div></aside>
+      <main class="stage panel">
+        <span class="heart h1">❤</span><span class="heart h2">❤</span><span class="heart h3">❤</span>
+        <section id="startView" class="start-view"><img src="./logo.png" class="start-logo" alt=""><h2>Собери свою мини-фигурку</h2><p>Сначала создай персонажей, потом выбери рамку и скачай понятный заказ.</p><button class="btn dark" id="startCustomize">Начать кастомизацию</button></section>
+        <div class="stage-toolbar"><div class="tool-group"><button class="btn" id="undoBtn">↶ Отменить</button><button class="btn pink" id="randomBtn">🎲 Случайный образ</button></div></div>
+        <section id="constructorView" class="figure-wrap"><div class="part skin"></div><div class="part torso"></div><div class="part legs"></div><img class="shadow-layer" src="./assets/body/base-outline.png" alt=""><img class="face-img" id="faceImg" alt=""><img class="hair-img" id="hairImg" alt=""></section>
+        <section id="frameView" class="frame-preview hidden"><div class="frame-box f-square frame-white" id="frameBox"><div class="mini-grid" id="miniGrid"></div></div><b id="frameLabel">Белая 22×22</b></section>
+      </main>
+      <aside class="panel right"><div class="editor-tabs" id="tabs"></div><div class="color-part-tabs hidden" id="colorPartTabs"><button class="color-part-tab" data-part="skin"><span class="part-dot" id="dotSkin"></span>Кожа</button><button class="color-part-tab" data-part="torso"><span class="part-dot" id="dotTorso"></span>Торс</button><button class="color-part-tab" data-part="legs"><span class="part-dot" id="dotLegs"></span>Ноги</button></div><div class="options" id="options"></div><div class="color-picker hidden" id="colorPicker"></div><div class="panel-pad"><label class="field">Имя<input id="nameInput" placeholder="Например, Вика"></label><label class="field">Комментарий<textarea id="noteInput" rows="3" placeholder="что учесть мастеру"></textarea></label></div><div class="frame-tools hidden" id="frameTools"><label class="bg-upload">Загрузить фон рамки<input type="file" id="bgInput" accept="image/*"></label><label class="range-field">Масштаб<input type="range" id="bgScale" min="0.5" max="2.5" step="0.01" value="1"></label><label class="range-field">По горизонтали<input type="range" id="bgX" min="-100" max="100" step="1" value="0"></label><label class="range-field">По вертикали<input type="range" id="bgY" min="-100" max="100" step="1" value="0"></label><button class="btn" id="clearBg">Убрать фон</button></div></aside>
+    </div>
+  </div>
+  <nav class="mobile-nav"><button data-mobile-tab="people">👥<br>Люди</button><button data-mobile-tab="face">🙂<br>Лица</button><button data-mobile-tab="hair">💇<br>Волосы</button><button data-mobile-tab="colors">🎨<br>Цвета</button><button data-mobile-tab="frame">🖼<br>Рамка</button></nav>
+  <div class="mobile-editor" id="mobileEditor"><div class="mobile-editor-inner" id="mobileEditorInner"></div></div>
+  <div class="modal" id="onboardModal"><div class="modal-card onboard-card"><div class="onboard-emoji" id="onEmoji"></div><div class="onboard-title" id="onTitle"></div><div class="onboard-text" id="onText"></div><div class="dots" id="onDots"></div><button class="btn dark" id="onNext">Дальше</button></div></div>
+
+  <!-- ORDER MODAL — restructured with step badges -->
+  <div class="modal" id="orderModal"><div class="modal-card">
+    <div class="modal-head"><h2>Заказ</h2><button class="close" id="orderClose">×</button></div>
+    <div class="order-preview"><img id="orderPreviewImg" alt=""></div>
+    <div class="order-info" id="orderInfo"></div>
+    <textarea class="order-text" id="orderTextarea" readonly></textarea>
+    <div class="order-steps">
+      <div class="order-step-row">
+        <div class="step-badge">1</div>
+        <div class="step-body">
+          <strong>Скачай PNG</strong>
+          <span>Сохрани файл на устройство</span>
+        </div>
+      </div>
+      <button class="btn dark" id="downloadOrderImg" style="margin-top:-4px">⬇ Скачать PNG</button>
+
+      <div class="order-step-row">
+        <div class="step-badge">2</div>
+        <div class="step-body">
+          <strong>Напиши нам</strong>
+          <span>В Telegram или Instagram</span>
+        </div>
+      </div>
+      <div class="contact-row">
+        <a class="btn" id="tgLink" href="#" target="_blank" style="text-align:center;text-decoration:none">✈ Telegram</a>
+        <a class="btn" id="igLink" href="#" target="_blank" style="text-align:center;text-decoration:none">📷 Instagram</a>
+      </div>
+
+      <div class="order-step-row">
+        <div class="step-badge">3</div>
+        <div class="step-body">
+          <strong>Пришли файл и детали</strong>
+          <span>Количество, адрес доставки, комментарий</span>
+        </div>
+      </div>
+      <button class="btn" id="copyOrderText">📋 Скопировать описание заказа</button>
+    </div>
+  </div></div>
+
+<script>
+const bodyColors={2:'#F2EFE6',4:'#9FA3A5',5:'#4D5B5A',7:'#111111',8:'#C7BA76',9:'#8A7A33',10:'#C8941E',11:'#B76A1C',12:'#C84A1D',13:'#6E2F18',14:'#2D1610',15:'#FFD200',16:'#F7A500',17:'#D98A2B',18:'#FF6A13',19:'#D81919',20:'#B61212',21:'#7A1010',22:'#6A7A1A',23:'#84C71A',24:'#8FA89A',25:'#52A88D',26:'#10B43C',27:'#157C27',28:'#0B3A23',29:'#25C5D8',30:'#7BC5F1',31:'#1B8DDB',32:'#1A72D6',33:'#1A4DFF88',34:'#1D4FB3',35:'#0D245F',36:'#E5A8D4',37:'#E83D9E',38:'#C40063',39:'#B39AD9',40:'#8F59C6',41:'#5122B7',42:'#6B8794',43:'#A7E4D0',44:'#F2EFE6',45:'#4A4F55',46:'#111111',47:'#C8A33A',48:'#FF6A13',49:'#6FC4F0'};
+const skinColors={1:'#FFD200',2:'#F3C28B',3:'#D89A62',4:'#A86A3D',5:'#6B3F28',6:'#F7E3C3',7:'#111111',8:'#FFFFFF'};
+let faces=['A1']; let hair=[1];
+
+const frames=[
+  {id:'white-small', name:'Белая 15,5×20,5', cls:'frame-white f-small',  cmW:15.5, cmH:20.5, pxW:210, pxH:278, mPxW:180, mPxH:238},
+  {id:'white-square',name:'Белая 22×22',     cls:'frame-white f-square', cmW:22,   cmH:22,   pxW:270, pxH:270, mPxW:230, mPxH:230},
+  {id:'white-big',   name:'Белая 22,5×31,5', cls:'frame-white f-big',    cmW:22.5, cmH:31.5, pxW:250, pxH:350, mPxW:180, mPxH:252},
+  {id:'black-small', name:'Черная 15,5×20,5',cls:'frame-black f-small',  cmW:15.5, cmH:20.5, pxW:210, pxH:278, mPxW:180, mPxH:238},
+  {id:'black-square',name:'Черная 22×22',    cls:'frame-black f-square', cmW:22,   cmH:22,   pxW:270, pxH:270, mPxW:230, mPxH:230},
+  {id:'black-big',   name:'Черная 22,5×31,5',cls:'frame-black f-big',    cmW:22.5, cmH:31.5, pxW:250, pxH:350, mPxW:180, mPxH:252}
+];
+
+const BORDER_PX = 16;
+
+/**
+ * Figure size as % of inner frame height — matches reference photo visually.
+ * LEGO aspect ratio: w = h * 0.4
+ * Small frame: 2 large figs → fig_h = 55% of inner height
+ * Square frame: 5 figs in 2 rows → fig_h = 32%
+ * Big frame: 9-10 figs in 3 rows → fig_h = 22%
+ */
+function figSize(frameDesc, isMobile=false) {
+  const pxW = isMobile ? frameDesc.mPxW : frameDesc.pxW;
+  const pxH = isMobile ? frameDesc.mPxH : frameDesc.pxH;
+  const innerH = pxH - BORDER_PX * 2;
+
+  const type = frameDesc.id.includes('small')  ? 'small'
+             : frameDesc.id.includes('square') ? 'square'
+             : 'big';
+
+  const pct = type === 'small' ? 0.55 : type === 'square' ? 0.32 : 0.22;
+  const h = Math.round(innerH * pct);
+  const w = Math.round(h * 0.4);
+  return { w, h };
+}
+
+/**
+ * Layout positions [x%, y%] of inner frame area (center of figure).
+ * Matches reference photo exactly:
+ *   small  → max 2 figs, large, centered
+ *   square → 2 top + 3 bottom
+ *   big    → 3 columns, up to 3 rows
+ */
+function getFrameLayout(count, frameId) {
+  const type = frameId && frameId.includes('small')  ? 'small'
+             : frameId && frameId.includes('square') ? 'square'
+             : 'big';
+
+  const SMALL = {
+    1: [[50,60]],
+    2: [[30,63],[70,63]],
+  };
+
+  const SQUARE = {
+    1: [[50,50]],
+    2: [[33,50],[67,50]],
+    3: [[50,33],[30,71],[70,71]],
+    4: [[30,30],[70,30],[30,70],[70,70]],
+    5: [[30,30],[70,30],[20,72],[50,72],[80,72]],
+  };
+
+  const BIG = {
+    1:  [[50,40]],
+    2:  [[30,45],[70,45]],
+    3:  [[20,45],[50,45],[80,45]],
+    4:  [[30,30],[70,30],[30,70],[70,70]],
+    5:  [[20,30],[50,30],[80,30],[35,72],[65,72]],
+    6:  [[20,25],[50,25],[80,25],[20,68],[50,68],[80,68]],
+    7:  [[20,20],[50,20],[80,20],[20,53],[50,53],[80,53],[50,83]],
+    8:  [[20,20],[50,20],[80,20],[20,53],[50,53],[80,53],[33,83],[67,83]],
+    9:  [[20,16],[50,16],[80,16],[20,50],[50,50],[80,50],[20,82],[50,82],[80,82]],
+    10: [[20,13],[50,13],[80,13],[20,45],[50,45],[80,45],[20,77],[50,77],[80,77],[50,92]],
+  };
+
+  if (type === 'small') return SMALL[Math.min(count,2)];
+  if (type === 'square') return SQUARE[Math.min(count,5)];
+  return BIG[Math.min(count,10)];
+}
+
+const tabLabels={face:['🙂','Лица'],hair:['💇','Волосы'],skin:['🖐','Кожа'],torso:['👕','Торс'],legs:['👖','Ноги'],frame:['🖼','Рамка']};
+const storeKey='mb_v2_people';
+function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:1,skin:1,torso:36,legs:31}}
+let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];
+people=people.map((p,i)=>({...newPerson(i+1),...p}));
+let active=0, tab='face', mobileTab='people', mobileColorPart='skin', frameMode=false, frame=localStorage.getItem('mb_v2_frame')||'white-square', undoStack=[];
+let frameBgData=localStorage.getItem('mb_frame_bg')||'', frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1', frameBgX=localStorage.getItem('mb_frame_bg_x')||'0', frameBgY=localStorage.getItem('mb_frame_bg_y')||'0';
+function save(){localStorage.setItem(storeKey,JSON.stringify(people));localStorage.setItem('mb_v2_frame',frame)}
+function snapshot(){undoStack.push(JSON.stringify({people,active,frame,frameBgData,frameBgScale,frameBgX,frameBgY})); if(undoStack.length>20) undoStack.shift()}
+function restore(){const s=undoStack.pop(); if(!s)return; const d=JSON.parse(s); people=d.people; active=d.active; frame=d.frame; frameBgData=d.frameBgData; frameBgScale=d.frameBgScale; frameBgX=d.frameBgX; frameBgY=d.frameBgY; applyFrameBg(); sync()}
+function p(){return people[active]||people[0]}
+function miniHTML(person,cls='mini-preview'){return `<div class="${cls}" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]}"><div class="part skin"></div><div class="part torso"></div><div class="part legs"></div><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="./assets/hair/${person.hair}.png"></div>`}
+function renderPeople(){countLabel.textContent=`${people.length}/10`;peopleList.innerHTML='';people.forEach((person,i)=>{const card=document.createElement('div');card.className='person-card '+(i===active?'active':'');card.innerHTML=`${miniHTML(person)}<div><b>${person.name||`Человек ${i+1}`}</b><div class="small">лицо ${person.face}, волосы ${person.hair}</div></div><div class="person-actions"><button class="icon-btn" data-edit="${i}">✎</button><button class="icon-btn" data-del="${i}">×</button></div>`;card.querySelector('[data-edit]').onclick=()=>{active=i;frameMode=false;tab='face';mobileTab='face';sync()};card.querySelector('[data-del]').onclick=()=>delPerson(i);peopleList.appendChild(card)})}
+function delPerson(i){if(people.length===1){alert('Нужен хотя бы один человечек');return} snapshot(); people.splice(i,1); if(active>=people.length) active=people.length-1; sync()}
+function addNewPerson(){if(people.length>=10){alert('Можно добавить максимум 10 человечков');return} snapshot(); people.push(newPerson(people.length+1)); active=people.length-1; mobileTab='people'; frameMode=false; sync()}
+function renderTabs(){
+  tabs.innerHTML='';
+  Object.entries(tabLabels).forEach(([k,v])=>{
+    const b=document.createElement('button');
+    b.className='tab '+(tab===k?'active':'');
+    b.innerHTML=`<span>${v[0]}</span><span>${v[1]}</span>`;
+    b.onclick=()=>{
+      tab=k;
+      if(['skin','torso','legs'].includes(k)) colorTab=k;
+      frameMode=k==='frame';
+      sync();
+    };
+    tabs.appendChild(b);
+  });
+  frameTools.classList.toggle('hidden',tab!=='frame');
+}
+
+/* ── Color groups for the visual picker ── */
+const skinColorGroups=[
+  {title:'Лего-жёлтый',ids:[1]},
+  {title:'Светлая кожа',ids:[2,6]},
+  {title:'Средняя кожа',ids:[3]},
+  {title:'Тёмная кожа', ids:[4,5]},
+  {title:'Особые',      ids:[7,8]},
+];
+const bodyColorGroups=[
+  {title:'Белый / Серый / Чёрный', ids:[2,4,5,7,44,45,46]},
+  {title:'Жёлтый / Золотой',       ids:[8,9,47]},
+  {title:'Оранжевый',              ids:[10,11,18,48]},
+  {title:'Красный / Бордо',        ids:[12,13,14,19,20,21]},
+  {title:'Зелёный',                ids:[22,23,24,25,26,27,28]},
+  {title:'Голубой / Синий',        ids:[29,30,31,32,33,34,35,49]},
+  {title:'Розовый / Фиолетовый',   ids:[36,37,38,39,40,41]},
+  {title:'Прочие',                 ids:[42,43,15,16,17]},
+];
+
+let colorTab='skin'; // which part is active in color picker
+
+function renderColorPicker(part){
+  const person=p();
+  const isBody=part==='torso'||part==='legs';
+  const palette=part==='skin'?skinColors:bodyColors;
+  const groups=part==='skin'?skinColorGroups:bodyColorGroups;
+  const currentId=+person[part];
+  const currentColor=palette[currentId]||'#ccc';
+
+  // Update part-tab dots
+  document.getElementById('dotSkin').style.background=skinColors[+person.skin]||'#FFD200';
+  document.getElementById('dotTorso').style.background=bodyColors[+person.torso]||'#FF6FA8';
+  document.getElementById('dotLegs').style.background=bodyColors[+person.legs]||'#254F9B';
+
+  // Update active state on part tabs
+  document.querySelectorAll('.color-part-tab').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.part===part);
+  });
+
+  colorPicker.innerHTML=`
+    <div class="color-selected-bar">
+      <div class="color-selected-swatch" style="background:${currentColor}"></div>
+      <span class="color-selected-label">Выбран цвет №${currentId}</span>
+      <span class="color-selected-check">✓</span>
+    </div>
+    <div class="color-scroll-wrap">
+      ${groups.map(g=>`
+        <div class="color-group">
+          <div class="color-group-title">${g.title}</div>
+          <div class="color-swatches">
+            ${g.ids.map(id=>{
+              const c=palette[id];
+              if(!c) return '';
+              const isActive=+currentId===+id;
+              return `<button class="color-swatch-btn${isActive?' active':''}"
+                style="background:${c}"
+                title="Цвет №${id}"
+                data-color-id="${id}"
+                data-color-part="${part}"></button>`;
+            }).join('')}
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  colorPicker.querySelectorAll('.color-swatch-btn').forEach(btn=>{
+    btn.onclick=()=>{
+      snapshot();
+      person[btn.dataset.colorPart]=+btn.dataset.colorId;
+      sync();
+    };
+  });
+}
+
+function renderOptions(){
+  const isColor=['skin','torso','legs'].includes(tab);
+  options.classList.toggle('hidden', isColor);
+  colorPicker.classList.toggle('hidden', !isColor);
+  colorPartTabs.classList.toggle('hidden', !isColor);
+
+  if(isColor){
+    colorTab=tab;
+    renderColorPicker(tab);
+    return;
+  }
+
+  options.innerHTML='';
+  const person=p();
+  if(tab==='face') faces.forEach(id=>opt(id,person.face===id,()=>person.face=id));
+  if(tab==='hair') hair.forEach(id=>opt(id,person.hair==id,()=>person.hair=id));
+  if(tab==='frame') frames.forEach(f=>opt(f.name,frame===f.id,()=>{frame=f.id;frameMode=true}));
+}
+
+function opt(label,isActive,onClick,color){const b=document.createElement('button');b.className='opt '+(isActive?'active':'');b.innerHTML=color?`<span class="swatch" style="background:${color}"></span><span>${label}</span>`:label;b.onclick=()=>{snapshot();onClick();sync()};options.appendChild(b)}
+
+/* wire colour-part selector tabs in desktop right panel */
+document.querySelectorAll('.color-part-tab').forEach(btn=>{
+  btn.onclick=()=>{tab=btn.dataset.part;colorTab=btn.dataset.part;frameMode=false;sync()};
+});
+
+function renderFigure(){const person=p();document.documentElement.style.setProperty('--skin',skinColors[person.skin]);document.documentElement.style.setProperty('--torso',bodyColors[person.torso]);document.documentElement.style.setProperty('--legs',bodyColors[person.legs]);faceImg.src=`./assets/faces/${person.face}.png`;hairImg.src=`./assets/hair/${person.hair}.png`;constructorView.classList.toggle('hidden',frameMode);frameView.classList.toggle('hidden',!frameMode);nameInput.value=person.name;noteInput.value=person.note;renderFrame()}
+
+function renderFrame(){
+  const fd = frames.find(x=>x.id===frame);
+  frameBox.className = 'frame-box ' + fd.cls;
+  frameLabel.textContent = fd.name;
+
+  /* ── inject frame-bg div if not present ── */
+  if (!document.getElementById('frameBg')) {
+    frameBox.insertAdjacentHTML('afterbegin','<div class="frame-bg" id="frameBg"></div>');
+  }
+  applyFrameBg();
+
+  /* ── Calculate figure size for this frame ── */
+  const isMobile = window.innerWidth <= 980;
+  const fs = figSize(fd, isMobile);
+
+  const positions = getFrameLayout(people.length, frame);
+  miniGrid.innerHTML = people.map((person,i) => `
+    <div class="mini-figure" style="
+      left:${positions[i][0]}%;top:${positions[i][1]}%;
+      width:${fs.w}px;height:${fs.h}px;
+      --skin:${skinColors[person.skin]};
+      --torso:${bodyColors[person.torso]};
+      --legs:${bodyColors[person.legs]}
+    ">
+      <div class="part skin"></div>
+      <div class="part torso"></div>
+      <div class="part legs"></div>
+      <img class="shadow-layer" src="./assets/body/base-outline.png">
+      <img class="face-img" src="./assets/faces/${person.face}.png">
+      <img class="hair-img" src="./assets/hair/${person.hair}.png">
+    </div>`).join('');
+}
+
+function chip(label,isActive,onClick,color){const b=document.createElement('button');b.className='mobile-chip '+(isActive?'active':'');b.innerHTML=color?`<span class="mobile-swatch" style="background:${color}"></span><small>${label}</small>`:label;b.onclick=onClick;mobileEditorInner.appendChild(b)}
+function renderMobileEditor(){
+  mobileEditorInner.innerHTML='';
+  const person=p();
+  if(mobileTab==='people'){
+    const nameBox=document.createElement('div');nameBox.className='mobile-names-box';
+    nameBox.innerHTML=`<div class="name-row"><input value="${person.name||`Человек ${active+1}`}" placeholder="Имя персонажа"><button data-add-person type="button">+</button></div>`;
+    mobileEditorInner.appendChild(nameBox);
+    nameBox.querySelector('input').oninput=e=>{person.name=e.target.value||`Человек ${active+1}`;save();renderPeople()};
+    nameBox.querySelector('[data-add-person]').onclick=addNewPerson;
+    const peopleRow=document.createElement('div');peopleRow.className='people-row';mobileEditorInner.appendChild(peopleRow);
+    people.forEach((item,i)=>{const btn=document.createElement('button');btn.className='mobile-chip '+(i===active?'active':'');btn.textContent=item.name||`Человек ${i+1}`;btn.onclick=()=>{active=i;frameMode=false;mobileTab='people';sync()};peopleRow.appendChild(btn)});
+    const addBtn=document.createElement('button');addBtn.className='mobile-chip add-person-chip';addBtn.textContent='+';addBtn.onclick=addNewPerson;peopleRow.appendChild(addBtn);
+    return;
+  }
+  if(mobileTab==='face'){faces.forEach(id=>{chip(id,person.face===id,()=>{snapshot();person.face=id;sync()})});return}
+  if(mobileTab==='hair'){hair.forEach(id=>{chip(id,person.hair==id,()=>{snapshot();person.hair=id;sync()})});return}
+  if(mobileTab==='colors'){
+    /* Part selector */
+    const tabsWrap=document.createElement('div');tabsWrap.className='mobile-color-tabs';
+    const parts=[
+      {key:'skin', label:'Кожа',  color:skinColors[+person.skin]||'#FFD200'},
+      {key:'torso',label:'Торс',  color:bodyColors[+person.torso]||'#FF6FA8'},
+      {key:'legs', label:'Ноги',  color:bodyColors[+person.legs]||'#254F9B'},
+    ];
+    tabsWrap.innerHTML=parts.map(pt=>`
+      <button class="${mobileColorPart===pt.key?'active':''}" data-color-part="${pt.key}"
+        style="${mobileColorPart===pt.key?'':''}">
+        <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${pt.color};border:2px solid rgba(0,0,0,.2);margin-right:4px;vertical-align:middle"></span>${pt.label}
+      </button>`).join('');
+    mobileEditorInner.appendChild(tabsWrap);
+    tabsWrap.querySelectorAll('button').forEach(btn=>{btn.onclick=()=>{mobileColorPart=btn.dataset.colorPart;tab=mobileColorPart;renderMobileEditor()}});
+
+    /* Grouped swatches — horizontal scroll row per group */
+    const palette=mobileColorPart==='skin'?skinColors:bodyColors;
+    const groups=mobileColorPart==='skin'?skinColorGroups:bodyColorGroups;
+    const currentId=+person[mobileColorPart];
+
+    groups.forEach(g=>{
+      const validIds=g.ids.filter(id=>palette[id]);
+      if(!validIds.length) return;
+      validIds.forEach(id=>{
+        const c=palette[id];
+        const isActive=currentId===+id;
+        const btn=document.createElement('button');
+        btn.className='mobile-swatch-btn'+(isActive?' active':'');
+        btn.style.cssText=`flex:0 0 auto;width:40px;height:40px;border-radius:12px;border:${isActive?'3px solid #171717':'3px solid transparent'};background:${c};cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.18);transition:all .15s;position:relative;${isActive?'transform:scale(1.2);z-index:2;':''}`
+        if(isActive) btn.innerHTML=`<span style="position:absolute;inset:0;display:grid;place-items:center;font-size:14px;font-weight:900;color:rgba(255,255,255,.95);text-shadow:0 1px 3px rgba(0,0,0,.5)">✓</span>`;
+        btn.onclick=()=>{snapshot();person[mobileColorPart]=+id;sync()};
+        mobileEditorInner.appendChild(btn);
+      });
+    });
+    return;
+  }
+  if(mobileTab==='frame'){
+    frames.forEach(f=>{chip(f.name,frame===f.id,()=>{snapshot();frame=f.id;tab='frame';frameMode=true;sync()})});
+    chip('Фон',false,()=>{bgInput.click()});
+    return;
+  }
+}
+function sync(){save();renderPeople();renderTabs();renderOptions();renderFigure();renderMobileEditor();document.querySelectorAll('[data-mobile-tab]').forEach(btn=>{btn.classList.toggle('active',btn.dataset.mobileTab===mobileTab)});document.querySelector('.panel.left')?.classList.toggle('mobile-open',mobileTab==='people');document.querySelector('.panel.right')?.classList.toggle('mobile-open',mobileTab!=='people')}
+
+/* ── FRAME BG: cover inner area, adjust via sliders ── */
+function applyFrameBg(){
+  const bg = document.getElementById('frameBg');
+  if (!bg) return;
+  if (!frameBgData) {
+    bg.style.backgroundImage = 'none';
+    return;
+  }
+  /* Base: cover. Sliders refine position/scale from that baseline */
+  const scaleVal = Number(frameBgScale || 1);
+  const xVal = Number(frameBgX || 0);
+  const yVal = Number(frameBgY || 0);
+  bg.style.backgroundImage = `url(${frameBgData})`;
+  bg.style.backgroundSize = `${Math.round(scaleVal * 100)}%`;
+  bg.style.backgroundPosition = `calc(50% + ${xVal}px) calc(50% + ${yVal}px)`;
+  if(bgScale) bgScale.value = frameBgScale;
+  if(bgX) bgX.value = frameBgX;
+  if(bgY) bgY.value = frameBgY;
+}
+
+function frameInfo(){const f=frames.find(x=>x.id===frame);return{f,color:f.id.includes('black')?'черная':'белая',size:f.name.replace('Белая ','').replace('Черная ','')}}
+function orderText(){const info=frameInfo();return `MiniBrick Studio — заказ\n\nРамка: ${info.color}\nРазмер рамки: ${info.size}\nКоличество человечков: ${people.length}\n\nФайлы для сборки:\n`+people.map((person,i)=>`${i+1}. ${person.name}\nЛицо: assets/faces/${person.face}.png\nПрическа: assets/hair/${person.hair}.png\nКожа: ${person.skin}\nТорс: ${person.torso}\nНоги: ${person.legs}\nКомментарий: ${person.note||'нет'}`).join('\n\n')}
+function loadImg(src){return new Promise(resolve=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>resolve(null);img.src=src})}
+function drawTinted(ctx,img,color,x,y,w,h){const temp=document.createElement('canvas');temp.width=w;temp.height=h;const t=temp.getContext('2d');t.drawImage(img,0,0,w,h);t.globalCompositeOperation='source-in';t.fillStyle=color;t.fillRect(0,0,w,h);ctx.drawImage(temp,x,y,w,h)}
+
+async function exportOrderImage(){
+  const info=frameInfo();const fd=info.f;
+  const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=1500;const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fff7fb';ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#7f4b61';ctx.font='900 44px Inter, Arial';ctx.textAlign='center';
+  ctx.fillText(`Рамка: ${info.color}, ${info.size}`,600,90);
+  const isSmall=fd.id.includes('small');const isBig=fd.id.includes('big');
+  let frameW = isSmall ? 620 : isBig ? 620 : 760;
+  let frameH = isSmall ? 820 : isBig ? 870 : 760;
+  const frameX=(canvas.width-frameW)/2;const frameY=150;
+  ctx.fillStyle=info.color==='черная'?'#111':'#fff';ctx.fillRect(frameX,frameY,frameW,frameH);
+  ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=18;ctx.strokeRect(frameX+28,frameY+28,frameW-56,frameH-56);
+  ctx.fillStyle='#f7f7f7';ctx.fillRect(frameX+54,frameY+54,frameW-108,frameH-108);
+  if(frameBgData){
+    const bg=await loadImg(frameBgData);
+    if(bg){
+      ctx.save();ctx.beginPath();ctx.rect(frameX+54,frameY+54,frameW-108,frameH-108);ctx.clip();
+      /* scale relative to inner area, cover by default */
+      const innerW=frameW-108;const innerH=frameH-108;
+      const sc=Number(frameBgScale||1);
+      const naturalScale=Math.max(innerW/bg.width,innerH/bg.height)*sc;
+      const bw=bg.width*naturalScale;const bh=bg.height*naturalScale;
+      const bx=frameX+54+(innerW-bw)/2+Number(frameBgX||0)*4;
+      const by=frameY+54+(innerH-bh)/2+Number(frameBgY||0)*4;
+      ctx.drawImage(bg,bx,by,bw,bh);ctx.restore();
+    }
+  }
+  const skinMask=await loadImg('./assets/body/skin-mask.png');const torsoMask=await loadImg('./assets/body/torso-mask.png');const legsMask=await loadImg('./assets/body/legs-mask.png');const outline=await loadImg('./assets/body/base-outline.png');
+  const positions=getFrameLayout(people.length, fd.id);
+  /* Figure size on export canvas — same visual % as preview */
+  const exportInnerW=frameW-108;const exportInnerH=frameH-108;
+  const expType = fd.id.includes('small') ? 'small' : fd.id.includes('square') ? 'square' : 'big';
+  const expPct = expType==='small' ? 0.55 : expType==='square' ? 0.32 : 0.22;
+  const exportFigH = exportInnerH * expPct;
+  const exportFigW = exportFigH * 0.4;
+  for(let i=0;i<people.length;i++){
+    const person=people[i];const [px,py]=positions[i];
+    const x=frameX+54+exportInnerW*px/100;const y=frameY+54+exportInnerH*py/100;
+    const w=exportFigW;const h=exportFigH;
+    if(skinMask) drawTinted(ctx,skinMask,skinColors[person.skin],x-w/2,y-h/2,w,h);
+    if(torsoMask) drawTinted(ctx,torsoMask,bodyColors[person.torso],x-w/2,y-h/2,w,h);
+    if(legsMask) drawTinted(ctx,legsMask,bodyColors[person.legs],x-w/2,y-h/2,w,h);
+    if(outline){ctx.globalAlpha=.18;ctx.drawImage(outline,x-w/2,y-h/2,w,h);ctx.globalAlpha=1}
+    const face=await loadImg(`./assets/faces/${person.face}.png`);const hairAsset=await loadImg(`./assets/hair/${person.hair}.png`);
+    if(face) ctx.drawImage(face,x-w/2,y-h/2,w,h);if(hairAsset) ctx.drawImage(hairAsset,x-w/2,y-h/2,w,h);
+  }
+  ctx.fillStyle='#ed2b63';ctx.font='900 46px Inter, Arial';ctx.textAlign='center';ctx.fillText('С любовью MiniBrick 💖',600,frameY+frameH+100);
+  return canvas.toDataURL('image/png');
+}
+
+async function openOrderModal(){const info=frameInfo();orderPreviewImg.src=await exportOrderImage();orderInfo.innerHTML=`<div>Цвет рамки: ${info.color}</div><div>Размер рамки: ${info.size}</div>`;orderTextarea.value=orderText();orderModal.classList.add('open')}
+async function loadCatalog(){try{const res=await fetch('./assets/catalog.json?v='+Date.now());if(!res.ok)throw new Error('catalog not found');const data=await res.json();if(Array.isArray(data.faces)&&data.faces.length)faces=data.faces;if(Array.isArray(data.hair)&&data.hair.length)hair=data.hair}catch(e){console.log('Каталог ассетов не загрузился',e)}}
+function showOnboarding(){if(localStorage.getItem('mb_v2_onboarded')==='1')return;const slides=[['🧱','Собери','Создай до 10 фигурок. Каждую можно редактировать и удалить.'],['🖼','Выбери рамку','Подбери цвет, размер и фон рамки.'],['📦','Оформи заказ','Скачай PNG и отправь детали в сообщения.']];let i=0;function draw(){onEmoji.textContent=slides[i][0];onTitle.textContent=slides[i][1];onText.textContent=slides[i][2];onDots.innerHTML=slides.map((_,n)=>`<span class="dot ${n===i?'active':''}"></span>`).join('');onNext.textContent=i===slides.length-1?'Понятно':'Дальше';onboardModal.classList.add('open')}onNext.onclick=()=>{if(i<slides.length-1){i++;draw()}else{localStorage.setItem('mb_v2_onboarded','1');onboardModal.classList.remove('open')}};draw()}
+
+/* ── re-render frame on resize (mobile ↔ desktop breakpoint) ── */
+let resizeTimer;
+window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(frameMode)renderFrame()},120)});
+
+addPerson.onclick=addNewPerson;
+showPeopleBtn.onclick=()=>{active=0;mobileTab='people';frameMode=false;tab='face';sync()};
+frameBtn.onclick=()=>{mobileTab='frame';tab='frame';frameMode=true;sync()};
+orderBtn.onclick=()=>openOrderModal();
+undoBtn.onclick=restore;
+randomBtn.onclick=()=>{snapshot();const person=p();person.face=faces[Math.floor(Math.random()*faces.length)];person.hair=hair[Math.floor(Math.random()*hair.length)];person.skin=Object.keys(skinColors)[Math.floor(Math.random()*Object.keys(skinColors).length)];person.torso=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];person.legs=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];sync()};
+nameInput.oninput=e=>{p().name=e.target.value||`Человек ${active+1}`;save();renderPeople()};
+noteInput.oninput=e=>{p().note=e.target.value;save()};
+document.querySelectorAll('[data-mobile-tab]').forEach(btn=>{btn.onclick=()=>{mobileTab=btn.dataset.mobileTab;if(mobileTab==='people'){frameMode=false}if(mobileTab==='frame'){tab='frame';frameMode=true}if(mobileTab==='face'){tab='face';frameMode=false}if(mobileTab==='hair'){tab='hair';frameMode=false}if(mobileTab==='colors'){tab=mobileColorPart;frameMode=false}sync()}});
+startCustomize.onclick=()=>{document.body.classList.add('started');localStorage.setItem('mb_v2_started','1');mobileTab='people';frameMode=false;sync()};
+if(localStorage.getItem('mb_v2_started')==='1')document.body.classList.add('started');
+bgInput.onchange=e=>{const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{frameBgData=r.result;localStorage.setItem('mb_frame_bg',frameBgData);tab='frame';frameMode=true;applyFrameBg();sync()};r.readAsDataURL(file)};
+bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);applyFrameBg()};
+bgX.oninput=e=>{frameBgX=e.target.value;localStorage.setItem('mb_frame_bg_x',frameBgX);applyFrameBg()};
+bgY.oninput=e=>{frameBgY=e.target.value;localStorage.setItem('mb_frame_bg_y',frameBgY);applyFrameBg()};
+clearBg.onclick=()=>{frameBgData='';localStorage.removeItem('mb_frame_bg');applyFrameBg()};
+orderClose.onclick=()=>orderModal.classList.remove('open');
+copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Детали заказа скопированы')};
+downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};
+tgLink.href='https://t.me/';igLink.href='https://instagram.com/';
+applyFrameBg();
+loadCatalog().then(()=>{if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');sync();showOnboarding()});
+window.addEventListener('load',()=>setTimeout(()=>splashScreen.classList.add('hide'),1800));
+</script>
+</body>
+</html>
