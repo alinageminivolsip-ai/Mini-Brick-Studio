@@ -163,7 +163,7 @@
   .name-row button{
     flex:0 0 52px;
   }
-      body:not(.customization-started) #orderBtn{
+     body:not(.started) #orderBtn{
   display:none;
 }
 }
@@ -216,83 +216,131 @@ function renderFigure(){const person=p();document.documentElement.style.setPrope
 function getFrameLayout(count){if(count<=2)return [[38,50],[62,50]].slice(0,count);if(count<=5)return [[50,30],[32,58],[50,58],[68,58],[50,76]].slice(0,count);return [[42,24],[58,24],[25,48],[42,48],[58,48],[75,48],[25,72],[42,72],[58,72],[75,72]].slice(0,count)}
 function renderFrame(){const f=frames.find(x=>x.id===frame);frameBox.className='frame-box '+f.cls;frameLabel.textContent=f.name;if(!document.getElementById('frameBg'))frameBox.insertAdjacentHTML('afterbegin','<div class="frame-bg" id="frameBg"></div>');const positions=getFrameLayout(people.length);miniGrid.innerHTML=people.map((person,i)=>`<div class="mini-figure" style="left:${positions[i][0]}%;top:${positions[i][1]}%;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]}"><div class="part skin"></div><div class="part torso"></div><div class="part legs"></div><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="./assets/hair/${person.hair}.png"></div>`).join('')}
 function chip(label,isActive,onClick,color){const b=document.createElement('button');b.className='mobile-chip '+(isActive?'active':'');b.innerHTML=color?`<span class="mobile-swatch" style="background:${color}"></span><small>${label}</small>`:label;b.onclick=onClick;mobileEditorInner.appendChild(b)}
-function renderMobileEditor(){mobileEditorInner.innerHTML='';const person=p();if(mobileTab==='people'){
-  const p=people[active];
+function renderMobileEditor(){
+  mobileEditorInner.innerHTML='';
+  const person=p();
 
-  if(!p.names) p.names=[p.name || `Человек ${active+1}`];
+  if(mobileTab==='people'){
+    const nameBox=document.createElement('div');
+    nameBox.className='mobile-names-box';
 
-  const nameBox=document.createElement('div');
-  nameBox.className='mobile-names-box';
+    nameBox.innerHTML=`
+      <div class="name-row">
+        <input value="${person.name || `Человек ${active+1}`}" placeholder="Имя персонажа">
+        <button data-add-person type="button">+</button>
+      </div>
+    `;
 
-  nameBox.innerHTML=`
-    <div class="name-row">
-      <input data-name-index="0" value="${p.names[0] || ''}" placeholder="Имя персонажа">
-      <button data-add-person type="button">+</button>
-    </div>
-  `;
+    mobileEditorInner.appendChild(nameBox);
 
-  mobileEditorInner.appendChild(nameBox);
-
-  const input=nameBox.querySelector('[data-name-index]');
-  input.oninput=e=>{
-    p.names[0]=e.target.value;
-    p.name=e.target.value || `Человек ${active+1}`;
-    save();
-    renderPeople();
-  };
-
-  nameBox.querySelector('[data-add-person]').onclick=()=>{
-    if(people.length>=10){
-      alert('Можно добавить максимум 10 человечков');
-      return;
-    }
-
-    people.push(newPerson(people.length+1));
-    active=people.length-1;
-    mobileTab='people';
-    frameMode=false;
-    sync();
-  };
-
-  const peopleRow=document.createElement('div');
-  peopleRow.className='people-row';
-  mobileEditorInner.appendChild(peopleRow);
-
-  people.forEach((person,i)=>{
-    const btn=document.createElement('button');
-    btn.className='mobile-chip '+(i===active?'active':'');
-    btn.textContent=person.name || `Человек ${i+1}`;
-
-    btn.onclick=()=>{
-      active=i;
-      frameMode=false;
-      mobileTab='people';
-      sync();
+    nameBox.querySelector('input').oninput=e=>{
+      person.name=e.target.value || `Человек ${active+1}`;
+      save();
+      renderPeople();
     };
 
-    peopleRow.appendChild(btn);
-  });
+    nameBox.querySelector('[data-add-person]').onclick=addNewPerson;
 
-  const addBtn=document.createElement('button');
-  addBtn.className='mobile-chip add-person-chip';
-  addBtn.textContent='+';
+    const peopleRow=document.createElement('div');
+    peopleRow.className='people-row';
+    mobileEditorInner.appendChild(peopleRow);
 
-  addBtn.onclick=()=>{
-    if(people.length>=10){
-      alert('Можно добавить максимум 10 человечков');
-      return;
-    }
+    people.forEach((item,i)=>{
+      const btn=document.createElement('button');
+      btn.className='mobile-chip '+(i===active?'active':'');
+      btn.textContent=item.name || `Человек ${i+1}`;
 
-    people.push(newPerson(people.length+1));
-    active=people.length-1;
-    mobileTab='people';
-    frameMode=false;
-    sync();
-  };
+      btn.onclick=()=>{
+        active=i;
+        frameMode=false;
+        mobileTab='people';
+        sync();
+      };
 
-  peopleRow.appendChild(addBtn);
+      peopleRow.appendChild(btn);
+    });
 
-  return;
+    const addBtn=document.createElement('button');
+    addBtn.className='mobile-chip add-person-chip';
+    addBtn.textContent='+';
+    addBtn.onclick=addNewPerson;
+    peopleRow.appendChild(addBtn);
+
+    return;
+  }
+
+  if(mobileTab==='face'){
+    faces.forEach(id=>{
+      chip(id,person.face===id,()=>{
+        snapshot();
+        person.face=id;
+        sync();
+      });
+    });
+    return;
+  }
+
+  if(mobileTab==='hair'){
+    hair.forEach(id=>{
+      chip(id,person.hair==id,()=>{
+        snapshot();
+        person.hair=id;
+        sync();
+      });
+    });
+    return;
+  }
+
+  if(mobileTab==='colors'){
+    const tabsWrap=document.createElement('div');
+    tabsWrap.className='mobile-color-tabs';
+
+    tabsWrap.innerHTML=`
+      <button class="${mobileColorPart==='skin'?'active':''}" data-color-part="skin">Кожа</button>
+      <button class="${mobileColorPart==='torso'?'active':''}" data-color-part="torso">Торс</button>
+      <button class="${mobileColorPart==='legs'?'active':''}" data-color-part="legs">Ноги</button>
+    `;
+
+    mobileEditorInner.appendChild(tabsWrap);
+
+    tabsWrap.querySelectorAll('button').forEach(btn=>{
+      btn.onclick=()=>{
+        mobileColorPart=btn.dataset.colorPart;
+        tab=mobileColorPart;
+        renderMobileEditor();
+      };
+    });
+
+    const palette=mobileColorPart==='skin' ? skinColors : bodyColors;
+
+    Object.entries(palette).forEach(([id,c])=>{
+      chip(id,+person[mobileColorPart]===+id,()=>{
+        snapshot();
+        person[mobileColorPart]=+id;
+        sync();
+      },c);
+    });
+
+    return;
+  }
+
+  if(mobileTab==='frame'){
+    frames.forEach(f=>{
+      chip(f.name,frame===f.id,()=>{
+        snapshot();
+        frame=f.id;
+        tab='frame';
+        frameMode=true;
+        sync();
+      });
+    });
+
+    chip('Фон',false,()=>{
+      bgInput.click();
+    });
+
+    return;
+  }
 }
 function sync(){save();renderPeople();renderTabs();renderOptions();renderFigure();renderMobileEditor();document.querySelectorAll('[data-mobile-tab]').forEach(btn=>btn.classList.toggle('active',btn.dataset.mobileTab===mobileTab))}
 function applyFrameBg(){document.documentElement.style.setProperty('--frame-bg',frameBgData?`url(${frameBgData})`:'none');document.documentElement.style.setProperty('--bg-scale',frameBgScale);document.documentElement.style.setProperty('--bg-x',frameBgX+'px');document.documentElement.style.setProperty('--bg-y',frameBgY+'px');if(bgScale)bgScale.value=frameBgScale;if(bgX)bgX.value=frameBgX;if(bgY)bgY.value=frameBgY}
@@ -422,7 +470,11 @@ async function exportOrderImage(){
 async function openOrderModal(){const info=frameInfo();orderPreviewImg.src=await exportOrderImage();orderInfo.innerHTML=`
   <div>Цвет рамки: ${info.color}</div>
   <div>Размер рамки: ${info.size}</div>
-`;</div>`;orderTextarea.value=orderText();orderModal.classList.add('open')}
+`;
+
+orderTextarea.value=orderText();
+orderModal.classList.add('open');
+}
 async function loadCatalog(){try{const res=await fetch('./assets/catalog.json?v='+Date.now());if(!res.ok)throw new Error('catalog not found');const data=await res.json();if(Array.isArray(data.faces)&&data.faces.length)faces=data.faces;if(Array.isArray(data.hair)&&data.hair.length)hair=data.hair}catch(e){console.log('Каталог ассетов не загрузился',e)}}
 function showOnboarding(){if(localStorage.getItem('mb_v2_onboarded')==='1')return;const slides=[['🧱','Собери','Создай до 10 фигурок. Каждую можно редактировать и удалить.'],['🖼','Выбери рамку','Подбери цвет, размер и фон рамки.'],['📦','Оформи заказ','Скачай PNG и отправь детали в сообщения.']];let i=0;function draw(){onEmoji.textContent=slides[i][0];onTitle.textContent=slides[i][1];onText.textContent=slides[i][2];onDots.innerHTML=slides.map((_,n)=>`<span class="dot ${n===i?'active':''}"></span>`).join('');onNext.textContent=i===slides.length-1?'Понятно':'Дальше';onboardModal.classList.add('open')}onNext.onclick=()=>{if(i<slides.length-1){i++;draw()}else{localStorage.setItem('mb_v2_onboarded','1');onboardModal.classList.remove('open')}};draw()}
 addPerson.onclick=addNewPerson;showPeopleBtn.onclick=()=>{active=0;mobileTab='people';frameMode=false;tab='face';sync()};frameBtn.onclick=()=>{mobileTab='frame';tab='frame';frameMode=true;sync()};orderBtn.onclick=()=>openOrderModal();undoBtn.onclick=restore;randomBtn.onclick=()=>{snapshot();const person=p();person.face=faces[Math.floor(Math.random()*faces.length)];person.hair=hair[Math.floor(Math.random()*hair.length)];person.skin=Object.keys(skinColors)[Math.floor(Math.random()*Object.keys(skinColors).length)];person.torso=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];person.legs=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];sync()};nameInput.oninput=e=>{p().name=e.target.value||`Человек ${active+1}`;save();renderPeople()};noteInput.oninput=e=>{p().note=e.target.value;save()};document.querySelectorAll('[data-mobile-tab]').forEach(btn=>btn.onclick=()=>{mobileTab=btn.dataset.mobileTab;if(mobileTab==='frame'){tab='frame';frameMode=true}else{frameMode=false;if(mobileTab==='face')tab='face';if(mobileTab==='hair')tab='hair';if(mobileTab==='colors')tab='skin'}sync()});startCustomize.onclick=()=>{document.body.classList.add('started');localStorage.setItem('mb_v2_started','1');mobileTab='people';frameMode=false;sync()};if(localStorage.getItem('mb_v2_started')==='1')document.body.classList.add('started');bgInput.onchange=e=>{const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{frameBgData=r.result;localStorage.setItem('mb_frame_bg',frameBgData);tab='frame';frameMode=true;applyFrameBg();sync()};r.readAsDataURL(file)};bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);applyFrameBg()};bgX.oninput=e=>{frameBgX=e.target.value;localStorage.setItem('mb_frame_bg_x',frameBgX);applyFrameBg()};bgY.oninput=e=>{frameBgY=e.target.value;localStorage.setItem('mb_frame_bg_y',frameBgY);applyFrameBg()};clearBg.onclick=()=>{frameBgData='';localStorage.removeItem('mb_frame_bg');applyFrameBg()};orderClose.onclick=()=>orderModal.classList.remove('open');copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Детали заказа скопированы')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};tgLink.href='https://t.me/';igLink.href='https://instagram.com/';applyFrameBg();loadCatalog().then(()=>{if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');sync();showOnboarding()});window.addEventListener('load',()=>setTimeout(()=>splashScreen.classList.add('hide'),1800));
