@@ -36,10 +36,137 @@
     .frame-preview{display:grid;place-items:center;gap:16px}.frame-box{position:relative;overflow:hidden;background:#f7f7f7;display:grid;place-items:center;box-shadow:inset 0 0 0 12px var(--frameColor,#fff),inset 0 0 0 16px rgba(0,0,0,.08),0 18px 36px rgba(0,0,0,.12)}.frame-black{--frameColor:#111}.frame-white{--frameColor:#fff}.f-small{width:210px;height:278px}.f-square{width:270px;height:270px}.f-big{width:250px;height:350px}.frame-bg{position:absolute;inset:16px;background-image:var(--frame-bg);background-size:calc(100% * var(--bg-scale,1));background-position:calc(50% + var(--bg-x,0px)) calc(50% + var(--bg-y,0px));background-repeat:no-repeat;z-index:0}.mini-grid{position:relative;width:100%;height:100%;z-index:2}.mini-figure{position:absolute;width:54px;aspect-ratio:1024/1536;transform:translate(-50%,-50%)}.mini-figure .part,.mini-figure .shadow-layer,.mini-figure .face-img,.mini-figure .hair-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.mini-figure .skin{background:var(--skin)}.mini-figure .torso{background:var(--torso)}.mini-figure .legs{background:var(--legs)}
     .frame-tools{padding:16px;border-top:1px solid var(--line);display:grid;gap:12px}.bg-upload{display:grid;place-items:center;min-height:52px;border-radius:18px;background:#151515;color:#fff;font-weight:950;cursor:pointer}.bg-upload input{display:none}.range-field{display:grid;gap:6px;font-size:12px;color:var(--muted);font-weight:900}.range-field input{width:100%}
     .mobile-nav{position:fixed;z-index:50;left:12px;right:12px;bottom:92px;display:none;grid-template-columns:repeat(5,1fr);gap:6px;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-radius:22px;padding:6px;box-shadow:0 14px 34px rgba(86,24,55,.18)}.mobile-nav button{border:2px solid transparent;background:transparent;border-radius:16px;padding:9px 4px;color:#1684f2;font-size:13px;font-weight:950}.mobile-nav button.active{background:var(--pink);border-color:var(--red);color:#fff}.mobile-editor{display:none}
-    .modal{position:fixed;inset:0;z-index:90;display:none;place-items:center;padding:18px;background:rgba(40,10,25,.38);backdrop-filter:blur(12px)}.modal.open{display:grid}.modal-card{width:min(560px,100%);max-height:88dvh;overflow:auto;background:#fff;border-radius:28px;padding:18px;box-shadow:0 24px 70px rgba(0,0,0,.24)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.modal-head h2{margin:0;font-size:22px;font-weight:950}.close{width:42px;height:42px;border:0;border-radius:50%;background:#fff0f5;color:var(--red);font-size:24px;font-weight:950}.onboard-card{text-align:center;display:grid;gap:14px}.onboard-emoji{font-size:56px}.onboard-title{font-size:26px;font-weight:950}.onboard-text{color:var(--muted);font-weight:850;line-height:1.45}.dots{display:flex;gap:8px;justify-content:center}.dot{width:9px;height:9px;border-radius:99px;background:#f3bad0}.dot.active{width:28px;background:var(--red)}.order-preview{width:100%;border-radius:22px;background:#fff7fb;border:1px solid var(--line);overflow:hidden;margin-bottom:12px}.order-preview img{width:100%;display:block}.order-info{display:grid;gap:8px;padding:12px;border-radius:18px;background:#fff0f6;font-weight:950;color:#7f4b61;margin-bottom:12px}.order-text{width:100%;min-height:160px;border:2px solid var(--line);border-radius:18px;padding:12px;font-weight:800;resize:vertical}.order-steps{display:grid;gap:10px;margin-top:12px}.contact-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .modal{position:fixed;inset:0;z-index:90;display:none;place-items:center;padding:18px;background:rgba(40,10,25,.38);backdrop-filter:blur(12px)}.modal.open{display:grid}.modal-card{width:min(560px,100%);max-height:88dvh;overflow:auto;background:#fff;border-radius:28px;padding:18px;box-shadow:0 24px 70px rgba(0,0,0,.24)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.modal-head h2{margin:0;font-size:22px;font-weight:950}.close{width:42px;height:42px;border:0;border-radius:50%;background:#fff0f5;color:var(--red);font-size:24px;font-weight:950}.onboard-card{text-align:center;display:grid;gap:14px}.onboard-emoji{font-size:56px}.onboard-title{font-size:26px;font-weight:950}.onboard-text{color:var(--muted);font-weight:850;line-height:1.45}.dots{display:flex;gap:8px;justify-content:center}.dot{width:9px;height:9px;border-radius:99px;background:#f3bad0}.dot.active{width:28px;background:var(--red)}.order-preview{width:100%;border-radius:22px;background:#fff7fb;border:1px solid var(--line);overflow:hidden;margin-bottom:12px}.order-preview img{width:100%;display:block}.order-info{display:grid;gap:8px;padding:12px;border-radius:18px;background:#fff0f6;font-weight:950;color:#7f4b61;margin-bottom:12px}.order-text{display:none;width:100%;min-height:160px;border:2px solid var(--line);border-radius:18px;padding:12px;font-weight:800;resize:vertical}.order-steps{display:grid;gap:10px;margin-top:12px}.contact-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .splash-screen{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;align-content:center;gap:18px;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.65),transparent 28%),linear-gradient(180deg,#ff6fa8,#ffd5e6);transition:opacity .45s ease,visibility .45s ease}.splash-screen.hide{opacity:0;visibility:hidden}.splash-logo-wrap{width:148px;height:148px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 22px 55px rgba(86,24,55,.24);animation:splashPop 1.4s ease-in-out infinite}.splash-logo{width:124px;height:124px;border-radius:50%;object-fit:cover}.splash-title{font-size:24px;font-weight:950;color:#fff;text-shadow:0 4px 14px rgba(86,24,55,.28)}.splash-loader{width:88px;height:8px;border-radius:999px;background:rgba(255,255,255,.45);overflow:hidden}.splash-loader:before{content:"";display:block;width:42%;height:100%;border-radius:999px;background:#fff;animation:splashLoad 1s ease-in-out infinite}@keyframes splashPop{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}@keyframes splashLoad{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
     body:not(.started) .figure-wrap,body:not(.started) .frame-preview,body:not(.started) .mobile-nav,body:not(.started) .mobile-editor{display:none!important}body.started .start-view{display:none}
-    @media(max-width:980px){.app{padding:12px 12px 170px}.layout{grid-template-columns:1fr}.panel.left,.panel.right{display:none!important}.stage{min-height:calc(100dvh - 250px);padding-bottom:24px}.figure-wrap{width:min(72vw,280px);transform:translateY(-6px)}.stage-toolbar{top:10px;left:10px;right:10px}.stage-toolbar .btn{padding:10px 12px;font-size:12px}.mobile-nav{display:grid}.mobile-editor{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:49;background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border-radius:24px;box-shadow:0 16px 40px rgba(86,24,55,.18);padding:10px;overflow:hidden}.mobile-editor-inner{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}.mobile-chip{flex:0 0 auto;min-width:72px;height:58px;border:2px solid transparent;border-radius:18px;background:#fff;font-weight:950;color:#1684f2;box-shadow:0 8px 18px rgba(0,0,0,.06);display:grid;place-items:center;padding:8px}.mobile-chip.active{border-color:var(--red);color:var(--red)}.mobile-swatch{width:34px;height:34px;border-radius:50%;border:2px solid rgba(0,0,0,.14)}.mobile-color-tabs,.people-row{flex:0 0 100%;width:100%;display:flex;gap:8px;overflow-x:auto}.mobile-color-tabs button{border:2px solid transparent;border-radius:999px;padding:10px 14px;background:#fff0f5;font-weight:950;color:var(--muted)}.mobile-color-tabs button.active{background:var(--pink);border-color:var(--red);color:#fff}.mobile-name-box{flex:0 0 100%;display:grid;gap:8px}.name-row{display:flex;gap:8px}.name-row input{min-width:0;flex:1;height:50px;border:2px solid var(--line);border-radius:18px;background:#fff;padding:0 14px;font-weight:950}.name-row button{width:50px;height:50px;border:0;border-radius:18px;background:var(--red);color:#fff;font-size:24px;font-weight:950}.contact-row{grid-template-columns:1fr}h1{font-size:20px}.sub{font-size:12px}}
+    @media(max-width:980px){
+  html, body{
+    width:100%;
+    overflow-x:hidden;
+  }
+
+  .app{
+    width:100%;
+    padding:12px 12px 170px;
+    overflow:hidden;
+  }
+
+  header{
+    display:grid;
+    grid-template-columns:58px 1fr;
+    gap:10px;
+    align-items:center;
+  }
+
+  header .logo{
+    width:54px;
+    height:54px;
+  }
+
+  header h1{
+    font-size:22px;
+    line-height:.95;
+  }
+
+  header .sub{
+    font-size:13px;
+    line-height:1.15;
+  }
+
+  .top-actions{
+    grid-column:1 / -1;
+    width:100%;
+    margin-left:0;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:8px;
+  }
+
+  .top-actions .btn{
+    width:100%;
+    min-width:0;
+    padding:14px 8px;
+    font-size:20px;
+    border-radius:24px;
+  }
+
+  .stage{
+    width:100%;
+    min-height:560px;
+    overflow:hidden;
+  }
+
+  .start-view{
+    padding:22px 18px;
+  }
+
+  .start-view h2{
+    max-width:300px;
+    font-size:30px;
+    line-height:1.05;
+  }
+
+  .start-view p,
+  .start-view .start-text{
+    max-width:320px;
+    font-size:17px;
+    line-height:1.3;
+  }
+
+  .figure-wrap{
+    width:min(78vw,320px);
+  }
+
+  .mobile-nav{
+    left:12px;
+    right:12px;
+    width:auto;
+  }
+
+  .mobile-editor{
+    left:12px;
+    right:12px;
+    width:auto;
+  }
+
+  .people-row{
+    width:100%;
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:4px 2px 6px;
+  }
+
+  .people-row .mobile-chip{
+    flex:0 0 auto;
+    min-width:118px;
+  }
+
+  .people-row .add-person-chip{
+    flex:0 0 58px;
+    min-width:58px;
+    width:58px;
+    font-size:30px;
+    color:#fff;
+    background:var(--red);
+    border-color:var(--red);
+  }
+
+  .name-row{
+    width:100%;
+  }
+
+  .name-row input{
+    min-width:0;
+  }
+
+  .name-row button{
+    flex:0 0 52px;
+  }
+      body:not(.customization-started) #orderBtn{
+  display:none;
+}
+}
   </style>
 </head>
 <body>
@@ -89,15 +216,213 @@ function renderFigure(){const person=p();document.documentElement.style.setPrope
 function getFrameLayout(count){if(count<=2)return [[38,50],[62,50]].slice(0,count);if(count<=5)return [[50,30],[32,58],[50,58],[68,58],[50,76]].slice(0,count);return [[42,24],[58,24],[25,48],[42,48],[58,48],[75,48],[25,72],[42,72],[58,72],[75,72]].slice(0,count)}
 function renderFrame(){const f=frames.find(x=>x.id===frame);frameBox.className='frame-box '+f.cls;frameLabel.textContent=f.name;if(!document.getElementById('frameBg'))frameBox.insertAdjacentHTML('afterbegin','<div class="frame-bg" id="frameBg"></div>');const positions=getFrameLayout(people.length);miniGrid.innerHTML=people.map((person,i)=>`<div class="mini-figure" style="left:${positions[i][0]}%;top:${positions[i][1]}%;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]}"><div class="part skin"></div><div class="part torso"></div><div class="part legs"></div><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="./assets/hair/${person.hair}.png"></div>`).join('')}
 function chip(label,isActive,onClick,color){const b=document.createElement('button');b.className='mobile-chip '+(isActive?'active':'');b.innerHTML=color?`<span class="mobile-swatch" style="background:${color}"></span><small>${label}</small>`:label;b.onclick=onClick;mobileEditorInner.appendChild(b)}
-function renderMobileEditor(){mobileEditorInner.innerHTML='';const person=p();if(mobileTab==='people'){const box=document.createElement('div');box.className='mobile-name-box';box.innerHTML=`<div class="name-row"><input value="${person.name||''}" placeholder="Имя"><button type="button">+</button></div><div class="people-row"></div>`;mobileEditorInner.appendChild(box);box.querySelector('input').oninput=e=>{person.name=e.target.value||`Человек ${active+1}`;save();renderPeople()};box.querySelector('button').onclick=addNewPerson;const row=box.querySelector('.people-row');people.forEach((person,i)=>{const b=document.createElement('button');b.className='mobile-chip '+(i===active?'active':'');b.textContent=person.name||`Человек ${i+1}`;b.onclick=()=>{active=i;frameMode=false;sync()};row.appendChild(b)});return} if(mobileTab==='face')return faces.forEach(id=>chip(id,person.face===id,()=>{snapshot();person.face=id;sync()})); if(mobileTab==='hair')return hair.forEach(id=>chip(id,person.hair==id,()=>{snapshot();person.hair=id;sync()})); if(mobileTab==='colors'){const tabsWrap=document.createElement('div');tabsWrap.className='mobile-color-tabs';tabsWrap.innerHTML=`<button class="${mobileColorPart==='skin'?'active':''}" data-color="skin">Кожа</button><button class="${mobileColorPart==='torso'?'active':''}" data-color="torso">Торс</button><button class="${mobileColorPart==='legs'?'active':''}" data-color="legs">Ноги</button>`;mobileEditorInner.appendChild(tabsWrap);tabsWrap.querySelectorAll('button').forEach(b=>b.onclick=()=>{mobileColorPart=b.dataset.color;renderMobileEditor()});const palette=mobileColorPart==='skin'?skinColors:bodyColors;Object.entries(palette).forEach(([id,c])=>chip(id,+person[mobileColorPart]===+id,()=>{snapshot();person[mobileColorPart]=+id;sync()},c));return} if(mobileTab==='frame'){chip('← К персонажу',false,()=>{mobileTab='face';tab='face';frameMode=false;sync()});frames.forEach(f=>chip(f.name,frame===f.id,()=>{snapshot();frame=f.id;tab='frame';frameMode=true;sync()}));chip('Фон',false,()=>bgInput.click());chip('−',false,()=>{frameBgScale=Math.max(.5,Number(frameBgScale)-.1).toFixed(2);localStorage.setItem('mb_frame_bg_scale',frameBgScale);applyFrameBg()});chip('+',false,()=>{frameBgScale=Math.min(2.5,Number(frameBgScale)+.1).toFixed(2);localStorage.setItem('mb_frame_bg_scale',frameBgScale);applyFrameBg()})}}
+function renderMobileEditor(){mobileEditorInner.innerHTML='';const person=p();if(mobileTab==='people'){
+  const p=people[active];
+
+  if(!p.names) p.names=[p.name || `Человек ${active+1}`];
+
+  const nameBox=document.createElement('div');
+  nameBox.className='mobile-names-box';
+
+  nameBox.innerHTML=`
+    <div class="name-row">
+      <input data-name-index="0" value="${p.names[0] || ''}" placeholder="Имя персонажа">
+      <button data-add-person type="button">+</button>
+    </div>
+  `;
+
+  mobileEditorInner.appendChild(nameBox);
+
+  const input=nameBox.querySelector('[data-name-index]');
+  input.oninput=e=>{
+    p.names[0]=e.target.value;
+    p.name=e.target.value || `Человек ${active+1}`;
+    save();
+    renderPeople();
+  };
+
+  nameBox.querySelector('[data-add-person]').onclick=()=>{
+    if(people.length>=10){
+      alert('Можно добавить максимум 10 человечков');
+      return;
+    }
+
+    people.push(newPerson(people.length+1));
+    active=people.length-1;
+    mobileTab='people';
+    frameMode=false;
+    sync();
+  };
+
+  const peopleRow=document.createElement('div');
+  peopleRow.className='people-row';
+  mobileEditorInner.appendChild(peopleRow);
+
+  people.forEach((person,i)=>{
+    const btn=document.createElement('button');
+    btn.className='mobile-chip '+(i===active?'active':'');
+    btn.textContent=person.name || `Человек ${i+1}`;
+
+    btn.onclick=()=>{
+      active=i;
+      frameMode=false;
+      mobileTab='people';
+      sync();
+    };
+
+    peopleRow.appendChild(btn);
+  });
+
+  const addBtn=document.createElement('button');
+  addBtn.className='mobile-chip add-person-chip';
+  addBtn.textContent='+';
+
+  addBtn.onclick=()=>{
+    if(people.length>=10){
+      alert('Можно добавить максимум 10 человечков');
+      return;
+    }
+
+    people.push(newPerson(people.length+1));
+    active=people.length-1;
+    mobileTab='people';
+    frameMode=false;
+    sync();
+  };
+
+  peopleRow.appendChild(addBtn);
+
+  return;
+}
 function sync(){save();renderPeople();renderTabs();renderOptions();renderFigure();renderMobileEditor();document.querySelectorAll('[data-mobile-tab]').forEach(btn=>btn.classList.toggle('active',btn.dataset.mobileTab===mobileTab))}
 function applyFrameBg(){document.documentElement.style.setProperty('--frame-bg',frameBgData?`url(${frameBgData})`:'none');document.documentElement.style.setProperty('--bg-scale',frameBgScale);document.documentElement.style.setProperty('--bg-x',frameBgX+'px');document.documentElement.style.setProperty('--bg-y',frameBgY+'px');if(bgScale)bgScale.value=frameBgScale;if(bgX)bgX.value=frameBgX;if(bgY)bgY.value=frameBgY}
 function frameInfo(){const f=frames.find(x=>x.id===frame);return{f,color:f.id.includes('black')?'черная':'белая',size:f.name.replace('Белая ','').replace('Черная ','')}}
 function orderText(){const info=frameInfo();return `MiniBrick Studio — заказ\n\nРамка: ${info.color}\nРазмер рамки: ${info.size}\nКоличество человечков: ${people.length}\n\nФайлы для сборки:\n`+people.map((person,i)=>`${i+1}. ${person.name}\nЛицо: assets/faces/${person.face}.png\nПрическа: assets/hair/${person.hair}.png\nКожа: ${person.skin}\nТорс: ${person.torso}\nНоги: ${person.legs}\nКомментарий: ${person.note||'нет'}`).join('\n\n')}
-function loadImg(src){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>res(img);img.onerror=rej;img.src=src})}
+function loadImg(src){
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=()=>resolve(null);
+    img.src=src;
+  });
+}
 function drawTinted(ctx,img,color,x,y,w,h){const temp=document.createElement('canvas');temp.width=w;temp.height=h;const t=temp.getContext('2d');t.drawImage(img,0,0,w,h);t.globalCompositeOperation='source-in';t.fillStyle=color;t.fillRect(0,0,w,h);ctx.drawImage(temp,x,y,w,h)}
-async function exportOrderImage(){const info=frameInfo();const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=1400;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff7fb';ctx.fillRect(0,0,1200,1400);ctx.fillStyle='#7f4b61';ctx.font='900 46px Arial';ctx.textAlign='center';ctx.fillText(`Рамка: ${info.color}, ${info.size}`,600,90);const ratio=info.f.ratio;let frameW=ratio>=1?840:Math.round(840*ratio),frameH=ratio>=1?Math.round(840/ratio):840;const frameX=(1200-frameW)/2,frameY=150;ctx.fillStyle=info.color==='черная'?'#111':'#fff';ctx.fillRect(frameX,frameY,frameW,frameH);ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=18;ctx.strokeRect(frameX+28,frameY+28,frameW-56,frameH-56);ctx.fillStyle='#f7f7f7';ctx.fillRect(frameX+54,frameY+54,frameW-108,frameH-108);if(frameBgData){try{const bg=await loadImg(frameBgData);ctx.save();ctx.beginPath();ctx.rect(frameX+54,frameY+54,frameW-108,frameH-108);ctx.clip();const scale=Number(frameBgScale||1),bw=(frameW-108)*scale,bh=bw*(bg.height/bg.width),bx=frameX+54+(frameW-108-bw)/2+Number(frameBgX||0)*2,by=frameY+54+(frameH-108-bh)/2+Number(frameBgY||0)*2;ctx.drawImage(bg,bx,by,bw,bh);ctx.restore()}catch(e){}}const positions=getFrameLayout(people.length);const skin=await loadImg('./assets/body/skin-mask.png'),torso=await loadImg('./assets/body/torso-mask.png'),legs=await loadImg('./assets/body/legs-mask.png'),outline=await loadImg('./assets/body/base-outline.png');for(let i=0;i<people.length;i++){const person=people[i],[px,py]=positions[i],x=frameX+frameW*px/100,y=frameY+frameH*py/100,w=120,h=180;try{const face=await loadImg(`./assets/faces/${person.face}.png`),hairImg=await loadImg(`./assets/hair/${person.hair}.png`);drawTinted(ctx,skin,skinColors[person.skin],x-w/2,y-h/2,w,h);drawTinted(ctx,torso,bodyColors[person.torso],x-w/2,y-h/2,w,h);drawTinted(ctx,legs,bodyColors[person.legs],x-w/2,y-h/2,w,h);ctx.globalAlpha=.18;ctx.drawImage(outline,x-w/2,y-h/2,w,h);ctx.globalAlpha=1;ctx.drawImage(face,x-w/2,y-h/2,w,h);ctx.drawImage(hairImg,x-w/2,y-h/2,w,h)}catch(e){}}ctx.fillStyle='#171717';ctx.font='900 34px Arial';ctx.textAlign='left';ctx.fillText('Файлы для заказа:',90,1070);ctx.font='700 24px Arial';let y=1120;people.forEach((person,i)=>{ctx.fillText(`${i+1}. ${person.name}: лицо ${person.face}, прическа ${person.hair}`,90,y);y+=38});return canvas.toDataURL('image/png')}
-async function openOrderModal(){const info=frameInfo();orderPreviewImg.src=await exportOrderImage();orderInfo.innerHTML=`<div>Цвет рамки: ${info.color}</div><div>Размер рамки: ${info.size}</div><div>Человечков: ${people.length}</div>`;orderTextarea.value=orderText();orderModal.classList.add('open')}
+async function exportOrderImage(){
+  const info=frameInfo();
+
+  const canvas=document.createElement('canvas');
+  canvas.width=1200;
+  canvas.height=1500;
+
+  const ctx=canvas.getContext('2d');
+
+  ctx.fillStyle='#fff7fb';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle='#7f4b61';
+  ctx.font='900 44px Inter, Arial';
+  ctx.textAlign='center';
+  ctx.fillText(`Рамка: ${info.color}, ${info.size}`,600,90);
+
+  const isSmall=info.f.id.includes('small');
+  const isBig=info.f.id.includes('big');
+  const isSquare=info.f.id.includes('square');
+
+  let frameW=760;
+  let frameH=760;
+
+  if(isSmall){
+    frameW=620;
+    frameH=820;
+  }
+
+  if(isBig){
+    frameW=620;
+    frameH=870;
+  }
+
+  if(isSquare){
+    frameW=760;
+    frameH=760;
+  }
+
+  const frameX=(canvas.width-frameW)/2;
+  const frameY=150;
+
+  ctx.fillStyle=info.color==='черная' ? '#111' : '#fff';
+  ctx.fillRect(frameX,frameY,frameW,frameH);
+
+  ctx.strokeStyle='rgba(0,0,0,.12)';
+  ctx.lineWidth=18;
+  ctx.strokeRect(frameX+28,frameY+28,frameW-56,frameH-56);
+
+  ctx.fillStyle='#f7f7f7';
+  ctx.fillRect(frameX+54,frameY+54,frameW-108,frameH-108);
+
+  if(frameBgData){
+    const bg=await loadImg(frameBgData);
+    if(bg){
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(frameX+54,frameY+54,frameW-108,frameH-108);
+      ctx.clip();
+
+      const scale=Number(frameBgScale || 1);
+      const bw=(frameW-108)*scale;
+      const bh=bw*(bg.height/bg.width);
+      const bx=frameX+54+(frameW-108-bw)/2+Number(frameBgX || 0)*2;
+      const by=frameY+54+(frameH-108-bh)/2+Number(frameBgY || 0)*2;
+
+      ctx.drawImage(bg,bx,by,bw,bh);
+      ctx.restore();
+    }
+  }
+
+  const skinMask=await loadImg('./assets/body/skin-mask.png');
+  const torsoMask=await loadImg('./assets/body/torso-mask.png');
+  const legsMask=await loadImg('./assets/body/legs-mask.png');
+  const outline=await loadImg('./assets/body/base-outline.png');
+
+  const positions=getFrameLayout(people.length);
+
+  for(let i=0;i<people.length;i++){
+    const p=people[i];
+    const [px,py]=positions[i];
+
+    const x=frameX + frameW*px/100;
+    const y=frameY + frameH*py/100;
+
+    const w=people.length<=2 ? 150 : 120;
+    const h=w*1.5;
+
+    if(skinMask) drawTinted(ctx,skinMask,skinColors[p.skin],x-w/2,y-h/2,w,h);
+    if(torsoMask) drawTinted(ctx,torsoMask,bodyColors[p.torso],x-w/2,y-h/2,w,h);
+    if(legsMask) drawTinted(ctx,legsMask,bodyColors[p.legs],x-w/2,y-h/2,w,h);
+
+    if(outline){
+      ctx.globalAlpha=.18;
+      ctx.drawImage(outline,x-w/2,y-h/2,w,h);
+      ctx.globalAlpha=1;
+    }
+
+    const face=await loadImg(`./assets/faces/${p.face}.png`);
+    const hairAsset=await loadImg(`./assets/hair/${p.hair}.png`);
+
+    if(face) ctx.drawImage(face,x-w/2,y-h/2,w,h);
+    if(hairAsset) ctx.drawImage(hairAsset,x-w/2,y-h/2,w,h);
+  }
+
+  ctx.fillStyle='#ed2b63';
+  ctx.font='900 46px Inter, Arial';
+  ctx.textAlign='center';
+  ctx.fillText('С любовью MiniBrick 💖',600,frameY+frameH+100);
+
+  return canvas.toDataURL('image/png');
+}
+async function openOrderModal(){const info=frameInfo();orderPreviewImg.src=await exportOrderImage();orderInfo.innerHTML=`
+  <div>Цвет рамки: ${info.color}</div>
+  <div>Размер рамки: ${info.size}</div>
+`;</div>`;orderTextarea.value=orderText();orderModal.classList.add('open')}
 async function loadCatalog(){try{const res=await fetch('./assets/catalog.json?v='+Date.now());if(!res.ok)throw new Error('catalog not found');const data=await res.json();if(Array.isArray(data.faces)&&data.faces.length)faces=data.faces;if(Array.isArray(data.hair)&&data.hair.length)hair=data.hair}catch(e){console.log('Каталог ассетов не загрузился',e)}}
 function showOnboarding(){if(localStorage.getItem('mb_v2_onboarded')==='1')return;const slides=[['🧱','Собери','Создай до 10 фигурок. Каждую можно редактировать и удалить.'],['🖼','Выбери рамку','Подбери цвет, размер и фон рамки.'],['📦','Оформи заказ','Скачай PNG и отправь детали в сообщения.']];let i=0;function draw(){onEmoji.textContent=slides[i][0];onTitle.textContent=slides[i][1];onText.textContent=slides[i][2];onDots.innerHTML=slides.map((_,n)=>`<span class="dot ${n===i?'active':''}"></span>`).join('');onNext.textContent=i===slides.length-1?'Понятно':'Дальше';onboardModal.classList.add('open')}onNext.onclick=()=>{if(i<slides.length-1){i++;draw()}else{localStorage.setItem('mb_v2_onboarded','1');onboardModal.classList.remove('open')}};draw()}
 addPerson.onclick=addNewPerson;showPeopleBtn.onclick=()=>{active=0;mobileTab='people';frameMode=false;tab='face';sync()};frameBtn.onclick=()=>{mobileTab='frame';tab='frame';frameMode=true;sync()};orderBtn.onclick=()=>openOrderModal();undoBtn.onclick=restore;randomBtn.onclick=()=>{snapshot();const person=p();person.face=faces[Math.floor(Math.random()*faces.length)];person.hair=hair[Math.floor(Math.random()*hair.length)];person.skin=Object.keys(skinColors)[Math.floor(Math.random()*Object.keys(skinColors).length)];person.torso=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];person.legs=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];sync()};nameInput.oninput=e=>{p().name=e.target.value||`Человек ${active+1}`;save();renderPeople()};noteInput.oninput=e=>{p().note=e.target.value;save()};document.querySelectorAll('[data-mobile-tab]').forEach(btn=>btn.onclick=()=>{mobileTab=btn.dataset.mobileTab;if(mobileTab==='frame'){tab='frame';frameMode=true}else{frameMode=false;if(mobileTab==='face')tab='face';if(mobileTab==='hair')tab='hair';if(mobileTab==='colors')tab='skin'}sync()});startCustomize.onclick=()=>{document.body.classList.add('started');localStorage.setItem('mb_v2_started','1');mobileTab='people';frameMode=false;sync()};if(localStorage.getItem('mb_v2_started')==='1')document.body.classList.add('started');bgInput.onchange=e=>{const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{frameBgData=r.result;localStorage.setItem('mb_frame_bg',frameBgData);tab='frame';frameMode=true;applyFrameBg();sync()};r.readAsDataURL(file)};bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);applyFrameBg()};bgX.oninput=e=>{frameBgX=e.target.value;localStorage.setItem('mb_frame_bg_x',frameBgX);applyFrameBg()};bgY.oninput=e=>{frameBgY=e.target.value;localStorage.setItem('mb_frame_bg_y',frameBgY);applyFrameBg()};clearBg.onclick=()=>{frameBgData='';localStorage.removeItem('mb_frame_bg');applyFrameBg()};orderClose.onclick=()=>orderModal.classList.remove('open');copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Детали заказа скопированы')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};tgLink.href='https://t.me/';igLink.href='https://instagram.com/';applyFrameBg();loadCatalog().then(()=>{if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');sync();showOnboarding()});window.addEventListener('load',()=>setTimeout(()=>splashScreen.classList.add('hide'),1800));
