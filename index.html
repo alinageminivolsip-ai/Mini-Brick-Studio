@@ -167,6 +167,137 @@
   display:none;
 }
 }
+    @media(max-width:980px){
+  .layout{
+    display:block;
+    width:100%;
+  }
+
+  .panel.left,
+  .panel.right{
+    display:none;
+  }
+
+  .panel.left.mobile-open,
+  .panel.right.mobile-open{
+    display:block;
+  }
+
+  .stage{
+    display:block;
+    width:100%;
+    min-height:calc(100dvh - 310px);
+    padding:16px;
+  }
+
+  .top-actions{
+    overflow-x:auto;
+  }
+
+  .top-actions .btn{
+    white-space:nowrap;
+  }
+
+  .people-list{
+    max-height:none;
+  }
+
+  .figure-wrap{
+    margin:70px auto 120px;
+    width:min(68vw,260px);
+  }
+
+  .stage-toolbar{
+    left:12px;
+    right:12px;
+    top:12px;
+  }
+
+  .tool-group{
+    width:100%;
+    overflow-x:auto;
+  }
+
+  .tool-group .btn{
+    flex:0 0 auto;
+    font-size:14px;
+    padding:10px 12px;
+  }
+
+  .mobile-nav{
+    display:grid;
+  }
+
+  .mobile-editor{
+    display:block;
+    position:fixed;
+    left:12px;
+    right:12px;
+    bottom:12px;
+    z-index:49;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(18px);
+    border-radius:24px;
+    box-shadow:0 16px 40px rgba(86,24,55,.18);
+    padding:10px;
+    overflow:hidden;
+  }
+
+  .mobile-editor-inner{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:4px;
+  }
+
+  .mobile-chip{
+    flex:0 0 auto;
+    min-width:76px;
+    height:58px;
+    border:2px solid transparent;
+    border-radius:18px;
+    background:#fff;
+    font-weight:950;
+    color:#1684f2;
+    box-shadow:0 8px 18px rgba(0,0,0,.06);
+    display:grid;
+    place-items:center;
+    padding:8px;
+  }
+
+  .mobile-chip.active{
+    border-color:var(--red);
+    color:var(--red);
+  }
+
+  .mobile-swatch{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:2px solid rgba(0,0,0,.14);
+  }
+
+  .mobile-color-tabs{
+    flex:0 0 100%;
+    display:flex;
+    gap:8px;
+  }
+
+  .mobile-color-tabs button{
+    border:2px solid transparent;
+    border-radius:999px;
+    padding:10px 14px;
+    background:#fff0f5;
+    font-weight:950;
+    color:#86536a;
+  }
+
+  .mobile-color-tabs button.active{
+    background:var(--pink);
+    border-color:var(--red);
+    color:#fff;
+  }
+}
   </style>
 </head>
 <body>
@@ -342,7 +473,21 @@ function renderMobileEditor(){
     return;
   }
 }
-function sync(){save();renderPeople();renderTabs();renderOptions();renderFigure();renderMobileEditor();document.querySelectorAll('[data-mobile-tab]').forEach(btn=>btn.classList.toggle('active',btn.dataset.mobileTab===mobileTab))}
+function sync(){
+  save();
+  renderPeople();
+  renderTabs();
+  renderOptions();
+  renderFigure();
+  renderMobileEditor();
+
+  document.querySelectorAll('[data-mobile-tab]').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.mobileTab===mobileTab);
+  });
+
+  document.querySelector('.panel.left')?.classList.toggle('mobile-open', mobileTab==='people');
+  document.querySelector('.panel.right')?.classList.toggle('mobile-open', mobileTab!=='people');
+}
 function applyFrameBg(){document.documentElement.style.setProperty('--frame-bg',frameBgData?`url(${frameBgData})`:'none');document.documentElement.style.setProperty('--bg-scale',frameBgScale);document.documentElement.style.setProperty('--bg-x',frameBgX+'px');document.documentElement.style.setProperty('--bg-y',frameBgY+'px');if(bgScale)bgScale.value=frameBgScale;if(bgX)bgX.value=frameBgX;if(bgY)bgY.value=frameBgY}
 function frameInfo(){const f=frames.find(x=>x.id===frame);return{f,color:f.id.includes('black')?'черная':'белая',size:f.name.replace('Белая ','').replace('Черная ','')}}
 function orderText(){const info=frameInfo();return `MiniBrick Studio — заказ\n\nРамка: ${info.color}\nРазмер рамки: ${info.size}\nКоличество человечков: ${people.length}\n\nФайлы для сборки:\n`+people.map((person,i)=>`${i+1}. ${person.name}\nЛицо: assets/faces/${person.face}.png\nПрическа: assets/hair/${person.hair}.png\nКожа: ${person.skin}\nТорс: ${person.torso}\nНоги: ${person.legs}\nКомментарий: ${person.note||'нет'}`).join('\n\n')}
@@ -477,7 +622,37 @@ orderModal.classList.add('open');
 }
 async function loadCatalog(){try{const res=await fetch('./assets/catalog.json?v='+Date.now());if(!res.ok)throw new Error('catalog not found');const data=await res.json();if(Array.isArray(data.faces)&&data.faces.length)faces=data.faces;if(Array.isArray(data.hair)&&data.hair.length)hair=data.hair}catch(e){console.log('Каталог ассетов не загрузился',e)}}
 function showOnboarding(){if(localStorage.getItem('mb_v2_onboarded')==='1')return;const slides=[['🧱','Собери','Создай до 10 фигурок. Каждую можно редактировать и удалить.'],['🖼','Выбери рамку','Подбери цвет, размер и фон рамки.'],['📦','Оформи заказ','Скачай PNG и отправь детали в сообщения.']];let i=0;function draw(){onEmoji.textContent=slides[i][0];onTitle.textContent=slides[i][1];onText.textContent=slides[i][2];onDots.innerHTML=slides.map((_,n)=>`<span class="dot ${n===i?'active':''}"></span>`).join('');onNext.textContent=i===slides.length-1?'Понятно':'Дальше';onboardModal.classList.add('open')}onNext.onclick=()=>{if(i<slides.length-1){i++;draw()}else{localStorage.setItem('mb_v2_onboarded','1');onboardModal.classList.remove('open')}};draw()}
-addPerson.onclick=addNewPerson;showPeopleBtn.onclick=()=>{active=0;mobileTab='people';frameMode=false;tab='face';sync()};frameBtn.onclick=()=>{mobileTab='frame';tab='frame';frameMode=true;sync()};orderBtn.onclick=()=>openOrderModal();undoBtn.onclick=restore;randomBtn.onclick=()=>{snapshot();const person=p();person.face=faces[Math.floor(Math.random()*faces.length)];person.hair=hair[Math.floor(Math.random()*hair.length)];person.skin=Object.keys(skinColors)[Math.floor(Math.random()*Object.keys(skinColors).length)];person.torso=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];person.legs=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];sync()};nameInput.oninput=e=>{p().name=e.target.value||`Человек ${active+1}`;save();renderPeople()};noteInput.oninput=e=>{p().note=e.target.value;save()};document.querySelectorAll('[data-mobile-tab]').forEach(btn=>btn.onclick=()=>{mobileTab=btn.dataset.mobileTab;if(mobileTab==='frame'){tab='frame';frameMode=true}else{frameMode=false;if(mobileTab==='face')tab='face';if(mobileTab==='hair')tab='hair';if(mobileTab==='colors')tab='skin'}sync()});startCustomize.onclick=()=>{document.body.classList.add('started');localStorage.setItem('mb_v2_started','1');mobileTab='people';frameMode=false;sync()};if(localStorage.getItem('mb_v2_started')==='1')document.body.classList.add('started');bgInput.onchange=e=>{const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{frameBgData=r.result;localStorage.setItem('mb_frame_bg',frameBgData);tab='frame';frameMode=true;applyFrameBg();sync()};r.readAsDataURL(file)};bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);applyFrameBg()};bgX.oninput=e=>{frameBgX=e.target.value;localStorage.setItem('mb_frame_bg_x',frameBgX);applyFrameBg()};bgY.oninput=e=>{frameBgY=e.target.value;localStorage.setItem('mb_frame_bg_y',frameBgY);applyFrameBg()};clearBg.onclick=()=>{frameBgData='';localStorage.removeItem('mb_frame_bg');applyFrameBg()};orderClose.onclick=()=>orderModal.classList.remove('open');copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Детали заказа скопированы')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};tgLink.href='https://t.me/';igLink.href='https://instagram.com/';applyFrameBg();loadCatalog().then(()=>{if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');sync();showOnboarding()});window.addEventListener('load',()=>setTimeout(()=>splashScreen.classList.add('hide'),1800));
+addPerson.onclick=addNewPerson;showPeopleBtn.onclick=()=>{active=0;mobileTab='people';frameMode=false;tab='face';sync()};frameBtn.onclick=()=>{mobileTab='frame';tab='frame';frameMode=true;sync()};orderBtn.onclick=()=>openOrderModal();undoBtn.onclick=restore;randomBtn.onclick=()=>{snapshot();const person=p();person.face=faces[Math.floor(Math.random()*faces.length)];person.hair=hair[Math.floor(Math.random()*hair.length)];person.skin=Object.keys(skinColors)[Math.floor(Math.random()*Object.keys(skinColors).length)];person.torso=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];person.legs=Object.keys(bodyColors)[Math.floor(Math.random()*Object.keys(bodyColors).length)];sync()};nameInput.oninput=e=>{p().name=e.target.value||`Человек ${active+1}`;save();renderPeople()};noteInput.oninput=e=>{p().note=e.target.value;save()};document.querySelectorAll('[data-mobile-tab]').forEach(btn=>{
+  btn.onclick=()=>{
+    mobileTab=btn.dataset.mobileTab;
+
+    if(mobileTab==='people'){
+      frameMode=false;
+    }
+
+    if(mobileTab==='frame'){
+      tab='frame';
+      frameMode=true;
+    }
+
+    if(mobileTab==='face'){
+      tab='face';
+      frameMode=false;
+    }
+
+    if(mobileTab==='hair'){
+      tab='hair';
+      frameMode=false;
+    }
+
+    if(mobileTab==='colors'){
+      tab=mobileColorPart;
+      frameMode=false;
+    }
+
+    sync();
+  };
+});startCustomize.onclick=()=>{document.body.classList.add('started');localStorage.setItem('mb_v2_started','1');mobileTab='people';frameMode=false;sync()};if(localStorage.getItem('mb_v2_started')==='1')document.body.classList.add('started');bgInput.onchange=e=>{const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{frameBgData=r.result;localStorage.setItem('mb_frame_bg',frameBgData);tab='frame';frameMode=true;applyFrameBg();sync()};r.readAsDataURL(file)};bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);applyFrameBg()};bgX.oninput=e=>{frameBgX=e.target.value;localStorage.setItem('mb_frame_bg_x',frameBgX);applyFrameBg()};bgY.oninput=e=>{frameBgY=e.target.value;localStorage.setItem('mb_frame_bg_y',frameBgY);applyFrameBg()};clearBg.onclick=()=>{frameBgData='';localStorage.removeItem('mb_frame_bg');applyFrameBg()};orderClose.onclick=()=>orderModal.classList.remove('open');copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Детали заказа скопированы')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};tgLink.href='https://t.me/';igLink.href='https://instagram.com/';applyFrameBg();loadCatalog().then(()=>{if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');sync();showOnboarding()});window.addEventListener('load',()=>setTimeout(()=>splashScreen.classList.add('hide'),1800));
 </script>
 </body>
 </html>
