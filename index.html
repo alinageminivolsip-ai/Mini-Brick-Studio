@@ -106,6 +106,21 @@
     .mobile-chip{flex:0 0 auto;min-width:112px;height:58px;border-radius:18px;font-size:16px;padding:8px 12px;border:2px solid transparent;background:#fff;box-shadow:0 6px 14px rgba(0,0,0,.07);transition:all .15s}
     .mobile-chip.active{border-color:var(--red);background:#fff5f8;color:var(--red);box-shadow:0 6px 14px rgba(237,43,99,.2)}
 
+    .asset-thumb{
+  width:52px;
+  height:52px;
+  object-fit:contain;
+  pointer-events:none;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.14));
+}
+
+.mobile-asset-thumb{
+  width:44px;
+  height:44px;
+  object-fit:contain;
+  pointer-events:none;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.14));
+}
     .field{display:grid;gap:6px;margin-top:10px;font-size:12px;color:var(--muted);font-weight:900}.field input,.field textarea{border:2px solid var(--line);border-radius:18px;padding:13px 14px;background:#fff;font-weight:850}.field input:focus,.field textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(237,43,99,.12)}
     .frame-preview{display:grid;place-items:center;gap:16px}
 
@@ -505,11 +520,35 @@ function renderOptions(){
 
   options.innerHTML='';
   const person=p();
-  if(tab==='face') faces.forEach(id=>opt(id,person.face===id,()=>person.face=id));
-  if(tab==='hair') hair.forEach(id=>opt(id,person.hair==id,()=>person.hair=id));
-  if(tab==='frame') frames.forEach(f=>opt(f.name,frame===f.id,()=>{frame=f.id;frameMode=true;resetCustomPositions()}));
-}
 
+  if(tab==='face'){
+    faces.forEach(id=>{
+      opt(
+        `<img class="asset-thumb" src="./assets/faces/${id}.png" alt="Лицо ${id}">`,
+        person.face===id,
+        ()=>person.face=id
+      );
+    });
+  }
+
+  if(tab==='hair'){
+    hair.forEach(id=>{
+      opt(
+        `<img class="asset-thumb" src="./assets/hair/${id}.png" alt="Прическа ${id}">`,
+        person.hair==id,
+        ()=>person.hair=id
+      );
+    });
+  }
+
+  if(tab==='frame'){
+    frames.forEach(f=>opt(f.name,frame===f.id,()=>{
+      frame=f.id;
+      frameMode=true;
+      resetCustomPositions();
+    }));
+  }
+}
 function opt(label,isActive,onClick,color){const b=document.createElement('button');b.className='opt '+(isActive?'active':'');b.innerHTML=color?`<span class="swatch" style="background:${color}"></span><span>${label}</span>`:label;b.onclick=()=>{snapshot();onClick();sync()};options.appendChild(b)}
 
 /* wire colour-part selector tabs in desktop right panel */
@@ -648,8 +687,34 @@ function renderMobileEditor(){
     peopleRow.appendChild(addBtn);
     return;
   }
-  if(mobileTab==='face'){faces.forEach(id=>{chip(id,person.face===id,()=>{snapshot();person.face=id;sync()})});return}
-  if(mobileTab==='hair'){hair.forEach(id=>{chip(id,person.hair==id,()=>{snapshot();person.hair=id;sync()})});return}
+  if(mobileTab==='face'){
+  faces.forEach(id=>{
+    chip(
+      `<img class="mobile-asset-thumb" src="./assets/faces/${id}.png" alt="">`,
+      person.face===id,
+      ()=>{
+        snapshot();
+        person.face=id;
+        sync();
+      }
+    );
+  });
+  return;
+}
+  if(mobileTab==='hair'){
+  hair.forEach(id=>{
+    chip(
+      `<img class="mobile-asset-thumb" src="./assets/hair/${id}.png" alt="">`,
+      person.hair==id,
+      ()=>{
+        snapshot();
+        person.hair=id;
+        sync();
+      }
+    );
+  });
+  return;
+}
   if(mobileTab==='colors'){
     /* Part selector */
     const tabsWrap=document.createElement('div');tabsWrap.className='mobile-color-tabs';
