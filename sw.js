@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minibrick-v4-' + Date.now();
+const CACHE_NAME = 'minibrick-v5-' + Date.now();
 
 self.addEventListener('install', event => {
   self.skipWaiting();
