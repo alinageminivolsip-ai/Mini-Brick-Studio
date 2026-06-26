@@ -1,9 +1,13 @@
 {
-  "faces": [
-    "A1","A2","A3","A4","A5","A6"
+  "faces": ["A1", "A2", "A3", "A4", "A5", "A6"],
+  "hair": [1, 2, 3, 4, 5],
+  "prints": [
+    "swoosh-character",
+    "drip-smile",
+    "print-sketch-heart"
   ],
-  "hair": [
-    1,2,3,4,5
+  "accessories": [
+    "playstation"
   ],
-  "version": 3
+  "version": 4
 }
