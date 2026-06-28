@@ -7,6 +7,7 @@ on:
       - 'assets/faces/**'
       - 'assets/hair/**'
       - 'assets/prints/**'
+      - 'assets/backgrounds/**'
   workflow_dispatch:
 
 jobs:
@@ -24,72 +25,112 @@ jobs:
           import os, json
 
           ROOT = "assets"
-          EXTS = {'.png','.jpg','.jpeg','.webp','.svg'}
+          EXTS = {".png", ".jpg", ".jpeg", ".webp", ".svg"}
 
           def scan_ids(folder):
               path = os.path.join(ROOT, folder)
-              if not os.path.isdir(path): return []
+              if not os.path.isdir(path):
+                  return []
               return sorted(
                   os.path.splitext(f)[0]
                   for f in os.listdir(path)
-                  if not f.startswith(('.','_')) and os.path.splitext(f)[1].lower() in EXTS
+                  if not f.startswith((".", "_"))
+                  and os.path.splitext(f)[1].lower() in EXTS
               )
 
           faces = scan_ids("faces")
+
           raw_hair = scan_ids("hair")
           hair = []
           for h in raw_hair:
-              try: hair.append(int(h))
-              except: hair.append(h)
-          prints = scan_ids("prints")
+              try:
+                  hair.append(int(h))
+              except:
+                  hair.append(h)
 
-          def to_label(s):
-              return s.replace('-',' ').replace('_',' ').title()
+          prints = scan_ids("prints")
+          backgrounds = scan_ids("backgrounds")
 
           def is_service_file(stem):
-              return stem.endswith('-mask') or stem.endswith('-left') or stem.endswith('_mask')
+              return (
+                  stem.endswith("-mask")
+                  or stem.endswith("-left")
+                  or stem.endswith("_mask")
+              )
 
           accessories = {}
           acc_root = os.path.join(ROOT, "accessories")
+
           if os.path.isdir(acc_root):
               for entry in sorted(os.listdir(acc_root)):
-                  if entry.startswith(('.','_')): continue
+                  if entry.startswith((".", "_")):
+                      continue
+
                   full = os.path.join(acc_root, entry)
+
                   if os.path.isdir(full):
                       ids = sorted(
                           os.path.splitext(f)[0]
                           for f in os.listdir(full)
-                          if not f.startswith(('.','_'))
+                          if not f.startswith((".", "_"))
                           and os.path.splitext(f)[1].lower() in EXTS
                           and not is_service_file(os.path.splitext(f)[0])
                       )
+
                       if ids:
                           accessories[entry] = ids
+
                   else:
                       stem, ext = os.path.splitext(entry)
                       if ext.lower() in EXTS and not is_service_file(stem):
                           accessories.setdefault("other", []).append(stem)
 
           catalog_path = os.path.join(ROOT, "catalog.json")
+
           existing = {}
           if os.path.exists(catalog_path):
-              try: existing = json.load(open(catalog_path))
-              except: pass
+              try:
+                  with open(catalog_path, "r", encoding="utf-8") as f:
+                      existing = json.load(f)
+              except:
+                  pass
 
           catalog = {**existing}
-          if faces:  catalog["faces"]  = faces
-          if hair:   catalog["hair"]   = hair
-          if prints: catalog["prints"] = prints
+
+          if faces:
+              catalog["faces"] = faces
+
+          if hair:
+              catalog["hair"] = hair
+
+          if prints:
+              catalog["prints"] = prints
+
+          if backgrounds:
+              catalog["backgrounds"] = backgrounds
+
           catalog["accessories"] = accessories
 
-          json.dump(catalog, open(catalog_path,"w"), ensure_ascii=False, indent=2)
-          print(f"Done: {len(faces)} faces, {len(hair)} hair, accessories: {list(accessories.keys())}")
+          with open(catalog_path, "w", encoding="utf-8") as f:
+              json.dump(catalog, f, ensure_ascii=False, indent=2)
+
+          print(
+              f"Done: "
+              f"{len(faces)} faces, "
+              f"{len(hair)} hair, "
+              f"{len(prints)} prints, "
+              f"{len(backgrounds)} backgrounds, "
+              f"accessory categories: {list(accessories.keys())}"
+          )
           PYEOF
 
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add assets/catalog.json
+
           git diff --cached --quiet || git commit -m "chore: auto-update catalog.json [skip ci]"
+
           git push
