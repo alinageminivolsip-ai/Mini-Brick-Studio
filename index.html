@@ -1370,6 +1370,76 @@ body.intro-active .app{
   .frame-bg-name{font-size:11px!important}
 }
 
+
+/* === FRAME MOBILE WORKSPACE CONTROL === */
+.frame-mobile-control{
+  display:none;
+}
+@media(max-width:900px){
+  :root{
+    --frame-mobile-drop:0px;
+    --frame-mobile-zoom:1;
+  }
+  body.frame-mode .viewer{
+    height:calc(39dvh + var(--frame-mobile-drop))!important;
+    min-height:calc(292px + var(--frame-mobile-drop))!important;
+  }
+  body.frame-mode .mobile-people-strip{
+    transform:translateY(var(--frame-mobile-drop));
+  }
+  body.frame-mode .editor{
+    margin-top:var(--frame-mobile-drop);
+  }
+  body.frame-mode #frameView{
+    transform:scale(calc(.92 * var(--frame-mobile-zoom)))!important;
+    transform-origin:center center;
+  }
+  body.frame-mode .frame-preview{
+    gap:10px;
+  }
+  .frame-resize-handle{
+    display:none;
+    position:absolute;
+    left:50%;
+    bottom:10px;
+    transform:translateX(-50%);
+    z-index:45;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    width:104px;
+    height:38px;
+    border:2px solid rgba(237,43,99,.22);
+    border-radius:999px;
+    background:rgba(255,255,255,.92);
+    color:var(--red);
+    box-shadow:0 10px 28px rgba(86,24,55,.16);
+    font-weight:950;
+    font-size:13px;
+    touch-action:none;
+    user-select:none;
+  }
+  body.frame-mode .frame-resize-handle{
+    display:flex;
+  }
+  .frame-resize-handle::before{
+    content:"↕";
+    width:26px;
+    height:26px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:#fff0f6;
+    font-size:18px;
+    line-height:1;
+  }
+  .frame-resize-handle.is-dragging{
+    background:#fff;
+    border-color:var(--red);
+    box-shadow:0 14px 34px rgba(237,43,99,.22);
+  }
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -1431,6 +1501,7 @@ body.intro-active .app{
         </div>
         <section id="frameView" class="frame-preview hidden"><div class="frame-box f-square frame-white" id="frameBox"><div class="mini-grid" id="miniGrid"></div></div><b id="frameLabel" class="small"></b></section>
       </section>
+      <div class="frame-resize-handle" id="frameResizeHandle" role="button" aria-label="Изменить высоту рабочей области рамки">Потяни</div>
     </main>
 
     <section class="mobile-people-strip" id="mobilePeopleStrip">
@@ -1676,8 +1747,56 @@ function getPersonAccessories(person){
 const steps=[{key:'skin',num:'01',title:'Кожа и лицо',focus:'focus-skin'},{key:'hair',num:'02',title:'Прическа',focus:'focus-hair'},{key:'torso',num:'03',title:'Торс и принт',focus:'focus-torso'},{key:'legs',num:'04',title:'Ноги',focus:'focus-legs'},{key:'accessory',num:'05',title:'Аксессуары',focus:'focus-accessory'},{key:'frame',num:'06',title:'Рамка',focus:'focus-full'}];
 const storeKey='mb_v4_people';
 function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:1,skin:1,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
-let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none';
-function p(){return people[active]||people[0]}function save(){localStorage.setItem(storeKey,JSON.stringify(people));localStorage.setItem('mb_v4_frame',frame);localStorage.setItem('mb_frame_preset_bg',framePresetBg)}function snap(){undo.push(JSON.stringify({people,active,step,frame,frameBgData,frameBgScale,framePresetBg}));if(undo.length>20)undo.shift()}function restore(){const r=undo.pop();if(!r)return;const d=JSON.parse(r);people=d.people;active=d.active;step=d.step;frame=d.frame;frameBgData=d.frameBgData;frameBgScale=d.frameBgScale;framePresetBg=d.framePresetBg||'none';sync()}
+let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
+function p(){return people[active]||people[0]}function save(){localStorage.setItem(storeKey,JSON.stringify(people));localStorage.setItem('mb_v4_frame',frame);localStorage.setItem('mb_frame_preset_bg',framePresetBg)}function snap(){undo.push(JSON.stringify({people,active,step,frame,frameBgData,frameBgScale,framePresetBg,frameMobileDrop}));if(undo.length>20)undo.shift()}function restore(){const r=undo.pop();if(!r)return;const d=JSON.parse(r);people=d.people;active=d.active;step=d.step;frame=d.frame;frameBgData=d.frameBgData;frameBgScale=d.frameBgScale;framePresetBg=d.framePresetBg||'none';frameMobileDrop=d.frameMobileDrop||'0';sync()}
+
+function applyFrameMobileView(){
+  const isFrameMode=step==='frame';
+  document.body.classList.toggle('frame-mode',isFrameMode);
+  const drop=Math.max(0,Math.min(220,Number(frameMobileDrop||0)));
+  const zoom=1 + drop/420;
+  document.documentElement.style.setProperty('--frame-mobile-drop',drop+'px');
+  document.documentElement.style.setProperty('--frame-mobile-zoom',zoom.toFixed(3));
+}
+
+function setFrameMobileDropValue(value){
+  const drop=Math.max(0,Math.min(220,Math.round(Number(value||0))));
+  frameMobileDrop=String(drop);
+  localStorage.setItem('mb_frame_mobile_drop',frameMobileDrop);
+  applyFrameMobileView();
+  renderFrame();
+}
+
+function initFrameResizeHandle(){
+  const handle=document.getElementById('frameResizeHandle');
+  if(!handle || handle.dataset.ready==='1')return;
+  handle.dataset.ready='1';
+
+  handle.addEventListener('pointerdown',e=>{
+    if(step!=='frame')return;
+    e.preventDefault();
+    const startY=e.clientY;
+    const startDrop=Number(frameMobileDrop||0);
+    handle.setPointerCapture?.(e.pointerId);
+    handle.classList.add('is-dragging');
+
+    const move=ev=>{
+      const delta=ev.clientY-startY;
+      setFrameMobileDropValue(startDrop+delta);
+    };
+
+    const up=()=>{
+      handle.classList.remove('is-dragging');
+      window.removeEventListener('pointermove',move);
+      window.removeEventListener('pointerup',up);
+      window.removeEventListener('pointercancel',up);
+    };
+
+    window.addEventListener('pointermove',move);
+    window.addEventListener('pointerup',up);
+    window.addEventListener('pointercancel',up);
+  });
+}
 function miniHTML(person){
   const acc=getPersonAccessories(person);
   return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="./assets/hair/${person.hair}.png">${acc.left?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:''}${acc.right?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:''}</div>`
@@ -2342,7 +2461,7 @@ function renderFrame(){
   normalizeAllAccessoryElements();
 }
 
-function sync(){save();renderPeople();renderMobilePeople();renderSteps();renderFigure();renderEditor();normalizeAllAccessoryElements()}
+function sync(){applyFrameMobileView();save();renderPeople();renderMobilePeople();renderSteps();renderFigure();renderEditor();normalizeAllAccessoryElements()}
 function orderText(){
   const fd=frames.find(f=>f.id===frame);
   return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
@@ -2752,6 +2871,7 @@ addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};fra
     if('serviceWorker'in navigator){
       navigator.serviceWorker.register('./sw.js?v='+Date.now()).then(r=>r.update()).catch(()=>{});
     }
+    initFrameResizeHandle();
     sync();
     initIntroFlow();
     hideSplashV6();
