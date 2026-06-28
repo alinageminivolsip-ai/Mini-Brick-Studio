@@ -1558,11 +1558,83 @@ async function getAccessoryRenderUrl(id, src, color){
 }
 
 const frames=[{id:'white-small',name:'15,5×20,5',cls:'frame-white f-small',m:'small'},{id:'white-square',name:'22×22',cls:'frame-white f-square',m:'square'},{id:'white-big',name:'22,5×31,5',cls:'frame-white f-big',m:'big'},{id:'black-small',name:'15,5×20,5',cls:'frame-black f-small',m:'small'},{id:'black-square',name:'22×22',cls:'frame-black f-square',m:'square'},{id:'black-big',name:'22,5×31,5',cls:'frame-black f-big',m:'big'}];
-const framePresetBackgrounds=[
-  {id:'none',name:'Без фона',src:''},
-  {id:'love',name:'Love',src:'./assets/backgrounds/love.png'}
+let framePresetBackgrounds=[
+  {id:'none',name:'Без фона',src:''}
 ];
-function getFramePresetBackground(id){return framePresetBackgrounds.find(x=>x.id===id)||framePresetBackgrounds[0];}
+
+function prettyBgName(id){
+  return String(id||'')
+    .replace(/\.[^.]+$/,'')
+    .replace(/[-_]+/g,' ')
+    .trim()
+    .replace(/^./,c=>c.toUpperCase()) || 'Фон';
+}
+
+function getFramePresetBackground(id){
+  return framePresetBackgrounds.find(x=>x.id===id)||framePresetBackgrounds[0];
+}
+
+function normalizeBackgroundItem(raw){
+  if(typeof raw==='string'){
+    const clean=raw.replace(/^\.?\/*/,'');
+    const noExt=clean.replace(/\.[^.]+$/,'');
+    const parts=noExt.split('/');
+    const id=parts[parts.length-1];
+    const hasPath=clean.includes('/');
+    const hasExt=/\.[a-z0-9]+$/i.test(clean);
+    return {
+      id,
+      name:prettyBgName(id),
+      src:hasPath||hasExt ? `./${clean}` : ''
+    };
+  }
+
+  if(raw&&typeof raw==='object'){
+    const rawId=String(raw.id||raw.name||raw.file||'').trim();
+    const clean=rawId.replace(/^\.?\/*/,'');
+    const noExt=clean.replace(/\.[^.]+$/,'');
+    const parts=noExt.split('/');
+    const id=String(raw.id||parts[parts.length-1]||'').replace(/\.[^.]+$/,'');
+    const src=raw.src||raw.path||(raw.file?`./assets/backgrounds/${raw.file}`:'');
+    return {
+      id,
+      name:raw.name||raw.title||prettyBgName(id),
+      src
+    };
+  }
+
+  return null;
+}
+
+async function resolveBackgrounds(raw){
+  const result=[{id:'none',name:'Без фона',src:''}];
+  const seen=new Set(['none']);
+  const exts=['png','jpg','jpeg','webp','svg'];
+  const items=(Array.isArray(raw)?raw:[]).map(normalizeBackgroundItem).filter(Boolean);
+
+  for(const item of items){
+    const id=String(item.id||'').trim();
+    if(!id||seen.has(id))continue;
+
+    const variants=[];
+    if(item.src)variants.push(item.src);
+    exts.forEach(ext=>variants.push(`./assets/backgrounds/${id}.${ext}`));
+
+    for(const src of variants){
+      if(await exists(src)){
+        result.push({
+          id,
+          name:item.name||prettyBgName(id),
+          src
+        });
+        seen.add(id);
+        break;
+      }
+    }
+  }
+
+  return result;
+}
 const accessoryMeta={
   default:{
     // Правая рука уходит чуть правее, левая чуть левее. Так центр аксессуара попадает в ладонь.
@@ -2499,6 +2571,12 @@ async function loadCatalog(){
     if(!r.ok)throw 0;
     const data=await r.json();
 
+    framePresetBackgrounds=await resolveBackgrounds(data.backgrounds);
+    if(!framePresetBackgrounds.some(x=>x.id===framePresetBg)){
+      framePresetBg='none';
+      localStorage.setItem('mb_frame_preset_bg',framePresetBg);
+    }
+
     faces=await filter(Array.isArray(data.faces)?data.faces:defaultFaces,'faces');
     hair=await filter(Array.isArray(data.hair)?data.hair:defaultHair,'hair');
 
@@ -2523,6 +2601,9 @@ async function loadCatalog(){
     });
   }catch(e){
     console.log('catalog error',e);
+    framePresetBackgrounds=[{id:'none',name:'Без фона',src:''}];
+    framePresetBg='none';
+    localStorage.setItem('mb_frame_preset_bg',framePresetBg);
     faces=await filter(defaultFaces,'faces');
     hair=await filter(defaultHair,'hair');
     if(!faces.length)faces=[...defaultFaces];
