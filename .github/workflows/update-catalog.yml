@@ -24,45 +24,67 @@ jobs:
           import os, json
 
           ROOT = "assets"
+          EXTS = {'.png','.jpg','.jpeg','.webp','.svg'}
 
           def scan_ids(folder):
               path = os.path.join(ROOT, folder)
-              if not os.path.isdir(path):
-                  return []
-              exts = {'.png','.jpg','.jpeg','.webp','.svg'}
+              if not os.path.isdir(path): return []
               return sorted(
                   os.path.splitext(f)[0]
                   for f in os.listdir(path)
-                  if not f.startswith(('.','_')) and os.path.splitext(f)[1].lower() in exts
+                  if not f.startswith(('.','_')) and os.path.splitext(f)[1].lower() in EXTS
               )
 
           faces = scan_ids("faces")
-
           raw_hair = scan_ids("hair")
           hair = []
           for h in raw_hair:
               try: hair.append(int(h))
               except: hair.append(h)
-
           prints = scan_ids("prints")
 
-          def to_label(s):
-              return s.replace('-',' ').replace('_',' ').title()
-
-          accessories = []
+          # accessories — сканируем папки, строим объект {category: [id, id, ...]}
+          accessories = {}
           acc_root = os.path.join(ROOT, "accessories")
           if os.path.isdir(acc_root):
-              exts = {'.png','.jpg','.jpeg','.webp','.svg'}
               for entry in sorted(os.listdir(acc_root)):
                   if entry.startswith(('.','_')): continue
                   full = os.path.join(acc_root, entry)
                   if os.path.isdir(full):
-                      for f in sorted(os.listdir(full)):
-                          if f.startswith(('.','_')): continue
-                          stem, ext = os.path.splitext(f)
-                          if ext.lower() in exts:
-                              accessories.append({"id": stem, "category": entry, "label": to_label(stem)})
+                      ids = sorted(
+                          os.path.splitext(f)[0]
+                          for f in os.listdir(full)
+                          if not f.startswith(('.','_')) and os.path.splitext(f)[1].lower() in EXTS
+                      )
+                      if ids:
+                          accessories[entry] = ids
                   else:
                       stem, ext = os.path.splitext(entry)
-                      if ext.lower() in exts:
-                          accessories.append({"id": stem, "category": "other", "label": to_label(stem)})
+                      if ext.lower() in EXTS:
+                          accessories.setdefault("other", []).append(stem)
+
+          # читаем существующий catalog.json, сохраняем все поля кроме accessories
+          catalog_path = os.path.join(ROOT, "catalog.json")
+          existing = {}
+          if os.path.exists(catalog_path):
+              try: existing = json.load(open(catalog_path))
+              except: pass
+
+          catalog = {**existing}
+          if faces:  catalog["faces"]  = faces
+          if hair:   catalog["hair"]   = hair
+          if prints: catalog["prints"] = prints
+          catalog["accessories"] = accessories  # всегда перезаписываем
+
+          # убираем дублирующий ключ если был
+          json.dump(catalog, open(catalog_path,"w"), ensure_ascii=False, indent=2)
+          print(f"Done: {len(faces)} faces, {len(hair)} hair, accessories: {list(accessories.keys())}")
+          PYEOF
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/catalog.json
+          git diff --cached --quiet || git commit -m "chore: auto-update catalog.json [skip ci]"
+          git push
