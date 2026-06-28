@@ -1,27 +1,36 @@
 {
-  "faces": ["A1", "A2", "A3", "A4", "A5", "A6"],
-  "hair": [1, 2, 3, 4, 5],
-  "prints": [
-    "swoosh-character",
-    "drip-smile",
-    "print-sketch-heart"
+  "faces": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7"
   ],
-  "accessories": [
-    "playstation",
-    "star"],
-  "accessoryCategories": [
-  {"id":"children","title":"Дети"},
-  {"id":"food","title":"Еда"},
-  {"id":"animals","title":"Животные"},
-  {"id":"premium","title":"Premium ★"}
-],
-"accessories": {
-  "children": [],
-  "food": [],
-  "animals": ["spider"],
-  "premium": ["star"],
-  "hobby": ["playstation"]
-}
-  "onboarding":["step-1", "step-2"],
-  "version": 4
+  "hair": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "prints": [
+    "drip-smile",
+    "print-sketch-heart",
+    "swoosh-character"
+  ],
+  "accessories": {
+    "animals": [
+      "spider"
+    ],
+    "food": [
+      "icecream-right",
+      "icecream-right-mask"
+    ],
+    "other": [
+      "playstation",
+      "star"
+    ]
+  }
 }
