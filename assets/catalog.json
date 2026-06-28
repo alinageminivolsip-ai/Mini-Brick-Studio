@@ -18,7 +18,7 @@
 "accessories": {
   "children": [],
   "food": [],
-  "animals": [],
+  "animals": ["spider"],
   "premium": ["star"],
   "hobby": ["playstation"]
 }
