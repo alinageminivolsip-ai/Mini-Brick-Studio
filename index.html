@@ -1298,16 +1298,22 @@ body.intro-active .app{
 /* === FRAME BACKGROUNDS: готовые фоны для рамки === */
 .frame-bg-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:10px;
   margin:10px 0 12px;
 }
 .frame-bg-choice{
+  width:100%!important;
+  aspect-ratio:1/1!important;
+  min-height:0!important;
   border:2px solid var(--line);
-  border-radius:18px;
+  border-radius:20px;
   background:#fff;
   padding:8px;
-  display:grid;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
   gap:7px;
   cursor:pointer;
   overflow:hidden;
@@ -1325,7 +1331,8 @@ body.intro-active .app{
 .frame-bg-thumb{
   position:relative;
   width:100%;
-  aspect-ratio:1/1;
+  flex:1 1 auto;
+  min-height:0;
   border-radius:14px;
   overflow:hidden;
   background:#ececec;
@@ -1342,19 +1349,25 @@ body.intro-active .app{
   font-weight:950;
 }
 .frame-bg-name{
+  flex:0 0 auto;
   color:var(--muted);
   font-size:12px;
   line-height:1.1;
   font-weight:950;
   text-align:center;
+  max-width:100%;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .frame-bg-choice.active .frame-bg-name{
   color:var(--red);
 }
 @media(max-width:900px){
-  .frame-bg-grid{grid-template-columns:repeat(2,1fr);gap:9px}
-  .frame-bg-choice{border-radius:16px;padding:7px}
-  .frame-bg-thumb{border-radius:13px}
+  .frame-bg-grid{grid-template-columns:repeat(3,1fr)!important;gap:9px!important}
+  .frame-bg-choice{border-radius:18px!important;padding:7px!important}
+  .frame-bg-thumb{border-radius:13px!important}
+  .frame-bg-name{font-size:11px!important}
 }
 
 </style>
