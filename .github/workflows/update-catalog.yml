@@ -7,6 +7,7 @@ on:
       - 'assets/faces/**'
       - 'assets/hair/**'
       - 'assets/prints/**'
+  workflow_dispatch:
 
 jobs:
   build-catalog:
@@ -15,128 +16,53 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Build catalog.json
         run: |
           python3 - <<'PYEOF'
-          import os, json, re
+          import os, json
 
           ROOT = "assets"
 
-          # ── helpers ──────────────────────────────────────────────────────────
-          def scan_ids(folder, strip_ext=True):
-              """Return sorted list of file stems (or names) from a folder."""
+          def scan_ids(folder):
               path = os.path.join(ROOT, folder)
               if not os.path.isdir(path):
                   return []
-              items = []
-              for f in sorted(os.listdir(path)):
-                  if f.startswith('.') or f.startswith('_'):
-                      continue
-                  if strip_ext:
-                      stem, ext = os.path.splitext(f)
-                      if ext.lower() not in ('.png', '.jpg', '.jpeg', '.webp', '.svg'):
-                          continue
-                      items.append(stem)
-                  else:
-                      items.append(f)
-              return items
+              exts = {'.png','.jpg','.jpeg','.webp','.svg'}
+              return sorted(
+                  os.path.splitext(f)[0]
+                  for f in os.listdir(path)
+                  if not f.startswith(('.','_')) and os.path.splitext(f)[1].lower() in exts
+              )
 
-          # ── faces ────────────────────────────────────────────────────────────
           faces = scan_ids("faces")
 
-          # ── hair ─────────────────────────────────────────────────────────────
-          # hair IDs can be numeric strings or alphanumeric; keep as-is
           raw_hair = scan_ids("hair")
           hair = []
           for h in raw_hair:
-              try:
-                  hair.append(int(h))   # numeric → number (matches JS default)
-              except ValueError:
-                  hair.append(h)
+              try: hair.append(int(h))
+              except: hair.append(h)
 
-          # ── prints ───────────────────────────────────────────────────────────
           prints = scan_ids("prints")
 
-          # ── accessories ──────────────────────────────────────────────────────
-          # Folder layout expected:
-          #   assets/accessories/<category>/<id>.png   ← preferred (grouped)
-          #   assets/accessories/<id>.png              ← flat fallback
-          #
-          # Result: list of objects  {id, category, label}
-          # "label" = id with dashes→spaces, title-cased
-
-          def to_label(stem):
-              return stem.replace('-', ' ').replace('_', ' ').title()
+          def to_label(s):
+              return s.replace('-',' ').replace('_',' ').title()
 
           accessories = []
           acc_root = os.path.join(ROOT, "accessories")
-
           if os.path.isdir(acc_root):
+              exts = {'.png','.jpg','.jpeg','.webp','.svg'}
               for entry in sorted(os.listdir(acc_root)):
-                  if entry.startswith('.') or entry.startswith('_'):
-                      continue
+                  if entry.startswith(('.','_')): continue
                   full = os.path.join(acc_root, entry)
-
                   if os.path.isdir(full):
-                      # subfolder = category
-                      category = entry
                       for f in sorted(os.listdir(full)):
-                          if f.startswith('.') or f.startswith('_'):
-                              continue
+                          if f.startswith(('.','_')): continue
                           stem, ext = os.path.splitext(f)
-                          if ext.lower() not in ('.png', '.jpg', '.jpeg', '.webp', '.svg'):
-                              continue
-                          accessories.append({
-                              "id": stem,
-                              "category": category,
-                              "label": to_label(stem)
-                          })
+                          if ext.lower() in exts:
+                              accessories.append({"id": stem, "category": entry, "label": to_label(stem)})
                   else:
-                      # flat file in accessories root
                       stem, ext = os.path.splitext(entry)
-                      if ext.lower() not in ('.png', '.jpg', '.jpeg', '.webp', '.svg'):
-                          continue
-                      accessories.append({
-                          "id": stem,
-                          "category": "other",
-                          "label": to_label(stem)
-                      })
-
-          # ── load existing catalog to preserve hand-written fields ─────────────
-          catalog_path = os.path.join(ROOT, "catalog.json")
-          existing = {}
-          if os.path.exists(catalog_path):
-              try:
-                  with open(catalog_path) as f:
-                      existing = json.load(f)
-              except Exception:
-                  pass
-
-          # Merge: auto-generated lists win; any extra top-level keys are kept
-          catalog = {**existing}
-          if faces:      catalog["faces"]       = faces
-          if hair:       catalog["hair"]        = hair
-          if prints:     catalog["prints"]      = prints
-          catalog["accessories"] = accessories  # always overwrite
-
-          with open(catalog_path, "w", encoding="utf-8") as f:
-              json.dump(catalog, f, ensure_ascii=False, indent=2)
-
-          print(f"✅ catalog.json updated")
-          print(f"   faces:       {len(faces)}")
-          print(f"   hair:        {len(hair)}")
-          print(f"   prints:      {len(prints)}")
-          print(f"   accessories: {len(accessories)}")
-          PYEOF
-
-      - name: Commit catalog.json
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add assets/catalog.json
-          # only commit if something actually changed
-          git diff --cached --quiet || git commit -m "chore: auto-update catalog.json [skip ci]"
-          git push
+                      if ext.lower() in exts:
+                          accessories.append({"id": stem, "category": "other", "label": to_label(stem)})
