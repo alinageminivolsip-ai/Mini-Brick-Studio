@@ -43,7 +43,12 @@ jobs:
               except: hair.append(h)
           prints = scan_ids("prints")
 
-          # accessories — сканируем папки, строим объект {category: [id, id, ...]}
+          def to_label(s):
+              return s.replace('-',' ').replace('_',' ').title()
+
+          def is_service_file(stem):
+              return stem.endswith('-mask') or stem.endswith('-left') or stem.endswith('_mask')
+
           accessories = {}
           acc_root = os.path.join(ROOT, "accessories")
           if os.path.isdir(acc_root):
@@ -54,16 +59,17 @@ jobs:
                       ids = sorted(
                           os.path.splitext(f)[0]
                           for f in os.listdir(full)
-                          if not f.startswith(('.','_')) and os.path.splitext(f)[1].lower() in EXTS
+                          if not f.startswith(('.','_'))
+                          and os.path.splitext(f)[1].lower() in EXTS
+                          and not is_service_file(os.path.splitext(f)[0])
                       )
                       if ids:
                           accessories[entry] = ids
                   else:
                       stem, ext = os.path.splitext(entry)
-                      if ext.lower() in EXTS:
+                      if ext.lower() in EXTS and not is_service_file(stem):
                           accessories.setdefault("other", []).append(stem)
 
-          # читаем существующий catalog.json, сохраняем все поля кроме accessories
           catalog_path = os.path.join(ROOT, "catalog.json")
           existing = {}
           if os.path.exists(catalog_path):
@@ -74,9 +80,8 @@ jobs:
           if faces:  catalog["faces"]  = faces
           if hair:   catalog["hair"]   = hair
           if prints: catalog["prints"] = prints
-          catalog["accessories"] = accessories  # всегда перезаписываем
+          catalog["accessories"] = accessories
 
-          # убираем дублирующий ключ если был
           json.dump(catalog, open(catalog_path,"w"), ensure_ascii=False, indent=2)
           print(f"Done: {len(faces)} faces, {len(hair)} hair, accessories: {list(accessories.keys())}")
           PYEOF
