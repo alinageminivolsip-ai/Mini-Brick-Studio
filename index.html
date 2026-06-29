@@ -1441,6 +1441,38 @@ body.intro-active .app{
 }
 
 
+
+/* === HAIR CATEGORIES: мужские / женские по названию файла === */
+.hair-cats{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:0 0 12px;
+  margin:-2px 0 10px;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.hair-cats::-webkit-scrollbar{display:none}
+.hair-cat{
+  flex:0 0 auto;
+  border:2px solid var(--line);
+  background:#fff;
+  color:#6f6670;
+  border-radius:18px;
+  padding:10px 14px;
+  font-size:14px;
+  font-weight:950;
+  line-height:1;
+}
+.hair-cat.active{
+  border-color:#ffd36f;
+  background:#fffaf0;
+  color:var(--brown);
+}
+@media(max-width:900px){
+  .hair-cat{font-size:13px;padding:9px 12px;border-radius:16px}
+}
+
 /* === HAIR BACK VIEW: стрелки переворота только на шаге прически === */
 .hair-flip-controls{
   position:absolute;
@@ -1605,7 +1637,27 @@ const accessoryCategories=[
   {id:'hobby',title:'Хобби'}
 ];
 let activeAccessoryCategory='all';
+let activeHairCategory='all';
 let hairBackView=false;
+
+const hairCategories=[
+  {id:'all',title:'Все'},
+  {id:'female',title:'Женские'},
+  {id:'male',title:'Мужские'},
+  {id:'other',title:'Другие'}
+];
+
+function getHairCategory(id){
+  const s=String(id||'').toLowerCase().trim();
+  if(s.startsWith('f') || s.startsWith('female') || s.startsWith('w'))return 'female';
+  if(s.startsWith('m') || s.startsWith('male'))return 'male';
+  return 'other';
+}
+
+function filteredHair(){
+  return hair.filter(id=>activeHairCategory==='all'||getHairCategory(id)===activeHairCategory);
+}
+
 function getHairFrontSrc(id){return `./assets/hair/${id}.png`;}
 function getHairBackSrc(id){return `./assets/hair/back/${id}.png`;}
 function getMainHairSrc(person){return hairBackView&&step==='hair'?getHairBackSrc(person.hair):getHairFrontSrc(person.hair);}
@@ -2116,7 +2168,32 @@ async function removePrintBackground(dataUrl){
   });
 }
 function renderEditor(){const person=p();editorBody.innerHTML='';if(step==='skin'){editorBody.innerHTML=`<div class="section-title"><span class="badge">1.1</span> Цвет кожи</div>${renderSwatches(skinGroups,'skin')}<div class="section-title"><span class="badge">1.2</span> Эмоция</div><div class="choice-grid" id="faceGrid"></div><label class="field">Имя<input id="nameInput" value="${person.name||''}" placeholder="Имя персонажа"></label>${nextButton()}`;faces.forEach(id=>faceGrid.appendChild(choiceImg('face',id,person.face===id,()=>person.face=id)));wireSwatches();nameInput.oninput=e=>{person.name=e.target.value;save();renderPeople()}}
-if(step==='hair'){editorBody.innerHTML=`<div class="section-title"><span class="badge">2.1</span> Прическа</div><div class="small" style="margin:-4px 0 12px">Стрелки рядом с человечком показывают прическу сзади. В рамке и заказе фигурка остается спереди.</div><div class="choice-grid" id="hairGrid"></div>${nextButton()}`;hair.forEach(id=>hairGrid.appendChild(choiceImg('hair',id,String(person.hair)===String(id),()=>{person.hair=id;hairBackView=false})))}
+if(step==='hair'){
+  const shownHair=filteredHair();
+  editorBody.innerHTML=`<div class="section-title"><span class="badge">2.1</span> Прическа</div>
+  <div class="small" style="margin:-4px 0 12px">Стрелки рядом с человечком показывают прическу сзади. В рамке и заказе фигурка остается спереди.</div>
+  <div class="hair-cats" id="hairCats"></div>
+  <div class="choice-grid" id="hairGrid"></div>
+  ${nextButton()}`;
+
+  hairCategories.forEach(cat=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='hair-cat '+(activeHairCategory===cat.id?'active':'');
+    btn.textContent=cat.title;
+    btn.onclick=()=>{activeHairCategory=cat.id;hairBackView=false;renderEditor();updateHairFlipControls()};
+    hairCats.appendChild(btn);
+  });
+
+  if(!shownHair.length){
+    const e=document.createElement('div');
+    e.className='empty';
+    e.textContent='В этой категории пока пусто';
+    hairGrid.appendChild(e);
+  }else{
+    shownHair.forEach(id=>hairGrid.appendChild(choiceImg('hair',id,String(person.hair)===String(id),()=>{person.hair=id;hairBackView=false})));
+  }
+}
 if(step==='torso'){
   editorBody.innerHTML=`<div class="section-title"><span class="badge">3.1</span> Цвет торса</div>${renderSwatches(bodyGroups,'torso')}
   <div class="section-title"><span class="badge">3.2</span> Руки</div>
