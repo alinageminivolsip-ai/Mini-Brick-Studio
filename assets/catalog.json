@@ -35,13 +35,16 @@
     "other": [
       "playstation",
       "star"
+    ],
+    "premium": [
+      "wedding-suit"
     ]
   },
   "backgrounds": [
     "love",
     "you_and_me"
   ],
-  "version": 9,
+  "version": 10,
   "hairBack": [
     "f1",
     "f6"
