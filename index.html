@@ -1486,7 +1486,7 @@ body.intro-active .app{
   align-items:center;
   justify-content:space-between;
 }
-body.hair-step .hair-flip-controls{display:flex}
+body.hair-step.hair-can-flip .hair-flip-controls{display:flex}
 .hair-flip-btn{
   pointer-events:auto;
   width:48px;
@@ -1639,6 +1639,8 @@ const accessoryCategories=[
 let activeAccessoryCategory='all';
 let activeHairCategory='all';
 let hairBackView=false;
+let hairBack=[];
+let hairSrcMap={};
 
 const hairCategories=[
   {id:'all',title:'Все'},
@@ -1658,18 +1660,43 @@ function filteredHair(){
   return hair.filter(id=>activeHairCategory==='all'||getHairCategory(id)===activeHairCategory);
 }
 
-function getHairFrontSrc(id){return `./assets/hair/${id}.png`;}
+function getHairFrontCandidates(id){
+  const s=String(id||'').trim();
+  const cat=getHairCategory(s);
+  const out=[];
+  if(cat==='female')out.push(`./assets/hair/female/${s}.png`);
+  if(cat==='male')out.push(`./assets/hair/male/${s}.png`);
+  out.push(`./assets/hair/${s}.png`);
+  return [...new Set(out)];
+}
+function getHairFrontSrc(id){
+  const s=String(id||'').trim();
+  return hairSrcMap[s]||getHairFrontCandidates(s)[0];
+}
 function getHairBackSrc(id){return `./assets/hair/back/${id}.png`;}
-function getMainHairSrc(person){return hairBackView&&step==='hair'?getHairBackSrc(person.hair):getHairFrontSrc(person.hair);}
-function setHairBackView(value){hairBackView=!!value;renderFigure();updateHairFlipControls();}
+function hasHairBack(id){
+  const s=String(id||'').trim();
+  return hairBack.map(String).includes(s);
+}
+function getMainHairSrc(person){
+  return hairBackView&&step==='hair'&&hasHairBack(person.hair)?getHairBackSrc(person.hair):getHairFrontSrc(person.hair);
+}
+function setHairBackView(value){
+  hairBackView=!!value&&step==='hair'&&hasHairBack(p().hair);
+  renderFigure();
+  updateHairFlipControls();
+}
 function toggleHairBackView(){setHairBackView(!hairBackView);}
 function updateHairFlipControls(){
+  const canFlip=step==='hair'&&hasHairBack(p().hair);
+  if(!canFlip)hairBackView=false;
   document.body.classList.toggle('hair-step',step==='hair');
-  document.body.classList.toggle('hair-back-view',hairBackView&&step==='hair');
-  if(typeof constructorView!=='undefined'&&constructorView)constructorView.classList.toggle('view-back',hairBackView&&step==='hair');
+  document.body.classList.toggle('hair-can-flip',canFlip);
+  document.body.classList.toggle('hair-back-view',hairBackView&&canFlip);
+  if(typeof constructorView!=='undefined'&&constructorView)constructorView.classList.toggle('view-back',hairBackView&&canFlip);
   const label=document.getElementById('hairFlipLabel');
-  if(label)label.textContent=hairBackView?'Вид сзади':'Вид спереди';
-  document.querySelectorAll('.hair-flip-btn').forEach(btn=>btn.classList.toggle('active',hairBackView&&step==='hair'));
+  if(label)label.textContent=hairBackView&&canFlip?'Вид сзади':'Вид спереди';
+  document.querySelectorAll('.hair-flip-btn').forEach(btn=>btn.classList.toggle('active',hairBackView&&canFlip));
 }
 function getAccSrc(id){return accessorySrcMap[id]||`./assets/accessories/${id}.png`;}
 
@@ -1927,7 +1954,7 @@ function initFrameResizeHandle(){
 }
 function miniHTML(person){
   const acc=getPersonAccessories(person);
-  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="./assets/hair/${person.hair}.png">${acc.left?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:''}${acc.right?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:''}</div>`
+  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${acc.left?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:''}${acc.right?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:''}</div>`
 }
 function renderPeople(){countLabel.textContent=`${people.length}/10`;peopleList.innerHTML='';people.forEach((person,i)=>{const card=document.createElement('div');card.className='person-card '+(i===active?'active':'');card.innerHTML=`${miniHTML(person)}<div><div class="person-title">${person.name||`Человек ${i+1}`}</div><div class="person-meta">лицо ${person.face}, волосы ${person.hair}</div></div><div><button class="icon-btn" data-edit>✎</button><button class="icon-btn" data-del>×</button></div>`;card.querySelector('[data-edit]').onclick=()=>{active=i;step='skin';sync()};card.querySelector('[data-del]').onclick=()=>delPerson(i);peopleList.appendChild(card)})}
 function renderMobilePeople(){
@@ -2114,7 +2141,7 @@ function choiceImg(type,id,active,cb){
   const folder=type==='face'?'faces':type==='hair'?'hair':'accessories';
   const b=document.createElement('button');
   b.className=`choice ${type} ${active?'active':''}`;
-  const src=type==='acc'?getAccSrc(id):`./assets/${folder}/${id}.png`;
+  const src=type==='acc'?getAccSrc(id):(type==='hair'?getHairFrontSrc(id):`./assets/${folder}/${id}.png`);
   b.innerHTML=`<img src="${src}" alt="${id}">`;
   const img=b.querySelector('img');
   normalizeAssetPreview(img,type);
@@ -2171,7 +2198,7 @@ function renderEditor(){const person=p();editorBody.innerHTML='';if(step==='skin
 if(step==='hair'){
   const shownHair=filteredHair();
   editorBody.innerHTML=`<div class="section-title"><span class="badge">2.1</span> Прическа</div>
-  <div class="small" style="margin:-4px 0 12px">Стрелки рядом с человечком показывают прическу сзади. В рамке и заказе фигурка остается спереди.</div>
+  <div class="small" style="margin:-4px 0 12px">Если для прически загружен задний вид, рядом с человечком появятся стрелки. В рамке и заказе фигурка остается спереди.</div>
   <div class="hair-cats" id="hairCats"></div>
   <div class="choice-grid" id="hairGrid"></div>
   ${nextButton()}`;
@@ -2609,7 +2636,7 @@ function renderFrame(){
     const xPct=person.frameX??50;
     const yPct=person.frameY??95;
     const acc=getPersonAccessories(person);
-    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="./assets/hair/${person.hair}.png">${acc.left?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:``}${acc.right?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:``}</div>`);
+    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${acc.left?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:``}${acc.right?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:``}</div>`);
   });
   attachFrameDragHandlers();
   normalizeAllAccessoryElements();
@@ -2736,7 +2763,7 @@ async function exportOrderImage(){
       }
     }
     const fi=await loadImg(`./assets/faces/${person.face}.png`);
-    const hi=await loadImg(`./assets/hair/${person.hair}.png`);
+    const hi=await loadImg(getHairFrontSrc(person.hair));
     if(fi)ctx.drawImage(fi,dx,dy,w,h);
     if(hi)ctx.drawImage(hi,dx,dy,w,h);
 
@@ -2839,6 +2866,58 @@ async function resolveAccessories(raw){
   }
   return ids;
 }
+async function resolveHairCatalog(raw){
+  const source=[];
+  if(Array.isArray(raw)){
+    raw.forEach(id=>source.push(id));
+  }else if(raw&&typeof raw==='object'){
+    if(Array.isArray(raw.all))raw.all.forEach(id=>source.push(id));
+    Object.entries(raw).forEach(([key,list])=>{
+      if(key==='all')return;
+      if(Array.isArray(list))list.forEach(id=>source.push(id));
+    });
+  }else{
+    defaultHair.forEach(id=>source.push(id));
+  }
+
+  const ids=[];
+  hairSrcMap={};
+
+  for(const rawId of source){
+    const id=String(rawId).trim();
+    if(!id||ids.includes(id))continue;
+
+    const candidates=getHairFrontCandidates(id);
+    let found='';
+    for(const src of candidates){
+      if(await exists(src)){
+        found=src;
+        break;
+      }
+    }
+
+    if(found){
+      ids.push(id);
+      hairSrcMap[id]=found;
+    }
+  }
+
+  return ids;
+}
+
+async function resolveHairBackCatalog(raw){
+  const source=Array.isArray(raw)?raw:[];
+  const ids=[];
+
+  for(const rawId of source){
+    const id=String(rawId).trim();
+    if(!id||ids.includes(id))continue;
+    if(await exists(getHairBackSrc(id)))ids.push(id);
+  }
+
+  return ids;
+}
+
 async function loadCatalog(){
   try{
     const r=await fetch('./assets/catalog.json?v='+Date.now());
@@ -2852,12 +2931,16 @@ async function loadCatalog(){
     }
 
     faces=await filter(Array.isArray(data.faces)?data.faces:defaultFaces,'faces');
-    hair=await filter(Array.isArray(data.hair)?data.hair:defaultHair,'hair');
+    hair=await resolveHairCatalog(data.hair);
+    hairBack=await resolveHairBackCatalog(data.hairBack);
 
     if(!faces.length)faces=await filter(defaultFaces,'faces');
-    if(!hair.length)hair=await filter(defaultHair,'hair');
+    if(!hair.length)hair=await resolveHairCatalog(defaultHair);
     if(!faces.length)faces=[...defaultFaces];
-    if(!hair.length)hair=[...defaultHair];
+    if(!hair.length){
+      hair=[...defaultHair].map(String);
+      hair.forEach(id=>hairSrcMap[id]=`./assets/hair/${id}.png`);
+    }
 
     const basePrints=['print-swoosh-character','print-drip-smile','print-sketch-heart','swoosh-character','drip-smile'];
     prints=[...new Set([
@@ -2879,9 +2962,13 @@ async function loadCatalog(){
     framePresetBg='none';
     localStorage.setItem('mb_frame_preset_bg',framePresetBg);
     faces=await filter(defaultFaces,'faces');
-    hair=await filter(defaultHair,'hair');
+    hair=await resolveHairCatalog(defaultHair);
+    hairBack=[];
     if(!faces.length)faces=[...defaultFaces];
-    if(!hair.length)hair=[...defaultHair];
+    if(!hair.length){
+      hair=[...defaultHair].map(String);
+      hair.forEach(id=>hairSrcMap[id]=`./assets/hair/${id}.png`);
+    }
     prints=await filter(['print-swoosh-character','print-drip-smile','print-sketch-heart','swoosh-character','drip-smile'],'prints');
     accessories=await resolveAccessories(defaultAccessories);
     people.forEach(x=>{
