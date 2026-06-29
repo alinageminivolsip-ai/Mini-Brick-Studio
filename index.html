@@ -1904,6 +1904,8 @@ const storeKey='mb_v4_people';
 function firstHairId(){return (Array.isArray(hair)&&hair.length?hair[0]:'f1')}
 function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:1,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
 let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
+let frameAutoCentered=localStorage.getItem('mb_frame_auto_centered')==='1';
+let frameLayoutTouched=localStorage.getItem('mb_frame_layout_touched')==='1';
 function p(){return people[active]||people[0]}function save(){localStorage.setItem(storeKey,JSON.stringify(people));localStorage.setItem('mb_v4_frame',frame);localStorage.setItem('mb_frame_preset_bg',framePresetBg)}function snap(){undo.push(JSON.stringify({people,active,step,frame,frameBgData,frameBgScale,framePresetBg,frameMobileDrop}));if(undo.length>20)undo.shift()}function restore(){const r=undo.pop();if(!r)return;const d=JSON.parse(r);people=d.people;active=d.active;step=d.step;frame=d.frame;frameBgData=d.frameBgData;frameBgScale=d.frameBgScale;framePresetBg=d.framePresetBg||'none';frameMobileDrop=d.frameMobileDrop||'0';sync()}
 
 function applyFrameMobileView(){
@@ -1989,7 +1991,7 @@ function renderMobilePeople(){
 }
 
 function addPersonFn(){if(people.length>=10)return alert('Можно добавить максимум 10 человечков');snap();people.push(newPerson(people.length+1));active=people.length-1;step='skin';sync()}function delPerson(i){if(people.length===1)return alert('Нужен хотя бы один человечек');snap();people.splice(i,1);if(active>=people.length)active=people.length-1;sync()}
-function renderSteps(){stepsNav.innerHTML='';steps.forEach(s=>{const idx=steps.findIndex(x=>x.key===s.key);const cur=steps.findIndex(x=>x.key===step);const b=document.createElement('button');b.className='step-btn '+(s.key===step?'active ':'')+(idx<cur?'done':'');b.innerHTML=`<span class="num">${s.num}</span><span>${s.title}</span>`;b.onclick=()=>{step=s.key;sync();window.scrollTo({top:0,behavior:'smooth'})};stepsNav.appendChild(b)})}
+function renderSteps(){stepsNav.innerHTML='';steps.forEach(s=>{const idx=steps.findIndex(x=>x.key===s.key);const cur=steps.findIndex(x=>x.key===step);const b=document.createElement('button');b.className='step-btn '+(s.key===step?'active ':'')+(idx<cur?'done':'');b.innerHTML=`<span class="num">${s.num}</span><span>${s.title}</span>`;b.onclick=()=>{if(s.key==='frame'){enterFrameMode()}else{step=s.key;sync()}window.scrollTo({top:0,behavior:'smooth'})};stepsNav.appendChild(b)})}
 function setStepFocus(){const s=steps.find(x=>x.key===step);constructorView.className='figure-wrap '+(s?s.focus:'focus-full');constructorView.classList.toggle('hidden',step==='frame');frameView.classList.toggle('hidden',step!=='frame');updateHairFlipControls()}
 function renderFigure(){
   const person=p();
@@ -2376,7 +2378,7 @@ if(step==='frame'){
   editorBody.querySelectorAll('[data-frame-color]').forEach(b=>b.onclick=()=>{snap();frame=b.dataset.frameColor+'-'+size;sync();});
   editorBody.querySelectorAll('[data-frame-size]').forEach(b=>b.onclick=()=>{
     snap();frame=(isBlack?'black':'white')+'-'+b.dataset.frameSize;
-    people.forEach(p=>{p.frameX=null;p.frameY=null;});sync();
+    sync();
   });
 
   editorBody.querySelectorAll('[data-frame-bg]').forEach(b=>b.onclick=()=>{
@@ -2410,7 +2412,7 @@ if(step==='frame'){
   bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);renderFrame()};
   openOrderFromEditor.onclick=openOrderModal;
 }
-const n=document.getElementById('nextStepBtn');if(n)n.onclick=()=>{const i=steps.findIndex(s=>s.key===step);step=steps[Math.min(i+1,steps.length-1)].key;sync();window.scrollTo({top:0,behavior:'smooth'})}}
+const n=document.getElementById('nextStepBtn');if(n)n.onclick=()=>{const i=steps.findIndex(s=>s.key===step);const nextKey=steps[Math.min(i+1,steps.length-1)].key;if(nextKey==='frame'){enterFrameMode()}else{step=nextKey;sync()}window.scrollTo({top:0,behavior:'smooth'})}}
 function frameType(){if(frame.includes('small'))return'small';if(frame.includes('square'))return'square';return'big'}
 
 // ── Позиционирование фигурок ─────────────────────────────────────────────
@@ -2445,14 +2447,19 @@ function figWH(){
 // yPct = нижний край фигурки по Y (% от высоты miniGrid)
 function defaultFramePositions(){
   const count=Math.max(1,people.length);
-  const {w, innerW}=figWH();
-  const iW=innerW>10?innerW:(miniGrid?.clientWidth||200);
-  const gap=Math.max(6,(iW-w*count)/(count+1));
-  const startX=(iW-(w*count+gap*(count-1)))/2+w/2;
-  const bottomY=95;
+  const rowY=62;
+
+  if(count===1){
+    return [{x:50,y:rowY}];
+  }
+
+  const gap=Math.min(18,Math.max(10,70/count));
+  const total=gap*(count-1);
+  const start=50-total/2;
+
   return Array.from({length:count},(_,i)=>({
-    x:Math.round((startX+i*(w+gap))/iW*1000)/10,
-    y:bottomY
+    x:Math.round((start+i*gap)*10)/10,
+    y:rowY
   }));
 }
 
@@ -2461,17 +2468,33 @@ function getPersonFramePos(i){
   if(person&&person.frameX!=null&&person.frameY!=null)
     return [person.frameX,person.frameY];
   const defs=defaultFramePositions();
-  return [defs[i]?.x||50, defs[i]?.y||95];
+  return [defs[i]?.x||50, defs[i]?.y||62];
 }
 
-function ensureFramePositions(){
+function ensureFramePositions(forceCenter=false){
   const defs=defaultFramePositions();
   people.forEach((person,i)=>{
-    if(person.frameX==null||person.frameY==null){
+    if(forceCenter || person.frameX==null || person.frameY==null){
       person.frameX=defs[i]?.x||50;
-      person.frameY=defs[i]?.y||95;
+      person.frameY=defs[i]?.y||62;
     }
   });
+}
+
+function centerFrameOnceIfNeeded(){
+  if(step!=='frame')return;
+  if(frameAutoCentered || frameLayoutTouched)return;
+
+  ensureFramePositions(true);
+  frameAutoCentered=true;
+  localStorage.setItem('mb_frame_auto_centered','1');
+  save();
+}
+
+function enterFrameMode(){
+  step='frame';
+  centerFrameOnceIfNeeded();
+  sync();
 }
 
 function ensureFrameSlots(){ensureFramePositions();}
@@ -2586,6 +2609,8 @@ function attachFrameDragHandlers(){
         const rawY=Math.min(95,Math.max(5,(ev.clientY-rect.top)/rect.height*100));
         const {x,y}=calcSnap(idx,rawX,rawY);
         snap();
+        frameLayoutTouched=true;
+        localStorage.setItem('mb_frame_layout_touched','1');
         people[idx].frameX=Math.round(x*10)/10;
         people[idx].frameY=Math.round(y*10)/10;
         el.classList.remove('is-dragging');
@@ -3108,7 +3133,7 @@ function initIntroFlow(){
   };
 }
 
-addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=()=>{step='frame';sync()};orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};if(hairFlipLeft)hairFlipLeft.onclick=toggleHairBackView;if(hairFlipRight)hairFlipRight.onclick=toggleHairBackView;orderClose.onclick=()=>orderModal.classList.remove('open');if(orderZoomMinus)orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(orderZoomPlus)orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Описание заказа скопировано')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};loadCatalog()
+addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=enterFrameMode;orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};if(hairFlipLeft)hairFlipLeft.onclick=toggleHairBackView;if(hairFlipRight)hairFlipRight.onclick=toggleHairBackView;orderClose.onclick=()=>orderModal.classList.remove('open');if(orderZoomMinus)orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(orderZoomPlus)orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Описание заказа скопировано')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};loadCatalog()
   .catch(err=>console.log('catalog load failed',err))
   .then(()=>{
     if('serviceWorker'in navigator){
