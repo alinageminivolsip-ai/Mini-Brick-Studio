@@ -1957,6 +1957,24 @@ body.hair-step.hair-can-flip .hair-flip-controls{display:flex}
   }
 }
 
+
+/* === FINAL FRAME SIZE FIX: рамка не схлопывается, квадрат всегда 1:1 === */
+#frameView{
+  min-width:0!important;
+  min-height:0!important;
+}
+.frame-box{
+  flex:0 0 auto!important;
+  max-width:none!important;
+  max-height:none!important;
+}
+.frame-box.f-square{
+  aspect-ratio:1/1!important;
+}
+body.frame-mode #frameView{
+  overflow:visible!important;
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -3055,9 +3073,43 @@ function attachFrameDragHandlers(){
 }
 
 
+
+function applyFrameBoxSize(){
+  if(!frameBox || !figureViewport)return;
+  const t=frameType();
+  const ratios={small:15.5/20.5,square:1,big:22.5/31.5};
+  const ratio=ratios[t]||1;
+  const rect=figureViewport.getBoundingClientRect();
+  const isMobile=window.matchMedia('(max-width: 900px)').matches;
+  const pad=isMobile?26:44;
+  const labelSpace=isMobile?34:46;
+  const maxW=Math.max(120, rect.width - pad*2);
+  const maxH=Math.max(120, rect.height - pad*2 - labelSpace);
+
+  let w=Math.min(maxW, maxH*ratio);
+  let h=w/ratio;
+
+  // Ограничители только чтобы рамка не стала абсурдно огромной на широких мониторах.
+  // Квадрат больше не может схлопнуться в узкую вертикальную полоску.
+  const hardMax=isMobile?360:860;
+  if(t==='square'){
+    const side=Math.min(maxW,maxH,hardMax);
+    w=side;h=side;
+  }else{
+    h=Math.min(h,hardMax);
+    w=h*ratio;
+    if(w>maxW){w=maxW;h=w/ratio;}
+  }
+
+  frameBox.style.width=Math.round(w)+'px';
+  frameBox.style.height=Math.round(h)+'px';
+  frameBox.style.aspectRatio=ratio+'/1';
+}
+
 function renderFrame(){
   const fd=frames.find(f=>f.id===frame);if(!fd)return;
   frameBox.className='frame-box '+fd.cls;
+  applyFrameBoxSize();
   frameLabel.textContent=(frame.startsWith('black')?'Черная ':'Белая ')+fd.name;
 
   // Фон
@@ -3557,7 +3609,7 @@ function initIntroFlow(){
   };
 }
 
-addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=enterFrameMode;orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};if(hairFlipLeft)hairFlipLeft.onclick=toggleHairBackView;if(hairFlipRight)hairFlipRight.onclick=toggleHairBackView;orderClose.onclick=()=>orderModal.classList.remove('open');if(orderZoomMinus)orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(orderZoomPlus)orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Описание заказа скопировано')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};loadCatalog()
+addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=enterFrameMode;orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};if(hairFlipLeft)hairFlipLeft.onclick=toggleHairBackView;if(hairFlipRight)hairFlipRight.onclick=toggleHairBackView;orderClose.onclick=()=>orderModal.classList.remove('open');if(orderZoomMinus)orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(orderZoomPlus)orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Описание заказа скопировано')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};window.addEventListener('resize',()=>{if(step==='frame'){applyFrameBoxSize();renderFrame();}});loadCatalog()
   .catch(err=>console.log('catalog load failed',err))
   .then(()=>{
     if('serviceWorker'in navigator){
