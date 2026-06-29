@@ -2473,6 +2473,10 @@ const accessoryMeta={
     type:'outfit',
     outfit:{x:50,y:50,w:100,r:0,flip:1}
   },
+  'wedding-dress':{
+    type:'outfit',
+    outfit:{x:50,y:50,w:100,r:0,flip:1}
+  },
   'wedding-costume':{
     type:'outfit',
     outfit:{x:50,y:50,w:100,r:0,flip:1}
@@ -2491,10 +2495,21 @@ function isOutfitAccessory(id){
   return !!(id && accessoryMeta[id] && accessoryMeta[id].type==='outfit');
 }
 function getOutfitAccessory(person){
+  if(person && person.outfitAccessory && isOutfitAccessory(person.outfitAccessory))return person.outfitAccessory;
   const acc=getPersonAccessories(person);
   if(isOutfitAccessory(acc.right))return acc.right;
   if(isOutfitAccessory(acc.left))return acc.left;
   return '';
+}
+function cleanOutfitFromHands(person){
+  if(!person)return;
+  if(!person.outfitAccessory){
+    if(isOutfitAccessory(person.rightAccessory))person.outfitAccessory=person.rightAccessory;
+    else if(isOutfitAccessory(person.leftAccessory))person.outfitAccessory=person.leftAccessory;
+  }
+  if(isOutfitAccessory(person.rightAccessory))person.rightAccessory='';
+  if(isOutfitAccessory(person.leftAccessory))person.leftAccessory='';
+  person.accessory='';
 }
 function getOutfitMeta(id){
   const item=accessoryMeta[id]||{};
@@ -2513,8 +2528,8 @@ function getPersonAccessories(person){
 const steps=[{key:'skin',num:'01',title:'Кожа и лицо',focus:'focus-skin'},{key:'hair',num:'02',title:'Прическа',focus:'focus-hair'},{key:'torso',num:'03',title:'Торс и принт',focus:'focus-torso'},{key:'legs',num:'04',title:'Ноги',focus:'focus-legs'},{key:'accessory',num:'05',title:'Аксессуары',focus:'focus-accessory'},{key:'frame',num:'06',title:'Рамка',focus:'focus-full'}];
 const storeKey='mb_v4_people';
 function firstHairId(){return (Array.isArray(hair)&&hair.length?hair[0]:'f1')}
-function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:1,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
-let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
+function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:1,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',outfitAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
+let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;cleanOutfitFromHands(merged);merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
 let frameAutoCentered=localStorage.getItem('mb_frame_auto_centered')==='1';
 let frameLayoutTouched=localStorage.getItem('mb_frame_layout_touched')==='1';
 function p(){return people[active]||people[0]}function save(){localStorage.setItem(storeKey,JSON.stringify(people));localStorage.setItem('mb_v4_frame',frame);localStorage.setItem('mb_frame_preset_bg',framePresetBg)}function snap(){undo.push(JSON.stringify({people,active,step,frame,frameBgData,frameBgScale,framePresetBg,frameMobileDrop}));if(undo.length>20)undo.shift()}function restore(){const r=undo.pop();if(!r)return;const d=JSON.parse(r);people=d.people;active=d.active;step=d.step;frame=d.frame;frameBgData=d.frameBgData;frameBgScale=d.frameBgScale;framePresetBg=d.framePresetBg||'none';frameMobileDrop=d.frameMobileDrop||'0';sync()}
@@ -2632,14 +2647,14 @@ function renderFigure(){
   const leftSrc=(acc.left&&!isOutfitAccessory(acc.left))?getAccSrc(acc.left):'';
   if(accLeftImg.dataset.originalSrc!==leftSrc){accLeftImg.dataset.originalSrc=leftSrc;accLeftImg.src=leftSrc}
   accLeftImg.dataset.accId=acc.left||'';accLeftImg.dataset.icecreamColor=getAccColor(acc.left,person);accLeftImg.style.cssText=acc.left?accVars(acc.left,'left'):'';
-  accLeftImg.classList.toggle('hidden',!acc.left);
-  if(acc.left)normalizeAccessoryElement(accLeftImg);
+  accLeftImg.classList.toggle('hidden',!leftSrc);
+  if(leftSrc)normalizeAccessoryElement(accLeftImg);
 
   const rightSrc=(acc.right&&!isOutfitAccessory(acc.right))?getAccSrc(acc.right):'';
   if(accRightImg.dataset.originalSrc!==rightSrc){accRightImg.dataset.originalSrc=rightSrc;accRightImg.src=rightSrc}
   accRightImg.dataset.accId=acc.right||'';accRightImg.dataset.icecreamColor=getAccColor(acc.right,person);accRightImg.style.cssText=acc.right?accVars(acc.right,'right'):'';
-  accRightImg.classList.toggle('hidden',!acc.right);
-  if(acc.right)normalizeAccessoryElement(accRightImg);
+  accRightImg.classList.toggle('hidden',!rightSrc);
+  if(rightSrc)normalizeAccessoryElement(accRightImg);
 
   setStepFocus();
   renderFrame();
@@ -2921,8 +2936,10 @@ if(step==='torso'){
 }
 if(step==='legs'){editorBody.innerHTML=`<div class="section-title"><span class="badge">4.1</span> Ноги</div>${renderSwatches(bodyGroups,'legs')}${nextButton()}`;wireSwatches()}
 if(step==='accessory'){
+  cleanOutfitFromHands(person);
   editorBody.innerHTML=`<div class="section-title"><span class="badge">5.1</span> Аксессуары</div>
     <div class="acc-cats" id="accCats"></div>
+    <div class="acc-hand-block hidden" id="outfitBlock"><div class="acc-hand-title"><span>★</span> Костюм / платье</div><div class="choice-grid" id="outfitGrid"></div></div>
     <div class="acc-hand-block"><div class="acc-hand-title"><span>R</span> Правая рука</div><div class="choice-grid" id="accRightGrid"></div></div>
     <div class="acc-hand-block"><div class="acc-hand-title"><span>L</span> Левая рука</div><div class="choice-grid" id="accLeftGrid"></div></div>
     ${nextButton()}`;
@@ -2937,6 +2954,23 @@ if(step==='accessory'){
   });
 
   const shown=accessories.filter(id=>activeAccessoryCategory==='all'||accessoryCategoryMap[id]===activeAccessoryCategory);
+  const shownOutfits=shown.filter(id=>isOutfitAccessory(id));
+  const shownHandAccessories=shown.filter(id=>!isOutfitAccessory(id));
+
+  function fillOutfitGrid(){
+    if(!shownOutfits.length){
+      outfitBlock.classList.add('hidden');
+      return;
+    }
+    outfitBlock.classList.remove('hidden');
+    const none=document.createElement('button');
+    none.className='choice '+(!person.outfitAccessory?'active':'');
+    none.textContent='Без костюма';
+    none.onclick=()=>{snap();person.outfitAccessory='';sync()};
+    outfitGrid.appendChild(none);
+
+    shownOutfits.forEach(id=>outfitGrid.appendChild(choiceImg('acc',id,person.outfitAccessory===id,()=>{person.outfitAccessory=id;cleanOutfitFromHands(person)})));
+  }
 
   function fillHandGrid(grid,side){
     const key=side==='left'?'leftAccessory':'rightAccessory';
@@ -2946,7 +2980,7 @@ if(step==='accessory'){
     none.onclick=()=>{snap();person[key]='';person.accessory='';sync()};
     grid.appendChild(none);
 
-    if(!shown.length){
+    if(!shownHandAccessories.length){
       const e=document.createElement('div');
       e.className='empty';
       e.textContent='В этой категории пока пусто';
@@ -2954,9 +2988,10 @@ if(step==='accessory'){
       return;
     }
 
-    shown.forEach(id=>grid.appendChild(choiceImg('acc',id,person[key]===id,()=>{person[key]=id;person.accessory=''})));
+    shownHandAccessories.forEach(id=>grid.appendChild(choiceImg('acc',id,person[key]===id,()=>{person[key]=id;person.accessory='';cleanOutfitFromHands(person)})));
   }
 
+  fillOutfitGrid();
   fillHandGrid(accRightGrid,'right');
   fillHandGrid(accLeftGrid,'left');
 
@@ -3360,7 +3395,7 @@ function renderFrame(){
 function sync(){if(step!=='hair')hairBackView=false;applyFrameMobileView();updateHairFlipControls();save();renderPeople();renderMobilePeople();renderSteps();renderFigure();renderEditor();normalizeAllAccessoryElements()}
 function orderText(){
   const fd=frames.find(f=>f.id===frame);
-  return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПравая рука: ${isOutfitAccessory(x.rightAccessory)?'нет':(x.rightAccessory||'нет')}\nЛевая рука: ${isOutfitAccessory(x.leftAccessory)?'нет':(x.leftAccessory||'нет')}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
+  return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
 }
 function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}function tint(ctx,img,color,x,y,w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const t=c.getContext('2d');t.drawImage(img,0,0,w,h);t.globalCompositeOperation='source-in';t.fillStyle=color;t.fillRect(0,0,w,h);ctx.drawImage(c,x,y,w,h)}
 async function exportOrderImage(){
@@ -3675,7 +3710,7 @@ async function loadCatalog(){
     people.forEach(x=>{
       if(!faces.includes(x.face))x.face=faces[0]||'A1';
       if(!hair.map(String).includes(String(x.hair)))x.hair=firstHairId();
-      if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
+      if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.outfitAccessory&&!accessories.includes(x.outfitAccessory))x.outfitAccessory='';cleanOutfitFromHands(x);if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
     });
   }catch(e){
     console.log('catalog error',e);
@@ -3695,7 +3730,7 @@ async function loadCatalog(){
     people.forEach(x=>{
       if(!faces.includes(x.face))x.face=faces[0]||'A1';
       if(!hair.map(String).includes(String(x.hair)))x.hair=firstHairId();
-      if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
+      if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.outfitAccessory&&!accessories.includes(x.outfitAccessory))x.outfitAccessory='';cleanOutfitFromHands(x);if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
     });
   }
 }
