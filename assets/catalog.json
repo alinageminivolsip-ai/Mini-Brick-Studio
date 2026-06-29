@@ -37,6 +37,7 @@
       "star"
     ],
     "premium": [
+      "wedding-dress",
       "wedding-suit"
     ]
   },
@@ -44,7 +45,7 @@
     "love",
     "you_and_me"
   ],
-  "version": 10,
+  "version": 11,
   "hairBack": [
     "f1",
     "f6"
