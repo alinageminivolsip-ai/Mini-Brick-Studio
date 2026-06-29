@@ -1988,6 +1988,81 @@ body.frame-mode .frame-box.f-square{
   aspect-ratio:1 / 1!important;
 }
 
+/* === BODY COLOR NOTES: прозрачные и золотой цвет === */
+.swatch-btn{
+  position:relative!important;
+  overflow:visible!important;
+}
+.swatch-btn .swatch-mark{
+  position:absolute;
+  right:-6px;
+  top:-8px;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#fff;
+  color:var(--red);
+  border:2px solid #ffd7ea;
+  font-size:15px;
+  line-height:1;
+  font-weight:950;
+  box-shadow:0 5px 12px rgba(86,24,55,.14);
+  pointer-events:none;
+}
+.swatch-btn.is-transparent::after{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border-radius:11px;
+  background:
+    linear-gradient(45deg,rgba(255,255,255,.42) 25%,transparent 25% 50%,rgba(255,255,255,.42) 50% 75%,transparent 75%);
+  background-size:10px 10px;
+  mix-blend-mode:screen;
+  opacity:.72;
+  pointer-events:none;
+}
+.swatch-btn.is-gold::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(255,255,255,.48),rgba(255,255,255,0) 45%,rgba(90,50,0,.18));
+  pointer-events:none;
+}
+.color-note{
+  margin:10px 0 16px;
+  padding:12px 14px;
+  border:2px solid var(--line);
+  border-radius:18px;
+  background:#fff7fb;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.35;
+  font-weight:900;
+}
+.color-note b{
+  color:var(--red);
+}
+.color-note .note-star{
+  color:#18a34a;
+}
+@media(max-width:900px){
+  .color-note{
+    font-size:11px;
+    border-radius:16px;
+    padding:10px 12px;
+  }
+  .swatch-btn .swatch-mark{
+    right:-5px;
+    top:-7px;
+    width:20px;
+    height:20px;
+    font-size:14px;
+  }
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -2069,10 +2144,66 @@ body.frame-mode .frame-box.f-square{
 <div class="modal" id="orderModal"><div class="modal-card"><div class="modal-head"><h2>Ваш заказ готов</h2><button class="close" id="orderClose">×</button></div><div class="order-preview" id="orderPreviewBox"><img id="orderPreviewImg" alt=""></div><div class="order-zoom"><button type="button" id="orderZoomMinus">−</button><span id="orderZoomLabel">100%</span><button type="button" id="orderZoomPlus">+</button></div><div class="order-info" id="orderInfo"></div><textarea id="orderTextarea" class="order-text" readonly></textarea><div class="order-steps"><button class="btn dark" id="downloadOrderImg">Скачайте изображение</button><button class="btn ghost" id="copyOrderText">Скопируйте детали заказа</button><a class="btn pink" id="vkLink" href="https://vk.com/write-224539480" target="_blank" rel="noopener">Напишите нам ВКонтакте</a></div></div></div>
 
 <script>
-const bodyColors={2:'#F2EFE6',4:'#9FA3A5',5:'#4D5B5A',7:'#111111',8:'#C7BA76',9:'#8A7A33',10:'#C8941E',11:'#B76A1C',12:'#C84A1D',13:'#6E2F18',14:'#2D1610',15:'#FFD200',16:'#F7A500',17:'#D98A2B',18:'#FF6A13',19:'#D81919',20:'#B61212',21:'#7A1010',22:'#6A7A1A',23:'#84C71A',24:'#8FA89A',25:'#52A88D',26:'#10B43C',27:'#157C27',28:'#0B3A23',29:'#25C5D8',30:'#7BC5F1',31:'#1B8DDB',32:'#1A72D6',33:'#1A4DFF88',34:'#1D4FB3',35:'#0D245F',36:'#E5A8D4',37:'#E83D9E',38:'#C40063',39:'#B39AD9',40:'#8F59C6',41:'#5122B7',42:'#6B8794',43:'#A7E4D0',44:'#F2EFE6',45:'#4A4F55',46:'#111111',47:'#C8A33A',48:'#FF6A13',49:'#6FC4F0'};
+const bodyColors={
+  2:'#F2EFE6',
+  3:'rgba(210,210,210,.42)',
+  4:'#9FA3A5',
+  5:'#4D5B5A',
+  6:'rgba(92,72,48,.55)',
+  7:'#111111',
+  8:'#C7BA76',
+  9:'#8A7A33',
+  10:'#C8941E',
+  11:'#B76A1C',
+  12:'#C84A1D',
+  13:'#6E2F18',
+  14:'#2D1610',
+  15:'#FFD200',
+  16:'#F7A500',
+  17:'#D98A2B',
+  18:'#FF6A13',
+  19:'#D81919',
+  20:'rgba(182,18,18,.62)',
+  21:'#7A1010',
+  22:'#6A7A1A',
+  23:'#84C71A',
+  24:'#8FA89A',
+  25:'#52A88D',
+  26:'#10B43C',
+  27:'#157C27',
+  28:'#0B3A23',
+  29:'#25C5D8',
+  30:'#7BC5F1',
+  31:'#1B8DDB',
+  32:'#1A72D6',
+  33:'rgba(26,77,255,.58)',
+  34:'#1D4FB3',
+  35:'#0D245F',
+  36:'#E5A8D4',
+  37:'#E83D9E',
+  38:'#C40063',
+  39:'#B39AD9',
+  40:'#8F59C6',
+  41:'#5122B7',
+  42:'#6B8794',
+  43:'#A7E4D0',
+  44:'#F2EFE6',
+  45:'#4A4F55',
+  46:'#111111',
+  47:'#C8A33A',
+  48:'#FF6A13',
+  49:'#6FC4F0'
+};
+const bodyColorMeta={
+  3:{transparent:true,note:'полупрозрачный цвет'},
+  6:{transparent:true,note:'полупрозрачный цвет'},
+  20:{transparent:true,note:'полупрозрачный цвет'},
+  33:{transparent:true,note:'полупрозрачный цвет'},
+  10:{gold:true,note:'золотой цвет'}
+};
 const skinColors={1:'#FFD200',2:'#F3C28B',3:'#D89A62',4:'#A86A3D',5:'#6B3F28',6:'#F7E3C3',7:'#111111',8:'#FFFFFF'};
 const skinGroups=[{title:'Кожа',ids:[1,2,6,3,4,5,7,8]}];
-const bodyGroups=[{title:'Белый / серый / черный',ids:[2,4,5,7,44,45,46]},{title:'Желтый / оранжевый',ids:[8,9,10,11,15,16,17,18,47,48]},{title:'Красный',ids:[12,13,14,19,20,21]},{title:'Зеленый',ids:[22,23,24,25,26,27,28]},{title:'Синий',ids:[29,30,31,32,33,34,35,49]},{title:'Розовый / фиолетовый',ids:[36,37,38,39,40,41,42,43]}];
+const bodyGroups=[{title:'Белый / прозрачный / серый / черный',ids:[2,3,4,5,6,7,44,45,46]},{title:'Желтый / оранжевый',ids:[8,9,10,11,15,16,17,18,47,48]},{title:'Красный',ids:[12,13,14,19,20,21]},{title:'Зеленый',ids:[22,23,24,25,26,27,28]},{title:'Синий',ids:[29,30,31,32,33,34,35,49]},{title:'Розовый / фиолетовый',ids:[36,37,38,39,40,41,42,43]}];
 let faces=['A1'], hair=['f1'], prints=['print-swoosh-character','print-drip-smile','print-sketch-heart','swoosh-character','drip-smile'], accessories=[];
 let accessorySrcMap={};
 let accessoryCategoryMap={};
@@ -2606,7 +2737,37 @@ function choiceImg(type,id,active,cb){
   b.onclick=()=>{snap();cb();sync()};
   return b
 }
-function renderSwatches(groups,part){const person=p();let html='';groups.forEach(g=>{html+=`<div class="group"><div class="group-title">${g.title}</div><div class="swatches">`;g.ids.forEach(id=>{const c=(part==='skin'?skinColors:bodyColors)[id];if(c)html+=`<button class="swatch-btn ${+person[part]===+id?'active':''}" style="background:${c}" data-part="${part}" data-id="${id}"></button>`});html+='</div></div>'});return html}
+function renderSwatches(groups,part){
+  const person=p();
+  let html='';
+
+  if(part==='torso'||part==='legs'){
+    html+=`<div class="color-note"><b>*</b> полупрозрачные цвета: 3, 6, 20, 33. <b class="note-star">★</b> золотой цвет: 10.</div>`;
+  }
+
+  groups.forEach(g=>{
+    html+=`<div class="group"><div class="group-title">${g.title}</div><div class="swatches">`;
+    g.ids.forEach(id=>{
+      const c=(part==='skin'?skinColors:bodyColors)[id];
+      if(!c)return;
+
+      const meta=(part==='skin'?{}:(bodyColorMeta[id]||{}));
+      const mark=meta.transparent?'*':(meta.gold?'★':'');
+      const cls=[
+        'swatch-btn',
+        +person[part]===+id?'active':'',
+        meta.transparent?'is-transparent':'',
+        meta.gold?'is-gold':''
+      ].filter(Boolean).join(' ');
+      const title=meta.note?`Цвет ${id}: ${meta.note}`:`Цвет ${id}`;
+
+      html+=`<button class="${cls}" title="${title}" aria-label="${title}" style="background:${c}" data-part="${part}" data-id="${id}">${mark?`<span class="swatch-mark">${mark}</span>`:''}</button>`;
+    });
+    html+='</div></div>';
+  });
+
+  return html;
+}
 function wireSwatches(){editorBody.querySelectorAll('.swatch-btn').forEach(b=>b.onclick=()=>{snap();p()[b.dataset.part]=+b.dataset.id;sync()})}
 function nextButton(){const i=steps.findIndex(s=>s.key===step);return `<button class="btn dark" style="width:100%;margin-top:18px" id="nextStepBtn">${i===steps.length-1?'Готово':'Перейти далее'}</button>`}
 async function removePrintBackground(dataUrl){
