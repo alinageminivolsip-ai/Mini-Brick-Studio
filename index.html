@@ -1697,6 +1697,69 @@ body.hair-step.hair-can-flip .hair-flip-controls{display:flex}
   }
 }
 
+
+/* === DESKTOP FIX: большая фигура по центру, без "Потяни" === */
+@media(min-width:901px){
+  .frame-resize-handle{
+    display:none!important;
+  }
+
+  .viewer{
+    min-height:calc(100dvh - 118px)!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+  }
+
+  .figure-viewport{
+    width:100%!important;
+    height:100%!important;
+    min-height:calc(100dvh - 138px)!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:46px 24px 34px!important;
+  }
+
+  .figure-wrap,
+  .figure-wrap.focus-skin,
+  .figure-wrap.focus-hair,
+  .figure-wrap.focus-torso,
+  .figure-wrap.focus-legs,
+  .figure-wrap.focus-accessory,
+  .figure-wrap.focus-full{
+    width:auto!important;
+    height:min(88%, calc(100dvh - 170px))!important;
+    max-height:760px!important;
+    min-height:520px!important;
+    aspect-ratio:1024/1536!important;
+    transform:none!important;
+    margin:auto!important;
+  }
+
+  .stage-toolbar{
+    top:22px!important;
+    right:22px!important;
+  }
+
+  .hair-flip-controls{
+    width:min(70%,520px)!important;
+  }
+}
+
+@media(min-width:901px) and (max-height:760px){
+  .figure-wrap,
+  .figure-wrap.focus-skin,
+  .figure-wrap.focus-hair,
+  .figure-wrap.focus-torso,
+  .figure-wrap.focus-legs,
+  .figure-wrap.focus-accessory,
+  .figure-wrap.focus-full{
+    height:min(86%, calc(100dvh - 145px))!important;
+    min-height:440px!important;
+  }
+}
+
 </style>
 </head>
 <body class="intro-active">
