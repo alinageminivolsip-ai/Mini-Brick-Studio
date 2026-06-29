@@ -2075,6 +2075,19 @@ body.frame-mode .frame-box.f-square{
   transform-origin:center center!important;
 }
 
+/* === FINAL FIX: рамка не уменьшается при переключении размеров === */
+body.frame-mode #frameView{
+  contain:layout paint!important;
+  min-width:100%!important;
+  min-height:100%!important;
+}
+body.frame-mode .frame-preview{
+  flex:1 1 auto!important;
+}
+body.frame-mode .frame-box{
+  box-sizing:border-box!important;
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -3330,36 +3343,48 @@ function attachFrameDragHandlers(){
 
 
 function applyFrameBoxSize(){
-  if(!frameBox || !figureViewport)return;
+  if(!frameBox || !viewer || !figureViewport)return;
+
   const t=frameType();
   const ratios={small:15.5/20.5,square:1,big:22.5/31.5};
   const ratio=ratios[t]||1;
-  const rect=figureViewport.getBoundingClientRect();
   const isMobile=window.matchMedia('(max-width: 900px)').matches;
-  const pad=isMobile?26:44;
-  const labelSpace=isMobile?34:46;
-  const maxW=Math.max(120, rect.width - pad*2);
-  const maxH=Math.max(120, rect.height - pad*2 - labelSpace);
 
-  let w=Math.min(maxW, maxH*ratio);
-  let h=w/ratio;
+  // ВАЖНО: размер считаем от стабильной области viewer, а не от самой рамки.
+  // Иначе при переключении размеров браузер может взять уже уменьшенный frameView
+  // и рамка начинает становиться меньше с каждым кликом.
+  const viewerRect=viewer.getBoundingClientRect();
+  const viewportRect=figureViewport.getBoundingClientRect();
 
-  // Ограничители только чтобы рамка не стала абсурдно огромной на широких мониторах.
-  // Квадрат больше не может схлопнуться в узкую вертикальную полоску.
-  const hardMax=isMobile?360:860;
+  const baseW=Math.max(viewerRect.width||0, viewportRect.width||0);
+  const baseH=Math.max(viewerRect.height||0, viewportRect.height||0);
+
+  const pad=isMobile?28:56;
+  const labelSpace=isMobile?38:54;
+
+  const maxW=Math.max(120, baseW - pad*2);
+  const maxH=Math.max(120, baseH - pad*2 - labelSpace);
+
+  let w,h;
+
   if(t==='square'){
-    const side=Math.min(maxW,maxH,hardMax);
-    w=side;h=side;
+    const side=Math.min(maxW,maxH,isMobile?360:860);
+    w=side;
+    h=side;
   }else{
-    h=Math.min(h,hardMax);
+    h=Math.min(maxH,isMobile?390:860);
     w=h*ratio;
-    if(w>maxW){w=maxW;h=w/ratio;}
+    if(w>maxW){
+      w=maxW;
+      h=w/ratio;
+    }
   }
 
-  // Важно: ниже в CSS есть старые правила с !important для разных размеров рамок.
-  // Поэтому задаем размер тоже с important, иначе квадрат при изменении окна снова превращается в прямоугольник.
-  frameBox.style.setProperty('width', Math.round(w)+'px', 'important');
-  frameBox.style.setProperty('height', Math.round(h)+'px', 'important');
+  w=Math.max(120,Math.round(w));
+  h=Math.max(120,Math.round(h));
+
+  frameBox.style.setProperty('width', w+'px', 'important');
+  frameBox.style.setProperty('height', h+'px', 'important');
   frameBox.style.setProperty('aspect-ratio', ratio + ' / 1', 'important');
 }
 
@@ -3412,7 +3437,29 @@ function renderFrame(){
   normalizeAllAccessoryElements();
 }
 
-function sync(){if(step!=='hair')hairBackView=false;applyFrameMobileView();updateHairFlipControls();save();renderPeople();renderMobilePeople();renderSteps();renderFigure();renderEditor();normalizeAllAccessoryElements()}
+function sync(){
+  if(step!=='hair')hairBackView=false;
+  applyFrameMobileView();
+  updateHairFlipControls();
+  save();
+
+  // Сначала перерисовываем боковые панели и редактор.
+  // Потом сцену. Так размер центральной области уже финальный,
+  // и рамка не пересчитывается от старой/сжатой ширины.
+  renderPeople();
+  renderMobilePeople();
+  renderSteps();
+  renderEditor();
+  renderFigure();
+  normalizeAllAccessoryElements();
+
+  if(step==='frame'){
+    requestAnimationFrame(()=>{
+      applyFrameBoxSize();
+      renderFrame();
+    });
+  }
+}
 function orderText(){
   const fd=frames.find(f=>f.id===frame);
   return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
@@ -3883,7 +3930,15 @@ function initIntroFlow(){
   };
 }
 
-addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=enterFrameMode;orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};if(hairFlipLeft)hairFlipLeft.onclick=toggleHairBackView;if(hairFlipRight)hairFlipRight.onclick=toggleHairBackView;orderClose.onclick=()=>orderModal.classList.remove('open');if(orderZoomMinus)orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(orderZoomPlus)orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Описание заказа скопировано')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};window.addEventListener('resize',()=>{if(step==='frame'){applyFrameBoxSize();renderFrame();}});loadCatalog()
+addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=enterFrameMode;orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};if(hairFlipLeft)hairFlipLeft.onclick=toggleHairBackView;if(hairFlipRight)hairFlipRight.onclick=toggleHairBackView;orderClose.onclick=()=>orderModal.classList.remove('open');if(orderZoomMinus)orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(orderZoomPlus)orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Описание заказа скопировано')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};let frameResizeTimer=null;
+window.addEventListener('resize',()=>{
+  if(step!=='frame')return;
+  clearTimeout(frameResizeTimer);
+  frameResizeTimer=setTimeout(()=>{
+    applyFrameBoxSize();
+    renderFrame();
+  },80);
+});loadCatalog()
   .catch(err=>console.log('catalog load failed',err))
   .then(()=>{
     if('serviceWorker'in navigator){
