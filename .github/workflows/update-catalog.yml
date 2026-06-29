@@ -27,36 +27,88 @@ jobs:
           ROOT = "assets"
           EXTS = {".png", ".jpg", ".jpeg", ".webp", ".svg"}
 
+          def sort_key(value):
+              s = str(value)
+              prefix = ''.join([c for c in s if not c.isdigit()])
+              digits = ''.join([c for c in s if c.isdigit()])
+              number = int(digits) if digits else 0
+              return (prefix, number, s)
+
           def scan_ids(folder):
               path = os.path.join(ROOT, folder)
               if not os.path.isdir(path):
                   return []
-              return sorted(
-                  os.path.splitext(f)[0]
-                  for f in os.listdir(path)
-                  if not f.startswith((".", "_"))
-                  and os.path.splitext(f)[1].lower() in EXTS
-              )
+              ids = []
+              for f in os.listdir(path):
+                  full = os.path.join(path, f)
+                  stem, ext = os.path.splitext(f)
 
-          faces = scan_ids("faces")
+                  if not os.path.isfile(full):
+                      continue
 
-          raw_hair = scan_ids("hair")
-          hair = []
-          for h in raw_hair:
-              try:
-                  hair.append(int(h))
-              except:
-                  hair.append(h)
+                  if f.startswith((".", "_")):
+                      continue
 
-          prints = scan_ids("prints")
-          backgrounds = scan_ids("backgrounds")
+                  if ext.lower() not in EXTS:
+                      continue
+
+                  ids.append(stem)
+
+              return sorted(ids, key=sort_key)
+
+          def scan_hair_tree():
+              hair_root = os.path.join(ROOT, "hair")
+              result = {
+                  "all": [],
+                  "female": [],
+                  "male": [],
+                  "other": []
+              }
+
+              if not os.path.isdir(hair_root):
+                  return result
+
+              for f in os.listdir(hair_root):
+                  full = os.path.join(hair_root, f)
+                  stem, ext = os.path.splitext(f)
+
+                  if not os.path.isfile(full):
+                      continue
+
+                  if f.startswith((".", "_")):
+                      continue
+
+                  if ext.lower() not in EXTS:
+                      continue
+
+                  result["all"].append(stem)
+
+                  name = stem.lower()
+
+                  if name.startswith(("f", "female", "w", "woman")):
+                      result["female"].append(stem)
+                  elif name.startswith(("m", "male", "man")):
+                      result["male"].append(stem)
+                  else:
+                      result["other"].append(stem)
+
+              for key in result:
+                  result[key] = sorted(result[key], key=sort_key)
+
+              return result
 
           def is_service_file(stem):
               return (
                   stem.endswith("-mask")
                   or stem.endswith("-left")
+                  or stem.endswith("-right-mask")
                   or stem.endswith("_mask")
               )
+
+          faces = scan_ids("faces")
+          hair = scan_hair_tree()
+          prints = scan_ids("prints")
+          backgrounds = scan_ids("backgrounds")
 
           accessories = {}
           acc_root = os.path.join(ROOT, "accessories")
@@ -69,21 +121,39 @@ jobs:
                   full = os.path.join(acc_root, entry)
 
                   if os.path.isdir(full):
-                      ids = sorted(
-                          os.path.splitext(f)[0]
-                          for f in os.listdir(full)
-                          if not f.startswith((".", "_"))
-                          and os.path.splitext(f)[1].lower() in EXTS
-                          and not is_service_file(os.path.splitext(f)[0])
-                      )
+                      ids = []
+
+                      for f in os.listdir(full):
+                          file_path = os.path.join(full, f)
+                          stem, ext = os.path.splitext(f)
+
+                          if not os.path.isfile(file_path):
+                              continue
+
+                          if f.startswith((".", "_")):
+                              continue
+
+                          if ext.lower() not in EXTS:
+                              continue
+
+                          if is_service_file(stem):
+                              continue
+
+                          ids.append(stem)
+
+                      ids = sorted(ids, key=sort_key)
 
                       if ids:
                           accessories[entry] = ids
 
                   else:
                       stem, ext = os.path.splitext(entry)
+
                       if ext.lower() in EXTS and not is_service_file(stem):
                           accessories.setdefault("other", []).append(stem)
+
+          for key in accessories:
+              accessories[key] = sorted(accessories[key], key=sort_key)
 
           catalog_path = os.path.join(ROOT, "catalog.json")
 
@@ -100,7 +170,7 @@ jobs:
           if faces:
               catalog["faces"] = faces
 
-          if hair:
+          if hair["all"]:
               catalog["hair"] = hair
 
           if prints:
@@ -110,6 +180,7 @@ jobs:
               catalog["backgrounds"] = backgrounds
 
           catalog["accessories"] = accessories
+          catalog["version"] = int(catalog.get("version", 0)) + 1
 
           with open(catalog_path, "w", encoding="utf-8") as f:
               json.dump(catalog, f, ensure_ascii=False, indent=2)
@@ -117,10 +188,11 @@ jobs:
           print(
               f"Done: "
               f"{len(faces)} faces, "
-              f"{len(hair)} hair, "
+              f"{len(hair['all'])} hair, "
               f"{len(prints)} prints, "
               f"{len(backgrounds)} backgrounds, "
-              f"accessory categories: {list(accessories.keys())}"
+              f"accessory categories: {list(accessories.keys())}, "
+              f"version: {catalog['version']}"
           )
           PYEOF
 
