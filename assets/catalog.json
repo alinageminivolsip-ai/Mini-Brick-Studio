@@ -29,13 +29,14 @@
     "animals": [
       "spider"
     ],
+    "other": [
+      "bag",
+      "playstation",
+      "star"
+    ],
     "food": [
       "banana",
       "croissant"
-    ],
-    "other": [
-      "playstation",
-      "star"
     ],
     "premium": [
       "wedding-dress",
@@ -46,7 +47,7 @@
     "love",
     "you_and_me"
   ],
-  "version": 14,
+  "version": 15,
   "hairBack": [
     "f1",
     "f6"
