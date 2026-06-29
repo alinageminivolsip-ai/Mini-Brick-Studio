@@ -2063,6 +2063,18 @@ body.frame-mode .frame-box.f-square{
   }
 }
 
+
+/* === BG SCALE FIX: масштаб фона не влияет на размер рамки === */
+.frame-bg{
+  transform:none!important;
+  width:auto!important;
+  height:auto!important;
+  contain:paint!important;
+}
+.frame-box{
+  transform-origin:center center!important;
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -3094,7 +3106,7 @@ if(step==='frame'){
   };
 
   bgInput.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{frameBgData=r.result;framePresetBg='none';localStorage.setItem('mb_frame_bg',frameBgData);localStorage.setItem('mb_frame_preset_bg',framePresetBg);sync()};r.readAsDataURL(f)};
-  bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);renderFrame()};
+  bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);updateFrameBackground()};
   openOrderFromEditor.onclick=openOrderModal;
 }
 const n=document.getElementById('nextStepBtn');if(n)n.onclick=()=>{const i=steps.findIndex(s=>s.key===step);const nextKey=steps[Math.min(i+1,steps.length-1)].key;if(nextKey==='frame'){enterFrameMode()}else{step=nextKey;sync()}window.scrollTo({top:0,behavior:'smooth'})}}
@@ -3351,29 +3363,37 @@ function applyFrameBoxSize(){
   frameBox.style.setProperty('aspect-ratio', ratio + ' / 1', 'important');
 }
 
-function renderFrame(){
-  const fd=frames.find(f=>f.id===frame);if(!fd)return;
-  frameBox.className='frame-box '+fd.cls;
-  applyFrameBoxSize();
-  frameLabel.textContent=(frame.startsWith('black')?'Черная ':'Белая ')+fd.name;
-
-  // Фон
+function updateFrameBackground(){
+  if(!frameBox || !miniGrid)return;
   let bg=document.getElementById('frameBg');
-  if(!bg){bg=document.createElement('div');bg.className='frame-bg';bg.id='frameBg';frameBox.insertBefore(bg,miniGrid);}
+  if(!bg){
+    bg=document.createElement('div');
+    bg.className='frame-bg';
+    bg.id='frameBg';
+    frameBox.insertBefore(bg,miniGrid);
+  }
+
   const bgScaleNum=Math.max(0.5,Number(frameBgScale||1));
-  // CSS уже задаёт правильный background-color через --frame-bg-color
-  // Мы только управляем пользовательским фото
   const presetBg=getFramePresetBackground(framePresetBg);
   const bgSrc=frameBgData || presetBg.src || '';
+
   if(bgSrc){
     bg.style.backgroundImage=`url(${bgSrc})`;
     bg.style.backgroundPosition='center center';
     bg.style.backgroundRepeat='no-repeat';
     bg.style.backgroundSize=`${Math.round(bgScaleNum*100)}%`;
-  } else {
+  }else{
     bg.style.backgroundImage='none';
     bg.style.backgroundSize='';
   }
+}
+
+function renderFrame(){
+  const fd=frames.find(f=>f.id===frame);if(!fd)return;
+  frameBox.className='frame-box '+fd.cls;
+  applyFrameBoxSize();
+  frameLabel.textContent=(frame.startsWith('black')?'Черная ':'Белая ')+fd.name;
+  updateFrameBackground();
 
   ensureFramePositions();
   const {w,h}=figWH();
