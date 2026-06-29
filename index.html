@@ -3203,6 +3203,7 @@ function centerFrameOnceIfNeeded(){
 
 function enterFrameMode(){
   step='frame';
+  invalidateFramePreviewBase();
   centerFrameOnceIfNeeded();
   sync();
 }
@@ -3342,28 +3343,56 @@ function attachFrameDragHandlers(){
 
 
 
-function applyFrameBoxSize(){
+let framePreviewBase={w:0,h:0,isMobile:null};
+
+function resetFrameBoxSize(){
+  if(!frameBox)return;
+  frameBox.style.removeProperty('width');
+  frameBox.style.removeProperty('height');
+  frameBox.style.removeProperty('max-width');
+  frameBox.style.removeProperty('max-height');
+  frameBox.style.removeProperty('aspect-ratio');
+}
+
+function measureFramePreviewBase(force=false){
+  if(!viewer || !figureViewport)return {w:0,h:0,isMobile:false};
+  const isMobile=window.matchMedia('(max-width: 900px)').matches;
+
+  if(!force && framePreviewBase.w>0 && framePreviewBase.h>0 && framePreviewBase.isMobile===isMobile){
+    return framePreviewBase;
+  }
+
+  // Перед замером сбрасываем размер самой рамки.
+  // Иначе браузер может включить старый inline-размер в расчет контейнера,
+  // и рамка начинает уменьшаться после каждого клика или перетаскивания.
+  resetFrameBoxSize();
+
+  const viewerRect=viewer.getBoundingClientRect();
+  const viewportRect=figureViewport.getBoundingClientRect();
+  const w=Math.max(viewerRect.width||0, viewportRect.width||0, 120);
+  const h=Math.max(viewerRect.height||0, viewportRect.height||0, 120);
+
+  framePreviewBase={w,h,isMobile};
+  return framePreviewBase;
+}
+
+function invalidateFramePreviewBase(){
+  framePreviewBase={w:0,h:0,isMobile:null};
+}
+
+function applyFrameBoxSize(forceMeasure=false){
   if(!frameBox || !viewer || !figureViewport)return;
 
   const t=frameType();
   const ratios={small:15.5/20.5,square:1,big:22.5/31.5};
   const ratio=ratios[t]||1;
-  const isMobile=window.matchMedia('(max-width: 900px)').matches;
-
-  // ВАЖНО: размер считаем от стабильной области viewer, а не от самой рамки.
-  // Иначе при переключении размеров браузер может взять уже уменьшенный frameView
-  // и рамка начинает становиться меньше с каждым кликом.
-  const viewerRect=viewer.getBoundingClientRect();
-  const viewportRect=figureViewport.getBoundingClientRect();
-
-  const baseW=Math.max(viewerRect.width||0, viewportRect.width||0);
-  const baseH=Math.max(viewerRect.height||0, viewportRect.height||0);
+  const base=measureFramePreviewBase(forceMeasure);
+  const isMobile=base.isMobile;
 
   const pad=isMobile?28:56;
   const labelSpace=isMobile?38:54;
-
-  const maxW=Math.max(120, baseW - pad*2);
-  const maxH=Math.max(120, baseH - pad*2 - labelSpace);
+  const maxW=Math.max(120, base.w - pad*2);
+  const maxH=Math.max(120, base.h - pad*2 - labelSpace);
 
   let w,h;
 
@@ -3385,6 +3414,8 @@ function applyFrameBoxSize(){
 
   frameBox.style.setProperty('width', w+'px', 'important');
   frameBox.style.setProperty('height', h+'px', 'important');
+  frameBox.style.setProperty('max-width', 'none', 'important');
+  frameBox.style.setProperty('max-height', 'none', 'important');
   frameBox.style.setProperty('aspect-ratio', ratio + ' / 1', 'important');
 }
 
@@ -3455,7 +3486,6 @@ function sync(){
 
   if(step==='frame'){
     requestAnimationFrame(()=>{
-      applyFrameBoxSize();
       renderFrame();
     });
   }
@@ -3935,7 +3965,8 @@ window.addEventListener('resize',()=>{
   if(step!=='frame')return;
   clearTimeout(frameResizeTimer);
   frameResizeTimer=setTimeout(()=>{
-    applyFrameBoxSize();
+    invalidateFramePreviewBase();
+    applyFrameBoxSize(true);
     renderFrame();
   },80);
 });loadCatalog()
