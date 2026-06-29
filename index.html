@@ -1975,6 +1975,19 @@ body.frame-mode #frameView{
   overflow:visible!important;
 }
 
+
+/* === FINAL FRAME SIZE LOCK: размер рамки задает JS, старые CSS-правила не давят квадрат === */
+body.frame-mode .frame-box.f-square,
+body.frame-mode .frame-box.f-small,
+body.frame-mode .frame-box.f-big{
+  max-width:none!important;
+  max-height:none!important;
+  flex:none!important;
+}
+body.frame-mode .frame-box.f-square{
+  aspect-ratio:1 / 1!important;
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -3101,9 +3114,11 @@ function applyFrameBoxSize(){
     if(w>maxW){w=maxW;h=w/ratio;}
   }
 
-  frameBox.style.width=Math.round(w)+'px';
-  frameBox.style.height=Math.round(h)+'px';
-  frameBox.style.aspectRatio=ratio+'/1';
+  // Важно: ниже в CSS есть старые правила с !important для разных размеров рамок.
+  // Поэтому задаем размер тоже с important, иначе квадрат при изменении окна снова превращается в прямоугольник.
+  frameBox.style.setProperty('width', Math.round(w)+'px', 'important');
+  frameBox.style.setProperty('height', Math.round(h)+'px', 'important');
+  frameBox.style.setProperty('aspect-ratio', ratio + ' / 1', 'important');
 }
 
 function renderFrame(){
