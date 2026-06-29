@@ -1618,11 +1618,11 @@ const bodyColors={2:'#F2EFE6',4:'#9FA3A5',5:'#4D5B5A',7:'#111111',8:'#C7BA76',9:
 const skinColors={1:'#FFD200',2:'#F3C28B',3:'#D89A62',4:'#A86A3D',5:'#6B3F28',6:'#F7E3C3',7:'#111111',8:'#FFFFFF'};
 const skinGroups=[{title:'Кожа',ids:[1,2,6,3,4,5,7,8]}];
 const bodyGroups=[{title:'Белый / серый / черный',ids:[2,4,5,7,44,45,46]},{title:'Желтый / оранжевый',ids:[8,9,10,11,15,16,17,18,47,48]},{title:'Красный',ids:[12,13,14,19,20,21]},{title:'Зеленый',ids:[22,23,24,25,26,27,28]},{title:'Синий',ids:[29,30,31,32,33,34,35,49]},{title:'Розовый / фиолетовый',ids:[36,37,38,39,40,41,42,43]}];
-let faces=['A1'], hair=[1], prints=['print-swoosh-character','print-drip-smile','print-sketch-heart','swoosh-character','drip-smile'], accessories=[];
+let faces=['A1'], hair=['f1'], prints=['print-swoosh-character','print-drip-smile','print-sketch-heart','swoosh-character','drip-smile'], accessories=[];
 let accessorySrcMap={};
 let accessoryCategoryMap={};
 const defaultFaces=['A1','A2','A3','A4','A5','A6'];
-const defaultHair=[1,2,3,4,5];
+const defaultHair=['f1','f2','f3','f4','f5','f6'];
 const defaultAccessories=[
   {id:'playstation',category:'hobby',label:'Игровая приставка'},
   {id:'star',category:'premium',label:'Волшебная палочка'},
@@ -1901,7 +1901,8 @@ function getPersonAccessories(person){
 }
 const steps=[{key:'skin',num:'01',title:'Кожа и лицо',focus:'focus-skin'},{key:'hair',num:'02',title:'Прическа',focus:'focus-hair'},{key:'torso',num:'03',title:'Торс и принт',focus:'focus-torso'},{key:'legs',num:'04',title:'Ноги',focus:'focus-legs'},{key:'accessory',num:'05',title:'Аксессуары',focus:'focus-accessory'},{key:'frame',num:'06',title:'Рамка',focus:'focus-full'}];
 const storeKey='mb_v4_people';
-function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:1,skin:1,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
+function firstHairId(){return (Array.isArray(hair)&&hair.length?hair[0]:'f1')}
+function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:1,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
 let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
 function p(){return people[active]||people[0]}function save(){localStorage.setItem(storeKey,JSON.stringify(people));localStorage.setItem('mb_v4_frame',frame);localStorage.setItem('mb_frame_preset_bg',framePresetBg)}function snap(){undo.push(JSON.stringify({people,active,step,frame,frameBgData,frameBgScale,framePresetBg,frameMobileDrop}));if(undo.length>20)undo.shift()}function restore(){const r=undo.pop();if(!r)return;const d=JSON.parse(r);people=d.people;active=d.active;step=d.step;frame=d.frame;frameBgData=d.frameBgData;frameBgScale=d.frameBgScale;framePresetBg=d.framePresetBg||'none';frameMobileDrop=d.frameMobileDrop||'0';sync()}
 
@@ -2939,7 +2940,7 @@ async function loadCatalog(){
     if(!faces.length)faces=[...defaultFaces];
     if(!hair.length){
       hair=[...defaultHair].map(String);
-      hair.forEach(id=>hairSrcMap[id]=`./assets/hair/${id}.png`);
+      hair.forEach(id=>hairSrcMap[id]=getHairFrontCandidates(id)[0]);
     }
 
     const basePrints=['print-swoosh-character','print-drip-smile','print-sketch-heart','swoosh-character','drip-smile'];
@@ -2953,7 +2954,7 @@ async function loadCatalog(){
 
     people.forEach(x=>{
       if(!faces.includes(x.face))x.face=faces[0]||'A1';
-      if(!hair.map(String).includes(String(x.hair)))x.hair=hair[0]||1;
+      if(!hair.map(String).includes(String(x.hair)))x.hair=firstHairId();
       if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
     });
   }catch(e){
@@ -2967,13 +2968,13 @@ async function loadCatalog(){
     if(!faces.length)faces=[...defaultFaces];
     if(!hair.length){
       hair=[...defaultHair].map(String);
-      hair.forEach(id=>hairSrcMap[id]=`./assets/hair/${id}.png`);
+      hair.forEach(id=>hairSrcMap[id]=getHairFrontCandidates(id)[0]);
     }
     prints=await filter(['print-swoosh-character','print-drip-smile','print-sketch-heart','swoosh-character','drip-smile'],'prints');
     accessories=await resolveAccessories(defaultAccessories);
     people.forEach(x=>{
       if(!faces.includes(x.face))x.face=faces[0]||'A1';
-      if(!hair.map(String).includes(String(x.hair)))x.hair=hair[0]||1;
+      if(!hair.map(String).includes(String(x.hair)))x.hair=firstHairId();
       if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
     });
   }
