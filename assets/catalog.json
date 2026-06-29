@@ -14,7 +14,8 @@
     "f4",
     "f5",
     "f6",
-    "m1"
+    "m1",
+    "m2"
   ],
   "prints": [
     "drip-smile",
@@ -38,7 +39,7 @@
     "love",
     "you_and_me"
   ],
-  "version": 4,
+  "version": 5,
   "hairBack": [
     "f6"
   ]
