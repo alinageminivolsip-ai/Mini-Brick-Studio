@@ -6,7 +6,8 @@
     "A4",
     "A5",
     "A6",
-    "A7"
+    "A7",
+    "A8"
   ],
   "hair": [
     "f1",
@@ -40,7 +41,7 @@
     "love",
     "you_and_me"
   ],
-  "version": 7,
+  "version": 8,
   "hairBack": [
     "f1",
     "f6"
