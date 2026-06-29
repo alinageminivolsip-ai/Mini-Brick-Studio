@@ -1440,6 +1440,13 @@ body.intro-active .app{
   }
 }
 
+
+/* === INTRO SWIPE: свайп между первыми 3 шагами на мобильном === */
+.intro-card,
+.intro-step{
+  touch-action:pan-y;
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -2828,6 +2835,58 @@ function applyIntroSetup(){
   save();
 }
 
+
+function goIntroNext(){
+  if(introStep<3){
+    showIntroStep(introStep+1);
+    return;
+  }
+  applyIntroSetup();
+  document.body.classList.remove('intro-active');
+  sync();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goIntroPrev(){
+  if(introStep>1)showIntroStep(introStep-1);
+}
+
+function initIntroSwipe(){
+  const card=document.querySelector('.intro-card');
+  if(!card || card.dataset.swipeReady==='1')return;
+  card.dataset.swipeReady='1';
+
+  let startX=0,startY=0,startTime=0;
+  const isInteractive=el=>!!(el&&el.closest&&el.closest('button,input,textarea,a,select,label'));
+
+  card.addEventListener('touchstart',e=>{
+    if(!document.body.classList.contains('intro-active'))return;
+    if(isInteractive(e.target))return;
+    const t=e.touches&&e.touches[0];
+    if(!t)return;
+    startX=t.clientX;
+    startY=t.clientY;
+    startTime=Date.now();
+  },{passive:true});
+
+  card.addEventListener('touchend',e=>{
+    if(!document.body.classList.contains('intro-active'))return;
+    if(!startTime)return;
+    const t=e.changedTouches&&e.changedTouches[0];
+    if(!t)return;
+    const dx=t.clientX-startX;
+    const dy=t.clientY-startY;
+    const dt=Date.now()-startTime;
+    startTime=0;
+
+    const isSwipe=Math.abs(dx)>54 && Math.abs(dx)>Math.abs(dy)*1.35 && dt<900;
+    if(!isSwipe)return;
+
+    if(dx<0)goIntroNext();
+    else goIntroPrev();
+  },{passive:true});
+}
+
 function initIntroFlow(){
   const params=new URLSearchParams(location.search);
 
@@ -2858,12 +2917,8 @@ function initIntroFlow(){
   if(minus)minus.onclick=()=>changeIntroCount(-1);
   if(plus)plus.onclick=()=>changeIntroCount(1);
 
-  if(start)start.onclick=()=>{
-    applyIntroSetup();
-    document.body.classList.remove('intro-active');
-    sync();
-    window.scrollTo({top:0,behavior:'smooth'});
-  };
+  if(start)start.onclick=goIntroNext;
+  initIntroSwipe();
 }
 
 addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=()=>{step='frame';sync()};orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};orderClose.onclick=()=>orderModal.classList.remove('open');if(orderZoomMinus)orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(orderZoomPlus)orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);alert('Описание заказа скопировано')};downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click()};loadCatalog()
