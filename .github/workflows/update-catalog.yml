@@ -29,44 +29,42 @@ jobs:
           ROOT = "assets"
           EXTS = {".png", ".jpg", ".jpeg", ".webp", ".svg"}
 
+          def sort_key(value):
+              s = str(value)
+              prefix = ''.join(c for c in s if not c.isdigit())
+              digits = ''.join(c for c in s if c.isdigit())
+              number = int(digits) if digits else 0
+              return (prefix, number, s)
+
           def scan_ids(folder):
               path = os.path.join(ROOT, folder)
 
               if not os.path.isdir(path):
                   return []
 
-              return sorted(
-                  os.path.splitext(f)[0]
-                  for f in os.listdir(path)
-                  if not f.startswith((".", "_"))
-                  and os.path.splitext(f)[1].lower() in EXTS
-              )
+              ids = []
 
+              for f in os.listdir(path):
+                  full = os.path.join(path, f)
+                  stem, ext = os.path.splitext(f)
 
-          def scan_hair_tree():
-              result = []
-
-              for sub in ("male", "female"):
-                  path = os.path.join(ROOT, "hair", sub)
-
-                  if not os.path.isdir(path):
+                  if not os.path.isfile(full):
                       continue
 
-                  result.extend(
-                      sorted(
-                          os.path.splitext(f)[0]
-                          for f in os.listdir(path)
-                          if not f.startswith((".", "_"))
-                          and os.path.splitext(f)[1].lower() in EXTS
-                      )
-                  )
+                  if f.startswith((".", "_")):
+                      continue
 
-              return sorted(result)
+                  if ext.lower() not in EXTS:
+                      continue
+
+                  ids.append(stem)
+
+              return sorted(ids, key=sort_key)
 
 
           faces = scan_ids("faces")
 
-          hair = scan_hair_tree()
+          hair = scan_ids("hair")
 
           hair_back = scan_ids("hair/back")
 
@@ -79,6 +77,7 @@ jobs:
               return (
                   stem.endswith("-mask")
                   or stem.endswith("-left")
+                  or stem.endswith("-right")
                   or stem.endswith("_mask")
               )
 
@@ -98,13 +97,27 @@ jobs:
 
                   if os.path.isdir(full):
 
-                      ids = sorted(
-                          os.path.splitext(f)[0]
-                          for f in os.listdir(full)
-                          if not f.startswith((".", "_"))
-                          and os.path.splitext(f)[1].lower() in EXTS
-                          and not is_service_file(os.path.splitext(f)[0])
-                      )
+                      ids = []
+
+                      for f in os.listdir(full):
+                          file_path = os.path.join(full, f)
+                          stem, ext = os.path.splitext(f)
+
+                          if not os.path.isfile(file_path):
+                              continue
+
+                          if f.startswith((".", "_")):
+                              continue
+
+                          if ext.lower() not in EXTS:
+                              continue
+
+                          if is_service_file(stem):
+                              continue
+
+                          ids.append(stem)
+
+                      ids = sorted(ids, key=sort_key)
 
                       if ids:
                           accessories[entry] = ids
@@ -115,6 +128,9 @@ jobs:
 
                       if ext.lower() in EXTS and not is_service_file(stem):
                           accessories.setdefault("other", []).append(stem)
+
+          for key in accessories:
+              accessories[key] = sorted(accessories[key], key=sort_key)
 
 
           catalog_path = os.path.join(ROOT, "catalog.json")
@@ -136,6 +152,7 @@ jobs:
           catalog["prints"] = prints
           catalog["backgrounds"] = backgrounds
           catalog["accessories"] = accessories
+          catalog["version"] = int(catalog.get("version", 0)) + 1
 
           with open(catalog_path, "w", encoding="utf-8") as f:
               json.dump(catalog, f, ensure_ascii=False, indent=2)
@@ -147,7 +164,8 @@ jobs:
               f"{len(hair_back)} hair backs, "
               f"{len(prints)} prints, "
               f"{len(backgrounds)} backgrounds, "
-              f"accessory categories: {list(accessories.keys())}"
+              f"accessory categories: {list(accessories.keys())}, "
+              f"version: {catalog['version']}"
           )
 
           PYEOF
