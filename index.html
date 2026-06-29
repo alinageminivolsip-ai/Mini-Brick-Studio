@@ -25,7 +25,7 @@ body{background:linear-gradient(180deg,#fff7fb 0,#fff 58%)}
 .viewer{position:relative;min-height:620px;background:linear-gradient(180deg,#fff9fc,#fff0f6);display:grid;place-items:center;overflow:hidden}.viewer::before,.viewer::after{content:'❤';position:absolute;color:#ff9cbc;opacity:.18;font-size:42px}.viewer::before{left:10%;top:18%}.viewer::after{right:12%;top:20%}.stage-toolbar{position:absolute;top:14px;right:14px;z-index:10;display:flex;gap:8px}.stage-toolbar .btn{height:40px;padding:0 14px;font-size:13px}
 .figure-viewport{position:relative;width:100%;height:100%;min-height:520px;overflow:hidden;display:grid;place-items:center}.figure-wrap{position:relative;width:min(40vw,310px);aspect-ratio:1024/1536;filter:drop-shadow(0 24px 28px rgba(70,20,40,.18));transition:transform .45s cubic-bezier(.2,.9,.25,1), width .45s cubic-bezier(.2,.9,.25,1)}
 .figure-wrap.focus-skin{width:min(62vw,470px);transform:translateY(33%) scale(1.8)}.figure-wrap.focus-hair{width:min(56vw,430px);transform:translateY(22%) scale(1.55)}.figure-wrap.focus-torso{width:min(58vw,430px);transform:translateY(-7%) scale(1.65)}.figure-wrap.focus-legs{width:min(44vw,320px);transform:translateY(-16%) scale(1.18)}.figure-wrap.focus-accessory{width:min(42vw,310px);transform:translateY(-4%) scale(1.05)}.figure-wrap.focus-full{width:min(40vw,310px);transform:translateY(2%) scale(1)}
-.part,.shadow-layer,.plastic-shadow,.plastic-light,.face-img,.hair-img,.acc-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}.skin{z-index:1;background:var(--skin);mask:url('./assets/body/skin-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/skin-mask.png') center/contain no-repeat}.torso{z-index:2;background:var(--torso);mask:url('./assets/body/torso-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/torso-mask.png') center/contain no-repeat}.legs{z-index:3;background:var(--legs);mask:url('./assets/body/legs-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/legs-mask.png') center/contain no-repeat}.arms{z-index:4;background:var(--arms,var(--torso));mask:url('./assets/body/arms-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/arms-mask.png') center/contain no-repeat}.shadow-layer{z-index:8;opacity:.18;mix-blend-mode:multiply;filter:contrast(.85) brightness(1.35)}.plastic-shadow{z-index:6;opacity:.28;mix-blend-mode:multiply}.plastic-light{z-index:7;opacity:.65;mix-blend-mode:screen}.torso-print-layer{position:absolute;inset:0;z-index:9;pointer-events:none;mask:url('./assets/body/shirt-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/shirt-mask.png') center/contain no-repeat}.torso-print-layer img{position:absolute;left:calc(50% + var(--print-x,0%));top:calc(43% + var(--print-y,0%));width:calc(24% * var(--print-scale,1));height:auto;transform:translate(-50%,-50%);object-fit:contain;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}.print-controls{display:grid;gap:10px;background:#fff;border:2px solid #f6e1ea;border-radius:22px;padding:14px;margin:12px 0}.print-controls label{display:grid;gap:6px;color:var(--muted);font-size:12px;font-weight:900}.print-controls input[type=range]{width:100%;accent-color:var(--red)}.face-img{z-index:15}.hair-img{z-index:18}.acc-img{z-index:22;transform:scale(.9)}.mini-preview{position:relative;width:52px;aspect-ratio:1024/1536;filter:drop-shadow(0 4px 8px rgba(0,0,0,.12))}.mini-preview .skin{background:var(--p-skin)}.mini-preview .torso{background:var(--p-torso)}.mini-preview .legs{background:var(--p-legs)}.mini-preview .arms{background:var(--p-arms,var(--p-torso))}
+.part,.shadow-layer,.plastic-shadow,.plastic-light,.face-img,.hair-img,.acc-img,.outfit-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}.skin{z-index:1;background:var(--skin);mask:url('./assets/body/skin-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/skin-mask.png') center/contain no-repeat}.torso{z-index:2;background:var(--torso);mask:url('./assets/body/torso-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/torso-mask.png') center/contain no-repeat}.legs{z-index:3;background:var(--legs);mask:url('./assets/body/legs-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/legs-mask.png') center/contain no-repeat}.arms{z-index:4;background:var(--arms,var(--torso));mask:url('./assets/body/arms-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/arms-mask.png') center/contain no-repeat}.shadow-layer{z-index:8;opacity:.18;mix-blend-mode:multiply;filter:contrast(.85) brightness(1.35)}.plastic-shadow{z-index:6;opacity:.28;mix-blend-mode:multiply}.plastic-light{z-index:7;opacity:.65;mix-blend-mode:screen}.torso-print-layer{position:absolute;inset:0;z-index:9;pointer-events:none;mask:url('./assets/body/shirt-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/shirt-mask.png') center/contain no-repeat}.torso-print-layer img{position:absolute;left:calc(50% + var(--print-x,0%));top:calc(43% + var(--print-y,0%));width:calc(24% * var(--print-scale,1));height:auto;transform:translate(-50%,-50%);object-fit:contain;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}.print-controls{display:grid;gap:10px;background:#fff;border:2px solid #f6e1ea;border-radius:22px;padding:14px;margin:12px 0}.print-controls label{display:grid;gap:6px;color:var(--muted);font-size:12px;font-weight:900}.print-controls input[type=range]{width:100%;accent-color:var(--red)}.outfit-img{z-index:14}.face-img{z-index:15}.hair-img{z-index:18}.acc-img{z-index:22;transform:scale(.9)}.mini-preview{position:relative;width:52px;aspect-ratio:1024/1536;filter:drop-shadow(0 4px 8px rgba(0,0,0,.12))}.mini-preview .skin{background:var(--p-skin)}.mini-preview .torso{background:var(--p-torso)}.mini-preview .legs{background:var(--p-legs)}.mini-preview .arms{background:var(--p-arms,var(--p-torso))}
 
 .steps-nav{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}.step-btn{border:2px solid #f6e1ea;background:#fff;border-radius:18px;padding:10px 6px;font-weight:950;color:var(--muted);display:grid;gap:3px;place-items:center}.step-btn .num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#fff0f5;color:var(--red);font-size:13px}.step-btn.active{border-color:var(--red);background:#fff6fa;color:var(--red);box-shadow:0 8px 22px rgba(237,43,99,.14)}.step-btn.done .num{background:var(--red);color:#fff}.editor-body{height:calc(100dvh - 190px);overflow-y:auto;padding-right:4px}.section-title{display:flex;align-items:center;gap:10px;margin:10px 0 14px;color:var(--brown);font-size:25px;font-weight:950;letter-spacing:-.03em}.badge{background:#ffd7ea;color:var(--red);border-radius:14px;padding:6px 10px;font-size:18px}.choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.choice{position:relative;aspect-ratio:1/1;min-height:0;border:2px solid transparent;background:#fff;border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.06);overflow:hidden;font-weight:950;color:#1684f2}.choice.active{border-color:var(--red);background:#fff5f8;box-shadow:0 8px 20px rgba(237,43,99,.16)}.choice.active::after{content:'✓';position:absolute;top:7px;right:7px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;display:grid;place-items:center;z-index:4}.choice img{position:absolute;left:50%;top:50%;width:76%;height:76%;object-fit:contain;object-position:center;transform:translate(-50%,-50%);pointer-events:none;user-select:none}.choice.face img{top:47%;width:92%;height:92%;transform:translate(-50%,-50%) scale(1.55)}.choice.hair img{top:50%;width:96%;height:96%;transform:translate(-50%,-50%) scale(2.18)}.choice.print img{width:82%;height:82%;transform:translate(-50%,-50%) scale(1)}.choice.acc img{width:84%;height:84%;transform:translate(-50%,-50%) scale(1.12)}.swatch{width:48px;height:48px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.18);border:3px solid transparent}.choice.active .swatch{border-color:#171717;transform:scale(1.1)}.group{margin-bottom:18px}.group-title{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:950;margin:0 0 10px}.swatches{display:flex;flex-wrap:wrap;gap:10px}.swatch-btn{width:46px;height:46px;border-radius:15px;border:3px solid transparent;box-shadow:0 3px 10px rgba(0,0,0,.16)}.swatch-btn.active{border-color:#171717;transform:scale(1.14)}.print-card{display:grid;gap:12px;background:#fff;border-radius:22px;padding:14px;border:2px solid #f6e1ea;margin-bottom:12px}.file-label{display:grid;place-items:center;min-height:58px;border-radius:18px;background:#151515;color:#fff;font-weight:950}.file-label input{display:none}.empty{grid-column:1/-1;color:var(--muted);font-weight:850;text-align:center;padding:18px}
 .frame-tools{display:grid;gap:12px}.frame-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.frame-row.three{grid-template-columns:repeat(3,1fr)}.frame-choice{border:2px solid #f6e1ea;border-radius:18px;background:#fff;padding:12px 8px;font-weight:950;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.frame-choice.active{border-color:var(--red);background:#fff6fa;color:var(--red)}.frame-preview{display:grid;place-items:center;gap:16px}.frame-box{position:relative;overflow:hidden;background:#f7f7f7;display:grid;place-items:center;box-shadow:inset 0 0 0 12px var(--frameColor,#fff),inset 0 0 0 16px rgba(0,0,0,.08),0 18px 36px rgba(0,0,0,.12)}.frame-white{--frameColor:#fff}.frame-black{--frameColor:#111}
@@ -2121,7 +2121,7 @@ body.frame-mode .frame-box.f-square{
       <section class="figure-viewport" id="figureViewport">
         <div id="constructorView" class="figure-wrap focus-skin">
           <div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div>
-          <img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt=""><div class="torso-print-layer hidden" id="printLayer"><img id="printImg" alt=""></div><img class="face-img" id="faceImg" alt=""><img class="hair-img" id="hairImg" alt=""><img class="acc-img acc-left hidden" id="accLeftImg" alt=""><img class="acc-img acc-right hidden" id="accRightImg" alt="">
+          <img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt=""><div class="torso-print-layer hidden" id="printLayer"><img id="printImg" alt=""></div><img class="outfit-img hidden" id="outfitImg" alt=""><img class="face-img" id="faceImg" alt=""><img class="hair-img" id="hairImg" alt=""><img class="acc-img acc-left hidden" id="accLeftImg" alt=""><img class="acc-img acc-right hidden" id="accRightImg" alt="">
         </div>
         <section id="frameView" class="frame-preview hidden"><div class="frame-box f-square frame-white" id="frameBox"><div class="mini-grid" id="miniGrid"></div></div><b id="frameLabel" class="small"></b></section>
       </section>
@@ -2468,12 +2468,37 @@ const accessoryMeta={
   icecream:{
     right:{x:73,y:53,w:30,r:0,flip:1},
     left:{x:27,y:53,w:30,r:0,flip:-1}
+  },
+  'wedding-suit':{
+    type:'outfit',
+    outfit:{x:50,y:50,w:100,r:0,flip:1}
+  },
+  'wedding-costume':{
+    type:'outfit',
+    outfit:{x:50,y:50,w:100,r:0,flip:1}
+  },
+  'groom-suit':{
+    type:'outfit',
+    outfit:{x:50,y:50,w:100,r:0,flip:1}
   }
 };
 function getAccessoryMeta(id,side='right'){
   const item=accessoryMeta[id]||accessoryMeta.default;
   const base=item[side]||item.right||item.left||item||accessoryMeta.default.right;
   return {...base};
+}
+function isOutfitAccessory(id){
+  return !!(id && accessoryMeta[id] && accessoryMeta[id].type==='outfit');
+}
+function getOutfitAccessory(person){
+  const acc=getPersonAccessories(person);
+  if(isOutfitAccessory(acc.right))return acc.right;
+  if(isOutfitAccessory(acc.left))return acc.left;
+  return '';
+}
+function getOutfitMeta(id){
+  const item=accessoryMeta[id]||{};
+  return item.outfit||{x:50,y:50,w:100,r:0,flip:1};
 }
 function accVars(id,side='right'){
   const m=getAccessoryMeta(id,side);
@@ -2543,7 +2568,10 @@ function initFrameResizeHandle(){
 }
 function miniHTML(person){
   const acc=getPersonAccessories(person);
-  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${acc.left?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:''}${acc.right?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:''}</div>`
+  const outfit=getOutfitAccessory(person);
+  const leftHand=acc.left&&!isOutfitAccessory(acc.left);
+  const rightHand=acc.right&&!isOutfitAccessory(acc.right);
+  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}">`:''}<img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:''}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:''}</div>`
 }
 function renderPeople(){countLabel.textContent=`${people.length}/10`;peopleList.innerHTML='';people.forEach((person,i)=>{const card=document.createElement('div');card.className='person-card '+(i===active?'active':'');card.innerHTML=`${miniHTML(person)}<div><div class="person-title">${person.name||`Человек ${i+1}`}</div><div class="person-meta">лицо ${person.face}, волосы ${person.hair}</div></div><div><button class="icon-btn" data-edit>✎</button><button class="icon-btn" data-del>×</button></div>`;card.querySelector('[data-edit]').onclick=()=>{active=i;step='skin';sync()};card.querySelector('[data-del]').onclick=()=>delPerson(i);peopleList.appendChild(card)})}
 function renderMobilePeople(){
@@ -2595,13 +2623,19 @@ function renderFigure(){
   printLayer.style.setProperty('--print-x',(person.printX||0)+'%');
   printLayer.style.setProperty('--print-y',(person.printY||0)+'%');
 
-  const leftSrc=acc.left?getAccSrc(acc.left):'';
+  const outfit=getOutfitAccessory(person);
+  if(typeof outfitImg!=='undefined'&&outfitImg){
+    outfitImg.src=outfit?getAccSrc(outfit):'';
+    outfitImg.classList.toggle('hidden',!outfit);
+  }
+
+  const leftSrc=(acc.left&&!isOutfitAccessory(acc.left))?getAccSrc(acc.left):'';
   if(accLeftImg.dataset.originalSrc!==leftSrc){accLeftImg.dataset.originalSrc=leftSrc;accLeftImg.src=leftSrc}
   accLeftImg.dataset.accId=acc.left||'';accLeftImg.dataset.icecreamColor=getAccColor(acc.left,person);accLeftImg.style.cssText=acc.left?accVars(acc.left,'left'):'';
   accLeftImg.classList.toggle('hidden',!acc.left);
   if(acc.left)normalizeAccessoryElement(accLeftImg);
 
-  const rightSrc=acc.right?getAccSrc(acc.right):'';
+  const rightSrc=(acc.right&&!isOutfitAccessory(acc.right))?getAccSrc(acc.right):'';
   if(accRightImg.dataset.originalSrc!==rightSrc){accRightImg.dataset.originalSrc=rightSrc;accRightImg.src=rightSrc}
   accRightImg.dataset.accId=acc.right||'';accRightImg.dataset.icecreamColor=getAccColor(acc.right,person);accRightImg.style.cssText=acc.right?accVars(acc.right,'right'):'';
   accRightImg.classList.toggle('hidden',!acc.right);
@@ -3314,7 +3348,10 @@ function renderFrame(){
     const xPct=person.frameX??50;
     const yPct=person.frameY??95;
     const acc=getPersonAccessories(person);
-    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png"><img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${acc.left?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:``}${acc.right?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:``}</div>`);
+    const outfit=getOutfitAccessory(person);
+    const leftHand=acc.left&&!isOutfitAccessory(acc.left);
+    const rightHand=acc.right&&!isOutfitAccessory(acc.right);
+    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}">`:``}<img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:``}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:``}</div>`);
   });
   attachFrameDragHandlers();
   normalizeAllAccessoryElements();
@@ -3323,7 +3360,7 @@ function renderFrame(){
 function sync(){if(step!=='hair')hairBackView=false;applyFrameMobileView();updateHairFlipControls();save();renderPeople();renderMobilePeople();renderSteps();renderFigure();renderEditor();normalizeAllAccessoryElements()}
 function orderText(){
   const fd=frames.find(f=>f.id===frame);
-  return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
+  return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПравая рука: ${isOutfitAccessory(x.rightAccessory)?'нет':(x.rightAccessory||'нет')}\nЛевая рука: ${isOutfitAccessory(x.leftAccessory)?'нет':(x.leftAccessory||'нет')}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
 }
 function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}function tint(ctx,img,color,x,y,w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const t=c.getContext('2d');t.drawImage(img,0,0,w,h);t.globalCompositeOperation='source-in';t.fillStyle=color;t.fillRect(0,0,w,h);ctx.drawImage(c,x,y,w,h)}
 async function exportOrderImage(){
@@ -3440,6 +3477,12 @@ async function exportOrderImage(){
         }
       }
     }
+    const outfit=getOutfitAccessory(person);
+    if(outfit){
+      const oi=await loadImg(getAccSrc(outfit));
+      if(oi)ctx.drawImage(oi,dx,dy,w,h);
+    }
+
     const fi=await loadImg(`./assets/faces/${person.face}.png`);
     const hi=await loadImg(getHairFrontSrc(person.hair));
     if(fi)ctx.drawImage(fi,dx,dy,w,h);
@@ -3447,7 +3490,7 @@ async function exportOrderImage(){
 
     const acc=getPersonAccessories(person);
     for(const side of ['left','right']){
-      const id=acc[side];if(!id)continue;
+      const id=acc[side];if(!id||isOutfitAccessory(id))continue;
       const ai=await loadImg(await getAccessoryRenderUrl(id,getAccSrc(id),getAccColor(id,person)));
       if(ai){
         const am=getAccessoryMeta(id,side);
