@@ -3290,9 +3290,11 @@ if(step==='torso'){
 if(step==='legs'){editorBody.innerHTML=`<div class="section-title"><span class="badge">4.1</span> Ноги</div>${renderSwatches(bodyGroups,'legs')}`;wireSwatches()}
 if(step==='accessory'){
   cleanOutfitFromHands(person);
+  const isChildrenCategory=activeAccessoryCategory==='children';
+  const isBagsCategory=activeAccessoryCategory==='bags';
   editorBody.innerHTML=`<div class="section-title"><span class="badge">5.1</span> Аксессуары</div>
     <div class="acc-cats" id="accCats"></div>
-    <div class="acc-hand-block hidden" id="outfitBlock"><div class="acc-hand-title"><span>★</span> Костюм / платье</div><div class="choice-grid" id="outfitGrid"></div></div>
+    <div class="acc-hand-block hidden" id="outfitBlock"><div class="acc-hand-title"><span>${isChildrenCategory?'👶':'★'}</span> <span id="outfitTitleText">${isChildrenCategory?'Ребенок на фигурке':'Костюм / платье'}</span></div><div class="choice-grid" id="outfitGrid"></div></div>
     <div class="acc-hand-block hidden" id="bagBlock"><div class="acc-hand-title"><span>👜</span> Сумка на фигурке</div><div class="choice-grid" id="bagGrid"></div></div>
     <div class="acc-hand-block" id="rightHandBlock"><div class="acc-hand-title"><span>R</span> Правая рука</div><div class="choice-grid" id="accRightGrid"></div></div>
     <div class="acc-hand-block" id="leftHandBlock"><div class="acc-hand-title"><span>L</span> Левая рука</div><div class="choice-grid" id="accLeftGrid"></div></div>
@@ -3305,8 +3307,21 @@ if(step==='accessory'){
     btn.onclick=()=>{activeAccessoryCategory=cat.id;renderEditor()};
     accCats.appendChild(btn);
   });
-  const isBagsCategory=activeAccessoryCategory==='bags';
-  if(isBagsCategory){
+
+  const shown=accessories.filter(id=>activeAccessoryCategory==='all'||accessoryCategoryMap[id]===activeAccessoryCategory);
+  const shownBags=shown.filter(id=>isBagAccessory(id));
+  const shownOutfits=shown.filter(id=>isOutfitAccessory(id));
+  const shownHandAccessories=shown.filter(id=>!isBodyAccessory(id));
+
+  // Для категории «Дети» ребенок ставится на тело, поэтому выбор правой/левой руки скрываем.
+  // Для категории «Сумки» тоже показываем один общий блок, как накладку на фигурке.
+  if(isChildrenCategory){
+    outfitBlock.classList.remove('hidden');
+    bagBlock.classList.add('hidden');
+    rightHandBlock.classList.add('hidden');
+    leftHandBlock.classList.add('hidden');
+  }else if(isBagsCategory){
+    outfitBlock.classList.add('hidden');
     bagBlock.classList.remove('hidden');
     rightHandBlock.classList.add('hidden');
     leftHandBlock.classList.add('hidden');
@@ -3315,10 +3330,7 @@ if(step==='accessory'){
     rightHandBlock.classList.remove('hidden');
     leftHandBlock.classList.remove('hidden');
   }
-  const shown=accessories.filter(id=>activeAccessoryCategory==='all'||accessoryCategoryMap[id]===activeAccessoryCategory);
-  const shownBags=shown.filter(id=>isBagAccessory(id));
-  const shownOutfits=shown.filter(id=>isOutfitAccessory(id));
-  const shownHandAccessories=shown.filter(id=>!isBodyAccessory(id));
+
   function fillOutfitGrid(){
     if(!shownOutfits.length){
       outfitBlock.classList.add('hidden');
@@ -3327,10 +3339,16 @@ if(step==='accessory'){
     outfitBlock.classList.remove('hidden');
     const none=document.createElement('button');
     none.className='choice '+(!person.outfitAccessory?'active':'');
-    none.textContent='Без костюма';
+    none.textContent=isChildrenCategory?'Без ребенка':'Без костюма';
     none.onclick=()=>{snap();person.outfitAccessory='';sync()};
     outfitGrid.appendChild(none);
-    shownOutfits.forEach(id=>outfitGrid.appendChild(choiceImg('acc',id,person.outfitAccessory===id,()=>{person.outfitAccessory=id;cleanOutfitFromHands(person)})));
+    shownOutfits.forEach(id=>outfitGrid.appendChild(choiceImg('acc',id,person.outfitAccessory===id,()=>{
+      person.outfitAccessory=id;
+      person.rightAccessory='';
+      person.leftAccessory='';
+      person.accessory='';
+      cleanOutfitFromHands(person);
+    })));
   }
   function fillBagGrid(){
     if(!isBagsCategory)return;
@@ -3366,8 +3384,10 @@ if(step==='accessory'){
   }
   fillOutfitGrid();
   fillBagGrid();
-  fillHandGrid(accRightGrid,'right');
-  fillHandGrid(accLeftGrid,'left');
+  if(!isChildrenCategory && !isBagsCategory){
+    fillHandGrid(accRightGrid,'right');
+    fillHandGrid(accLeftGrid,'left');
+  }
   const hasIcecream=isIcecreamAccessory(person.rightAccessory)||isIcecreamAccessory(person.leftAccessory);
   if(hasIcecream){
     const panel=document.createElement('div');
