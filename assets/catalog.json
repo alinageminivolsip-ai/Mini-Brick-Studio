@@ -32,13 +32,14 @@
     "bags": [
       "bag"
     ],
+    "other": [
+      "bunny",
+      "playstation",
+      "star"
+    ],
     "food": [
       "banana",
       "croissant"
-    ],
-    "other": [
-      "playstation",
-      "star"
     ],
     "premium": [
       "wedding-dress",
@@ -49,7 +50,7 @@
     "love",
     "you_and_me"
   ],
-  "version": 18,
+  "version": 19,
   "hairBack": [
     "f1",
     "f6"
