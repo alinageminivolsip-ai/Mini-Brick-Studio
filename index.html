@@ -1904,6 +1904,115 @@ body.frame-mode .frame-bg{
 /* === NEW: чек-лист шагов заказа === */
 .order-steps .btn{position:relative}
 .order-steps .btn.done::after{content:'✓';margin-left:6px}
+/* === NEW: плавающая стрелка «далее» рядом с фигуркой === */
+.stage-next-wrap{
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:40;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.stage-next-label{
+  background:rgba(255,255,255,.92);
+  color:var(--red);
+  font-size:12px;
+  font-weight:950;
+  padding:6px 12px;
+  border-radius:999px;
+  box-shadow:0 8px 20px rgba(86,24,55,.14);
+  white-space:nowrap;
+}
+.stage-next-btn{
+  width:64px;
+  height:64px;
+  border:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--pink),var(--red));
+  color:#fff;
+  font-size:28px;
+  font-weight:950;
+  display:grid;
+  place-items:center;
+  box-shadow:0 14px 30px rgba(237,43,99,.32);
+  transition:transform .15s ease;
+}
+.stage-next-btn:active{transform:scale(.92)}
+body.frame-mode .stage-next-wrap{display:none!important}
+@media(max-width:900px){
+  .stage-next-wrap{right:10px;gap:6px}
+  .stage-next-label{display:none}
+  .stage-next-btn{width:52px;height:52px;font-size:22px}
+}
+/* === NEW: компактные карточки превью (кожа/лицо/прическа/аксессуары) === */
+.choice-grid{grid-template-columns:repeat(4,1fr)!important;gap:8px!important}
+.choice{border-radius:16px!important}
+.choice img,
+.choice.face img,
+.choice.hair img,
+.choice.print img,
+.choice.acc img{
+  width:76%!important;
+  height:76%!important;
+}
+.acc-hand-block .choice-grid{grid-template-columns:repeat(4,1fr)!important;gap:8px!important}
+.choice.acc img,
+.choice.acc.active img{
+  width:56%!important;
+  height:56%!important;
+}
+@media(max-width:900px){
+  .choice-grid{grid-template-columns:repeat(4,1fr)!important;gap:7px!important}
+  .choice img,
+  .choice.face img,
+  .choice.hair img,
+  .choice.print img,
+  .choice.acc img{
+    width:74%!important;
+    height:74%!important;
+  }
+  .acc-hand-block .choice-grid{grid-template-columns:repeat(4,1fr)!important;gap:7px!important}
+  .choice.acc img,
+  .choice.acc.active img{
+    width:52%!important;
+    height:52%!important;
+  }
+}
+/* === NEW: скрыть текстовое описание заказа, оставить только цену === */
+#orderInfo{display:none!important}
+/* === NEW: рамка в заказе строго по центру, отступы одинаковые со всех сторон === */
+.order-preview{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  max-height:70dvh!important;
+  overflow:auto!important;
+  padding:24px!important;
+  background:#fff7fb!important;
+}
+.order-preview img{
+  width:auto!important;
+  height:auto!important;
+  max-width:100%!important;
+  max-height:calc(70dvh - 48px)!important;
+  object-fit:contain!important;
+  display:block!important;
+  margin:auto!important;
+  transform:scale(var(--order-zoom,1));
+  transform-origin:center center!important;
+  transition:transform .18s ease;
+}
+@media(max-width:900px){
+  .order-preview{
+    max-height:58dvh!important;
+    padding:16px!important;
+  }
+  .order-preview img{
+    max-height:calc(58dvh - 32px)!important;
+  }
+}
 </style>
 </head>
 <body class="intro-active">
@@ -1951,6 +2060,7 @@ body.frame-mode .frame-bg{
     <aside class="panel left"><div class="panel-pad"><h2 class="title">Фигурки <span id="countLabel" class="small"></span></h2><div class="people-list" id="peopleList"></div><button class="btn dark add-card" id="addPerson">+ Добавить фигурку</button></div></aside>
     <main class="panel viewer" id="viewer">
       <div class="stage-toolbar"><button class="btn ghost" id="undoBtn" aria-label="Отменить последнее действие" title="Отменить">↶</button><button class="btn pink" id="randomBtn" aria-label="Случайный образ" title="Случайно">🎲</button></div>
+      <div class="stage-next-wrap" id="stageNextWrap"><span class="stage-next-label" id="stageNextLabel">Далее</span><button class="stage-next-btn" id="stageNextBtn" type="button" aria-label="Перейти к следующему шагу"><span id="stageNextArrow">→</span></button></div>
       <div class="hair-flip-controls" id="hairFlipControls" aria-label="Посмотреть прическу сзади"><button class="hair-flip-btn" id="hairFlipLeft" type="button" title="Повернуть назад">↺</button><span class="hair-flip-label" id="hairFlipLabel">Вид спереди</span><button class="hair-flip-btn" id="hairFlipRight" type="button" title="Повернуть назад">↻</button></div>
       <section class="figure-viewport" id="figureViewport">
         <div id="constructorView" class="figure-wrap focus-skin">
@@ -2700,14 +2810,14 @@ async function removePrintBackground(dataUrl){
     img.src=dataUrl;
   });
 }
-function renderEditor(){const person=p();editorBody.innerHTML='';if(step==='skin'){editorBody.innerHTML=`<div class="section-title"><span class="badge">1.1</span> Цвет кожи</div>${renderSwatches(skinGroups,'skin')}<div class="section-title"><span class="badge">1.2</span> Эмоция</div><div class="choice-grid" id="faceGrid"></div><label class="field">Имя<input id="nameInput" value="${person.name||''}" placeholder="Имя персонажа"></label>${nextButton()}`;faces.forEach(id=>faceGrid.appendChild(choiceImg('face',id,person.face===id,()=>person.face=id)));wireSwatches();nameInput.oninput=e=>{person.name=e.target.value;save();renderPeople()}}
+function renderEditor(){const person=p();editorBody.innerHTML='';if(step==='skin'){editorBody.innerHTML=`<div class="section-title"><span class="badge">1.1</span> Цвет кожи</div>${renderSwatches(skinGroups,'skin')}<div class="section-title"><span class="badge">1.2</span> Эмоция</div><div class="choice-grid" id="faceGrid"></div><label class="field">Имя<input id="nameInput" value="${person.name||''}" placeholder="Имя персонажа"></label>`;faces.forEach(id=>faceGrid.appendChild(choiceImg('face',id,person.face===id,()=>person.face=id)));wireSwatches();nameInput.oninput=e=>{person.name=e.target.value;save();renderPeople()}}
 if(step==='hair'){
   const shownHair=filteredHair();
   editorBody.innerHTML=`<div class="section-title"><span class="badge">2.1</span> Прическа</div>
   <div class="small" style="margin:-4px 0 12px">Если для прически загружен задний вид, рядом с человечком появятся стрелки. В рамке и заказе фигурка остается спереди.</div>
   <div class="hair-cats" id="hairCats"></div>
   <div class="choice-grid" id="hairGrid"></div>
-  ${nextButton()}`;
+  `;
   hairCategories.forEach(cat=>{
     const btn=document.createElement('button');
     btn.type='button';
@@ -2742,7 +2852,7 @@ if(step==='torso'){
     <label>Размер принта <input type="range" id="printScale" min="0.35" max="2.2" step="0.05" value="${person.printScale||1}"></label>
     <label>Влево / вправо <input type="range" id="printX" min="-18" max="18" step="1" value="${person.printX||0}"></label>
     <label>Выше / ниже <input type="range" id="printY" min="-14" max="18" step="1" value="${person.printY||0}"></label>
-  </div>${nextButton()}`;
+  </div>`;
   wireSwatches();
   editorBody.querySelectorAll('[data-sleeve]').forEach(b=>b.onclick=()=>{snap();person.sleeveMode=b.dataset.sleeve;sync()});
   printInput.onchange=e=>{
@@ -2770,7 +2880,7 @@ if(step==='torso'){
   if(printX)printX.oninput=e=>{person.printX=Number(e.target.value);save();renderFigure()};
   if(printY)printY.oninput=e=>{person.printY=Number(e.target.value);save();renderFigure()};
 }
-if(step==='legs'){editorBody.innerHTML=`<div class="section-title"><span class="badge">4.1</span> Ноги</div>${renderSwatches(bodyGroups,'legs')}${nextButton()}`;wireSwatches()}
+if(step==='legs'){editorBody.innerHTML=`<div class="section-title"><span class="badge">4.1</span> Ноги</div>${renderSwatches(bodyGroups,'legs')}`;wireSwatches()}
 if(step==='accessory'){
   cleanOutfitFromHands(person);
   editorBody.innerHTML=`<div class="section-title"><span class="badge">5.1</span> Аксессуары</div>
@@ -2778,7 +2888,7 @@ if(step==='accessory'){
     <div class="acc-hand-block hidden" id="outfitBlock"><div class="acc-hand-title"><span>★</span> Костюм / платье</div><div class="choice-grid" id="outfitGrid"></div></div>
     <div class="acc-hand-block" id="rightHandBlock"><div class="acc-hand-title"><span>R</span> Правая рука</div><div class="choice-grid" id="accRightGrid"></div></div>
     <div class="acc-hand-block" id="leftHandBlock"><div class="acc-hand-title"><span>L</span> Левая рука</div><div class="choice-grid" id="accLeftGrid"></div></div>
-    ${nextButton()}`;
+    `;
   accessoryCategories.forEach(cat=>{
     const btn=document.createElement('button');
     btn.type='button';
@@ -2927,7 +3037,7 @@ if(step==='frame'){
   bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);updateFrameBackground()};
   openOrderFromEditor.onclick=openOrderModal;
 }
-const n=document.getElementById('nextStepBtn');if(n)n.onclick=()=>{const i=steps.findIndex(s=>s.key===step);const nextKey=steps[Math.min(i+1,steps.length-1)].key;if(nextKey==='frame'){enterFrameMode()}else{step=nextKey;sync()}window.scrollTo({top:0,behavior:'smooth'})}}
+function goNextStep(){const i=steps.findIndex(s=>s.key===step);const nextKey=steps[Math.min(i+1,steps.length-1)].key;if(nextKey==='frame'){enterFrameMode()}else{step=nextKey;sync()}window.scrollTo({top:0,behavior:'smooth'})}
 function frameType(){if(frame.includes('small'))return'small';if(frame.includes('square'))return'square';return'big'}
 const SNAP_THRESHOLD=4;
 const FRAME_SIZES={
@@ -3218,11 +3328,24 @@ function sync(){
   renderEditor();
   renderFigure();
   normalizeAllAccessoryElements();
+  updateStageNextButton();
   if(step==='frame'){
     requestAnimationFrame(()=>{
       renderFrame();
     });
   }
+}
+function updateStageNextButton(){
+  const btn=document.getElementById('stageNextBtn');
+  const wrap=document.getElementById('stageNextWrap');
+  if(!btn||!wrap)return;
+  const isLast=step==='accessory';
+  const arrow=document.getElementById('stageNextArrow');
+  const label=document.getElementById('stageNextLabel');
+  if(arrow)arrow.textContent=isLast?'✓':'→';
+  if(label)label.textContent=isLast?'В рамку':'Далее';
+  btn.onclick=goNextStep;
+  wrap.classList.toggle('hidden',step==='frame');
 }
 function orderText(){
   const fd=frames.find(f=>f.id===frame);
