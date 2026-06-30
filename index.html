@@ -2359,6 +2359,107 @@ body.frame-mode .studio-scene{
   }
 }
 
+/* === NEW: корзина рамок === */
+.top-actions .btn{position:relative}
+.cart-badge{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  min-width:18px;
+  height:18px;
+  padding:0 4px;
+  border-radius:999px;
+  background:var(--red);
+  color:#fff;
+  font-size:11px;
+  font-weight:950;
+  display:grid;
+  place-items:center;
+  box-shadow:0 4px 10px rgba(237,43,99,.4);
+}
+.cart-item{
+  display:grid;
+  grid-template-columns:64px 1fr auto;
+  gap:12px;
+  align-items:center;
+  background:#fff7fb;
+  border:2px solid var(--line);
+  border-radius:20px;
+  padding:10px 12px;
+  margin-bottom:10px;
+}
+.cart-item-thumb{
+  width:64px;
+  aspect-ratio:1/1;
+  border-radius:14px;
+  background:#fff;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);
+}
+.cart-item-thumb .mini-preview{width:40px}
+.cart-item-info b{display:block;font-size:14px}
+.cart-item-info span{display:block;color:var(--muted);font-size:12px;font-weight:850;margin-top:2px}
+.cart-item-actions{display:grid;gap:6px}
+.cart-empty{
+  text-align:center;
+  padding:30px 14px;
+  color:var(--muted);
+  font-weight:850;
+}
+.cart-current-note{
+  margin:0 0 14px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:#fff0f6;
+  color:#7f4b61;
+  font-size:13px;
+  font-weight:850;
+  line-height:1.4;
+}
+/* === NEW: выбор способа оплаты === */
+.payment-methods{
+  display:grid;
+  gap:10px;
+  margin:0 0 14px;
+}
+.payment-choice{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:54px;
+  border:2px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  padding:0 14px;
+  color:var(--muted);
+  font-weight:900;
+  font-size:14px;
+  text-align:left;
+}
+.payment-choice.active{
+  border-color:var(--red);
+  background:#fff6fa;
+  color:var(--red);
+  box-shadow:0 8px 20px rgba(237,43,99,.12);
+}
+.payment-choice .pm-icon{font-size:20px}
+/* === NEW: галерея нескольких рамок в заказе === */
+.order-gallery-item{
+  margin-bottom:14px;
+  padding:12px;
+  border-radius:20px;
+  background:#fff7fb;
+  border:2px solid var(--line);
+}
+.order-gallery-item img{
+  width:100%;
+  border-radius:14px;
+  display:block;
+  margin-bottom:10px;
+}
+.order-gallery-item .small{margin-bottom:8px}
 </style>
 </head>
 <body class="intro-active">
@@ -2400,7 +2501,7 @@ body.frame-mode .studio-scene{
   <header class="topbar">
     <img class="logo" src="./logo.png" alt="Логотип MiniBrick Studio">
     <div class="brand"><h1>MiniBrick Studio</h1><p>Конструктор мини-фигурок</p></div>
-    <div class="top-actions"><button class="btn" id="showPeopleBtn">Фигурки</button><button class="btn" id="frameBtn">Рамка</button><button class="btn dark" id="orderBtn">Заказ</button></div>
+    <div class="top-actions"><button class="btn" id="showPeopleBtn">Фигурки</button><button class="btn" id="frameBtn">Рамка</button><button class="btn ghost" id="cartBtn">🛒 Корзина<span id="cartBadge" class="cart-badge hidden">0</span></button><button class="btn dark" id="orderBtn">Заказ</button></div>
   </header>
   <div class="workspace">
     <aside class="panel left"><div class="panel-pad"><h2 class="title">Фигурки <span id="countLabel" class="small"></span></h2><div class="people-list" id="peopleList"></div><button class="btn dark add-card" id="addPerson">+ Добавить фигурку</button></div></aside>
@@ -2443,9 +2544,15 @@ body.frame-mode .studio-scene{
   </div>
 </div>
 <div class="modal" id="onboardModal"><div class="modal-card onboard-card"><div class="onboard-emoji" id="onEmoji">🧱</div><div class="onboard-title" id="onTitle">Собери мини-фигурку</div><div class="onboard-text" id="onText">Пройди 3 простых этапа: персонаж, рамка и заказ.</div><div class="onboard-steps"><div class="onboard-step"><div class="onboard-step-num">1</div><div><b>Собери человечка</b><span>Выбери кожу, лицо, прическу, одежду и детали.</span></div></div><div class="onboard-step"><div class="onboard-step-num">2</div><div><b>Помести в рамку</b><span>Подбери цвет, размер и фон рамки.</span></div></div><div class="onboard-step"><div class="onboard-step-num">3</div><div><b>Оформи заказ</b><span>Скачай PNG и отправь детали в сообщения.</span></div></div></div><div class="onboard-setup"><p class="onboard-setup-title">Сколько персонажей собираем?</p><div class="onboard-count-row"><button class="onboard-count-btn" id="onCountMinus" type="button" aria-label="Уменьшить количество">−</button><div class="onboard-count-value"><span id="onCountValue">1</span> / 10</div><button class="onboard-count-btn" id="onCountPlus" type="button" aria-label="Увеличить количество">+</button></div><div class="onboard-names" id="onNames"></div></div><div class="dots" id="onDots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div><button class="btn dark" id="onNext">Понятно, начать</button></div></div>
+<div class="modal" id="cartModal"><div class="modal-card"><div class="modal-head"><h2>Корзина</h2><button class="close" id="cartClose" aria-label="Закрыть">×</button></div><div class="cart-current-note">Текущая собираемая рамка тоже всегда входит в заказ — добавлять её в корзину отдельно не обязательно. Кнопка «Добавить ещё одну рамку» на шаге «Рамка» сохраняет её сюда и открывает новую, пустую.</div><div id="cartItemsList"></div><button class="btn dark" id="cartCheckoutBtn" style="width:100%;margin-top:6px">Перейти к оформлению заказа</button></div></div>
 <div class="modal" id="orderModal"><div class="modal-card"><div class="modal-head"><h2>Ваш заказ готов</h2><button class="close" id="orderClose" aria-label="Закрыть">×</button></div>
   <div class="price-bar"><div><div class="price-bar-label">Итоговая стоимость</div><div class="price-bar-note" id="priceBreakdown"></div></div><div class="price-bar-value" id="priceValue">0 ₽</div></div>
-  <div class="order-preview" id="orderPreviewBox"><img id="orderPreviewImg" alt="Предпросмотр готового заказа в рамке"></div><div class="order-zoom"><button type="button" id="orderZoomMinus" aria-label="Уменьшить">−</button><span id="orderZoomLabel">100%</span><button type="button" id="orderZoomPlus" aria-label="Увеличить">+</button></div><div class="order-info" id="orderInfo"></div><textarea id="orderTextarea" class="order-text" readonly></textarea><div class="order-steps"><button class="btn dark" id="downloadOrderImg">1. Скачать изображение</button><button class="btn ghost" id="copyOrderText">2. Скопировать детали заказа</button><a class="btn pink" id="vkLink" href="https://vk.com/write-224539480" target="_blank" rel="noopener">3. Написать нам ВКонтакте</a></div></div></div>
+  <div class="order-preview" id="orderPreviewBox"><img id="orderPreviewImg" alt="Предпросмотр готового заказа в рамке"></div><div class="order-zoom" id="orderZoomRow"><button type="button" id="orderZoomMinus" aria-label="Уменьшить">−</button><span id="orderZoomLabel">100%</span><button type="button" id="orderZoomPlus" aria-label="Увеличить">+</button></div>
+  <div id="orderGallery" class="hidden"></div>
+  <div class="order-info" id="orderInfo"></div><textarea id="orderTextarea" class="order-text" readonly></textarea>
+  <div class="small" style="margin:4px 0 8px">Способ оплаты (заполняется для менеджера, фактическая оплата согласовывается в переписке)</div>
+  <div class="payment-methods" id="paymentMethods"></div>
+  <div class="order-steps"><button class="btn dark" id="downloadOrderImg">1. Скачать изображение</button><button class="btn ghost" id="copyOrderText">2. Скопировать детали заказа</button><a class="btn pink" id="vkLink" href="https://vk.com/write-224539480" target="_blank" rel="noopener">3. Написать нам ВКонтакте</a></div></div></div>
 <div class="modal confirm-modal" id="confirmModal"><div class="modal-card"><div class="onboard-emoji">🗑️</div><h2 class="onboard-title" style="font-size:22px" id="confirmTitle">Удалить фигурку?</h2><p id="confirmText">Это действие нельзя отменить кнопкой назад в этом окне.</p><div class="confirm-actions"><button class="btn ghost" id="confirmCancel">Отмена</button><button class="btn dark" id="confirmOk">Удалить</button></div></div></div>
 <script>
 const bodyColors={
@@ -2573,30 +2680,41 @@ const PRICING={
   outfitSurcharge:120,
   customBgSurcharge:200
 };
-function calcOrderPrice(){
-  const fd=frames.find(f=>f.id===frame);
+function calcOrderPrice(peopleArr,frameId,hasCustomBg){
+  peopleArr=peopleArr||people;
+  frameId=frameId||frame;
+  hasCustomBg=hasCustomBg!=null?hasCustomBg:!!frameBgData;
+  const fd=frames.find(f=>f.id===frameId);
   const sizeKey=fd?fd.m:'square';
   let total=PRICING.framePrice[sizeKey]||PRICING.framePrice.square;
   const lines=[];
-  lines.push(`Рамка ${fd?fd.name:''}: ${PRICING.framePrice[sizeKey]||0}₴`.replace('₴','₽'));
-  people.forEach(person=>{
+  lines.push(`Рамка ${fd?fd.name:''}: ${PRICING.framePrice[sizeKey]||0}₽`);
+  peopleArr.forEach(person=>{
     let personSum=PRICING.personBase;
     if(person.print)personSum+=PRICING.printSurcharge;
     if(person.rightAccessory||person.leftAccessory)personSum+=PRICING.accessorySurcharge;
     if(getOutfitAccessory(person))personSum+=PRICING.outfitSurcharge;
     total+=personSum;
   });
-  lines.push(`Фигурки (${people.length} × ${PRICING.personBase}₽ + опции): ${total-(PRICING.framePrice[sizeKey]||0)}₽`);
-  if(frameBgData){total+=PRICING.customBgSurcharge;lines.push(`Свой фон: +${PRICING.customBgSurcharge}₽`)}
+  lines.push(`Фигурки (${peopleArr.length} × ${PRICING.personBase}₽ + опции): ${total-(PRICING.framePrice[sizeKey]||0)}₽`);
+  if(hasCustomBg){total+=PRICING.customBgSurcharge;lines.push(`Свой фон: +${PRICING.customBgSurcharge}₽`)}
   return {total,lines};
+}
+function cartItemPrice(item){
+  return calcOrderPrice(item.people,item.frame,!!item.frameBgData);
+}
+function cartTotal(){
+  const cartSum=cart.reduce((s,item)=>s+cartItemPrice(item).total,0);
+  return cartSum+calcOrderPrice().total;
 }
 function renderPriceBar(){
   const priceValue=document.getElementById('priceValue');
   const priceBreakdown=document.getElementById('priceBreakdown');
   if(!priceValue)return;
-  const {total,lines}=calcOrderPrice();
+  const total=cartTotal();
+  const framesCount=cart.length+1;
   priceValue.textContent=total.toLocaleString('ru-RU')+' ₽';
-  if(priceBreakdown)priceBreakdown.textContent=lines.join(' · ');
+  if(priceBreakdown)priceBreakdown.textContent=framesCount>1?`Рамок в заказе: ${framesCount}`:calcOrderPrice().lines.join(' · ');
 }
 function getHairCategory(id){
   const s=String(id||'').toLowerCase().trim();
@@ -2891,6 +3009,69 @@ const storeKey='mb_v4_people';
 function firstHairId(){return (Array.isArray(hair)&&hair.length?hair[0]:'f1')}
 function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:15,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',outfitAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
 let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;cleanOutfitFromHands(merged);merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
+const cartKey='mb_cart_v1';
+let cart=JSON.parse(localStorage.getItem(cartKey)||'[]');
+let paymentMethod=localStorage.getItem('mb_payment_method')||'';
+function saveCart(){localStorage.setItem(cartKey,JSON.stringify(cart))}
+function snapshotCurrentFrame(){
+  return {
+    id:'frame_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),
+    people:JSON.parse(JSON.stringify(people)),
+    frame,
+    frameBgData,
+    frameBgScale,
+    framePresetBg
+  };
+}
+function resetCurrentFrameState(){
+  people=[newPerson(1)];
+  active=0;
+  step='skin';
+  frame='white-square';
+  frameBgData='';
+  frameBgScale='1';
+  framePresetBg='none';
+  frameAutoCentered=false;
+  frameLayoutTouched=false;
+  localStorage.removeItem('mb_frame_bg');
+  localStorage.setItem('mb_frame_bg_scale','1');
+  localStorage.setItem('mb_frame_preset_bg','none');
+  localStorage.removeItem('mb_frame_auto_centered');
+  localStorage.removeItem('mb_frame_layout_touched');
+}
+function addCurrentFrameToCart(){
+  snap();
+  const item=snapshotCurrentFrame();
+  cart.push(item);
+  saveCart();
+  resetCurrentFrameState();
+  sync();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function removeCartItem(id){
+  cart=cart.filter(x=>x.id!==id);
+  saveCart();
+  sync();
+  if(typeof renderCartModal==='function')renderCartModal();
+}
+function editCartItem(id){
+  const idx=cart.findIndex(x=>x.id===id);
+  if(idx<0)return;
+  const item=cart[idx];
+  snap();
+  cart.splice(idx,1);
+  saveCart();
+  people=item.people;
+  active=0;
+  frame=item.frame;
+  frameBgData=item.frameBgData;
+  frameBgScale=item.frameBgScale;
+  framePresetBg=item.framePresetBg;
+  step='skin';
+  closeCartModal();
+  sync();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 let frameAutoCentered=localStorage.getItem('mb_frame_auto_centered')==='1';
 let frameLayoutTouched=localStorage.getItem('mb_frame_layout_touched')==='1';
 function p(){return people[active]||people[0]}function save(){localStorage.setItem(storeKey,JSON.stringify(people));localStorage.setItem('mb_v4_frame',frame);localStorage.setItem('mb_frame_preset_bg',framePresetBg)}function snap(){undo.push(JSON.stringify({people,active,step,frame,frameBgData,frameBgScale,framePresetBg,frameMobileDrop}));if(undo.length>20)undo.shift()}function restore(){const r=undo.pop();if(!r)return;const d=JSON.parse(r);people=d.people;active=d.active;step=d.step;frame=d.frame;frameBgData=d.frameBgData;frameBgScale=d.frameBgScale;framePresetBg=d.framePresetBg||'none';frameMobileDrop=d.frameMobileDrop||'0';sync()}
@@ -3448,6 +3629,7 @@ if(step==='frame'){
     </div>
     <label class="file-label" style="margin-top:12px">Загрузить свой фон<input type="file" id="bgInput" accept="image/*"></label>
     <label class="field">Масштаб фона<input type="range" id="bgScale" min="0.5" max="3" step="0.05" value="${frameBgScale}"></label>
+    <button class="btn ghost" style="width:100%;margin-top:8px" id="addFrameToCartBtn">+ Добавить ещё одну рамку</button>
     <button class="btn dark" style="width:100%;margin-top:8px" id="openOrderFromEditor">Оформить заказ</button>
   `;
   editorBody.querySelectorAll('[data-frame-color]').forEach(b=>b.onclick=()=>{snap();frame=b.dataset.frameColor+'-'+size;invalidateFramePreviewBase();sync();});
@@ -3484,6 +3666,10 @@ if(step==='frame'){
   };
   bgInput.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{frameBgData=r.result;framePresetBg='none';localStorage.setItem('mb_frame_bg',frameBgData);localStorage.setItem('mb_frame_preset_bg',framePresetBg);sync()};r.readAsDataURL(f)};
   bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);updateFrameBackground()};
+  addFrameToCartBtn.onclick=()=>{
+    addCurrentFrameToCart();
+    alert('Рамка сохранена в корзину. Начинаем сборку новой рамки!');
+  };
   openOrderFromEditor.onclick=openOrderModal;
 }
 }
@@ -3780,6 +3966,7 @@ function sync(){
   renderFigure();
   normalizeAllAccessoryElements();
   updateStageNextButton();
+  updateCartBadge();
   if(step==='frame'){
     requestAnimationFrame(()=>{
       renderFrame();
@@ -4005,13 +4192,115 @@ function setOrderZoom(v){
   if(orderPreviewBox)orderPreviewBox.style.setProperty('--order-zoom',orderZoom);
   if(orderZoomLabel)orderZoomLabel.textContent=Math.round(orderZoom*100)+'%';
 }
+const PAYMENT_METHODS=[
+  {id:'card_link',icon:'💳',label:'Картой онлайн по ссылке от менеджера'},
+  {id:'sbp',icon:'📱',label:'СБП (перевод по номеру телефона)'},
+  {id:'cash',icon:'💵',label:'Наличными или переводом при получении'}
+];
+function paymentMethodLabel(){
+  const pm=PAYMENT_METHODS.find(x=>x.id===paymentMethod);
+  return pm?pm.label:'не выбран';
+}
+function renderPaymentMethods(){
+  const box=document.getElementById('paymentMethods');
+  if(!box)return;
+  box.innerHTML='';
+  PAYMENT_METHODS.forEach(pm=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='payment-choice '+(paymentMethod===pm.id?'active':'');
+    b.innerHTML=`<span class="pm-icon">${pm.icon}</span><span>${pm.label}</span>`;
+    b.onclick=()=>{
+      paymentMethod=pm.id;
+      localStorage.setItem('mb_payment_method',paymentMethod);
+      renderPaymentMethods();
+      if(orderTextarea)orderTextarea.value=orderFullText(currentOrderFrames);
+    };
+    box.appendChild(b);
+  });
+}
+let currentOrderFrames=[];
+async function exportFrameImage(snapshotData){
+  if(!snapshotData)return exportOrderImage();
+  const sp=people,sf=frame,sb=frameBgData,sbs=frameBgScale,spb=framePresetBg;
+  people=snapshotData.people;frame=snapshotData.frame;frameBgData=snapshotData.frameBgData;frameBgScale=snapshotData.frameBgScale;framePresetBg=snapshotData.framePresetBg;
+  try{return await exportOrderImage();}
+  finally{people=sp;frame=sf;frameBgData=sb;frameBgScale=sbs;framePresetBg=spb;}
+}
+function frameSummaryText(item,index){
+  const fd=frames.find(f=>f.id===item.frame);
+  const {total}=calcOrderPrice(item.people,item.frame,!!item.frameBgData);
+  return `── Рамка ${index+1} ──\nЦвет: ${item.frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd?fd.name:''}\nФигурок: ${item.people.length}\nСтоимость рамки: ${total.toLocaleString('ru-RU')} ₽\n\n`+item.people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nПринт: ${x.print?'да':'нет'}\nКомментарий: ${x.note||'нет'}`).join('\n\n');
+}
+function orderFullText(allFrames){
+  const total=cartTotal();
+  const header=`MiniBrick Studio — заказ\n\nРамок в заказе: ${allFrames.length}\nИтоговая стоимость: ${total.toLocaleString('ru-RU')} ₽\nСпособ оплаты: ${paymentMethodLabel()}\n\n`;
+  return header+allFrames.map((item,i)=>frameSummaryText(item,i)).join('\n\n══════════\n\n');
+}
+function renderOrderGallery(images,allFrames){
+  const gallery=document.getElementById('orderGallery');
+  const singleBox=document.getElementById('orderPreviewBox');
+  const zoomRow=document.getElementById('orderZoomRow');
+  if(!gallery||!singleBox)return;
+  if(allFrames.length<=1){
+    gallery.classList.add('hidden');
+    gallery.innerHTML='';
+    singleBox.classList.remove('hidden');
+    if(zoomRow)zoomRow.classList.remove('hidden');
+    orderPreviewImg.src=images[0]||'';
+    return;
+  }
+  singleBox.classList.add('hidden');
+  if(zoomRow)zoomRow.classList.add('hidden');
+  gallery.classList.remove('hidden');
+  gallery.innerHTML='';
+  images.forEach((src,i)=>{
+    const fd=frames.find(f=>f.id===allFrames[i].frame);
+    const div=document.createElement('div');
+    div.className='order-gallery-item';
+    div.innerHTML=`<div class="small">Рамка ${i+1} · ${allFrames[i].frame.startsWith('black')?'черная':'белая'} · ${fd?fd.name:''} · ${allFrames[i].people.length} фиг.</div><img src="${src}" alt="Рамка ${i+1}"><button class="btn dark" type="button" data-dl="${i}" style="width:100%">Скачать рамку ${i+1}</button>`;
+    div.querySelector('[data-dl]').onclick=()=>{const a=document.createElement('a');a.href=src;a.download='minibrick-frame-'+(i+1)+'.png';a.click()};
+    gallery.appendChild(div);
+  });
+}
+function closeCartModal(){cartModal.classList.remove('open')}
+function updateCartBadge(){
+  const badge=document.getElementById('cartBadge');
+  if(!badge)return;
+  badge.textContent=cart.length;
+  badge.classList.toggle('hidden',cart.length===0);
+}
+function renderCartModal(){
+  const list=document.getElementById('cartItemsList');
+  if(!list)return;
+  if(!cart.length){
+    list.innerHTML='<div class="cart-empty">Корзина пуста. Соберите рамку и на шаге «Рамка» нажмите «+ Добавить ещё одну рамку».</div>';
+  }else{
+    list.innerHTML='';
+    cart.forEach(item=>{
+      const fd=frames.find(f=>f.id===item.frame);
+      const {total}=cartItemPrice(item);
+      const div=document.createElement('div');
+      div.className='cart-item';
+      div.innerHTML=`<div class="cart-item-thumb">${miniHTML(item.people[0])}</div><div class="cart-item-info"><b>${item.frame.startsWith('black')?'Черная':'Белая'} рамка, ${fd?fd.name:''}</b><span>${item.people.length} фигурок · ${total.toLocaleString('ru-RU')} ₽</span></div><div class="cart-item-actions"><button class="icon-btn" data-edit title="Редактировать" aria-label="Редактировать">✎</button><button class="icon-btn" data-del title="Удалить" aria-label="Удалить">×</button></div>`;
+      div.querySelector('[data-edit]').onclick=()=>editCartItem(item.id);
+      div.querySelector('[data-del]').onclick=()=>{if(confirm('Удалить эту рамку из корзины?'))removeCartItem(item.id)};
+      list.appendChild(div);
+    });
+  }
+  updateCartBadge();
+}
 async function openOrderModal(){
   setOrderZoom(1);
+  renderPaymentMethods();
+  const allFrames=[...cart,snapshotCurrentFrame()];
+  currentOrderFrames=allFrames;
   renderPriceBar();
-  orderPreviewImg.src=await exportOrderImage();
-  const fd=frames.find(f=>f.id===frame);
-  orderInfo.innerHTML=`<div>Цвет рамки: ${frame.startsWith('black')?'черная':'белая'}</div><div>Размер рамки: ${fd.name}</div><div>Фон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}</div><div>Фигурок: ${people.length}</div><div>Подсказка: в предпросмотре можно увеличить изображение кнопками + и −</div>`;
-  orderTextarea.value=orderText();
+  const images=[];
+  for(const item of allFrames)images.push(await exportFrameImage(item));
+  renderOrderGallery(images,allFrames);
+  orderTextarea.value=orderFullText(allFrames);
+  document.getElementById('downloadOrderImg')?.classList.toggle('hidden',allFrames.length>1);
   document.getElementById('downloadOrderImg')?.classList.remove('done');
   document.getElementById('copyOrderText')?.classList.remove('done');
   orderModal.classList.add('open')
@@ -4287,6 +4576,10 @@ function initIntroFlow(){
   };
 }
 addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=enterFrameMode;orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};if(hairFlipLeft)hairFlipLeft.onclick=toggleHairBackView;if(hairFlipRight)hairFlipRight.onclick=toggleHairBackView;orderClose.onclick=()=>orderModal.classList.remove('open');if(orderZoomMinus)orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(orderZoomPlus)orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);
+if(cartBtn)cartBtn.onclick=()=>{renderCartModal();cartModal.classList.add('open')};
+if(cartClose)cartClose.onclick=closeCartModal;
+if(cartModal)cartModal.addEventListener('click',e=>{if(e.target===cartModal)closeCartModal()});
+if(cartCheckoutBtn)cartCheckoutBtn.onclick=()=>{closeCartModal();openOrderModal()};
 copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);copyOrderText.classList.add('done');alert('Описание заказа скопировано')};
 downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click();downloadOrderImg.classList.add('done')};
 confirmCancel.onclick=()=>{pendingDeleteIndex=null;confirmModal.classList.remove('open')};
