@@ -2274,11 +2274,14 @@ function applyTranslucentParts(container,person){
   if(torsoEl)torsoEl.classList.toggle('translucent',isTranslucentColor(person.torso));
   if(legsEl)legsEl.classList.toggle('translucent',isTranslucentColor(person.legs));
   if(armsEl)armsEl.classList.toggle('translucent',person.sleeveMode!=='bare'&&isTranslucentColor(person.torso));
-  if(skinEl)skinEl.classList.remove('translucent');
+  if(skinEl)skinEl.classList.toggle('translucent',isTranslucentColor(person.skin));
 }
-const skinColors={1:'#FFD200',2:'#F3C28B',3:'#D89A62',4:'#A86A3D',5:'#6B3F28',6:'#F7E3C3',7:'#111111',8:'#FFFFFF'};
-const skinGroups=[{title:'Кожа',ids:[1,2,6,3,4,5,7,8]}];
 const bodyGroups=[{title:'Белый / прозрачный / серый / черный',ids:[2,3,4,5,6,7,44,45,46]},{title:'Желтый / оранжевый',ids:[8,9,10,11,15,16,17,18,47,48]},{title:'Красный',ids:[12,13,14,19,20,21]},{title:'Зеленый',ids:[22,23,24,25,26,27,28]},{title:'Синий',ids:[29,30,31,32,33,34,35,49]},{title:'Розовый / фиолетовый',ids:[36,37,38,39,40,41,42,43]}];
+const skinColors={1:'#F0B37A',...bodyColors};
+const skinGroups=[
+  {title:'Классические оттенки кожи',ids:[1,15,2,6,11,13,14,7]},
+  ...bodyGroups
+];
 let faces=['A1'], hair=['f1'], prints=['print-swoosh-character','print-drip-smile','print-sketch-heart','swoosh-character','drip-smile'], accessories=[];
 let accessorySrcMap={};
 let accessoryCategoryMap={};
@@ -2631,7 +2634,7 @@ function getPersonAccessories(person){
 const steps=[{key:'skin',num:'01',title:'Кожа и лицо',focus:'focus-skin'},{key:'hair',num:'02',title:'Прическа',focus:'focus-hair'},{key:'torso',num:'03',title:'Торс и принт',focus:'focus-torso'},{key:'legs',num:'04',title:'Ноги',focus:'focus-legs'},{key:'accessory',num:'05',title:'Аксессуары',focus:'focus-accessory'},{key:'frame',num:'06',title:'Рамка',focus:'focus-full'}];
 const storeKey='mb_v4_people';
 function firstHairId(){return (Array.isArray(hair)&&hair.length?hair[0]:'f1')}
-function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:1,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',outfitAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
+function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:15,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',outfitAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
 let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;cleanOutfitFromHands(merged);merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
 let frameAutoCentered=localStorage.getItem('mb_frame_auto_centered')==='1';
 let frameLayoutTouched=localStorage.getItem('mb_frame_layout_touched')==='1';
@@ -2681,7 +2684,7 @@ function miniHTML(person){
   const outfit=getOutfitAccessory(person);
   const leftHand=acc.left&&!isOutfitAccessory(acc.left);
   const rightHand=acc.right&&!isOutfitAccessory(acc.right);
-  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:''}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:''}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:''}</div>`
+  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin ${isTranslucentColor(person.skin)?'translucent':''}"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:''}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:''}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:''}</div>`
 }
 function renderPeople(){countLabel.textContent=`${people.length}/10`;peopleList.innerHTML='';people.forEach((person,i)=>{const card=document.createElement('div');card.className='person-card '+(i===active?'active':'');card.innerHTML=`${miniHTML(person)}<div><div class="person-title">${person.name||`Человек ${i+1}`}</div><div class="person-meta">лицо ${person.face}, волосы ${person.hair}</div></div><div style="display:grid;gap:4px"><button class="icon-btn" data-edit title="Редактировать" aria-label="Редактировать фигурку">✎</button><button class="icon-btn dup" data-dup title="Дублировать" aria-label="Дублировать фигурку">⧉</button><button class="icon-btn" data-del title="Удалить" aria-label="Удалить фигурку">×</button></div>`;card.querySelector('[data-edit]').onclick=()=>{active=i;step='skin';sync()};card.querySelector('[data-dup]').onclick=()=>dupPerson(i);card.querySelector('[data-del]').onclick=()=>askDelPerson(i);peopleList.appendChild(card)})}
 function renderMobilePeople(){
@@ -2886,15 +2889,15 @@ function choiceImg(type,id,active,cb){
 function renderSwatches(groups,part){
   const person=p();
   let html='';
-  if(part==='torso'||part==='legs'){
-    html+=`<div class="color-note"><b>*</b> полупрозрачные цвета: 3, 6, 20, 33. <b class="note-star">★</b> золотой цвет: 10.</div>`;
+  if(part==='skin'||part==='torso'||part==='legs'){
+    html+=`<div class="color-note">Палитра как на образце MiniBrick: цвет головы/кожи, торса и ног выбирается отдельно. <b>*</b> прозрачные: 3, 6, 20, 33. <b class="note-star">★</b> золотой: 10.</div>`;
   }
   groups.forEach(g=>{
     html+=`<div class="group"><div class="group-title">${g.title}</div><div class="swatches">`;
     g.ids.forEach(id=>{
       const c=(part==='skin'?skinColors:bodyColors)[id];
       if(!c)return;
-      const meta=(part==='skin'?{}:(bodyColorMeta[id]||{}));
+      const meta=(bodyColorMeta[id]||{});
       const mark=meta.transparent?'*':(meta.gold?'★':'');
       const cls=[
         'swatch-btn',
@@ -2954,7 +2957,7 @@ async function removePrintBackground(dataUrl){
     img.src=dataUrl;
   });
 }
-function renderEditor(){const person=p();editorBody.innerHTML='';if(step==='skin'){editorBody.innerHTML=`<div class="section-title"><span class="badge">1.1</span> Цвет кожи</div>${renderSwatches(skinGroups,'skin')}<div class="section-title"><span class="badge">1.2</span> Эмоция</div><div class="choice-grid" id="faceGrid"></div><label class="field">Имя<input id="nameInput" value="${person.name||''}" placeholder="Имя персонажа"></label>`;faces.forEach(id=>faceGrid.appendChild(choiceImg('face',id,person.face===id,()=>person.face=id)));wireSwatches();nameInput.oninput=e=>{person.name=e.target.value;save();renderPeople()}}
+function renderEditor(){const person=p();editorBody.innerHTML='';if(step==='skin'){editorBody.innerHTML=`<div class="section-title"><span class="badge">1.1</span> Цвет головы / кожи</div>${renderSwatches(skinGroups,'skin')}<div class="section-title"><span class="badge">1.2</span> Эмоция</div><div class="choice-grid" id="faceGrid"></div><label class="field">Имя<input id="nameInput" value="${person.name||''}" placeholder="Имя персонажа"></label>`;faces.forEach(id=>faceGrid.appendChild(choiceImg('face',id,person.face===id,()=>person.face=id)));wireSwatches();nameInput.oninput=e=>{person.name=e.target.value;save();renderPeople()}}
 if(step==='hair'){
   const shownHair=filteredHair();
   editorBody.innerHTML=`<div class="section-title"><span class="badge">2.1</span> Прическа</div>
@@ -3480,7 +3483,7 @@ function renderFrame(){
     const outfit=getOutfitAccessory(person);
     const leftHand=acc.left&&!isOutfitAccessory(acc.left);
     const rightHand=acc.right&&!isOutfitAccessory(acc.right);
-    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:``}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:``}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:``}</div>`);
+    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin ${isTranslucentColor(person.skin)?'translucent':''}"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:``}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:``}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:``}</div>`);
   });
   attachFrameDragHandlers();
   normalizeAllAccessoryElements();
@@ -3665,7 +3668,7 @@ async function exportOrderImage(){
     const w=figW, h=figH;
     ctx.save();
     ctx.beginPath();ctx.rect(contentX,contentY,contentW,contentH);ctx.clip();
-    if(sm)tint(ctx,sm,skinColors[person.skin],dx,dy,w,h);
+    if(sm)tintLegoPlastic(ctx,sm,skinColors[person.skin],dx,dy,w,h,isTranslucentColor(person.skin));
     if(tm)tintLegoPlastic(ctx,tm,bodyColors[person.torso],dx,dy,w,h,isTranslucentColor(person.torso));
     if(armMask)tintLegoPlastic(ctx,armMask,person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso],dx,dy,w,h,person.sleeveMode!=='bare'&&isTranslucentColor(person.torso));
     if(lm)tintLegoPlastic(ctx,lm,bodyColors[person.legs],dx,dy,w,h,isTranslucentColor(person.legs));
