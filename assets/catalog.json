@@ -41,6 +41,9 @@
       "banana",
       "croissant"
     ],
+    "hobbys": [
+      "playstation"
+    ],
     "premium": [
       "wedding-dress",
       "wedding-suit"
@@ -50,7 +53,7 @@
     "love",
     "you_and_me"
   ],
-  "version": 20,
+  "version": 21,
   "hairBack": [
     "f1",
     "f6"
