@@ -2164,7 +2164,7 @@ body.frame-mode .frame-bg{
       <section class="figure-viewport" id="figureViewport">
         <div id="constructorView" class="figure-wrap focus-skin">
           <div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div>
-          <img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt=""><div class="torso-print-layer hidden" id="printLayer"><img id="printImg" alt=""></div><img class="outfit-img hidden" id="outfitImg" alt=""><img class="face-img" id="faceImg" alt=""><img class="hair-img" id="hairImg" alt=""><img class="acc-img acc-left hidden" id="accLeftImg" alt=""><img class="acc-img acc-right hidden" id="accRightImg" alt="">
+          <img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt=""><div class="torso-print-layer hidden" id="printLayer"><img id="printImg" alt=""></div><img class="outfit-img hidden" id="outfitImg" alt=""><img class="face-img" id="faceImg" alt=""><img class="hair-img" id="hairImg" alt=""><img class="acc-img acc-left hidden" id="accLeftImg" alt=""><img class="acc-img acc-right hidden" id="accRightImg" alt=""><img class="acc-img acc-bag hidden" id="bagImg" alt="">
         </div>
         <section id="frameView" class="frame-preview hidden"><div class="frame-box f-square frame-white" id="frameBox"><div class="mini-grid" id="miniGrid"></div></div><b id="frameLabel" class="small"></b></section>
       </section>
@@ -2561,6 +2561,26 @@ function cleanOutfitFromHands(person){
   if(isOutfitAccessory(person.leftAccessory))person.leftAccessory='';
   person.accessory='';
 }
+function isBagAccessory(id){
+  return !!(id && (accessoryCategoryMap[id]==='bags' || String(id).toLowerCase()==='bag'));
+}
+function getBagAccessory(person){
+  if(person && person.bagAccessory && isBagAccessory(person.bagAccessory))return person.bagAccessory;
+  const acc=getPersonAccessories(person||{});
+  if(isBagAccessory(acc.right))return acc.right;
+  if(isBagAccessory(acc.left))return acc.left;
+  return '';
+}
+function cleanBagFromHands(person){
+  if(!person)return;
+  if(!person.bagAccessory){
+    if(isBagAccessory(person.rightAccessory))person.bagAccessory=person.rightAccessory;
+    else if(isBagAccessory(person.leftAccessory))person.bagAccessory=person.leftAccessory;
+  }
+  if(isBagAccessory(person.rightAccessory))person.rightAccessory='';
+  if(isBagAccessory(person.leftAccessory))person.leftAccessory='';
+  person.accessory='';
+}
 function getOutfitMeta(id){
   const item=accessoryMeta[id]||{};
   return item.outfit||{x:50,y:50,w:100,r:0,flip:1};
@@ -2578,8 +2598,8 @@ function getPersonAccessories(person){
 const steps=[{key:'skin',num:'01',title:'Кожа и лицо',focus:'focus-skin'},{key:'hair',num:'02',title:'Прическа',focus:'focus-hair'},{key:'torso',num:'03',title:'Торс и принт',focus:'focus-torso'},{key:'legs',num:'04',title:'Ноги',focus:'focus-legs'},{key:'accessory',num:'05',title:'Аксессуары',focus:'focus-accessory'},{key:'frame',num:'06',title:'Рамка',focus:'focus-full'}];
 const storeKey='mb_v4_people';
 function firstHairId(){return (Array.isArray(hair)&&hair.length?hair[0]:'f1')}
-function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:1,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',outfitAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
-let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;cleanOutfitFromHands(merged);merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
+function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:1,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',outfitAccessory:'',bagAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',sleeveMode:'sleeves',frameX:null,frameY:null}}
+let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;cleanOutfitFromHands(merged);cleanBagFromHands(merged);merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
 let frameAutoCentered=localStorage.getItem('mb_frame_auto_centered')==='1';
 let frameLayoutTouched=localStorage.getItem('mb_frame_layout_touched')==='1';
 function p(){return people[active]||people[0]}function save(){localStorage.setItem(storeKey,JSON.stringify(people));localStorage.setItem('mb_v4_frame',frame);localStorage.setItem('mb_frame_preset_bg',framePresetBg)}function snap(){undo.push(JSON.stringify({people,active,step,frame,frameBgData,frameBgScale,framePresetBg,frameMobileDrop}));if(undo.length>20)undo.shift()}function restore(){const r=undo.pop();if(!r)return;const d=JSON.parse(r);people=d.people;active=d.active;step=d.step;frame=d.frame;frameBgData=d.frameBgData;frameBgScale=d.frameBgScale;framePresetBg=d.framePresetBg||'none';frameMobileDrop=d.frameMobileDrop||'0';sync()}
@@ -2637,9 +2657,10 @@ function initFrameResizeHandle(){
 function miniHTML(person){
   const acc=getPersonAccessories(person);
   const outfit=getOutfitAccessory(person);
-  const leftHand=acc.left&&!isOutfitAccessory(acc.left);
-  const rightHand=acc.right&&!isOutfitAccessory(acc.right);
-  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}">`:''}<img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:''}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:''}</div>`
+  const bag=getBagAccessory(person);
+  const leftHand=acc.left&&!isOutfitAccessory(acc.left)&&!isBagAccessory(acc.left);
+  const rightHand=acc.right&&!isOutfitAccessory(acc.right)&&!isBagAccessory(acc.right);
+  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}">`:''}<img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:''}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:''}${bag?`<img class="acc-img acc-bag" data-acc-id="${bag}" style="${accVars(bag,'right')}" src="${getAccSrc(bag)}">`:''}</div>`
 }
 function renderPeople(){countLabel.textContent=`${people.length}/10`;peopleList.innerHTML='';people.forEach((person,i)=>{const card=document.createElement('div');card.className='person-card '+(i===active?'active':'');card.innerHTML=`${miniHTML(person)}<div><div class="person-title">${person.name||`Человек ${i+1}`}</div><div class="person-meta">лицо ${person.face}, волосы ${person.hair}</div></div><div><button class="icon-btn" data-edit>✎</button><button class="icon-btn" data-del>×</button></div>`;card.querySelector('[data-edit]').onclick=()=>{active=i;step='skin';sync()};card.querySelector('[data-del]').onclick=()=>delPerson(i);peopleList.appendChild(card)})}
 function renderMobilePeople(){
@@ -2692,22 +2713,32 @@ function renderFigure(){
   printLayer.style.setProperty('--print-y',(person.printY||0)+'%');
 
   const outfit=getOutfitAccessory(person);
+  const bag=getBagAccessory(person);
   if(typeof outfitImg!=='undefined'&&outfitImg){
     outfitImg.src=outfit?getAccSrc(outfit):'';
     outfitImg.classList.toggle('hidden',!outfit);
   }
 
-  const leftSrc=(acc.left&&!isOutfitAccessory(acc.left))?getAccSrc(acc.left):'';
+  const leftSrc=(acc.left&&!isOutfitAccessory(acc.left)&&!isBagAccessory(acc.left))?getAccSrc(acc.left):'';
   if(accLeftImg.dataset.originalSrc!==leftSrc){accLeftImg.dataset.originalSrc=leftSrc;accLeftImg.src=leftSrc}
   accLeftImg.dataset.accId=acc.left||'';accLeftImg.dataset.icecreamColor=getAccColor(acc.left,person);accLeftImg.style.cssText=acc.left?accVars(acc.left,'left'):'';
   accLeftImg.classList.toggle('hidden',!leftSrc);
   if(leftSrc)normalizeAccessoryElement(accLeftImg);
 
-  const rightSrc=(acc.right&&!isOutfitAccessory(acc.right))?getAccSrc(acc.right):'';
+  const rightSrc=(acc.right&&!isOutfitAccessory(acc.right)&&!isBagAccessory(acc.right))?getAccSrc(acc.right):'';
   if(accRightImg.dataset.originalSrc!==rightSrc){accRightImg.dataset.originalSrc=rightSrc;accRightImg.src=rightSrc}
   accRightImg.dataset.accId=acc.right||'';accRightImg.dataset.icecreamColor=getAccColor(acc.right,person);accRightImg.style.cssText=acc.right?accVars(acc.right,'right'):'';
   accRightImg.classList.toggle('hidden',!rightSrc);
   if(rightSrc)normalizeAccessoryElement(accRightImg);
+
+  const bagSrc=bag?getAccSrc(bag):'';
+  if(typeof bagImg!=='undefined'&&bagImg){
+    if(bagImg.dataset.originalSrc!==bagSrc){bagImg.dataset.originalSrc=bagSrc;bagImg.src=bagSrc}
+    bagImg.dataset.accId=bag||'';
+    bagImg.style.cssText=bag?accVars(bag,'right'):'';
+    bagImg.classList.toggle('hidden',!bagSrc);
+    if(bagSrc)normalizeAccessoryElement(bagImg);
+  }
 
   setStepFocus();
   renderFrame();
@@ -2993,6 +3024,7 @@ if(step==='accessory'){
   editorBody.innerHTML=`<div class="section-title"><span class="badge">5.1</span> Аксессуары</div>
     <div class="acc-cats" id="accCats"></div>
     <div class="acc-hand-block hidden" id="outfitBlock"><div class="acc-hand-title"><span>★</span> Костюм / платье</div><div class="choice-grid" id="outfitGrid"></div></div>
+    <div class="acc-hand-block hidden" id="bagBlock"><div class="acc-hand-title"><span>👜</span> Сумка</div><div class="choice-grid" id="bagGrid"></div></div>
     <div class="acc-hand-block" id="rightHandBlock"><div class="acc-hand-title"><span>R</span> Правая рука</div><div class="choice-grid" id="accRightGrid"></div></div>
     <div class="acc-hand-block" id="leftHandBlock"><div class="acc-hand-title"><span>L</span> Левая рука</div><div class="choice-grid" id="accLeftGrid"></div></div>
     ${nextButton()}`;
@@ -3006,17 +3038,14 @@ if(step==='accessory'){
     accCats.appendChild(btn);
   });
 
-  if(activeAccessoryCategory==='bags'){
-    rightHandBlock.classList.add('hidden');
-    leftHandBlock.classList.add('hidden');
-  }else{
-    rightHandBlock.classList.remove('hidden');
-    leftHandBlock.classList.remove('hidden');
-  }
+  const isBagsTab=activeAccessoryCategory==='bags';
+  rightHandBlock.classList.toggle('hidden',isBagsTab);
+  leftHandBlock.classList.toggle('hidden',isBagsTab);
 
   const shown=accessories.filter(id=>activeAccessoryCategory==='all'||accessoryCategoryMap[id]===activeAccessoryCategory);
   const shownOutfits=shown.filter(id=>isOutfitAccessory(id));
-  const shownHandAccessories=shown.filter(id=>!isOutfitAccessory(id));
+  const shownBags=shown.filter(id=>isBagAccessory(id));
+  const shownHandAccessories=shown.filter(id=>!isOutfitAccessory(id)&&!isBagAccessory(id));
 
   function fillOutfitGrid(){
     if(!shownOutfits.length){
@@ -3031,6 +3060,21 @@ if(step==='accessory'){
     outfitGrid.appendChild(none);
 
     shownOutfits.forEach(id=>outfitGrid.appendChild(choiceImg('acc',id,person.outfitAccessory===id,()=>{person.outfitAccessory=id;cleanOutfitFromHands(person)})));
+  }
+
+  function fillBagGrid(){
+    if(!shownBags.length){
+      bagBlock.classList.add('hidden');
+      return;
+    }
+    bagBlock.classList.remove('hidden');
+    const none=document.createElement('button');
+    none.className='choice '+(!person.bagAccessory?'active':'');
+    none.textContent='Без сумки';
+    none.onclick=()=>{snap();person.bagAccessory='';sync()};
+    bagGrid.appendChild(none);
+
+    shownBags.forEach(id=>bagGrid.appendChild(choiceImg('acc',id,person.bagAccessory===id,()=>{person.bagAccessory=id;cleanBagFromHands(person)})));
   }
 
   function fillHandGrid(grid,side){
@@ -3053,8 +3097,11 @@ if(step==='accessory'){
   }
 
   fillOutfitGrid();
-  fillHandGrid(accRightGrid,'right');
-  fillHandGrid(accLeftGrid,'left');
+  fillBagGrid();
+  if(!isBagsTab){
+    fillHandGrid(accRightGrid,'right');
+    fillHandGrid(accLeftGrid,'left');
+  }
 
   const hasIcecream=isIcecreamAccessory(person.rightAccessory)||isIcecreamAccessory(person.leftAccessory);
   if(hasIcecream){
@@ -3505,9 +3552,10 @@ function renderFrame(){
     const yPct=person.frameY??95;
     const acc=getPersonAccessories(person);
     const outfit=getOutfitAccessory(person);
-    const leftHand=acc.left&&!isOutfitAccessory(acc.left);
-    const rightHand=acc.right&&!isOutfitAccessory(acc.right);
-    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}">`:``}<img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:``}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:``}</div>`);
+    const bag=getBagAccessory(person);
+    const leftHand=acc.left&&!isOutfitAccessory(acc.left)&&!isBagAccessory(acc.left);
+    const rightHand=acc.right&&!isOutfitAccessory(acc.right)&&!isBagAccessory(acc.right);
+    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png"><img class="plastic-light" src="./assets/body/plastic-light.png"><img class="shadow-layer" src="./assets/body/base-outline.png">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}">`:``}<img class="face-img" src="./assets/faces/${person.face}.png"><img class="hair-img" src="${getHairFrontSrc(person.hair)}">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}">`:``}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}">`:``}${bag?`<img class="acc-img acc-bag" data-acc-id="${bag}" style="${accVars(bag,'right')}" src="${getAccSrc(bag)}">`:``}</div>`);
   });
   attachFrameDragHandlers();
   normalizeAllAccessoryElements();
@@ -3537,7 +3585,7 @@ function sync(){
 }
 function orderText(){
   const fd=frames.find(f=>f.id===frame);
-  return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
+  return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nСумка: ${getBagAccessory(x)||'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
 }
 function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}function tint(ctx,img,color,x,y,w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const t=c.getContext('2d');t.drawImage(img,0,0,w,h);t.globalCompositeOperation='source-in';t.fillStyle=color;t.fillRect(0,0,w,h);ctx.drawImage(c,x,y,w,h)}
 async function exportOrderImage(){
@@ -3667,7 +3715,7 @@ async function exportOrderImage(){
 
     const acc=getPersonAccessories(person);
     for(const side of ['left','right']){
-      const id=acc[side];if(!id||isOutfitAccessory(id))continue;
+      const id=acc[side];if(!id||isOutfitAccessory(id)||isBagAccessory(id))continue;
       const ai=await loadImg(await getAccessoryRenderUrl(id,getAccSrc(id),getAccColor(id,person)));
       if(ai){
         const am=getAccessoryMeta(id,side);
@@ -3675,6 +3723,17 @@ async function exportOrderImage(){
         const cx=dx+w*(am.x/100),cy=dy+h*(am.y/100);
         ctx.save();ctx.translate(cx,cy);ctx.rotate(((am.r||0)*Math.PI)/180);ctx.scale(am.flip??1,1);
         ctx.drawImage(ai,-aw/2,-ah/2,aw,ah);ctx.restore();
+      }
+    }
+    const bag=getBagAccessory(person);
+    if(bag){
+      const bi=await loadImg(await getAccessoryRenderUrl(bag,getAccSrc(bag),getAccColor(bag,person)));
+      if(bi){
+        const bm=getAccessoryMeta(bag,'right');
+        const bw=w*(bm.w/100),bh=bw*(bi.naturalHeight/bi.naturalWidth);
+        const bcx=dx+w*(bm.x/100),bcy=dy+h*(bm.y/100);
+        ctx.save();ctx.translate(bcx,bcy);ctx.rotate(((bm.r||0)*Math.PI)/180);ctx.scale(bm.flip??1,1);
+        ctx.drawImage(bi,-bw/2,-bh/2,bw,bh);ctx.restore();
       }
     }
     ctx.restore();
@@ -3852,7 +3911,7 @@ async function loadCatalog(){
     people.forEach(x=>{
       if(!faces.includes(x.face))x.face=faces[0]||'A1';
       if(!hair.map(String).includes(String(x.hair)))x.hair=firstHairId();
-      if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.outfitAccessory&&!accessories.includes(x.outfitAccessory))x.outfitAccessory='';cleanOutfitFromHands(x);if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
+      if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.outfitAccessory&&!accessories.includes(x.outfitAccessory))x.outfitAccessory='';cleanOutfitFromHands(x);cleanBagFromHands(x);if(x.bagAccessory&&!accessories.includes(x.bagAccessory))x.bagAccessory='';if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
     });
   }catch(e){
     console.log('catalog error',e);
@@ -3872,7 +3931,7 @@ async function loadCatalog(){
     people.forEach(x=>{
       if(!faces.includes(x.face))x.face=faces[0]||'A1';
       if(!hair.map(String).includes(String(x.hair)))x.hair=firstHairId();
-      if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.outfitAccessory&&!accessories.includes(x.outfitAccessory))x.outfitAccessory='';cleanOutfitFromHands(x);if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
+      if(x.accessory&&!x.rightAccessory)x.rightAccessory=x.accessory;if(x.outfitAccessory&&!accessories.includes(x.outfitAccessory))x.outfitAccessory='';cleanOutfitFromHands(x);cleanBagFromHands(x);if(x.bagAccessory&&!accessories.includes(x.bagAccessory))x.bagAccessory='';if(x.leftAccessory&&!accessories.includes(x.leftAccessory))x.leftAccessory='';if(x.rightAccessory&&!accessories.includes(x.rightAccessory))x.rightAccessory='';x.accessory='';
     });
   }
 }
