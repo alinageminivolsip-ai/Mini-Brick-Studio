@@ -1378,7 +1378,6 @@ body.intro-active .app{
 @media(max-width:900px){
   :root{
     --frame-mobile-drop:0px;
-    --frame-mobile-zoom:1;
   }
   body.frame-mode .viewer{
     height:calc(39dvh + var(--frame-mobile-drop))!important;
@@ -1391,7 +1390,7 @@ body.intro-active .app{
     margin-top:0!important;
   }
   body.frame-mode #frameView{
-    transform:scale(calc(.92 * var(--frame-mobile-zoom)))!important;
+    transform:none!important;
     transform-origin:center center;
   }
   body.frame-mode .frame-preview{
@@ -2088,6 +2087,25 @@ body.frame-mode .frame-box{
   box-sizing:border-box!important;
 }
 
+
+/* === FIX 2026-06-30: стабильный размер рамки === */
+body.frame-mode #frameView{
+  transform:none!important;
+}
+body.frame-mode .frame-box{
+  flex:0 0 auto!important;
+  contain:layout paint!important;
+}
+body.frame-mode .mini-grid,
+body.frame-mode .frame-bg{
+  contain:paint!important;
+}
+@media(max-width:900px){
+  body.frame-mode .frame-preview{
+    transform:none!important;
+  }
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -2563,9 +2581,7 @@ function applyFrameMobileView(){
   const isFrameMode=step==='frame';
   document.body.classList.toggle('frame-mode',isFrameMode);
   const drop=Math.max(0,Math.min(220,Number(frameMobileDrop||0)));
-  const zoom=1 + drop/420;
   document.documentElement.style.setProperty('--frame-mobile-drop',drop+'px');
-  document.documentElement.style.setProperty('--frame-mobile-zoom',zoom.toFixed(3));
 }
 
 function setFrameMobileDropValue(value){
@@ -2573,7 +2589,12 @@ function setFrameMobileDropValue(value){
   frameMobileDrop=String(drop);
   localStorage.setItem('mb_frame_mobile_drop',frameMobileDrop);
   applyFrameMobileView();
-  renderFrame();
+
+  // Важно: при перетягивании меняется высота viewer.
+  // Поэтому сбрасываем базовый замер и пересчитываем рамку от реальной области,
+  // а не от старого размера.
+  invalidateFramePreviewBase();
+  requestAnimationFrame(()=>renderFrame());
 }
 
 function initFrameResizeHandle(){
@@ -3085,9 +3106,11 @@ if(step==='frame'){
     <button class="btn dark" style="width:100%;margin-top:8px" id="openOrderFromEditor">Оформить заказ</button>
   `;
 
-  editorBody.querySelectorAll('[data-frame-color]').forEach(b=>b.onclick=()=>{snap();frame=b.dataset.frameColor+'-'+size;sync();});
+  editorBody.querySelectorAll('[data-frame-color]').forEach(b=>b.onclick=()=>{snap();frame=b.dataset.frameColor+'-'+size;invalidateFramePreviewBase();sync();});
   editorBody.querySelectorAll('[data-frame-size]').forEach(b=>b.onclick=()=>{
-    snap();frame=(isBlack?'black':'white')+'-'+b.dataset.frameSize;
+    snap();
+    frame=(isBlack?'black':'white')+'-'+b.dataset.frameSize;
+    invalidateFramePreviewBase();
     sync();
   });
 
@@ -3356,23 +3379,25 @@ function resetFrameBoxSize(){
 
 function measureFramePreviewBase(force=false){
   if(!viewer || !figureViewport)return {w:0,h:0,isMobile:false};
+
   const isMobile=window.matchMedia('(max-width: 900px)').matches;
 
-  if(!force && framePreviewBase.w>0 && framePreviewBase.h>0 && framePreviewBase.isMobile===isMobile){
-    return framePreviewBase;
-  }
+  // Главная правка:
+  // базу считаем только от внешней области просмотра, а не от самой рамки.
+  // Так размер рамки не может становиться меньше после клика, drag или смены формата.
+  const vw=Math.max(
+    figureViewport.clientWidth||0,
+    viewer.clientWidth||0,
+    120
+  );
 
-  // Перед замером сбрасываем размер самой рамки.
-  // Иначе браузер может включить старый inline-размер в расчет контейнера,
-  // и рамка начинает уменьшаться после каждого клика или перетаскивания.
-  resetFrameBoxSize();
+  const vh=Math.max(
+    figureViewport.clientHeight||0,
+    viewer.clientHeight||0,
+    120
+  );
 
-  const viewerRect=viewer.getBoundingClientRect();
-  const viewportRect=figureViewport.getBoundingClientRect();
-  const w=Math.max(viewerRect.width||0, viewportRect.width||0, 120);
-  const h=Math.max(viewerRect.height||0, viewportRect.height||0, 120);
-
-  framePreviewBase={w,h,isMobile};
+  framePreviewBase={w:vw,h:vh,isMobile};
   return framePreviewBase;
 }
 
@@ -3389,20 +3414,25 @@ function applyFrameBoxSize(forceMeasure=false){
   const base=measureFramePreviewBase(forceMeasure);
   const isMobile=base.isMobile;
 
-  const pad=isMobile?28:56;
-  const labelSpace=isMobile?38:54;
-  const maxW=Math.max(120, base.w - pad*2);
-  const maxH=Math.max(120, base.h - pad*2 - labelSpace);
+  // На мобилке рамка должна жить внутри увеличенной области viewer.
+  // Никакого transform: scale у #frameView больше нет, поэтому расчет стабильный.
+  const sidePad=isMobile?24:52;
+  const topBottomPad=isMobile?28:48;
+  const labelSpace=isMobile?34:48;
+
+  const maxW=Math.max(120, base.w - sidePad*2);
+  const maxH=Math.max(120, base.h - topBottomPad*2 - labelSpace);
 
   let w,h;
 
   if(t==='square'){
-    const side=Math.min(maxW,maxH,isMobile?360:860);
+    const side=Math.min(maxW,maxH,isMobile?420:900);
     w=side;
     h=side;
   }else{
-    h=Math.min(maxH,isMobile?390:860);
+    h=Math.min(maxH,isMobile?460:900);
     w=h*ratio;
+
     if(w>maxW){
       w=maxW;
       h=w/ratio;
