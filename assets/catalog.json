@@ -39,6 +39,9 @@
       "playstation",
       "star"
     ],
+    "children": [
+      "child"
+    ],
     "food": [
       "banana",
       "croissant"
@@ -55,7 +58,7 @@
     "love",
     "you_and_me"
   ],
-  "version": 28,
+  "version": 29,
   "hairBack": [
     "f1",
     "f6"
