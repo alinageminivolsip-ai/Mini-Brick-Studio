@@ -17,6 +17,7 @@
     "f4",
     "f5",
     "f6",
+    "f7",
     "m1",
     "m2",
     "m3"
@@ -58,7 +59,7 @@
     "love",
     "you_and_me"
   ],
-  "version": 30,
+  "version": 31,
   "hairBack": [
     "f1",
     "f6"
