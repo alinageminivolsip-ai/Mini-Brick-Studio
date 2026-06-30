@@ -2043,6 +2043,38 @@ body.frame-mode .stage-next-wrap{display:flex!important}
     max-height:calc(58dvh - 32px)!important;
   }
 }
+/* === NEW: эффект полупрозрачного пластика (для цветов 3, 6, 20, 33) === */
+.part.translucent{
+  backdrop-filter:blur(3px) saturate(1.35) brightness(1.05);
+  -webkit-backdrop-filter:blur(3px) saturate(1.35) brightness(1.05);
+}
+.part.translucent::before,
+.part.translucent::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+.part.translucent::after{
+  z-index:1;
+  mix-blend-mode:screen;
+  opacity:.8;
+  background:
+    linear-gradient(122deg,transparent 26%,rgba(255,255,255,.65) 44%,transparent 60%),
+    radial-gradient(circle at 28% 16%,rgba(255,255,255,.55),transparent 42%);
+}
+.part.translucent::before{
+  z-index:1;
+  mix-blend-mode:multiply;
+  opacity:.5;
+  background:radial-gradient(circle at 50% 45%,transparent 52%,rgba(15,8,25,.4) 100%);
+}
+.skin.translucent::before,.skin.translucent::after{mask:url('./assets/body/skin-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/skin-mask.png') center/contain no-repeat}
+.torso.translucent::before,.torso.translucent::after{mask:url('./assets/body/torso-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/torso-mask.png') center/contain no-repeat}
+.legs.translucent::before,.legs.translucent::after{mask:url('./assets/body/legs-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/legs-mask.png') center/contain no-repeat}
+.arms.translucent::before,.arms.translucent::after{mask:url('./assets/body/arms-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/arms-mask.png') center/contain no-repeat}
+/* лёгкая версия без backdrop-filter — для мини-фигурок в рамке (производительность) */
+.mini-figure .part.translucent{backdrop-filter:none;-webkit-backdrop-filter:none}
 </style>
 </head>
 <body class="intro-active">
@@ -2174,6 +2206,18 @@ const bodyColorMeta={
   33:{transparent:true,note:'полупрозрачный цвет'},
   10:{gold:true,note:'золотой цвет'}
 };
+function isTranslucentColor(id){return !!(bodyColorMeta[id]&&bodyColorMeta[id].transparent)}
+function applyTranslucentParts(container,person){
+  if(!container)return;
+  const skinEl=container.querySelector('.skin');
+  const torsoEl=container.querySelector('.torso');
+  const legsEl=container.querySelector('.legs');
+  const armsEl=container.querySelector('.arms');
+  if(torsoEl)torsoEl.classList.toggle('translucent',isTranslucentColor(person.torso));
+  if(legsEl)legsEl.classList.toggle('translucent',isTranslucentColor(person.legs));
+  if(armsEl)armsEl.classList.toggle('translucent',person.sleeveMode!=='bare'&&isTranslucentColor(person.torso));
+  if(skinEl)skinEl.classList.remove('translucent');
+}
 const skinColors={1:'#FFD200',2:'#F3C28B',3:'#D89A62',4:'#A86A3D',5:'#6B3F28',6:'#F7E3C3',7:'#111111',8:'#FFFFFF'};
 const skinGroups=[{title:'Кожа',ids:[1,2,6,3,4,5,7,8]}];
 const bodyGroups=[{title:'Белый / прозрачный / серый / черный',ids:[2,3,4,5,6,7,44,45,46]},{title:'Желтый / оранжевый',ids:[8,9,10,11,15,16,17,18,47,48]},{title:'Красный',ids:[12,13,14,19,20,21]},{title:'Зеленый',ids:[22,23,24,25,26,27,28]},{title:'Синий',ids:[29,30,31,32,33,34,35,49]},{title:'Розовый / фиолетовый',ids:[36,37,38,39,40,41,42,43]}];
@@ -2631,6 +2675,7 @@ function renderFigure(){
   document.documentElement.style.setProperty('--torso',bodyColors[person.torso]);
   document.documentElement.style.setProperty('--legs',bodyColors[person.legs]);
   document.documentElement.style.setProperty('--arms',person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]);
+  applyTranslucentParts(constructorView,person);
   faceImg.src=`./assets/faces/${person.face}.png`;
   hairImg.onerror=()=>{hairImg.onerror=null;hairImg.src=getHairFrontSrc(person.hair)};
   hairImg.src=getMainHairSrc(person);
