@@ -1940,7 +1940,37 @@ body.frame-mode .frame-bg{
   transition:transform .15s ease;
 }
 .stage-next-btn:active{transform:scale(.92)}
-body.frame-mode .stage-next-wrap{display:none!important}
+body.frame-mode .stage-next-wrap{display:flex!important}
+.stage-back-wrap{
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:40;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.stage-back-btn{
+  width:54px;
+  height:54px;
+  border:2px solid var(--line);
+  border-radius:50%;
+  background:rgba(255,255,255,.95);
+  color:var(--brown);
+  font-size:24px;
+  font-weight:950;
+  display:grid;
+  place-items:center;
+  box-shadow:0 10px 24px rgba(86,24,55,.14);
+  transition:transform .15s ease;
+}
+.stage-back-btn:active{transform:scale(.92)}
+.stage-back-wrap.hidden{display:none!important}
+@media(max-width:900px){
+  .stage-back-wrap{left:10px}
+  .stage-back-btn{width:46px;height:46px;font-size:20px}
+}
 @media(max-width:900px){
   .stage-next-wrap{right:10px;gap:6px}
   .stage-next-label{display:none}
@@ -2060,6 +2090,7 @@ body.frame-mode .stage-next-wrap{display:none!important}
     <aside class="panel left"><div class="panel-pad"><h2 class="title">Фигурки <span id="countLabel" class="small"></span></h2><div class="people-list" id="peopleList"></div><button class="btn dark add-card" id="addPerson">+ Добавить фигурку</button></div></aside>
     <main class="panel viewer" id="viewer">
       <div class="stage-toolbar"><button class="btn ghost" id="undoBtn" aria-label="Отменить последнее действие" title="Отменить">↶</button><button class="btn pink" id="randomBtn" aria-label="Случайный образ" title="Случайно">🎲</button></div>
+      <div class="stage-back-wrap" id="stageBackWrap"><button class="stage-back-btn" id="stageBackBtn" type="button" aria-label="Вернуться к предыдущему шагу"><span>←</span></button></div>
       <div class="stage-next-wrap" id="stageNextWrap"><span class="stage-next-label" id="stageNextLabel">Далее</span><button class="stage-next-btn" id="stageNextBtn" type="button" aria-label="Перейти к следующему шагу"><span id="stageNextArrow">→</span></button></div>
       <div class="hair-flip-controls" id="hairFlipControls" aria-label="Посмотреть прическу сзади"><button class="hair-flip-btn" id="hairFlipLeft" type="button" title="Повернуть назад">↺</button><span class="hair-flip-label" id="hairFlipLabel">Вид спереди</span><button class="hair-flip-btn" id="hairFlipRight" type="button" title="Повернуть назад">↻</button></div>
       <section class="figure-viewport" id="figureViewport">
@@ -3037,7 +3068,9 @@ if(step==='frame'){
   bgScale.oninput=e=>{frameBgScale=e.target.value;localStorage.setItem('mb_frame_bg_scale',frameBgScale);updateFrameBackground()};
   openOrderFromEditor.onclick=openOrderModal;
 }
+}
 function goNextStep(){const i=steps.findIndex(s=>s.key===step);const nextKey=steps[Math.min(i+1,steps.length-1)].key;if(nextKey==='frame'){enterFrameMode()}else{step=nextKey;sync()}window.scrollTo({top:0,behavior:'smooth'})}
+function goPrevStep(){const i=steps.findIndex(s=>s.key===step);if(i<=0)return;step=steps[i-1].key;sync();window.scrollTo({top:0,behavior:'smooth'})}
 function frameType(){if(frame.includes('small'))return'small';if(frame.includes('square'))return'square';return'big'}
 const SNAP_THRESHOLD=4;
 const FRAME_SIZES={
@@ -3338,14 +3371,23 @@ function sync(){
 function updateStageNextButton(){
   const btn=document.getElementById('stageNextBtn');
   const wrap=document.getElementById('stageNextWrap');
+  const backBtn=document.getElementById('stageBackBtn');
+  const backWrap=document.getElementById('stageBackWrap');
   if(!btn||!wrap)return;
-  const isLast=step==='accessory';
   const arrow=document.getElementById('stageNextArrow');
   const label=document.getElementById('stageNextLabel');
-  if(arrow)arrow.textContent=isLast?'✓':'→';
-  if(label)label.textContent=isLast?'В рамку':'Далее';
-  btn.onclick=goNextStep;
-  wrap.classList.toggle('hidden',step==='frame');
+  if(step==='frame'){
+    if(arrow)arrow.textContent='🛒';
+    if(label)label.textContent='К заказу';
+    btn.onclick=openOrderModal;
+  }else{
+    const isLast=step==='accessory';
+    if(arrow)arrow.textContent=isLast?'✓':'→';
+    if(label)label.textContent=isLast?'В рамку':'Далее';
+    btn.onclick=goNextStep;
+  }
+  if(backBtn)backBtn.onclick=goPrevStep;
+  if(backWrap)backWrap.classList.toggle('hidden',step==='skin');
 }
 function orderText(){
   const fd=frames.find(f=>f.id===frame);
@@ -3777,17 +3819,27 @@ window.addEventListener('resize',()=>{
     applyFrameBoxSize(true);
     renderFrame();
   },80);
-});loadCatalog()
-  .catch(err=>console.log('catalog load failed',err))
-  .then(()=>{
-    if('serviceWorker'in navigator){
-      navigator.serviceWorker.register('./sw.js?v='+Date.now()).then(r=>r.update()).catch(()=>{});
-    }
-    initFrameResizeHandle();
-    sync();
-    initIntroFlow();
-    hideSplashV6();
-  });
+});
+let appBooted=false;
+function bootAppOnce(){
+  if(appBooted)return;
+  appBooted=true;
+  if('serviceWorker'in navigator){
+    navigator.serviceWorker.register('./sw.js?v='+Date.now()).then(r=>r.update()).catch(()=>{});
+  }
+  initFrameResizeHandle();
+  sync();
+  initIntroFlow();
+  hideSplashV6();
+}
+const catalogPromise=loadCatalog().catch(err=>console.log('catalog load failed',err));
+// Защита: если загрузка каталога (fetch + проверка ассетов) зависнет дольше 4с
+// по любой причине (медленная сеть, CORS, редирект и т.п.), интерфейс всё равно
+// становится рабочим на дефолтных значениях, а не остаётся «мёртвым» навсегда.
+const catalogTimeout=new Promise(resolve=>setTimeout(resolve,4000));
+Promise.race([catalogPromise,catalogTimeout]).then(bootAppOnce);
+// Если каталог всё же догрузился позже таймаута — обновляем интерфейс свежими данными.
+catalogPromise.then(()=>{ if(appBooted) sync(); });
 </script>
 <script>
 window.addEventListener('load',()=>{
