@@ -2043,39 +2043,32 @@ body.frame-mode .stage-next-wrap{display:flex!important}
     max-height:calc(58dvh - 32px)!important;
   }
 }
-/* === NEW: эффект полупрозрачного пластика (для цветов 3, 6, 20, 33) ===
-   Идея: под собственной цветной заливкой детали (она и так полупрозрачная —
-   у этих цветов alpha ~0.4-0.6 в bodyColors) кладём слой-подложку того же
-   силуэта, залитый цветом кожи (для торса/рукавов) или нейтральным светлым
-   тоном (для ног). Псевдоэлемент с z-index:-1 у позиционированного родителя
-   рисуется ПОД собственным background-color родителя — поэтому браузер
-   реально смешивает полупрозрачный цвет детали с цветом подложки через
-   обычное альфа-смешение, как в настоящем пластике. */
+/* === NEW: эффект полупрозрачного пластика (для цветов 3, 6, 20, 33) === */
 .part.translucent{
-  backdrop-filter:blur(1.5px) saturate(1.15);
-  -webkit-backdrop-filter:blur(1.5px) saturate(1.15);
+  backdrop-filter:blur(3px) saturate(1.35) brightness(1.05);
+  -webkit-backdrop-filter:blur(3px) saturate(1.35) brightness(1.05);
 }
-.part.translucent::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-}
+.part.translucent::before,
 .part.translucent::after{
   content:"";
   position:absolute;
   inset:0;
-  z-index:1;
   pointer-events:none;
-  mix-blend-mode:screen;
-  opacity:.55;
-  background:
-    linear-gradient(122deg,transparent 30%,rgba(255,255,255,.55) 46%,transparent 62%),
-    radial-gradient(circle at 28% 16%,rgba(255,255,255,.4),transparent 40%);
 }
-.torso.translucent::before,.arms.translucent::before{background:var(--skin)}
-.legs.translucent::before{background:linear-gradient(165deg,#fff8ec,#efe4d1)}
+.part.translucent::after{
+  z-index:1;
+  mix-blend-mode:screen;
+  opacity:.8;
+  background:
+    linear-gradient(122deg,transparent 26%,rgba(255,255,255,.65) 44%,transparent 60%),
+    radial-gradient(circle at 28% 16%,rgba(255,255,255,.55),transparent 42%);
+}
+.part.translucent::before{
+  z-index:1;
+  mix-blend-mode:multiply;
+  opacity:.5;
+  background:radial-gradient(circle at 50% 45%,transparent 52%,rgba(15,8,25,.4) 100%);
+}
 .skin.translucent::before,.skin.translucent::after{mask:url('./assets/body/skin-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/skin-mask.png') center/contain no-repeat}
 .torso.translucent::before,.torso.translucent::after{mask:url('./assets/body/torso-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/torso-mask.png') center/contain no-repeat}
 .legs.translucent::before,.legs.translucent::after{mask:url('./assets/body/legs-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/legs-mask.png') center/contain no-repeat}
@@ -2529,12 +2522,18 @@ const accessoryMeta={
   }
 };
 function getAccessoryMeta(id,side='right'){
-  const item=accessoryMeta[id]||accessoryMeta.default;
+  const item=accessoryMeta[id] || (isBagAccessory(id)?accessoryMeta.bag:null) || accessoryMeta.default;
   const base=item[side]||item.right||item.left||item||accessoryMeta.default.right;
   return {...base};
 }
 function isOutfitAccessory(id){
   return !!(id && accessoryMeta[id] && accessoryMeta[id].type==='outfit');
+}
+function isBagAccessory(id){
+  return !!(id && accessoryCategoryMap[id]==='bags');
+}
+function isBodyAccessory(id){
+  return isOutfitAccessory(id) || isBagAccessory(id);
 }
 function getOutfitAccessory(person){
   if(person && person.outfitAccessory && isOutfitAccessory(person.outfitAccessory))return person.outfitAccessory;
@@ -2545,6 +2544,10 @@ function getOutfitAccessory(person){
 }
 function cleanOutfitFromHands(person){
   if(!person)return;
+  if(isBagAccessory(person.outfitAccessory)){
+    person.rightAccessory=person.outfitAccessory;
+    person.outfitAccessory='';
+  }
   if(!person.outfitAccessory){
     if(isOutfitAccessory(person.rightAccessory))person.outfitAccessory=person.rightAccessory;
     else if(isOutfitAccessory(person.leftAccessory))person.outfitAccessory=person.leftAccessory;
@@ -2969,6 +2972,7 @@ if(step==='accessory'){
   editorBody.innerHTML=`<div class="section-title"><span class="badge">5.1</span> Аксессуары</div>
     <div class="acc-cats" id="accCats"></div>
     <div class="acc-hand-block hidden" id="outfitBlock"><div class="acc-hand-title"><span>★</span> Костюм / платье</div><div class="choice-grid" id="outfitGrid"></div></div>
+    <div class="acc-hand-block hidden" id="bagBlock"><div class="acc-hand-title"><span>👜</span> Сумка на фигурке</div><div class="choice-grid" id="bagGrid"></div></div>
     <div class="acc-hand-block" id="rightHandBlock"><div class="acc-hand-title"><span>R</span> Правая рука</div><div class="choice-grid" id="accRightGrid"></div></div>
     <div class="acc-hand-block" id="leftHandBlock"><div class="acc-hand-title"><span>L</span> Левая рука</div><div class="choice-grid" id="accLeftGrid"></div></div>
     `;
@@ -2980,16 +2984,20 @@ if(step==='accessory'){
     btn.onclick=()=>{activeAccessoryCategory=cat.id;renderEditor()};
     accCats.appendChild(btn);
   });
-  if(activeAccessoryCategory==='bags'){
+  const isBagsCategory=activeAccessoryCategory==='bags';
+  if(isBagsCategory){
+    bagBlock.classList.remove('hidden');
     rightHandBlock.classList.add('hidden');
     leftHandBlock.classList.add('hidden');
   }else{
+    bagBlock.classList.add('hidden');
     rightHandBlock.classList.remove('hidden');
     leftHandBlock.classList.remove('hidden');
   }
   const shown=accessories.filter(id=>activeAccessoryCategory==='all'||accessoryCategoryMap[id]===activeAccessoryCategory);
+  const shownBags=shown.filter(id=>isBagAccessory(id));
   const shownOutfits=shown.filter(id=>isOutfitAccessory(id));
-  const shownHandAccessories=shown.filter(id=>!isOutfitAccessory(id));
+  const shownHandAccessories=shown.filter(id=>!isBodyAccessory(id));
   function fillOutfitGrid(){
     if(!shownOutfits.length){
       outfitBlock.classList.add('hidden');
@@ -3002,6 +3010,22 @@ if(step==='accessory'){
     none.onclick=()=>{snap();person.outfitAccessory='';sync()};
     outfitGrid.appendChild(none);
     shownOutfits.forEach(id=>outfitGrid.appendChild(choiceImg('acc',id,person.outfitAccessory===id,()=>{person.outfitAccessory=id;cleanOutfitFromHands(person)})));
+  }
+  function fillBagGrid(){
+    if(!isBagsCategory)return;
+    const none=document.createElement('button');
+    none.className='choice '+(!isBagAccessory(person.rightAccessory)?'active':'');
+    none.textContent='Без сумки';
+    none.onclick=()=>{snap();if(isBagAccessory(person.rightAccessory))person.rightAccessory='';sync()};
+    bagGrid.appendChild(none);
+    if(!shownBags.length){
+      const e=document.createElement('div');
+      e.className='empty';
+      e.textContent='В этой категории пока пусто';
+      bagGrid.appendChild(e);
+      return;
+    }
+    shownBags.forEach(id=>bagGrid.appendChild(choiceImg('acc',id,person.rightAccessory===id,()=>{person.rightAccessory=id;person.leftAccessory='';person.accessory='';cleanOutfitFromHands(person)})));
   }
   function fillHandGrid(grid,side){
     const key=side==='left'?'leftAccessory':'rightAccessory';
@@ -3020,6 +3044,7 @@ if(step==='accessory'){
     shownHandAccessories.forEach(id=>grid.appendChild(choiceImg('acc',id,person[key]===id,()=>{person[key]=id;person.accessory='';cleanOutfitFromHands(person)})));
   }
   fillOutfitGrid();
+  fillBagGrid();
   fillHandGrid(accRightGrid,'right');
   fillHandGrid(accLeftGrid,'left');
   const hasIcecream=isIcecreamAccessory(person.rightAccessory)||isIcecreamAccessory(person.leftAccessory);
