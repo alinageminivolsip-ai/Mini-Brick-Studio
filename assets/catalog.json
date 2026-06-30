@@ -34,6 +34,9 @@
       "playstation",
       "star"
     ],
+    "bags": [
+      "bag"
+    ],
     "food": [
       "banana",
       "croissant"
@@ -47,7 +50,7 @@
     "love",
     "you_and_me"
   ],
-  "version": 16,
+  "version": 17,
   "hairBack": [
     "f1",
     "f6"
