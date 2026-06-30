@@ -2093,6 +2093,29 @@ body.frame-mode .stage-next-wrap{display:flex!important}
     scaleX(var(--acc-flip,1))!important;
 }
 
+
+
+/* === FIX: на мобилке стрелки шагов не перекрывают кнопки переворота прически === */
+@media(max-width:900px){
+  body.hair-step.hair-can-flip .stage-back-wrap,
+  body.hair-step.hair-can-flip .stage-next-wrap{
+    top:calc(50% + 76px)!important;
+    z-index:34!important;
+  }
+  body.hair-step.hair-can-flip .hair-flip-controls{
+    z-index:46!important;
+  }
+  body.hair-step.hair-can-flip .hair-flip-label{
+    bottom:-28px!important;
+  }
+}
+@media(max-width:380px){
+  body.hair-step.hair-can-flip .stage-back-wrap,
+  body.hair-step.hair-can-flip .stage-next-wrap{
+    top:calc(50% + 68px)!important;
+  }
+}
+
 </style>
 </head>
 <body class="intro-active">
