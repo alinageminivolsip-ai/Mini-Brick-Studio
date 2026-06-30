@@ -2043,10 +2043,17 @@ body.frame-mode .stage-next-wrap{display:flex!important}
     max-height:calc(58dvh - 32px)!important;
   }
 }
-/* === NEW: эффект полупрозрачного пластика (для цветов 3, 6, 20, 33) === */
+/* === NEW: эффект настоящего полупрозрачного LEGO-пластика (цвета 3, 6, 20, 33) === */
 .part.translucent{
-  backdrop-filter:blur(3px) saturate(1.35) brightness(1.05);
-  -webkit-backdrop-filter:blur(3px) saturate(1.35) brightness(1.05);
+  opacity:.78;
+  background-image:
+    linear-gradient(118deg,rgba(255,255,255,.72) 0%,rgba(255,255,255,.18) 18%,rgba(255,255,255,0) 38%),
+    radial-gradient(circle at 30% 14%,rgba(255,255,255,.74),rgba(255,255,255,.16) 24%,rgba(255,255,255,0) 48%),
+    radial-gradient(circle at 66% 80%,rgba(0,0,0,.16),rgba(0,0,0,0) 46%);
+  background-blend-mode:screen,screen,multiply;
+  backdrop-filter:blur(2.6px) saturate(1.45) brightness(1.04);
+  -webkit-backdrop-filter:blur(2.6px) saturate(1.45) brightness(1.04);
+  filter:saturate(1.18) contrast(1.06);
 }
 .part.translucent::before,
 .part.translucent::after{
@@ -2056,25 +2063,76 @@ body.frame-mode .stage-next-wrap{display:flex!important}
   pointer-events:none;
 }
 .part.translucent::after{
-  z-index:1;
+  z-index:2;
   mix-blend-mode:screen;
-  opacity:.8;
+  opacity:.95;
   background:
-    linear-gradient(122deg,transparent 26%,rgba(255,255,255,.65) 44%,transparent 60%),
-    radial-gradient(circle at 28% 16%,rgba(255,255,255,.55),transparent 42%);
+    linear-gradient(112deg,transparent 18%,rgba(255,255,255,.88) 34%,rgba(255,255,255,.22) 48%,transparent 62%),
+    linear-gradient(168deg,transparent 52%,rgba(255,255,255,.34) 64%,transparent 76%);
 }
 .part.translucent::before{
   z-index:1;
   mix-blend-mode:multiply;
-  opacity:.5;
-  background:radial-gradient(circle at 50% 45%,transparent 52%,rgba(15,8,25,.4) 100%);
+  opacity:.64;
+  background:
+    radial-gradient(circle at 50% 48%,transparent 45%,rgba(20,10,24,.34) 100%),
+    linear-gradient(90deg,rgba(0,0,0,.18),transparent 16%,transparent 84%,rgba(0,0,0,.18));
+}
+.torso.translucent,.legs.translucent,.arms.translucent{
+  box-shadow:inset 0 0 18px rgba(255,255,255,.28), inset 0 0 28px rgba(0,0,0,.16);
 }
 .skin.translucent::before,.skin.translucent::after{mask:url('./assets/body/skin-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/skin-mask.png') center/contain no-repeat}
 .torso.translucent::before,.torso.translucent::after{mask:url('./assets/body/torso-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/torso-mask.png') center/contain no-repeat}
 .legs.translucent::before,.legs.translucent::after{mask:url('./assets/body/legs-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/legs-mask.png') center/contain no-repeat}
 .arms.translucent::before,.arms.translucent::after{mask:url('./assets/body/arms-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/arms-mask.png') center/contain no-repeat}
-/* лёгкая версия без backdrop-filter — для мини-фигурок в рамке (производительность) */
-.mini-figure .part.translucent{backdrop-filter:none;-webkit-backdrop-filter:none}
+/* миниатюры и рамка: эффект легче, чтобы телефон не тормозил */
+.mini-preview .part.translucent,
+.mini-figure .part.translucent{
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  opacity:.82;
+}
+
+
+/* === FIX: аксессуары в левой и правой руке зеркально === */
+.acc-img{
+  transform:
+    translate(-50%,-50%)
+    rotate(var(--acc-r,0deg))
+    scaleX(var(--acc-flip,1))!important;
+}
+
+.mini-preview .acc-img,
+.mini-figure .acc-img{
+  transform:
+    translate(-50%,-50%)
+    rotate(var(--acc-r,0deg))
+    scaleX(var(--acc-flip,1))!important;
+}
+
+
+
+/* === FIX: на мобилке стрелки шагов не перекрывают кнопки переворота прически === */
+@media(max-width:900px){
+  body.hair-step.hair-can-flip .stage-back-wrap,
+  body.hair-step.hair-can-flip .stage-next-wrap{
+    top:calc(50% + 76px)!important;
+    z-index:34!important;
+  }
+  body.hair-step.hair-can-flip .hair-flip-controls{
+    z-index:46!important;
+  }
+  body.hair-step.hair-can-flip .hair-flip-label{
+    bottom:-28px!important;
+  }
+}
+@media(max-width:380px){
+  body.hair-step.hair-can-flip .stage-back-wrap,
+  body.hair-step.hair-can-flip .stage-next-wrap{
+    top:calc(50% + 68px)!important;
+  }
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -2151,10 +2209,10 @@ body.frame-mode .stage-next-wrap{display:flex!important}
 <script>
 const bodyColors={
   2:'#F2EFE6',
-  3:'rgba(210,210,210,.42)',
+  3:'rgba(210,210,210,.36)',
   4:'#9FA3A5',
   5:'#4D5B5A',
-  6:'rgba(92,72,48,.55)',
+  6:'rgba(92,72,48,.46)',
   7:'#111111',
   8:'#C7BA76',
   9:'#8A7A33',
@@ -2168,7 +2226,7 @@ const bodyColors={
   17:'#D98A2B',
   18:'#FF6A13',
   19:'#D81919',
-  20:'rgba(182,18,18,.62)',
+  20:'rgba(182,18,18,.50)',
   21:'#7A1010',
   22:'#6A7A1A',
   23:'#84C71A',
@@ -2181,7 +2239,7 @@ const bodyColors={
   30:'#7BC5F1',
   31:'#1B8DDB',
   32:'#1A72D6',
-  33:'rgba(26,77,255,.58)',
+  33:'rgba(26,77,255,.48)',
   34:'#1D4FB3',
   35:'#0D245F',
   36:'#E5A8D4',
@@ -2623,7 +2681,7 @@ function miniHTML(person){
   const outfit=getOutfitAccessory(person);
   const leftHand=acc.left&&!isOutfitAccessory(acc.left);
   const rightHand=acc.right&&!isOutfitAccessory(acc.right);
-  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:''}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:''}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:''}</div>`
+  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:''}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:''}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:''}</div>`
 }
 function renderPeople(){countLabel.textContent=`${people.length}/10`;peopleList.innerHTML='';people.forEach((person,i)=>{const card=document.createElement('div');card.className='person-card '+(i===active?'active':'');card.innerHTML=`${miniHTML(person)}<div><div class="person-title">${person.name||`Человек ${i+1}`}</div><div class="person-meta">лицо ${person.face}, волосы ${person.hair}</div></div><div style="display:grid;gap:4px"><button class="icon-btn" data-edit title="Редактировать" aria-label="Редактировать фигурку">✎</button><button class="icon-btn dup" data-dup title="Дублировать" aria-label="Дублировать фигурку">⧉</button><button class="icon-btn" data-del title="Удалить" aria-label="Удалить фигурку">×</button></div>`;card.querySelector('[data-edit]').onclick=()=>{active=i;step='skin';sync()};card.querySelector('[data-dup]').onclick=()=>dupPerson(i);card.querySelector('[data-del]').onclick=()=>askDelPerson(i);peopleList.appendChild(card)})}
 function renderMobilePeople(){
@@ -3422,7 +3480,7 @@ function renderFrame(){
     const outfit=getOutfitAccessory(person);
     const leftHand=acc.left&&!isOutfitAccessory(acc.left);
     const rightHand=acc.right&&!isOutfitAccessory(acc.right);
-    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:``}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:``}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:``}</div>`);
+    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:``}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:``}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:``}</div>`);
   });
   attachFrameDragHandlers();
   normalizeAllAccessoryElements();
@@ -3471,7 +3529,71 @@ function orderText(){
   const {total}=calcOrderPrice();
   return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\nИтоговая стоимость: ${total.toLocaleString('ru-RU')} ₽\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
 }
-function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}function tint(ctx,img,color,x,y,w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const t=c.getContext('2d');t.drawImage(img,0,0,w,h);t.globalCompositeOperation='source-in';t.fillStyle=color;t.fillRect(0,0,w,h);ctx.drawImage(c,x,y,w,h)}
+function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
+function tint(ctx,img,color,x,y,w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const t=c.getContext('2d');t.drawImage(img,0,0,w,h);t.globalCompositeOperation='source-in';t.fillStyle=color;t.fillRect(0,0,w,h);ctx.drawImage(c,x,y,w,h)}
+function rgbaFromColor(color,alpha=.6){
+  const s=String(color||'').trim();
+  if(s.startsWith('rgba')){
+    const nums=s.match(/rgba?\(([^)]+)\)/)?.[1].split(',').map(v=>parseFloat(v.trim()))||[0,0,0,1];
+    return `rgba(${nums[0]||0},${nums[1]||0},${nums[2]||0},${alpha})`;
+  }
+  if(s.startsWith('rgb')){
+    const nums=s.match(/rgba?\(([^)]+)\)/)?.[1].split(',').map(v=>parseFloat(v.trim()))||[0,0,0];
+    return `rgba(${nums[0]||0},${nums[1]||0},${nums[2]||0},${alpha})`;
+  }
+  if(s[0]==='#'){
+    let hex=s.slice(1);
+    if(hex.length===3)hex=hex.split('').map(ch=>ch+ch).join('');
+    const n=parseInt(hex,16);
+    return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${alpha})`;
+  }
+  return color;
+}
+function drawMaskedGradient(ctx,mask,x,y,w,h,paintFn,alpha=1,blend='source-over'){
+  const c=document.createElement('canvas');c.width=Math.max(1,Math.round(w));c.height=Math.max(1,Math.round(h));
+  const t=c.getContext('2d');
+  paintFn(t,c.width,c.height);
+  t.globalCompositeOperation='destination-in';
+  t.drawImage(mask,0,0,c.width,c.height);
+  ctx.save();
+  ctx.globalAlpha=alpha;
+  ctx.globalCompositeOperation=blend;
+  ctx.drawImage(c,x,y,w,h);
+  ctx.restore();
+}
+function tintLegoPlastic(ctx,mask,color,x,y,w,h,isGlass=false){
+  if(!isGlass){tint(ctx,mask,color,x,y,w,h);return}
+  drawMaskedGradient(ctx,mask,x,y,w,h,(t,cw,ch)=>{
+    t.fillStyle=rgbaFromColor(color,.52);
+    t.fillRect(0,0,cw,ch);
+    const g=t.createLinearGradient(0,0,cw,ch);
+    g.addColorStop(0,'rgba(255,255,255,.36)');
+    g.addColorStop(.28,'rgba(255,255,255,.08)');
+    g.addColorStop(.72,'rgba(0,0,0,.04)');
+    g.addColorStop(1,'rgba(0,0,0,.20)');
+    t.fillStyle=g;t.fillRect(0,0,cw,ch);
+  },1,'source-over');
+  drawMaskedGradient(ctx,mask,x,y,w,h,(t,cw,ch)=>{
+    const g=t.createLinearGradient(cw*.12,0,cw*.82,ch*.74);
+    g.addColorStop(0,'rgba(255,255,255,0)');
+    g.addColorStop(.42,'rgba(255,255,255,.90)');
+    g.addColorStop(.56,'rgba(255,255,255,.18)');
+    g.addColorStop(1,'rgba(255,255,255,0)');
+    t.fillStyle=g;t.fillRect(0,0,cw,ch);
+    const r=t.createRadialGradient(cw*.30,ch*.13,0,cw*.30,ch*.13,cw*.35);
+    r.addColorStop(0,'rgba(255,255,255,.70)');
+    r.addColorStop(.38,'rgba(255,255,255,.18)');
+    r.addColorStop(1,'rgba(255,255,255,0)');
+    t.fillStyle=r;t.fillRect(0,0,cw,ch);
+  },.82,'screen');
+  drawMaskedGradient(ctx,mask,x,y,w,h,(t,cw,ch)=>{
+    const r=t.createRadialGradient(cw*.5,ch*.45,cw*.18,cw*.5,ch*.45,cw*.78);
+    r.addColorStop(0,'rgba(0,0,0,0)');
+    r.addColorStop(.68,'rgba(0,0,0,.05)');
+    r.addColorStop(1,'rgba(0,0,0,.28)');
+    t.fillStyle=r;t.fillRect(0,0,cw,ch);
+  },.70,'multiply');
+}
 async function exportOrderImage(){
   const fd=frames.find(f=>f.id===frame);
   const isSquare=fd.m==='square';
@@ -3544,9 +3666,9 @@ async function exportOrderImage(){
     ctx.save();
     ctx.beginPath();ctx.rect(contentX,contentY,contentW,contentH);ctx.clip();
     if(sm)tint(ctx,sm,skinColors[person.skin],dx,dy,w,h);
-    if(tm)tint(ctx,tm,bodyColors[person.torso],dx,dy,w,h);
-    if(armMask)tint(ctx,armMask,person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso],dx,dy,w,h);
-    if(lm)tint(ctx,lm,bodyColors[person.legs],dx,dy,w,h);
+    if(tm)tintLegoPlastic(ctx,tm,bodyColors[person.torso],dx,dy,w,h,isTranslucentColor(person.torso));
+    if(armMask)tintLegoPlastic(ctx,armMask,person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso],dx,dy,w,h,person.sleeveMode!=='bare'&&isTranslucentColor(person.torso));
+    if(lm)tintLegoPlastic(ctx,lm,bodyColors[person.legs],dx,dy,w,h,isTranslucentColor(person.legs));
     if(ps){ctx.globalCompositeOperation='multiply';ctx.globalAlpha=.28;ctx.drawImage(ps,dx,dy,w,h);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;}
     if(pl){ctx.globalCompositeOperation='screen';ctx.globalAlpha=.65;ctx.drawImage(pl,dx,dy,w,h);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;}
     if(ol){ctx.globalAlpha=.16;ctx.drawImage(ol,dx,dy,w,h);ctx.globalAlpha=1;}
