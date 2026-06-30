@@ -2263,6 +2263,7 @@ const accessoryCategories=[
   {id:'food',title:'Еда'},
   {id:'animals',title:'Животные'},
   {id:'premium',title:'★ Премиум'},
+  {id:'bags',title:'Сумки'},
   {id:'hobby',title:'Хобби'}
 ];
 let activeAccessoryCategory='all';
@@ -2497,10 +2498,10 @@ const accessoryMeta={
     left:{x:29,y:60,w:34,r:0,flip:-1}
   },
   bag:{
-    // bag.png сделан как цельная накладка на человечка.
-    // Центрируем и уменьшаем, чтобы ремень проходил по торсу, а сумка не перекрывала всю фигуру.
-    right:{x:50,y:50,w:62,r:0,flip:1},
-    left:{x:50,y:50,w:62,r:0,flip:1}
+    // bag.png — цельная накладка через плечо.
+    // Ставим ремень на плечо и держим сумку на бедре, без поворота и без привязки к рукам.
+    right:{x:53,y:55,w:54,r:0,flip:1},
+    left:{x:53,y:55,w:54,r:0,flip:1}
   },
   playstation:{
     right:{x:70,y:60,w:36,r:0,flip:1},
