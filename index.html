@@ -2460,6 +2460,62 @@ body.frame-mode .studio-scene{
   margin-bottom:10px;
 }
 .order-gallery-item .small{margin-bottom:8px}
+
+/* === SHARE PREVIEW: готовая картинка для истории VK === */
+#orderModal .modal-card{
+  width:min(760px,100%)!important;
+}
+#orderPreviewBox.share-preview{
+  max-height:min(72dvh,820px)!important;
+  background:#fff7fb!important;
+  border-radius:28px!important;
+  padding:12px!important;
+  overflow:auto!important;
+  border:2px solid var(--line)!important;
+}
+#orderPreviewBox.share-preview img{
+  width:auto!important;
+  max-width:100%!important;
+  max-height:calc(min(72dvh,820px) - 24px)!important;
+  aspect-ratio:9/16!important;
+  object-fit:contain!important;
+  border-radius:22px!important;
+  box-shadow:0 18px 42px rgba(86,24,55,.18)!important;
+  transform:none!important;
+}
+.share-hint{
+  margin:-2px 0 14px;
+  padding:12px 14px;
+  border-radius:18px;
+  background:#fff0f6;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.35;
+  font-weight:900;
+}
+.share-hint b{color:var(--red)}
+@media(max-width:900px){
+  #orderModal .modal-card{
+    width:min(430px,100%)!important;
+    max-height:92dvh!important;
+    padding:14px!important;
+  }
+  #orderPreviewBox.share-preview{
+    max-height:56dvh!important;
+    padding:8px!important;
+    border-radius:24px!important;
+  }
+  #orderPreviewBox.share-preview img{
+    max-height:calc(56dvh - 16px)!important;
+    border-radius:18px!important;
+  }
+  .share-hint{
+    font-size:12px;
+    padding:10px 12px;
+    border-radius:16px;
+  }
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -2547,12 +2603,12 @@ body.frame-mode .studio-scene{
 <div class="modal" id="cartModal"><div class="modal-card"><div class="modal-head"><h2>Корзина</h2><button class="close" id="cartClose" aria-label="Закрыть">×</button></div><div class="cart-current-note">Текущая собираемая рамка тоже всегда входит в заказ — добавлять её в корзину отдельно не обязательно. Кнопка «Добавить ещё одну рамку» на шаге «Рамка» сохраняет её сюда и открывает новую, пустую.</div><div id="cartItemsList"></div><button class="btn dark" id="cartCheckoutBtn" style="width:100%;margin-top:6px">Перейти к оформлению заказа</button></div></div>
 <div class="modal" id="orderModal"><div class="modal-card"><div class="modal-head"><h2>Ваш заказ готов</h2><button class="close" id="orderClose" aria-label="Закрыть">×</button></div>
   <div class="price-bar"><div><div class="price-bar-label">Итоговая стоимость</div><div class="price-bar-note" id="priceBreakdown"></div></div><div class="price-bar-value" id="priceValue">0 ₽</div></div>
-  <div class="order-preview" id="orderPreviewBox"><img id="orderPreviewImg" alt="Предпросмотр готового заказа в рамке"></div><div class="order-zoom" id="orderZoomRow"><button type="button" id="orderZoomMinus" aria-label="Уменьшить">−</button><span id="orderZoomLabel">100%</span><button type="button" id="orderZoomPlus" aria-label="Увеличить">+</button></div>
+  <div class="order-preview share-preview" id="orderPreviewBox"><img id="orderPreviewImg" alt="Готовая картинка для истории ВКонтакте"></div><div class="share-hint" id="shareHint">Поделись этой картинкой в истории ВКонтакте, отметь <b>MiniBrick</b> и получи скидку <b>10%</b> на заказ.</div><div class="order-zoom hidden" id="orderZoomRow"><button type="button" id="orderZoomMinus" aria-label="Уменьшить">−</button><span id="orderZoomLabel">100%</span><button type="button" id="orderZoomPlus" aria-label="Увеличить">+</button></div>
   <div id="orderGallery" class="hidden"></div>
   <div class="order-info" id="orderInfo"></div><textarea id="orderTextarea" class="order-text" readonly></textarea>
   <div class="small" style="margin:4px 0 8px">Способ оплаты (заполняется для менеджера, фактическая оплата согласовывается в переписке)</div>
   <div class="payment-methods" id="paymentMethods"></div>
-  <div class="order-steps"><button class="btn dark" id="downloadOrderImg">1. Скачать изображение</button><button class="btn ghost" id="copyOrderText">2. Скопировать детали заказа</button><a class="btn pink" id="vkLink" href="https://vk.com/write-224539480" target="_blank" rel="noopener">3. Написать нам ВКонтакте</a></div></div></div>
+  <div class="order-steps"><button class="btn dark" id="downloadOrderImg">📥 Скачать для истории ВК</button><button class="btn ghost" id="copyOrderText">2. Скопировать детали заказа</button><a class="btn pink" id="vkLink" href="https://vk.com/write-224539480" target="_blank" rel="noopener">3. Написать нам ВКонтакте</a></div></div></div>
 <div class="modal confirm-modal" id="confirmModal"><div class="modal-card"><div class="onboard-emoji">🗑️</div><h2 class="onboard-title" style="font-size:22px" id="confirmTitle">Удалить фигурку?</h2><p id="confirmText">Это действие нельзя отменить кнопкой назад в этом окне.</p><div class="confirm-actions"><button class="btn ghost" id="confirmCancel">Отмена</button><button class="btn dark" id="confirmOk">Удалить</button></div></div></div>
 <script>
 const bodyColors={
@@ -4227,6 +4283,102 @@ async function exportFrameImage(snapshotData){
   try{return await exportOrderImage();}
   finally{people=sp;frame=sf;frameBgData=sb;frameBgScale=sbs;framePresetBg=spb;}
 }
+
+async function loadFirstAvailableImage(srcList){
+  for(const src of srcList){
+    const img=await loadImg(src+'?v='+Date.now());
+    if(img)return img;
+  }
+  return null;
+}
+function drawImageCover(ctx,img,x,y,w,h){
+  const iw=img.naturalWidth||img.width;
+  const ih=img.naturalHeight||img.height;
+  const scale=Math.max(w/iw,h/ih);
+  const dw=iw*scale, dh=ih*scale;
+  ctx.drawImage(img,x+(w-dw)/2,y+(h-dh)/2,dw,dh);
+}
+function drawImageContain(ctx,img,x,y,w,h){
+  const iw=img.naturalWidth||img.width;
+  const ih=img.naturalHeight||img.height;
+  const scale=Math.min(w/iw,h/ih);
+  const dw=iw*scale, dh=ih*scale;
+  const dx=x+(w-dw)/2;
+  const dy=y+(h-dh)/2;
+  ctx.drawImage(img,dx,dy,dw,dh);
+  return {x:dx,y:dy,w:dw,h:dh};
+}
+function getFrameCropForImage(img,frameId){
+  const fd=frames.find(f=>f.id===frameId)||frames.find(f=>f.id===frame)||frames[1];
+  const isSquare=fd.m==='square';
+  const cw=1200;
+  const fw=isSquare?820:fd.m==='big'?720:660;
+  const fh=isSquare?820:fd.m==='big'?1040:880;
+  const fx=(cw-fw)/2;
+  const fy=90;
+  const margin=70;
+  return {
+    x:Math.max(0,fx-margin),
+    y:Math.max(0,fy-margin),
+    w:Math.min((img.naturalWidth||img.width),fw+margin*2),
+    h:Math.min((img.naturalHeight||img.height),fh+margin*2)
+  };
+}
+async function exportShareImage(snapshotData){
+  const shareCanvas=document.createElement('canvas');
+  shareCanvas.width=1080;
+  shareCanvas.height=1920;
+  const ctx=shareCanvas.getContext('2d');
+
+  const bg=await loadFirstAvailableImage([
+    './assets/share-bg.png',
+    './assets/share-bg.PNG',
+    './assets/share-bg.jpg',
+    './assets/share-bg.jpeg',
+    './assets/share-bg.webp',
+    './assets/backgrounds/share-bg.png',
+    './assets/backgrounds/share-bg.PNG'
+  ]);
+
+  if(bg){
+    drawImageCover(ctx,bg,0,0,1080,1920);
+  }else{
+    const g=ctx.createLinearGradient(0,0,0,1920);
+    g.addColorStop(0,'#fff0f7');
+    g.addColorStop(.45,'#fff7fb');
+    g.addColorStop(1,'#ffe4ef');
+    ctx.fillStyle=g;
+    ctx.fillRect(0,0,1080,1920);
+    ctx.fillStyle='#ed2b63';
+    ctx.font='900 78px Arial';
+    ctx.textAlign='center';
+    ctx.fillText('угадаешь',540,170);
+    ctx.fillText('кто это?',540,255);
+    ctx.font='700 42px Arial';
+    ctx.fillText('с любовью MiniBrick ♡',540,1760);
+  }
+
+  const frameImageSrc=await exportFrameImage(snapshotData);
+  const frameImg=await loadImg(frameImageSrc);
+  if(frameImg){
+    const crop=getFrameCropForImage(frameImg,snapshotData?.frame||frame);
+    const tmp=document.createElement('canvas');
+    tmp.width=crop.w;
+    tmp.height=crop.h;
+    tmp.getContext('2d').drawImage(frameImg,crop.x,crop.y,crop.w,crop.h,0,0,crop.w,crop.h);
+
+    const safe={x:150,y:440,w:780,h:980};
+    ctx.save();
+    ctx.shadowColor='rgba(86,24,55,.26)';
+    ctx.shadowBlur=34;
+    ctx.shadowOffsetY=18;
+    drawImageContain(ctx,tmp,safe.x,safe.y,safe.w,safe.h);
+    ctx.restore();
+  }
+
+  return shareCanvas.toDataURL('image/png');
+}
+
 function frameSummaryText(item,index){
   const fd=frames.find(f=>f.id===item.frame);
   const {total}=calcOrderPrice(item.people,item.frame,!!item.frameBgData);
@@ -4246,7 +4398,7 @@ function renderOrderGallery(images,allFrames){
     gallery.classList.add('hidden');
     gallery.innerHTML='';
     singleBox.classList.remove('hidden');
-    if(zoomRow)zoomRow.classList.remove('hidden');
+    if(zoomRow)zoomRow.classList.add('hidden');
     orderPreviewImg.src=images[0]||'';
     return;
   }
@@ -4297,7 +4449,7 @@ async function openOrderModal(){
   currentOrderFrames=allFrames;
   renderPriceBar();
   const images=[];
-  for(const item of allFrames)images.push(await exportFrameImage(item));
+  for(const item of allFrames)images.push(await exportShareImage(item));
   renderOrderGallery(images,allFrames);
   orderTextarea.value=orderFullText(allFrames);
   document.getElementById('downloadOrderImg')?.classList.toggle('hidden',allFrames.length>1);
@@ -4581,7 +4733,7 @@ if(cartClose)cartClose.onclick=closeCartModal;
 if(cartModal)cartModal.addEventListener('click',e=>{if(e.target===cartModal)closeCartModal()});
 if(cartCheckoutBtn)cartCheckoutBtn.onclick=()=>{closeCartModal();openOrderModal()};
 copyOrderText.onclick=()=>{navigator.clipboard?.writeText(orderTextarea.value);copyOrderText.classList.add('done');alert('Описание заказа скопировано')};
-downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-order.png';a.click();downloadOrderImg.classList.add('done')};
+downloadOrderImg.onclick=()=>{const a=document.createElement('a');a.href=orderPreviewImg.src;a.download='minibrick-vk-story.png';a.click();downloadOrderImg.classList.add('done')};
 confirmCancel.onclick=()=>{pendingDeleteIndex=null;confirmModal.classList.remove('open')};
 confirmOk.onclick=()=>{if(pendingDeleteIndex!=null){delPerson(pendingDeleteIndex);pendingDeleteIndex=null}confirmModal.classList.remove('open')};
 confirmModal.addEventListener('click',e=>{if(e.target===confirmModal){pendingDeleteIndex=null;confirmModal.classList.remove('open')}});
