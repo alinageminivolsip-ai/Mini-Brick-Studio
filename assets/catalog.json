@@ -57,6 +57,14 @@
   },
   "backgrounds": [
     {
+      "id": "Cute Heart Wallpaper",
+      "name": "Cute Heart Wallpaper",
+      "file": "small/Cute Heart Wallpaper.png",
+      "sizes": [
+        "small"
+      ]
+    },
+    {
       "id": "love",
       "name": "Love",
       "file": "small/love.png",
@@ -73,6 +81,14 @@
       ]
     },
     {
+      "id": "фон для сторис",
+      "name": "Фон Для Сторис",
+      "file": "small/фон для сторис.png",
+      "sizes": [
+        "small"
+      ]
+    },
+    {
       "id": "1",
       "name": "1",
       "file": "square/1.png",
@@ -81,7 +97,7 @@
       ]
     }
   ],
-  "version": 39,
+  "version": 40,
   "hairBack": [
     "f1",
     "f6"
