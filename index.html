@@ -2964,52 +2964,116 @@ function prettyBgName(id){
 function getFramePresetBackground(id){
   return framePresetBackgrounds.find(x=>x.id===id)||framePresetBackgrounds[0];
 }
+function normalizeBgSizes(raw){
+  if(!raw)return ['all'];
+  let value=raw.sizes ?? raw.frames ?? raw.frame ?? raw.size ?? raw.m;
+  if(!value)return ['all'];
+  if(!Array.isArray(value))value=[value];
+  value=value.map(x=>String(x||'').trim()).filter(Boolean);
+  if(!value.length)return ['all'];
+  return value.map(x=>{
+    const v=x.toLowerCase();
+    if(v==='15.5' || v==='15,5' || v==='small' || v==='s')return 'small';
+    if(v==='22' || v==='square' || v==='sq')return 'square';
+    if(v==='22.5' || v==='22,5' || v==='big' || v==='large' || v==='b')return 'big';
+    if(v==='all' || v==='any' || v==='common')return 'all';
+    return v;
+  });
+}
+function getCurrentFrameSize(){
+  if(typeof frameType==='function')return frameType();
+  if(String(frame||'').includes('small'))return 'small';
+  if(String(frame||'').includes('square'))return 'square';
+  return 'big';
+}
+function bgMatchesFrame(bg){
+  if(!bg || bg.id==='none')return true;
+  const sizes=Array.isArray(bg.sizes)&&bg.sizes.length?bg.sizes:['all'];
+  const current=getCurrentFrameSize();
+  return sizes.includes('all') || sizes.includes(current);
+}
+function getVisibleBackgrounds(){
+  return framePresetBackgrounds.filter(bg=>bgMatchesFrame(bg));
+}
+function ensureBackgroundFitsFrame(){
+  if(frameBgData)return;
+  const visible=getVisibleBackgrounds();
+  if(!visible.some(bg=>bg.id===framePresetBg)){
+    framePresetBg='none';
+    localStorage.setItem('mb_frame_preset_bg','none');
+  }
+}
 function normalizeBackgroundItem(raw){
   if(typeof raw==='string'){
     const clean=raw.replace(/^\.?\/*/,'');
     const noExt=clean.replace(/\.[^.]+$/,'');
     const parts=noExt.split('/');
     const id=parts[parts.length-1];
-    const hasPath=clean.includes('/');
+    const folder=parts.length>1?parts[0]:'all';
     const hasExt=/\.[a-z0-9]+$/i.test(clean);
+    const hasPath=clean.includes('/');
     return {
       id,
       name:prettyBgName(id),
-      src:hasPath||hasExt ? `./${clean}` : ''
+      src:hasExt ? (hasPath?`./assets/backgrounds/${clean}`:`./assets/backgrounds/${clean}`) : '',
+      sizes:['small','square','big','all'].includes(folder)?[folder]:['all']
     };
   }
   if(raw&&typeof raw==='object'){
     const rawId=String(raw.id||raw.name||raw.file||'').trim();
+    const rawFile=String(raw.file||raw.src||raw.path||rawId).trim();
     const clean=rawId.replace(/^\.?\/*/,'');
     const noExt=clean.replace(/\.[^.]+$/,'');
+    const fileClean=rawFile.replace(/^\.?\/*/,'').replace(/^assets\/backgrounds\//,'');
     const parts=noExt.split('/');
-    const id=String(raw.id||parts[parts.length-1]||'').replace(/\.[^.]+$/,'');
+    const fileParts=fileClean.replace(/\.[^.]+$/,'').split('/');
+    const id=String(raw.id||fileParts[fileParts.length-1]||parts[parts.length-1]||'').replace(/\.[^.]+$/,'');
     const src=raw.src||raw.path||(raw.file?`./assets/backgrounds/${raw.file}`:'');
+    const sizes=normalizeBgSizes(raw);
     return {
       id,
       name:raw.name||raw.title||prettyBgName(id),
-      src
+      src,
+      sizes
     };
   }
   return null;
 }
 async function resolveBackgrounds(raw){
-  const result=[{id:'none',name:'Без фона',src:''}];
+  const result=[{id:'none',name:'Без фона',src:'',sizes:['all']}];
   const seen=new Set(['none']);
   const exts=['png','jpg','jpeg','webp','svg'];
   const items=(Array.isArray(raw)?raw:[]).map(normalizeBackgroundItem).filter(Boolean);
   for(const item of items){
-    const id=String(item.id||'').trim();
-    if(!id||seen.has(id))continue;
+    let id=String(item.id||'').trim();
+    if(!id)continue;
+    const sizes=Array.isArray(item.sizes)&&item.sizes.length?item.sizes:['all'];
+    if(seen.has(id)){
+      const prefix=sizes.find(x=>x!=='all')||'all';
+      let baseId=`${prefix}-${id}`;
+      let n=2;
+      while(seen.has(baseId)){
+        baseId=`${prefix}-${id}-${n++}`;
+      }
+      id=baseId;
+    }
     const variants=[];
     if(item.src)variants.push(item.src);
-    exts.forEach(ext=>variants.push(`./assets/backgrounds/${id}.${ext}`));
-    for(const src of variants){
+    if(item.file)variants.push(`./assets/backgrounds/${item.file}`);
+    exts.forEach(ext=>{
+      sizes.forEach(size=>{
+        if(size&&size!=='all')variants.push(`./assets/backgrounds/${size}/${item.id}.${ext}`);
+      });
+      variants.push(`./assets/backgrounds/${item.id}.${ext}`);
+    });
+    const uniqueVariants=[...new Set(variants.filter(Boolean))];
+    for(const src of uniqueVariants){
       if(await exists(src)){
         result.push({
           id,
           name:item.name||prettyBgName(id),
-          src
+          src,
+          sizes
         });
         seen.add(id);
         break;
@@ -3710,6 +3774,8 @@ if(step==='frame'){
     {id:'big',   label:'до 16\nфигурок', w:42,h:59},
   ];
   const fp=3;
+  ensureBackgroundFitsFrame();
+  const visibleBackgrounds=getVisibleBackgrounds();
   const cardsHtml=sizes.map(s=>`
     <button class="frame-size-card ${size===s.id?'active':''}" data-frame-size="${s.id}" type="button">
       <div class="frame-size-thumb" style="width:${s.w}px;height:${s.h}px;background:${fc};">
@@ -3730,7 +3796,7 @@ if(step==='frame'){
     </button>
     <div class="section-title" style="margin-top:16px"><span class="badge">6.2</span> Фон рамки</div>
     <div class="frame-bg-grid" id="frameBgGrid">
-      ${framePresetBackgrounds.map(bg=>`
+      ${visibleBackgrounds.map(bg=>`
         <button class="frame-bg-choice ${(!frameBgData&&framePresetBg===bg.id)?'active':''}" data-frame-bg="${bg.id}" type="button">
           <div class="frame-bg-thumb ${bg.id==='none'?'empty':''}" style="${bg.src?`background-image:url('${bg.src}')`:''}">${bg.id==='none'?'×':''}</div>
           <span class="frame-bg-name">${bg.name}</span>
@@ -3745,6 +3811,7 @@ if(step==='frame'){
   editorBody.querySelectorAll('[data-frame-size]').forEach(b=>b.onclick=()=>{
     snap();
     frame=(isBlack?'black':'white')+'-'+b.dataset.frameSize;
+    ensureBackgroundFitsFrame();
     invalidateFramePreviewBase();
     sync();
   });
