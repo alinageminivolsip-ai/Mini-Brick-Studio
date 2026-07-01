@@ -57,6 +57,22 @@
   },
   "backgrounds": [
     {
+      "id": "love",
+      "name": "Love",
+      "file": "small/love.png",
+      "sizes": [
+        "small"
+      ]
+    },
+    {
+      "id": "you_and_me",
+      "name": "You And Me",
+      "file": "small/you_and_me.png",
+      "sizes": [
+        "small"
+      ]
+    },
+    {
       "id": "1",
       "name": "1",
       "file": "square/1.png",
@@ -65,7 +81,7 @@
       ]
     }
   ],
-  "version": 38,
+  "version": 39,
   "hairBack": [
     "f1",
     "f6"
