@@ -61,18 +61,52 @@ jobs:
 
               return sorted(ids, key=sort_key)
 
-
           faces = scan_ids("faces")
-
           hair = scan_ids("hair")
-
           hair_back = scan_ids("hair/back")
-
           prints = scan_ids("prints")
 
-          backgrounds = scan_ids("backgrounds")
+          # ---------- ФОНЫ ----------
+          def scan_backgrounds():
+              bg_root = os.path.join(ROOT, "backgrounds")
 
+              if not os.path.isdir(bg_root):
+                  return []
 
+              backgrounds = []
+
+              for folder in sorted(os.listdir(bg_root)):
+                  folder_path = os.path.join(bg_root, folder)
+
+                  if not os.path.isdir(folder_path):
+                      continue
+
+                  for f in sorted(os.listdir(folder_path)):
+                      file_path = os.path.join(folder_path, f)
+
+                      if not os.path.isfile(file_path):
+                          continue
+
+                      if f.startswith((".", "_")):
+                          continue
+
+                      stem, ext = os.path.splitext(f)
+
+                      if ext.lower() not in EXTS:
+                          continue
+
+                      backgrounds.append({
+                          "id": stem,
+                          "name": stem.replace("_"," ").replace("-"," ").title(),
+                          "file": f"{folder}/{f}",
+                          "sizes": [folder]
+                      })
+
+              return backgrounds
+
+          backgrounds = scan_backgrounds()
+
+          # ---------- АКСЕССУАРЫ ----------
           def is_service_file(stem):
               return (
                   stem.endswith("-mask")
@@ -80,7 +114,6 @@ jobs:
                   or stem.endswith("-right")
                   or stem.endswith("_mask")
               )
-
 
           accessories = {}
 
@@ -100,14 +133,16 @@ jobs:
                       ids = []
 
                       for f in os.listdir(full):
+
                           file_path = os.path.join(full, f)
-                          stem, ext = os.path.splitext(f)
 
                           if not os.path.isfile(file_path):
                               continue
 
                           if f.startswith((".", "_")):
                               continue
+
+                          stem, ext = os.path.splitext(f)
 
                           if ext.lower() not in EXTS:
                               continue
@@ -131,7 +166,6 @@ jobs:
 
           for key in accessories:
               accessories[key] = sorted(accessories[key], key=sort_key)
-
 
           catalog_path = os.path.join(ROOT, "catalog.json")
 
@@ -157,16 +191,9 @@ jobs:
           with open(catalog_path, "w", encoding="utf-8") as f:
               json.dump(catalog, f, ensure_ascii=False, indent=2)
 
-          print(
-              f"Done: "
-              f"{len(faces)} faces, "
-              f"{len(hair)} hair, "
-              f"{len(hair_back)} hair backs, "
-              f"{len(prints)} prints, "
-              f"{len(backgrounds)} backgrounds, "
-              f"accessory categories: {list(accessories.keys())}, "
-              f"version: {catalog['version']}"
-          )
+          print("Catalog updated")
+          print(f"Backgrounds: {len(backgrounds)}")
+          print(f"Version: {catalog['version']}")
 
           PYEOF
 
