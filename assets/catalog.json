@@ -55,8 +55,17 @@
       "wedding-suit"
     ]
   },
-  "backgrounds": [],
-  "version": 36,
+  "backgrounds": [
+    {
+      "id": "1",
+      "name": "1",
+      "file": "square/1.png",
+      "sizes": [
+        "square"
+      ]
+    }
+  ],
+  "version": 37,
   "hairBack": [
     "f1",
     "f6"
