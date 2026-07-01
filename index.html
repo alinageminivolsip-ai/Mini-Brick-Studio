@@ -2461,7 +2461,7 @@ body.frame-mode .studio-scene{
 }
 .order-gallery-item .small{margin-bottom:8px}
 
-/* === SHARE PREVIEW: готовая картинка для истории VK === */
+/* === SHARE PREVIEW: картинка для истории VK без лишней подложки вокруг рамки === */
 #orderModal .modal-card{
   width:min(760px,100%)!important;
 }
@@ -2483,17 +2483,6 @@ body.frame-mode .studio-scene{
   box-shadow:0 18px 42px rgba(86,24,55,.18)!important;
   transform:none!important;
 }
-.share-hint{
-  margin:-2px 0 14px;
-  padding:12px 14px;
-  border-radius:18px;
-  background:#fff0f6;
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.35;
-  font-weight:900;
-}
-.share-hint b{color:var(--red)}
 @media(max-width:900px){
   #orderModal .modal-card{
     width:min(430px,100%)!important;
@@ -2508,11 +2497,6 @@ body.frame-mode .studio-scene{
   #orderPreviewBox.share-preview img{
     max-height:calc(56dvh - 16px)!important;
     border-radius:18px!important;
-  }
-  .share-hint{
-    font-size:12px;
-    padding:10px 12px;
-    border-radius:16px;
   }
 }
 
@@ -2603,12 +2587,12 @@ body.frame-mode .studio-scene{
 <div class="modal" id="cartModal"><div class="modal-card"><div class="modal-head"><h2>Корзина</h2><button class="close" id="cartClose" aria-label="Закрыть">×</button></div><div class="cart-current-note">Текущая собираемая рамка тоже всегда входит в заказ — добавлять её в корзину отдельно не обязательно. Кнопка «Добавить ещё одну рамку» на шаге «Рамка» сохраняет её сюда и открывает новую, пустую.</div><div id="cartItemsList"></div><button class="btn dark" id="cartCheckoutBtn" style="width:100%;margin-top:6px">Перейти к оформлению заказа</button></div></div>
 <div class="modal" id="orderModal"><div class="modal-card"><div class="modal-head"><h2>Ваш заказ готов</h2><button class="close" id="orderClose" aria-label="Закрыть">×</button></div>
   <div class="price-bar"><div><div class="price-bar-label">Итоговая стоимость</div><div class="price-bar-note" id="priceBreakdown"></div></div><div class="price-bar-value" id="priceValue">0 ₽</div></div>
-  <div class="order-preview share-preview" id="orderPreviewBox"><img id="orderPreviewImg" alt="Готовая картинка для истории ВКонтакте"></div><div class="share-hint" id="shareHint">Поделись этой картинкой в истории ВКонтакте, отметь <b>MiniBrick</b> и получи скидку <b>10%</b> на заказ.</div><div class="order-zoom hidden" id="orderZoomRow"><button type="button" id="orderZoomMinus" aria-label="Уменьшить">−</button><span id="orderZoomLabel">100%</span><button type="button" id="orderZoomPlus" aria-label="Увеличить">+</button></div>
+  <div class="order-preview share-preview" id="orderPreviewBox"><img id="orderPreviewImg" alt="Готовая картинка для истории ВКонтакте"></div><div class="order-zoom hidden" id="orderZoomRow"><button type="button" id="orderZoomMinus" aria-label="Уменьшить">−</button><span id="orderZoomLabel">100%</span><button type="button" id="orderZoomPlus" aria-label="Увеличить">+</button></div>
   <div id="orderGallery" class="hidden"></div>
   <div class="order-info" id="orderInfo"></div><textarea id="orderTextarea" class="order-text" readonly></textarea>
   <div class="small" style="margin:4px 0 8px">Способ оплаты (заполняется для менеджера, фактическая оплата согласовывается в переписке)</div>
   <div class="payment-methods" id="paymentMethods"></div>
-  <div class="order-steps"><button class="btn dark" id="downloadOrderImg">📥 Скачать для истории ВК</button><button class="btn ghost" id="copyOrderText">2. Скопировать детали заказа</button><a class="btn pink" id="vkLink" href="https://vk.com/write-224539480" target="_blank" rel="noopener">3. Написать нам ВКонтакте</a></div></div></div>
+  <div class="order-steps"><button class="btn dark" id="downloadOrderImg">📥 Скачать картинку для истории</button><button class="btn ghost" id="copyOrderText">Скопировать детали заказа</button><a class="btn pink" id="vkLink" href="https://vk.com/write-224539480" target="_blank" rel="noopener">Написать нам ВКонтакте</a></div></div></div>
 <div class="modal confirm-modal" id="confirmModal"><div class="modal-card"><div class="onboard-emoji">🗑️</div><h2 class="onboard-title" style="font-size:22px" id="confirmTitle">Удалить фигурку?</h2><p id="confirmText">Это действие нельзя отменить кнопкой назад в этом окне.</p><div class="confirm-actions"><button class="btn ghost" id="confirmCancel">Отмена</button><button class="btn dark" id="confirmOk">Удалить</button></div></div></div>
 <script>
 const bodyColors={
@@ -4284,6 +4268,7 @@ async function exportFrameImage(snapshotData){
   finally{people=sp;frame=sf;frameBgData=sb;frameBgScale=sbs;framePresetBg=spb;}
 }
 
+
 async function loadFirstAvailableImage(srcList){
   for(const src of srcList){
     const img=await loadImg(src+'?v='+Date.now());
@@ -4316,12 +4301,11 @@ function getFrameCropForImage(img,frameId){
   const fh=isSquare?820:fd.m==='big'?1040:880;
   const fx=(cw-fw)/2;
   const fy=90;
-  const margin=70;
   return {
-    x:Math.max(0,fx-margin),
-    y:Math.max(0,fy-margin),
-    w:Math.min((img.naturalWidth||img.width),fw+margin*2),
-    h:Math.min((img.naturalHeight||img.height),fh+margin*2)
+    x:Math.max(0,fx),
+    y:Math.max(0,fy),
+    w:Math.min((img.naturalWidth||img.width)-fx,fw),
+    h:Math.min((img.naturalHeight||img.height)-fy,fh)
   };
 }
 async function exportShareImage(snapshotData){
@@ -4349,13 +4333,6 @@ async function exportShareImage(snapshotData){
     g.addColorStop(1,'#ffe4ef');
     ctx.fillStyle=g;
     ctx.fillRect(0,0,1080,1920);
-    ctx.fillStyle='#ed2b63';
-    ctx.font='900 78px Arial';
-    ctx.textAlign='center';
-    ctx.fillText('угадаешь',540,170);
-    ctx.fillText('кто это?',540,255);
-    ctx.font='700 42px Arial';
-    ctx.fillText('с любовью MiniBrick ♡',540,1760);
   }
 
   const frameImageSrc=await exportFrameImage(snapshotData);
@@ -4363,22 +4340,21 @@ async function exportShareImage(snapshotData){
   if(frameImg){
     const crop=getFrameCropForImage(frameImg,snapshotData?.frame||frame);
     const tmp=document.createElement('canvas');
-    tmp.width=crop.w;
-    tmp.height=crop.h;
+    tmp.width=Math.max(1,Math.round(crop.w));
+    tmp.height=Math.max(1,Math.round(crop.h));
     tmp.getContext('2d').drawImage(frameImg,crop.x,crop.y,crop.w,crop.h,0,0,crop.w,crop.h);
 
-    const safe={x:150,y:440,w:780,h:980};
+    const safe={x:156,y:430,w:768,h:940};
     ctx.save();
-    ctx.shadowColor='rgba(86,24,55,.26)';
-    ctx.shadowBlur=34;
-    ctx.shadowOffsetY=18;
+    ctx.shadowColor='rgba(86,24,55,.22)';
+    ctx.shadowBlur=30;
+    ctx.shadowOffsetY=16;
     drawImageContain(ctx,tmp,safe.x,safe.y,safe.w,safe.h);
     ctx.restore();
   }
 
   return shareCanvas.toDataURL('image/png');
 }
-
 function frameSummaryText(item,index){
   const fd=frames.find(f=>f.id===item.frame);
   const {total}=calcOrderPrice(item.people,item.frame,!!item.frameBgData);
