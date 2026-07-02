@@ -2599,7 +2599,7 @@ body.frame-mode .studio-scene{
   top:var(--board-y,94%)!important;
   width:var(--board-w,92%)!important;
   height:auto!important;
-  z-index:0!important;
+  z-index:5!important;
   object-fit:contain!important;
   object-position:center center!important;
   transform:translate(-50%,-50%) rotate(var(--board-r,0deg)) scaleX(var(--board-flip,1))!important;
@@ -3161,7 +3161,7 @@ const accessoryMeta={
   },
   scate:{
     type:'board',
-    board:{x:50,y:94,w:92,r:0,flip:1}
+    board:{x:50,y:91,w:86,r:0,flip:1}
   }
 };
 function getAccessoryMeta(id,side='right'){
@@ -3230,9 +3230,11 @@ function accVars(id,side='right'){
   return `--acc-x:${m.x}%;--acc-y:${m.y}%;--acc-w:${m.w}%;--acc-r:${m.r||0}deg;--acc-flip:${m.flip??1};`;
 }
 function getPersonAccessories(person){
+  const left=person.leftAccessory||'';
+  const right=person.rightAccessory||person.accessory||'';
   return {
-    left:person.leftAccessory||'',
-    right:person.rightAccessory||person.accessory||''
+    left:isBodyAccessory(left)?'':left,
+    right:isBodyAccessory(right)?'':right
   };
 }
 const steps=[{key:'skin',num:'01',title:'Кожа и лицо',focus:'focus-skin'},{key:'hair',num:'02',title:'Прическа',focus:'focus-hair'},{key:'torso',num:'03',title:'Торс и принт',focus:'focus-torso'},{key:'legs',num:'04',title:'Ноги',focus:'focus-legs'},{key:'accessory',num:'05',title:'Аксессуары',focus:'focus-accessory'},{key:'frame',num:'06',title:'Рамка',focus:'focus-full'}];
@@ -3495,6 +3497,7 @@ function renderSteps(){stepsNav.innerHTML='';steps.forEach(s=>{const idx=steps.f
 function setStepFocus(){const s=steps.find(x=>x.key===step);constructorView.className='figure-wrap '+(s?s.focus:'focus-full');constructorView.classList.toggle('hidden',step==='frame');frameView.classList.toggle('hidden',step!=='frame');updateHairFlipControls()}
 function renderFigure(){
   const person=p();
+  cleanOutfitFromHands(person);
   const acc=getPersonAccessories(person);
   document.documentElement.style.setProperty('--skin',skinColors[person.skin]);
   document.documentElement.style.setProperty('--torso',bodyColors[person.torso]);
@@ -4462,6 +4465,7 @@ function renderFrame(){
   const {w,h}=figWH();
   miniGrid.innerHTML='';
   people.forEach((person,i)=>{
+    cleanOutfitFromHands(person);
     const xPct=person.frameX??50;
     const yPct=person.frameY??95;
     const acc=getPersonAccessories(person);
@@ -4753,6 +4757,7 @@ async function exportOrderImage(){
   const figW=Math.round(figH*(1024/1536));
   for(let i=0;i<people.length;i++){
     const person=people[i];
+    cleanOutfitFromHands(person);
     const xPct=person.frameX??50;
     const yPct=person.frameY??95;
     const figCX=contentX+contentW*xPct/100;
