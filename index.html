@@ -2591,6 +2591,31 @@ body.frame-mode .studio-scene{
 }
 
 
+
+
+/* === NEW: аксессуар в две руки, по центру как костюм/ребенок === */
+.center-acc-img{
+  position:absolute!important;
+  inset:auto!important;
+  left:var(--center-acc-x,50%)!important;
+  top:var(--center-acc-y,50%)!important;
+  width:var(--center-acc-w,100%)!important;
+  height:auto!important;
+  z-index:21!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  transform:translate(-50%,-50%) rotate(var(--center-acc-r,0deg)) scaleX(var(--center-acc-flip,1))!important;
+  pointer-events:none!important;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.12));
+}
+.choice.center-acc img{
+  width:76%!important;
+  height:76%!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  transform:translate(-50%,-50%)!important;
+}
+
 /* === NEW: скейт строго под ногами фигурки === */
 .board-img{
   position:absolute!important;
@@ -2716,7 +2741,7 @@ body.frame-mode .studio-scene{
         </div>
         <div id="constructorView" class="figure-wrap focus-skin">
           <div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div>
-          <img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt=""><div class="torso-print-layer hidden" id="printLayer"><img id="printImg" alt="Принт на одежде"></div><img class="outfit-img hidden" id="outfitImg" alt="Костюм"><img class="board-img hidden" id="boardImg" alt="Скейт под ногами"><img class="face-img" id="faceImg" alt="Лицо персонажа"><img class="hair-img" id="hairImg" alt="Прическа"><img class="acc-img acc-left hidden" id="accLeftImg" alt="Аксессуар в левой руке"><img class="acc-img acc-right hidden" id="accRightImg" alt="Аксессуар в правой руке">
+          <img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt=""><div class="torso-print-layer hidden" id="printLayer"><img id="printImg" alt="Принт на одежде"></div><img class="outfit-img hidden" id="outfitImg" alt="Костюм"><img class="board-img hidden" id="boardImg" alt="Скейт под ногами"><img class="center-acc-img hidden" id="centerAccImg" alt="Аксессуар в две руки"><img class="face-img" id="faceImg" alt="Лицо персонажа"><img class="hair-img" id="hairImg" alt="Прическа"><img class="acc-img acc-left hidden" id="accLeftImg" alt="Аксессуар в левой руке"><img class="acc-img acc-right hidden" id="accRightImg" alt="Аксессуар в правой руке">
         </div>
         <section id="frameView" class="frame-preview hidden"><div class="frame-box f-square frame-white" id="frameBox"><div class="mini-grid" id="miniGrid"></div></div><b id="frameLabel" class="small"></b></section>
       </section>
@@ -2846,6 +2871,7 @@ const accessoryCategories=[
   {id:'animals',title:'Животные'},
   {id:'premium',title:'★ Премиум'},
   {id:'bags',title:'Сумки'},
+  {id:'twohands',title:'В две руки'},
   {id:'hobby',title:'Хобби'}
 ];
 let activeAccessoryCategory='all';
@@ -2881,7 +2907,7 @@ function calcOrderPrice(peopleArr,frameId,hasCustomBg){
   peopleArr.forEach(person=>{
     let personSum=PRICING.personBase;
     if(person.print)personSum+=PRICING.printSurcharge;
-    if(person.rightAccessory||person.leftAccessory||getBoardAccessory(person))personSum+=PRICING.accessorySurcharge;
+    if(person.rightAccessory||person.leftAccessory||getBoardAccessory(person)||getCenterAccessory(person))personSum+=PRICING.accessorySurcharge;
     if(getOutfitAccessory(person))personSum+=PRICING.outfitSurcharge;
     total+=personSum;
   });
@@ -3178,8 +3204,17 @@ function isBagAccessory(id){
 function isBoardAccessory(id){
   return !!(id && accessoryMeta[id] && accessoryMeta[id].type==='board');
 }
+function isCenterAccessory(id){
+  const cat=accessoryCategoryMap[id];
+  return !!(
+    id && (
+      (accessoryMeta[id] && accessoryMeta[id].type==='center') ||
+      cat==='twohands' || cat==='two-hands' || cat==='bothhands' || cat==='center'
+    )
+  );
+}
 function isBodyAccessory(id){
-  return isOutfitAccessory(id) || isBagAccessory(id) || isBoardAccessory(id);
+  return isOutfitAccessory(id) || isBagAccessory(id) || isBoardAccessory(id) || isCenterAccessory(id);
 }
 function getOutfitAccessory(person){
   if(person && person.outfitAccessory && isOutfitAccessory(person.outfitAccessory))return person.outfitAccessory;
@@ -3193,6 +3228,13 @@ function getBoardAccessory(person){
   const acc=getPersonAccessories(person);
   if(isBoardAccessory(acc.right))return acc.right;
   if(isBoardAccessory(acc.left))return acc.left;
+  return '';
+}
+function getCenterAccessory(person){
+  if(person && person.centerAccessory && isCenterAccessory(person.centerAccessory))return person.centerAccessory;
+  const acc=getPersonAccessories(person);
+  if(isCenterAccessory(acc.right))return acc.right;
+  if(isCenterAccessory(acc.left))return acc.left;
   return '';
 }
 function cleanOutfitFromHands(person){
@@ -3209,8 +3251,12 @@ function cleanOutfitFromHands(person){
     if(isBoardAccessory(person.rightAccessory))person.boardAccessory=person.rightAccessory;
     else if(isBoardAccessory(person.leftAccessory))person.boardAccessory=person.leftAccessory;
   }
-  if(isOutfitAccessory(person.rightAccessory) || isBoardAccessory(person.rightAccessory))person.rightAccessory='';
-  if(isOutfitAccessory(person.leftAccessory) || isBoardAccessory(person.leftAccessory))person.leftAccessory='';
+  if(!person.centerAccessory){
+    if(isCenterAccessory(person.rightAccessory))person.centerAccessory=person.rightAccessory;
+    else if(isCenterAccessory(person.leftAccessory))person.centerAccessory=person.leftAccessory;
+  }
+  if(isOutfitAccessory(person.rightAccessory) || isBoardAccessory(person.rightAccessory) || isCenterAccessory(person.rightAccessory))person.rightAccessory='';
+  if(isOutfitAccessory(person.leftAccessory) || isBoardAccessory(person.leftAccessory) || isCenterAccessory(person.leftAccessory))person.leftAccessory='';
   person.accessory='';
 }
 function getOutfitMeta(id){
@@ -3224,6 +3270,14 @@ function getBoardMeta(id){
 function boardVars(id){
   const m=getBoardMeta(id);
   return `--board-x:${m.x}%;--board-y:${m.y}%;--board-w:${m.w}%;--board-r:${m.r||0}deg;--board-flip:${m.flip??1};`;
+}
+function getCenterMeta(id){
+  const item=accessoryMeta[id]||{};
+  return item.center||{x:50,y:50,w:100,r:0,flip:1};
+}
+function centerVars(id){
+  const m=getCenterMeta(id);
+  return `--center-acc-x:${m.x}%;--center-acc-y:${m.y}%;--center-acc-w:${m.w}%;--center-acc-r:${m.r||0}deg;--center-acc-flip:${m.flip??1};`;
 }
 function accVars(id,side='right'){
   const m=getAccessoryMeta(id,side);
@@ -3240,7 +3294,7 @@ function getPersonAccessories(person){
 const steps=[{key:'skin',num:'01',title:'Кожа и лицо',focus:'focus-skin'},{key:'hair',num:'02',title:'Прическа',focus:'focus-hair'},{key:'torso',num:'03',title:'Торс и принт',focus:'focus-torso'},{key:'legs',num:'04',title:'Ноги',focus:'focus-legs'},{key:'accessory',num:'05',title:'Аксессуары',focus:'focus-accessory'},{key:'frame',num:'06',title:'Рамка',focus:'focus-full'}];
 const storeKey='mb_v4_people';
 function firstHairId(){return (Array.isArray(hair)&&hair.length?hair[0]:'f1')}
-function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:15,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',outfitAccessory:'',boardAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',scateColor:'#79c943',sleeveMode:'sleeves',frameX:null,frameY:null}}
+function newPerson(n){return{name:'Человек '+n,note:'',face:'A1',hair:firstHairId(),skin:15,torso:36,legs:31,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',outfitAccessory:'',boardAccessory:'',centerAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',scateColor:'#79c943',sleeveMode:'sleeves',frameX:null,frameY:null}}
 let people=JSON.parse(localStorage.getItem(storeKey)||'null')||[newPerson(1)];people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;cleanOutfitFromHands(merged);merged.accessory='';return merged});let active=0,step='skin',frame=localStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=localStorage.getItem('mb_frame_bg')||'',frameBgScale=localStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=localStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=localStorage.getItem('mb_frame_mobile_drop')||'0';
 const cartKey='mb_cart_v1';
 let cart=JSON.parse(localStorage.getItem(cartKey)||'[]');
@@ -3438,9 +3492,10 @@ function miniHTML(person){
   const acc=getPersonAccessories(person);
   const outfit=getOutfitAccessory(person);
   const board=getBoardAccessory(person);
-  const leftHand=acc.left&&!isOutfitAccessory(acc.left)&&!isBoardAccessory(acc.left);
-  const rightHand=acc.right&&!isOutfitAccessory(acc.right)&&!isBoardAccessory(acc.right);
-  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin ${isTranslucentColor(person.skin)?'translucent':''}"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${board?`<img class="board-img" data-acc-id="${board}" data-icecream-color="${getAccColor(board,person)}" style="${boardVars(board)}" src="${getAccSrc(board)}" alt="">`:''}${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:''}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:''}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:''}</div>`
+  const center=getCenterAccessory(person);
+  const leftHand=acc.left&&!isOutfitAccessory(acc.left)&&!isBoardAccessory(acc.left)&&!isCenterAccessory(acc.left)&&!isCenterAccessory(acc.left);
+  const rightHand=acc.right&&!isOutfitAccessory(acc.right)&&!isBoardAccessory(acc.right)&&!isCenterAccessory(acc.right)&&!isCenterAccessory(acc.right);
+  return `<div class="mini-preview" style="--p-skin:${skinColors[person.skin]};--p-torso:${bodyColors[person.torso]};--p-legs:${bodyColors[person.legs]};--p-arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin ${isTranslucentColor(person.skin)?'translucent':''}"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${board?`<img class="board-img" data-acc-id="${board}" data-icecream-color="${getAccColor(board,person)}" style="${boardVars(board)}" src="${getAccSrc(board)}" alt="">`:''}${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:''}${center?`<img class="center-acc-img" data-acc-id="${center}" data-icecream-color="${getAccColor(center,person)}" style="${centerVars(center)}" src="${getAccSrc(center)}" alt="">`:''}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:''}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:''}</div>`
 }
 function renderPeople(){countLabel.textContent=`${people.length}/10`;peopleList.innerHTML='';people.forEach((person,i)=>{const card=document.createElement('div');card.className='person-card '+(i===active?'active':'');card.innerHTML=`${miniHTML(person)}<div><div class="person-title">${person.name||`Человек ${i+1}`}</div><div class="person-meta">лицо ${person.face}, волосы ${person.hair}</div></div><div style="display:grid;gap:4px"><button class="icon-btn" data-edit title="Редактировать" aria-label="Редактировать фигурку">✎</button><button class="icon-btn dup" data-dup title="Дублировать" aria-label="Дублировать фигурку">⧉</button><button class="icon-btn" data-del title="Удалить" aria-label="Удалить фигурку">×</button></div>`;card.querySelector('[data-edit]').onclick=()=>{active=i;step='skin';sync()};card.querySelector('[data-dup]').onclick=()=>dupPerson(i);card.querySelector('[data-del]').onclick=()=>askDelPerson(i);peopleList.appendChild(card)})}
 function renderMobilePeople(){
@@ -3532,12 +3587,22 @@ document.documentElement.style.setProperty(
     boardImg.classList.toggle('hidden',!board);
     if(boardSrc)normalizeAccessoryElement(boardImg);
   }
-  const leftSrc=(acc.left&&!isOutfitAccessory(acc.left)&&!isBoardAccessory(acc.left))?getAccSrc(acc.left):'';
+  const center=getCenterAccessory(person);
+  if(typeof centerAccImg!=='undefined'&&centerAccImg){
+    const centerSrc=center?getAccSrc(center):'';
+    if(centerAccImg.dataset.originalSrc!==centerSrc){centerAccImg.dataset.originalSrc=centerSrc;centerAccImg.src=centerSrc}
+    centerAccImg.dataset.accId=center||'';
+    centerAccImg.dataset.icecreamColor=getAccColor(center,person);
+    centerAccImg.style.cssText=center?centerVars(center):'';
+    centerAccImg.classList.toggle('hidden',!center);
+    if(centerSrc)normalizeAccessoryElement(centerAccImg);
+  }
+  const leftSrc=(acc.left&&!isOutfitAccessory(acc.left)&&!isBoardAccessory(acc.left)&&!isCenterAccessory(acc.left))?getAccSrc(acc.left):'';
   if(accLeftImg.dataset.originalSrc!==leftSrc){accLeftImg.dataset.originalSrc=leftSrc;accLeftImg.src=leftSrc}
   accLeftImg.dataset.accId=acc.left||'';accLeftImg.dataset.icecreamColor=getAccColor(acc.left,person);accLeftImg.style.cssText=acc.left?accVars(acc.left,'left'):'';
   accLeftImg.classList.toggle('hidden',!leftSrc);
   if(leftSrc)normalizeAccessoryElement(accLeftImg);
-  const rightSrc=(acc.right&&!isOutfitAccessory(acc.right)&&!isBoardAccessory(acc.right))?getAccSrc(acc.right):'';
+  const rightSrc=(acc.right&&!isOutfitAccessory(acc.right)&&!isBoardAccessory(acc.right)&&!isCenterAccessory(acc.right))?getAccSrc(acc.right):'';
   if(accRightImg.dataset.originalSrc!==rightSrc){accRightImg.dataset.originalSrc=rightSrc;accRightImg.src=rightSrc}
   accRightImg.dataset.accId=acc.right||'';accRightImg.dataset.icecreamColor=getAccColor(acc.right,person);accRightImg.style.cssText=acc.right?accVars(acc.right,'right'):'';
   accRightImg.classList.toggle('hidden',!rightSrc);
@@ -3645,7 +3710,7 @@ async function normalizeAccessoryElement(img){
   if(img.dataset.originalSrc===original)img.src=out;
 }
 function normalizeAllAccessoryElements(){
-  document.querySelectorAll('img.acc-img, img.board-img').forEach(img=>normalizeAccessoryElement(img));
+  document.querySelectorAll('img.acc-img, img.board-img, img.center-acc-img').forEach(img=>normalizeAccessoryElement(img));
 }
 function choiceImg(type,id,active,cb){
   const folder=type==='face'?'faces':type==='hair'?'hair':'accessories';
@@ -3804,11 +3869,13 @@ if(step==='accessory'){
   cleanOutfitFromHands(person);
   const isChildrenCategory=activeAccessoryCategory==='children';
   const isBagsCategory=activeAccessoryCategory==='bags';
+  const isTwoHandsCategory=['twohands','two-hands','bothhands','center'].includes(activeAccessoryCategory);
   editorBody.innerHTML=`<div class="section-title"><span class="badge">5.1</span> Аксессуары</div>
     <div class="acc-cats" id="accCats"></div>
     <div class="acc-hand-block hidden" id="outfitBlock"><div class="acc-hand-title"><span>${isChildrenCategory?'👶':'★'}</span> <span id="outfitTitleText">${isChildrenCategory?'Ребенок':'Костюм'}</span></div><div class="choice-grid" id="outfitGrid"></div></div>
     <div class="acc-hand-block hidden" id="bagBlock"><div class="acc-hand-title"><span>👜</span> Сумка на фигурке</div><div class="choice-grid" id="bagGrid"></div></div>
     <div class="acc-hand-block hidden" id="boardBlock"><div class="acc-hand-title"><span>🛹</span> Под ногами</div><div class="choice-grid" id="boardGrid"></div></div>
+    <div class="acc-hand-block hidden" id="centerBlock"><div class="acc-hand-title"><span>↔</span> В две руки</div><div class="choice-grid" id="centerGrid"></div></div>
     <div class="acc-hand-block" id="rightHandBlock"><div class="acc-hand-title"><span>R</span> Правая рука</div><div class="choice-grid" id="accRightGrid"></div></div>
     <div class="acc-hand-block" id="leftHandBlock"><div class="acc-hand-title"><span>L</span> Левая рука</div><div class="choice-grid" id="accLeftGrid"></div></div>
     `;
@@ -3825,6 +3892,7 @@ if(step==='accessory'){
   const shownBags=shown.filter(id=>isBagAccessory(id));
   const shownOutfits=shown.filter(id=>isOutfitAccessory(id));
   const shownBoards=shown.filter(id=>isBoardAccessory(id));
+  const shownCenters=shown.filter(id=>isCenterAccessory(id));
   const shownHandAccessories=shown.filter(id=>!isBodyAccessory(id));
 
   // Для категории «Дети» ребенок ставится на тело, поэтому выбор правой/левой руки скрываем.
@@ -3833,16 +3901,26 @@ if(step==='accessory'){
     outfitBlock.classList.remove('hidden');
     bagBlock.classList.add('hidden');
     boardBlock.classList.add('hidden');
+    centerBlock.classList.add('hidden');
     rightHandBlock.classList.add('hidden');
     leftHandBlock.classList.add('hidden');
   }else if(isBagsCategory){
     outfitBlock.classList.add('hidden');
     bagBlock.classList.remove('hidden');
     boardBlock.classList.add('hidden');
+    centerBlock.classList.add('hidden');
+    rightHandBlock.classList.add('hidden');
+    leftHandBlock.classList.add('hidden');
+  }else if(isTwoHandsCategory){
+    outfitBlock.classList.add('hidden');
+    bagBlock.classList.add('hidden');
+    boardBlock.classList.add('hidden');
+    centerBlock.classList.remove('hidden');
     rightHandBlock.classList.add('hidden');
     leftHandBlock.classList.add('hidden');
   }else{
     bagBlock.classList.add('hidden');
+    centerBlock.classList.toggle('hidden',!shownCenters.length);
     boardBlock.classList.toggle('hidden',!shownBoards.length);
     rightHandBlock.classList.remove('hidden');
     leftHandBlock.classList.remove('hidden');
@@ -3898,6 +3976,21 @@ if(step==='accessory'){
       cleanOutfitFromHands(person);
     })));
   }
+  function fillCenterGrid(){
+    if(!shownCenters.length)return;
+    const none=document.createElement('button');
+    none.className='choice '+(!person.centerAccessory?'active':'');
+    none.textContent='Без аксессуара';
+    none.onclick=()=>{snap();person.centerAccessory='';sync()};
+    centerGrid.appendChild(none);
+    shownCenters.forEach(id=>centerGrid.appendChild(choiceImg('acc',id,person.centerAccessory===id,()=>{
+      person.centerAccessory=id;
+      person.rightAccessory='';
+      person.leftAccessory='';
+      person.accessory='';
+      cleanOutfitFromHands(person);
+    })));
+  }
   function fillHandGrid(grid,side){
     const key=side==='left'?'leftAccessory':'rightAccessory';
     const none=document.createElement('button');
@@ -3917,7 +4010,8 @@ if(step==='accessory'){
   fillOutfitGrid();
   fillBagGrid();
   fillBoardGrid();
-  if(!isChildrenCategory && !isBagsCategory){
+  fillCenterGrid();
+  if(!isChildrenCategory && !isBagsCategory && !isTwoHandsCategory){
     fillHandGrid(accRightGrid,'right');
     fillHandGrid(accLeftGrid,'left');
   }
@@ -4471,9 +4565,10 @@ function renderFrame(){
     const acc=getPersonAccessories(person);
     const outfit=getOutfitAccessory(person);
     const board=getBoardAccessory(person);
-    const leftHand=acc.left&&!isOutfitAccessory(acc.left)&&!isBoardAccessory(acc.left);
-    const rightHand=acc.right&&!isOutfitAccessory(acc.right)&&!isBoardAccessory(acc.right);
-    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin ${isTranslucentColor(person.skin)?'translucent':''}"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${board?`<img class="board-img" data-acc-id="${board}" data-icecream-color="${getAccColor(board,person)}" style="${boardVars(board)}" src="${getAccSrc(board)}" alt="">`:``}${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:``}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:``}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:``}</div>`);
+    const center=getCenterAccessory(person);
+    const leftHand=acc.left&&!isOutfitAccessory(acc.left)&&!isBoardAccessory(acc.left)&&!isCenterAccessory(acc.left)&&!isCenterAccessory(acc.left);
+    const rightHand=acc.right&&!isOutfitAccessory(acc.right)&&!isBoardAccessory(acc.right)&&!isCenterAccessory(acc.right)&&!isCenterAccessory(acc.right);
+    miniGrid.insertAdjacentHTML('beforeend',`<div class="mini-figure" data-index="${i}" style="position:absolute;left:${xPct}%;top:${yPct}%;transform:translate(-50%,-100%);width:${w}px;height:${h}px;cursor:grab;z-index:5;touch-action:none;--skin:${skinColors[person.skin]};--torso:${bodyColors[person.torso]};--legs:${bodyColors[person.legs]};--arms:${person.sleeveMode==='bare'?skinColors[person.skin]:bodyColors[person.torso]}"><div class="part skin ${isTranslucentColor(person.skin)?'translucent':''}"></div><div class="part torso ${isTranslucentColor(person.torso)?'translucent':''}"></div><div class="part arms ${(person.sleeveMode!=='bare'&&isTranslucentColor(person.torso))?'translucent':''}"></div><div class="part legs ${isTranslucentColor(person.legs)?'translucent':''}"></div><img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt="">${board?`<img class="board-img" data-acc-id="${board}" data-icecream-color="${getAccColor(board,person)}" style="${boardVars(board)}" src="${getAccSrc(board)}" alt="">`:``}${outfit?`<img class="outfit-img" src="${getAccSrc(outfit)}" alt="">`:``}${center?`<img class="center-acc-img" data-acc-id="${center}" data-icecream-color="${getAccColor(center,person)}" style="${centerVars(center)}" src="${getAccSrc(center)}" alt="">`:``}<img class="face-img" src="./assets/faces/${person.face}.png" alt=""><img class="hair-img" src="${getHairFrontSrc(person.hair)}" alt="">${leftHand?`<img class="acc-img acc-left" data-acc-id="${acc.left}" data-icecream-color="${getAccColor(acc.left,person)}" style="${accVars(acc.left,'left')}" src="${getAccSrc(acc.left)}" alt="">`:``}${rightHand?`<img class="acc-img acc-right" data-acc-id="${acc.right}" data-icecream-color="${getAccColor(acc.right,person)}" style="${accVars(acc.right,'right')}" src="${getAccSrc(acc.right)}" alt="">`:``}</div>`);
   });
   attachFrameDragHandlers();
   normalizeAllAccessoryElements();
@@ -4620,7 +4715,7 @@ function updateStageNextButton(){
 function orderText(){
   const fd=frames.find(f=>f.id===frame);
   const {total}=calcOrderPrice();
-  return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\nИтоговая стоимость: ${total.toLocaleString('ru-RU')} ₽\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПод ногами: ${getBoardAccessory(x)||'нет'}\nЦвет скейта: ${getBoardAccessory(x)?getScateColor(x):'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
+  return `MiniBrick Studio — заказ\n\nРамка: ${frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd.name}\nФон: ${frameBgData?'свой загруженный':(getFramePresetBackground(framePresetBg).name||'Без фона')}\nФигурок: ${people.length}\nИтоговая стоимость: ${total.toLocaleString('ru-RU')} ₽\n\n`+people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПод ногами: ${getBoardAccessory(x)||'нет'}\nВ две руки: ${getCenterAccessory(x)||'нет'}\nЦвет скейта: ${getBoardAccessory(x)?getScateColor(x):'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nЦвет мороженого: ${(isIcecreamAccessory(x.rightAccessory)||isIcecreamAccessory(x.leftAccessory))?getIcecreamColor(x):'нет'}\nПринт: ${x.print||'нет'}\nРазмер принта: ${x.printScale||1}\nПозиция принта: X ${x.printX||0}, Y ${x.printY||0}\nКомментарий: ${x.note||'нет'}`).join('\n\n')
 }
 function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
 async function loadFirstAvailableImage(srcList){
@@ -4806,13 +4901,24 @@ async function exportOrderImage(){
       const oi=await loadImg(getAccSrc(outfit));
       if(oi)ctx.drawImage(oi,dx,dy,w,h);
     }
+    const center=getCenterAccessory(person);
+    if(center){
+      const ci=await loadImg(await getAccessoryRenderUrl(center,getAccSrc(center),getAccColor(center,person)));
+      if(ci){
+        const cm=getCenterMeta(center);
+        const cw=w*(cm.w/100),ch=cw*(ci.naturalHeight/ci.naturalWidth);
+        const ccx=dx+w*(cm.x/100),ccy=dy+h*(cm.y/100);
+        ctx.save();ctx.translate(ccx,ccy);ctx.rotate(((cm.r||0)*Math.PI)/180);ctx.scale(cm.flip??1,1);
+        ctx.drawImage(ci,-cw/2,-ch/2,cw,ch);ctx.restore();
+      }
+    }
     const fi=await loadImg(`./assets/faces/${person.face}.png`);
     const hi=await loadImg(getHairFrontSrc(person.hair));
     if(fi)ctx.drawImage(fi,dx,dy,w,h);
     if(hi)ctx.drawImage(hi,dx,dy,w,h);
     const acc=getPersonAccessories(person);
     for(const side of ['left','right']){
-      const id=acc[side];if(!id||isOutfitAccessory(id)||isBoardAccessory(id))continue;
+      const id=acc[side];if(!id||isOutfitAccessory(id)||isBoardAccessory(id)||isCenterAccessory(id))continue;
       const ai=await loadImg(await getAccessoryRenderUrl(id,getAccSrc(id),getAccColor(id,person)));
       if(ai){
         const am=getAccessoryMeta(id,side);
@@ -4960,7 +5066,7 @@ async function exportFrameImage(snapshotData){
 function frameSummaryText(item,index){
   const fd=frames.find(f=>f.id===item.frame);
   const {total}=calcOrderPrice(item.people,item.frame,!!item.frameBgData);
-  return `── Рамка ${index+1} ──\nЦвет: ${item.frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd?fd.name:''}\nФигурок: ${item.people.length}\nСтоимость рамки: ${total.toLocaleString('ru-RU')} ₽\n\n`+item.people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПод ногами: ${getBoardAccessory(x)||'нет'}\nЦвет скейта: ${getBoardAccessory(x)?getScateColor(x):'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nПринт: ${x.print?'да':'нет'}\nКомментарий: ${x.note||'нет'}`).join('\n\n');
+  return `── Рамка ${index+1} ──\nЦвет: ${item.frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd?fd.name:''}\nФигурок: ${item.people.length}\nСтоимость рамки: ${total.toLocaleString('ru-RU')} ₽\n\n`+item.people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПод ногами: ${getBoardAccessory(x)||'нет'}\nВ две руки: ${getCenterAccessory(x)||'нет'}\nЦвет скейта: ${getBoardAccessory(x)?getScateColor(x):'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nПринт: ${x.print?'да':'нет'}\nКомментарий: ${x.note||'нет'}`).join('\n\n');
 }
 function orderFullText(allFrames){
   const total=cartTotal();
