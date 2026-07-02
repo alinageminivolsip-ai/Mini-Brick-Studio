@@ -81,14 +81,6 @@
       ]
     },
     {
-      "id": "фон для сторис",
-      "name": "Фон Для Сторис",
-      "file": "small/фон для сторис.png",
-      "sizes": [
-        "small"
-      ]
-    },
-    {
       "id": "1",
       "name": "1",
       "file": "square/1.png",
@@ -97,7 +89,7 @@
       ]
     }
   ],
-  "version": 44,
+  "version": 45,
   "hairBack": [
     "f1",
     "f6"
