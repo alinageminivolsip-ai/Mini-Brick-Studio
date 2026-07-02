@@ -2673,6 +2673,46 @@ body.frame-mode .studio-scene{
   .board-color-btn{width:48px;height:48px}
 }
 
+
+/* === FIX: блокировка рук, если выбран аксессуар в две руки === */
+.acc-hand-block.locked{
+  position:relative;
+  opacity:.48;
+  filter:grayscale(.12);
+}
+.acc-hand-block.locked .choice-grid{
+  filter:blur(.8px);
+  pointer-events:none;
+  user-select:none;
+}
+.acc-hand-block.locked::after{
+  content:"🔒 Руки заняты аксессуаром в две руки";
+  position:absolute;
+  inset:30px 0 0;
+  z-index:20;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:16px;
+  border:2px dashed rgba(237,43,99,.22);
+  border-radius:22px;
+  background:rgba(255,255,255,.76);
+  color:var(--muted);
+  font-size:13px;
+  font-weight:950;
+  line-height:1.25;
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  box-shadow:0 10px 26px rgba(86,24,55,.08);
+}
+@media(max-width:900px){
+  .acc-hand-block.locked::after{
+    font-size:12px;
+    border-radius:18px;
+    padding:12px;
+  }
+}
+
 </style>
 </head>
 <body class="intro-active">
@@ -3898,6 +3938,7 @@ if(step==='accessory'){
   const shownBoards=shown.filter(id=>isBoardAccessory(id));
   const shownCenters=shown.filter(id=>isCenterAccessory(id));
   const shownHandAccessories=shown.filter(id=>!isBodyAccessory(id));
+  const selectedTwoHands=!!getCenterAccessory(person);
 
   // Для категории «Дети» ребенок ставится на тело, поэтому выбор правой/левой руки скрываем.
   // Для категории «Сумки» тоже показываем один общий блок, как накладку на фигурке.
@@ -3920,8 +3961,8 @@ if(step==='accessory'){
     bagBlock.classList.add('hidden');
     boardBlock.classList.add('hidden');
     centerBlock.classList.remove('hidden');
-    rightHandBlock.classList.add('hidden');
-    leftHandBlock.classList.add('hidden');
+    rightHandBlock.classList.toggle('hidden',!selectedTwoHands);
+    leftHandBlock.classList.toggle('hidden',!selectedTwoHands);
   }else{
     bagBlock.classList.add('hidden');
     centerBlock.classList.toggle('hidden',!shownCenters.length);
@@ -3929,6 +3970,9 @@ if(step==='accessory'){
     rightHandBlock.classList.remove('hidden');
     leftHandBlock.classList.remove('hidden');
   }
+
+  rightHandBlock.classList.toggle('locked',selectedTwoHands && !rightHandBlock.classList.contains('hidden'));
+  leftHandBlock.classList.toggle('locked',selectedTwoHands && !leftHandBlock.classList.contains('hidden'));
 
   function fillOutfitGrid(){
     if(!shownOutfits.length){
@@ -4015,7 +4059,7 @@ if(step==='accessory'){
   fillBagGrid();
   fillBoardGrid();
   fillCenterGrid();
-  if(!isChildrenCategory && !isBagsCategory && !isTwoHandsCategory){
+  if(!isChildrenCategory && !isBagsCategory && (!isTwoHandsCategory || selectedTwoHands)){
     fillHandGrid(accRightGrid,'right');
     fillHandGrid(accLeftGrid,'left');
   }
