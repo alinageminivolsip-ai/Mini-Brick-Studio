@@ -48,7 +48,8 @@
       "croissant"
     ],
     "hobbys": [
-      "playstation"
+      "playstation",
+      "scate"
     ],
     "premium": [
       "wedding-dress",
@@ -129,7 +130,7 @@
       ]
     }
   ],
-  "version": 49,
+  "version": 50,
   "hairBack": [
     "f1",
     "f6"
