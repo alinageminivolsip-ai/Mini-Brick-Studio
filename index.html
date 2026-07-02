@@ -4494,7 +4494,13 @@ async function exportShareImage(snapshotData){
     canvas.height=1920;
     const ctx=canvas.getContext('2d');
 
-    const bg=await loadImg('./assets/share-bg.png');
+    const bg = await loadFirstAvailableImage([
+  './assets/share-bg.png',
+  './assets/share-bg.PNG',
+  './assets/share-bg.jpg',
+  './assets/share-bg.jpeg',
+  './assets/share-bg.webp'
+]);
     if(bg){
       const scale=Math.max(canvas.width/bg.naturalWidth,canvas.height/bg.naturalHeight);
       const bw=bg.naturalWidth*scale;
