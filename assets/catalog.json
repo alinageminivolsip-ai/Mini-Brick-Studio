@@ -73,6 +73,14 @@
       ]
     },
     {
+      "id": "Красный",
+      "name": "Красный",
+      "file": "small/Красный.jpg",
+      "sizes": [
+        "small"
+      ]
+    },
+    {
       "id": "1",
       "name": "1",
       "file": "square/1.png",
@@ -81,7 +89,7 @@
       ]
     }
   ],
-  "version": 46,
+  "version": 47,
   "hairBack": [
     "f1",
     "f6"
