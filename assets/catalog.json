@@ -56,7 +56,7 @@
       "wedding-suit"
     ],
     "twohands": [
-      "box"
+      "gloves"
     ]
   },
   "backgrounds": [
@@ -133,7 +133,7 @@
       ]
     }
   ],
-  "version": 57,
+  "version": 58,
   "hairBack": [
     "f1",
     "f6"
