@@ -57,14 +57,6 @@
   },
   "backgrounds": [
     {
-      "id": "Cute Heart Wallpaper",
-      "name": "Cute Heart Wallpaper",
-      "file": "small/Cute Heart Wallpaper.png",
-      "sizes": [
-        "small"
-      ]
-    },
-    {
       "id": "love",
       "name": "Love",
       "file": "small/love.png",
@@ -89,7 +81,7 @@
       ]
     }
   ],
-  "version": 45,
+  "version": 46,
   "hairBack": [
     "f1",
     "f6"
