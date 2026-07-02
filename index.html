@@ -2466,7 +2466,12 @@ body.frame-mode .studio-scene{
 /* === НАДПИСИ В РАМКЕ === */
 .frame-text-section{margin-top:18px;padding:16px;border:2px solid var(--line);border-radius:22px;background:#fff7fb;display:grid;gap:14px}
 .frame-text-section.hidden{display:none}
-.frame-text-input{width:100%;min-height:48px;border:2px solid var(--line);border-radius:16px;padding:10px 14px;font-size:16px;background:#fff;outline:none;resize:none;font-family:inherit}
+.frame-text-list{display:grid;gap:8px}
+.frame-text-item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:2px solid var(--line);border-radius:16px;background:#fff;padding:10px 12px;color:var(--muted);font-weight:950;text-align:left}
+.frame-text-item.active{border-color:var(--red);background:#fff6fa;color:var(--red);box-shadow:0 8px 20px rgba(237,43,99,.10)}
+.frame-text-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.frame-text-item button{width:30px;height:30px;border:0;border-radius:50%;background:#fff0f5;color:var(--red);font-weight:950}
+.frame-text-input{width:100%;min-height:48px;border:2px solid var(--line);border-radius:16px;padding:10px 14px;font-size:16px;background:#fff;outline:none;resize:vertical;font-family:inherit}
 .frame-text-input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(237,43,99,.10)}
 .font-picker{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .font-btn{min-height:52px;border:2px solid var(--line);border-radius:16px;background:#fff;padding:6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:border-color .15s,background .15s}
@@ -2479,10 +2484,10 @@ body.frame-mode .studio-scene{
 .frame-text-slider-row{display:grid;gap:6px}
 .frame-text-slider-row label{font-size:12px;color:var(--muted);font-weight:900}
 .frame-text-slider-row input[type=range]{width:100%;accent-color:var(--red)}
-/* Надпись в реальной рамке */
+.frame-text-move-hint{padding:10px 12px;border-radius:16px;background:#fff0f6;color:var(--muted);font-size:12px;font-weight:900;line-height:1.35}
+/* Надписи в реальной рамке */
 .frame-text-overlay{
   position:absolute;
-  pointer-events:none;
   z-index:6;
   text-align:center;
   transform:translate(-50%,-50%);
@@ -2491,10 +2496,19 @@ body.frame-mode .studio-scene{
   line-height:1.2;
   max-width:88%;
   text-shadow:0 2px 8px rgba(0,0,0,.18);
+  cursor:grab;
+  pointer-events:auto;
+  user-select:none;
+  touch-action:none;
+  padding:2px 6px;
+  border-radius:10px;
 }
+.frame-text-overlay.active{outline:2px dashed rgba(237,43,99,.55);background:rgba(255,255,255,.16)}
+.frame-text-overlay.is-dragging{cursor:grabbing;z-index:32!important;outline:2px solid var(--red);background:rgba(255,255,255,.22)}
 @media(max-width:900px){
   .font-picker{grid-template-columns:1fr 1fr}
   .font-btn .font-preview{font-size:18px}
+  .frame-text-item{border-radius:15px;padding:9px 10px}
 }
 
 
@@ -3136,7 +3150,9 @@ function snapshotCurrentFrame(){
     frame,
     frameBgData,
     frameBgScale,
-    framePresetBg
+    framePresetBg,
+    frameTexts:JSON.parse(JSON.stringify(frameTexts)),
+    activeFrameTextId
   };
 }
 function resetCurrentFrameState(){
@@ -3149,12 +3165,8 @@ function resetCurrentFrameState(){
   framePresetBg='none';
   frameAutoCentered=false;
   frameLayoutTouched=false;
-  frameTextContent='';
-  frameTextFont='Comforter Brush';
-  frameTextColor='#ffffff';
-  frameTextSize=4;
-  frameTextX=50;
-  frameTextY=88;
+  frameTexts=[];
+  activeFrameTextId='';
   localStorage.removeItem('mb_frame_bg');
   localStorage.setItem('mb_frame_bg_scale','1');
   localStorage.setItem('mb_frame_preset_bg','none');
@@ -3190,6 +3202,8 @@ function editCartItem(id){
   frameBgData=item.frameBgData;
   frameBgScale=item.frameBgScale;
   framePresetBg=item.framePresetBg;
+  frameTexts=Array.isArray(item.frameTexts)?JSON.parse(JSON.stringify(item.frameTexts)):[];
+  activeFrameTextId=item.activeFrameTextId || (frameTexts[0]?.id || '');
   step='skin';
   closeCartModal();
   sync();
@@ -3197,13 +3211,47 @@ function editCartItem(id){
 }
 let frameAutoCentered=localStorage.getItem('mb_frame_auto_centered')==='1';
 let frameLayoutTouched=localStorage.getItem('mb_frame_layout_touched')==='1';
-// Надпись внутри рамки
-let frameTextContent=localStorage.getItem('mb_frame_text')||'';
-let frameTextFont=localStorage.getItem('mb_frame_text_font')||'Comforter Brush';
-let frameTextColor=localStorage.getItem('mb_frame_text_color')||'#ffffff';
-let frameTextSize=Number(localStorage.getItem('mb_frame_text_size')||4);  // % от высоты рамки
-let frameTextX=Number(localStorage.getItem('mb_frame_text_x')||50);       // % от ширины
-let frameTextY=Number(localStorage.getItem('mb_frame_text_y')||88);       // % от высоты
+// Надписи внутри рамки
+function makeFrameTextItem(content='Новая надпись'){
+  return {
+    id:'txt_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),
+    content,
+    font:'Comforter Brush',
+    color:'#ffffff',
+    size:4,
+    x:50,
+    y:88
+  };
+}
+function loadFrameTexts(){
+  try{
+    const raw=JSON.parse(localStorage.getItem('mb_frame_texts')||'[]');
+    if(Array.isArray(raw)&&raw.length){
+      return raw.map(t=>({
+        ...makeFrameTextItem(''),
+        ...t,
+        id:t.id||('txt_'+Math.random().toString(36).slice(2,7)),
+        content:t.content||''
+      })).filter(t=>String(t.content||'').trim());
+    }
+  }catch(e){}
+  const old=localStorage.getItem('mb_frame_text')||'';
+  if(old.trim()){
+    return [{
+      id:'txt_legacy',
+      content:old,
+      font:localStorage.getItem('mb_frame_text_font')||'Comforter Brush',
+      color:localStorage.getItem('mb_frame_text_color')||'#ffffff',
+      size:Number(localStorage.getItem('mb_frame_text_size')||4),
+      x:Number(localStorage.getItem('mb_frame_text_x')||50),
+      y:Number(localStorage.getItem('mb_frame_text_y')||88)
+    }];
+  }
+  return [];
+}
+let frameTexts=loadFrameTexts();
+let activeFrameTextId=localStorage.getItem('mb_active_frame_text') || (frameTexts[0]?.id || '');
+function activeFrameText(){return frameTexts.find(t=>t.id===activeFrameTextId)||frameTexts[0]||null;}
 const FRAME_FONTS=[
   {id:'Comforter Brush',  name:'Comforter Brush', preview:'Привет!'},
   {id:'Marck Script',     name:'Marck Script',    preview:'Привет!'},
@@ -3213,12 +3261,17 @@ const FRAME_FONTS=[
 ];
 const FRAME_TEXT_COLORS=['#ffffff','#111111','#ed2b63','#ff6fa8','#ffd700','#86536a'];
 function saveFrameText(){
-  localStorage.setItem('mb_frame_text',frameTextContent);
-  localStorage.setItem('mb_frame_text_font',frameTextFont);
-  localStorage.setItem('mb_frame_text_color',frameTextColor);
-  localStorage.setItem('mb_frame_text_size',String(frameTextSize));
-  localStorage.setItem('mb_frame_text_x',String(frameTextX));
-  localStorage.setItem('mb_frame_text_y',String(frameTextY));
+  frameTexts=frameTexts.filter(t=>String(t.content||'').trim());
+  if(!activeFrameTextId&&frameTexts[0])activeFrameTextId=frameTexts[0].id;
+  localStorage.setItem('mb_frame_texts',JSON.stringify(frameTexts));
+  localStorage.setItem('mb_active_frame_text',activeFrameTextId||'');
+  const first=frameTexts[0]||null;
+  localStorage.setItem('mb_frame_text',first?first.content:'');
+  localStorage.setItem('mb_frame_text_font',first?first.font:'Comforter Brush');
+  localStorage.setItem('mb_frame_text_color',first?first.color:'#ffffff');
+  localStorage.setItem('mb_frame_text_size',String(first?first.size:4));
+  localStorage.setItem('mb_frame_text_x',String(first?first.x:50));
+  localStorage.setItem('mb_frame_text_y',String(first?first.y:88));
 }
 function p(){return people[active]||people[0]}
 function save(){
@@ -3227,19 +3280,15 @@ function save(){
   localStorage.setItem('mb_frame_preset_bg',framePresetBg);
   saveFrameText();
 }
-function snap(){undo.push(JSON.stringify({people,active,step,frame,frameBgData,frameBgScale,framePresetBg,frameMobileDrop,frameTextContent,frameTextFont,frameTextColor,frameTextSize,frameTextX,frameTextY}));if(undo.length>20)undo.shift()}
+function snap(){undo.push(JSON.stringify({people,active,step,frame,frameBgData,frameBgScale,framePresetBg,frameMobileDrop,frameTexts,activeFrameTextId}));if(undo.length>20)undo.shift()}
 function restore(){
   const r=undo.pop();if(!r)return;
   const d=JSON.parse(r);
   people=d.people;active=d.active;step=d.step;frame=d.frame;
   frameBgData=d.frameBgData;frameBgScale=d.frameBgScale;
   framePresetBg=d.framePresetBg||'none';frameMobileDrop=d.frameMobileDrop||'0';
-  if(d.frameTextContent!=null)frameTextContent=d.frameTextContent;
-  if(d.frameTextFont)frameTextFont=d.frameTextFont;
-  if(d.frameTextColor)frameTextColor=d.frameTextColor;
-  if(d.frameTextSize!=null)frameTextSize=d.frameTextSize;
-  if(d.frameTextX!=null)frameTextX=d.frameTextX;
-  if(d.frameTextY!=null)frameTextY=d.frameTextY;
+  if(Array.isArray(d.frameTexts))frameTexts=d.frameTexts;
+  activeFrameTextId=d.activeFrameTextId || (frameTexts[0]?.id || '');
   sync();
 }
 function applyFrameMobileView(){
@@ -3798,9 +3847,12 @@ if(step==='frame'){
     <label class="field">Масштаб фона<input type="range" id="bgScale" min="0.5" max="3" step="0.05" value="${frameBgScale}"></label>
     <button class="btn ghost" style="width:100%;margin-top:8px" id="addFrameToCartBtn">+ Добавить ещё одну рамку</button>
     <button class="btn dark" style="width:100%;margin-top:8px" id="openOrderFromEditor">Оформить заказ</button>
-    <div class="section-title" style="margin-top:20px"><span class="badge">6.3</span> Надпись на фоне</div>
+    <div class="section-title" style="margin-top:20px"><span class="badge">6.3</span> Надписи на фоне</div>
     <div class="frame-text-section">
-      <textarea class="frame-text-input" id="frameTextInput" placeholder="Например: С Днём Рождения! ♡" rows="2">${frameTextContent}</textarea>
+      <div class="frame-text-move-hint">Надпись можно двигать прямо внутри рамки, как человечков. При перетаскивании появятся полосы выравнивания.</div>
+      <button class="btn pink" id="addFrameText" type="button">+ Добавить текст</button>
+      <div class="frame-text-list" id="frameTextList"></div>
+      <textarea class="frame-text-input" id="frameTextInput" placeholder="Например: С Днём Рождения! ♡" rows="2"></textarea>
       <div>
         <div class="group-title">Шрифт</div>
         <div class="font-picker" id="fontPicker"></div>
@@ -3811,17 +3863,9 @@ if(step==='frame'){
       </div>
       <div class="frame-text-slider-row">
         <label>Размер шрифта</label>
-        <input type="range" id="frameTextSizeSlider" min="2" max="12" step="0.5" value="${frameTextSize}">
+        <input type="range" id="frameTextSizeSlider" min="2" max="12" step="0.5" value="4">
       </div>
-      <div class="frame-text-slider-row">
-        <label>Положение по вертикали</label>
-        <input type="range" id="frameTextYSlider" min="5" max="96" step="1" value="${frameTextY}">
-      </div>
-      <div class="frame-text-slider-row">
-        <label>Положение по горизонтали</label>
-        <input type="range" id="frameTextXSlider" min="10" max="90" step="1" value="${frameTextX}">
-      </div>
-      <button class="btn ghost" id="clearFrameText" style="margin-top:4px">✕ Убрать надпись</button>
+      <button class="btn ghost" id="clearFrameText" style="margin-top:4px">✕ Удалить выбранный текст</button>
     </div>
   `;
   editorBody.querySelectorAll('[data-frame-color]').forEach(b=>b.onclick=()=>{snap();frame=b.dataset.frameColor+'-'+size;invalidateFramePreviewBase();sync();});
@@ -3864,17 +3908,72 @@ if(step==='frame'){
   };
   openOrderFromEditor.onclick=openOrderModal;
   // ── Секция надписей ──────────────────────────────────────────
+  function refreshFrameTextEditor(){
+    const current=activeFrameText();
+    const list=document.getElementById('frameTextList');
+    if(list){
+      list.innerHTML='';
+      if(!frameTexts.length){
+        const empty=document.createElement('div');
+        empty.className='small';
+        empty.textContent='Пока нет надписей. Нажмите «Добавить текст».';
+        list.appendChild(empty);
+      }
+      frameTexts.forEach(t=>{
+        const item=document.createElement('div');
+        item.className='frame-text-item '+(t.id===activeFrameTextId?'active':'');
+        item.innerHTML=`<span>${(t.content||'Новая надпись').replace(/</g,'&lt;')}</span><button type="button" aria-label="Удалить текст">×</button>`;
+        item.onclick=()=>{activeFrameTextId=t.id;saveFrameText();renderEditor();renderFrameTextOverlay();};
+        item.querySelector('button').onclick=e=>{
+          e.stopPropagation();
+          snap();
+          frameTexts=frameTexts.filter(x=>x.id!==t.id);
+          activeFrameTextId=frameTexts[0]?.id||'';
+          saveFrameText();
+          renderEditor();
+          renderFrameTextOverlay();
+        };
+        list.appendChild(item);
+      });
+    }
+    const textInput=document.getElementById('frameTextInput');
+    const sizeSlider=document.getElementById('frameTextSizeSlider');
+    if(textInput){
+      textInput.disabled=!current;
+      textInput.value=current?current.content:'';
+    }
+    if(sizeSlider){
+      sizeSlider.disabled=!current;
+      sizeSlider.value=current?current.size:4;
+    }
+  }
+  const addTextBtn=document.getElementById('addFrameText');
+  if(addTextBtn){
+    addTextBtn.onclick=()=>{
+      snap();
+      const item=makeFrameTextItem('Новая надпись');
+      frameTexts.push(item);
+      activeFrameTextId=item.id;
+      saveFrameText();
+      renderEditor();
+      renderFrameTextOverlay();
+    };
+  }
   const fontPicker=document.getElementById('fontPicker');
   if(fontPicker){
+    const current=activeFrameText();
     FRAME_FONTS.forEach(f=>{
       const btn=document.createElement('button');
       btn.type='button';
-      btn.className='font-btn '+(frameTextFont===f.id?'active':'');
+      btn.className='font-btn '+(current&&current.font===f.id?'active':'');
       btn.innerHTML=`<span class="font-preview" style="font-family:'${f.id}',cursive">${f.preview}</span><span class="font-name">${f.name}</span>`;
       btn.onclick=()=>{
-        snap();frameTextFont=f.id;saveFrameText();
-        fontPicker.querySelectorAll('.font-btn').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
+        const t=activeFrameText();
+        if(!t)return;
+        snap();
+        t.font=f.id;
+        saveFrameText();
+        renderEditor();
         renderFrameTextOverlay();
       };
       fontPicker.appendChild(btn);
@@ -3882,17 +3981,21 @@ if(step==='frame'){
   }
   const colorsBox=document.getElementById('frameTextColors');
   if(colorsBox){
+    const current=activeFrameText();
     FRAME_TEXT_COLORS.forEach(c=>{
       const btn=document.createElement('button');
       btn.type='button';
-      btn.className='frame-text-color-btn '+(frameTextColor===c?'active':'');
+      btn.className='frame-text-color-btn '+(current&&current.color===c?'active':'');
       btn.style.background=c;
       btn.title=c;
       if(c==='#ffffff')btn.style.boxShadow='0 0 0 2px #ccc inset';
       btn.onclick=()=>{
-        snap();frameTextColor=c;saveFrameText();
-        colorsBox.querySelectorAll('.frame-text-color-btn').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
+        const t=activeFrameText();
+        if(!t)return;
+        snap();
+        t.color=c;
+        saveFrameText();
+        renderEditor();
         renderFrameTextOverlay();
       };
       colorsBox.appendChild(btn);
@@ -3900,24 +4003,40 @@ if(step==='frame'){
   }
   const textInput=document.getElementById('frameTextInput');
   if(textInput){
-    textInput.oninput=e=>{frameTextContent=e.target.value;saveFrameText();renderFrameTextOverlay();};
+    textInput.oninput=e=>{
+      const t=activeFrameText();
+      if(!t)return;
+      t.content=e.target.value;
+      saveFrameText();
+      renderFrameTextOverlay();
+      const listItem=document.querySelector('.frame-text-item.active span');
+      if(listItem)listItem.textContent=t.content||'Новая надпись';
+    };
   }
   const sizeSlider=document.getElementById('frameTextSizeSlider');
   if(sizeSlider){
-    sizeSlider.oninput=e=>{frameTextSize=Number(e.target.value);saveFrameText();renderFrameTextOverlay();};
-  }
-  const xSlider=document.getElementById('frameTextXSlider');
-  if(xSlider){
-    xSlider.oninput=e=>{frameTextX=Number(e.target.value);saveFrameText();renderFrameTextOverlay();};
-  }
-  const ySlider=document.getElementById('frameTextYSlider');
-  if(ySlider){
-    ySlider.oninput=e=>{frameTextY=Number(e.target.value);saveFrameText();renderFrameTextOverlay();};
+    sizeSlider.oninput=e=>{
+      const t=activeFrameText();
+      if(!t)return;
+      t.size=Number(e.target.value);
+      saveFrameText();
+      renderFrameTextOverlay();
+    };
   }
   const clearBtn=document.getElementById('clearFrameText');
   if(clearBtn){
-    clearBtn.onclick=()=>{snap();frameTextContent='';saveFrameText();if(textInput)textInput.value='';renderFrameTextOverlay();};
+    clearBtn.onclick=()=>{
+      const t=activeFrameText();
+      if(!t)return;
+      snap();
+      frameTexts=frameTexts.filter(x=>x.id!==t.id);
+      activeFrameTextId=frameTexts[0]?.id||'';
+      saveFrameText();
+      renderEditor();
+      renderFrameTextOverlay();
+    };
   }
+  refreshFrameTextEditor();
 }
 }
 function goNextStep(){const i=steps.findIndex(s=>s.key===step);const nextKey=steps[Math.min(i+1,steps.length-1)].key;if(nextKey==='frame'){enterFrameMode()}else{step=nextKey;sync()}window.scrollTo({top:0,behavior:'smooth'})}
@@ -4203,28 +4322,102 @@ function renderFrame(){
   // Надпись поверх рамки
   renderFrameTextOverlay();
 }
-function renderFrameTextOverlay(){
-  // Удаляем старый оверлей
-  const old=miniGrid?.querySelector('.frame-text-overlay');
-  if(old)old.remove();
-  if(!frameTextContent||!miniGrid)return;
-  const el=document.createElement('div');
-  el.className='frame-text-overlay';
-  el.textContent=frameTextContent;
-  el.style.cssText=[
-    `font-family:"${frameTextFont}",cursive`,
-    `font-size:${frameTextSize}cqh`,           // контейнерные единицы относительно miniGrid
-    `color:${frameTextColor}`,
-    `left:${frameTextX}%`,
-    `top:${frameTextY}%`,
-  ].join(';');
-  // Fallback: если cqh не поддерживается, считаем через % высоты miniGrid
-  if(!CSS.supports('font-size','1cqh')){
-    const h=miniGrid.clientHeight||200;
-    el.style.fontSize=Math.round(h*frameTextSize/100)+'px';
+function calcTextSnap(dragId, rawXpct, rawYpct){
+  const SNAP=SNAP_THRESHOLD;
+  let snapX=rawXpct, snapY=rawYpct;
+  const guides=[];
+  const others=[...people.map((p,i)=>({id:'person_'+i,x:p.frameX||50,y:p.frameY||85})),...frameTexts.filter(t=>t.id!==dragId).map(t=>({id:t.id,x:t.x||50,y:t.y||50}))];
+  const snapXCandidates=[50,...others.map(o=>o.x)];
+  for(const cx of snapXCandidates){
+    if(Math.abs(rawXpct-cx)<SNAP){
+      snapX=cx;
+      guides.push({type:'x',value:cx});
+      break;
+    }
   }
+  const snapYCandidates=[50,96,...others.map(o=>o.y)];
+  for(const cy of snapYCandidates){
+    if(Math.abs(rawYpct-cy)<SNAP){
+      snapY=cy;
+      guides.push({type:'y',value:cy});
+      break;
+    }
+  }
+  return {x:snapX,y:snapY,guides};
+}
+function attachFrameTextDragHandlers(){
+  if(!miniGrid)return;
+  miniGrid.querySelectorAll('.frame-text-overlay').forEach(el=>{
+    el.onpointerdown=e=>{
+      if(step!=='frame')return;
+      e.preventDefault();
+      e.stopPropagation();
+      const id=el.dataset.textId;
+      const item=frameTexts.find(t=>t.id===id);
+      if(!item)return;
+      activeFrameTextId=id;
+      saveFrameText();
+      renderFrameTextOverlay();
+      const currentEl=miniGrid.querySelector(`.frame-text-overlay[data-text-id="${id}"]`)||el;
+      const rect=miniGrid.getBoundingClientRect();
+      currentEl.setPointerCapture?.(e.pointerId);
+      currentEl.classList.add('is-dragging');
+      const move=ev=>{
+        const rawX=Math.min(98,Math.max(2,(ev.clientX-rect.left)/rect.width*100));
+        const rawY=Math.min(96,Math.max(4,(ev.clientY-rect.top)/rect.height*100));
+        const {x,y,guides}=calcTextSnap(id,rawX,rawY);
+        currentEl.style.left=x+'%';
+        currentEl.style.top=y+'%';
+        showSnapGuides(guides);
+      };
+      const up=ev=>{
+        currentEl.releasePointerCapture?.(e.pointerId);
+        const rawX=Math.min(98,Math.max(2,(ev.clientX-rect.left)/rect.width*100));
+        const rawY=Math.min(96,Math.max(4,(ev.clientY-rect.top)/rect.height*100));
+        const {x,y}=calcTextSnap(id,rawX,rawY);
+        snap();
+        item.x=Math.round(x*10)/10;
+        item.y=Math.round(y*10)/10;
+        currentEl.classList.remove('is-dragging');
+        clearSnapGuides();
+        saveFrameText();
+        renderFrameTextOverlay();
+        window.removeEventListener('pointermove',move);
+        window.removeEventListener('pointerup',up);
+        window.removeEventListener('pointercancel',up);
+      };
+      move(e);
+      window.addEventListener('pointermove',move);
+      window.addEventListener('pointerup',up);
+      window.addEventListener('pointercancel',up);
+    };
+  });
+}
+function renderFrameTextOverlay(){
+  if(!miniGrid)return;
+  miniGrid.querySelectorAll('.frame-text-overlay').forEach(el=>el.remove());
+  frameTexts=frameTexts.filter(t=>String(t.content||'').trim());
+  if(!frameTexts.length)return;
   miniGrid.style.containerType='size';
-  miniGrid.appendChild(el);
+  frameTexts.forEach(t=>{
+    const el=document.createElement('div');
+    el.className='frame-text-overlay '+(t.id===activeFrameTextId?'active':'');
+    el.dataset.textId=t.id;
+    el.textContent=t.content;
+    el.style.cssText=[
+      `font-family:"${t.font||'Comforter Brush'}",cursive`,
+      `font-size:${Number(t.size||4)}cqh`,
+      `color:${t.color||'#ffffff'}`,
+      `left:${Number(t.x||50)}%`,
+      `top:${Number(t.y||88)}%`
+    ].join(';');
+    if(!CSS.supports('font-size','1cqh')){
+      const h=miniGrid.clientHeight||200;
+      el.style.fontSize=Math.round(h*Number(t.size||4)/100)+'px';
+    }
+    miniGrid.appendChild(el);
+  });
+  attachFrameTextDragHandlers();
 }
 function sync(){
   if(step!=='hair')hairBackView=false;
@@ -4461,39 +4654,43 @@ async function exportOrderImage(){
     }
     ctx.restore();
   }
-  // Надпись пользователя внутри рамки
-  if(frameTextContent){
-    const fontFamily=`"${frameTextFont}",cursive`;
-    const fontSize=Math.round(contentH*frameTextSize/100);
+  // Надписи пользователя внутри рамки
+  if(Array.isArray(frameTexts)&&frameTexts.length){
     ctx.save();
-    ctx.font=`${fontSize}px ${fontFamily}`;
-    ctx.fillStyle=frameTextColor;
-    ctx.textAlign='center';
-    ctx.textBaseline='middle';
-    // Тень для читаемости на любом фоне
-    ctx.shadowColor='rgba(0,0,0,.28)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;
-    const tx=contentX+contentW*(frameTextX/100);
-    const ty=contentY+contentH*(frameTextY/100);
     ctx.beginPath();ctx.rect(contentX,contentY,contentW,contentH);ctx.clip();
-    // Многострочность
-    const lines=frameTextContent.split('\n');
-    const lineH=fontSize*1.25;
-    const totalH=lines.length*lineH;
-    lines.forEach((line,i)=>{
-      ctx.fillText(line,tx,ty-totalH/2+lineH*i+lineH/2);
+    frameTexts.filter(t=>String(t.content||'').trim()).forEach(t=>{
+      const fontFamily=`"${t.font||'Comforter Brush'}",cursive`;
+      const fontSize=Math.round(contentH*Number(t.size||4)/100);
+      ctx.save();
+      ctx.font=`${fontSize}px ${fontFamily}`;
+      ctx.fillStyle=t.color||'#ffffff';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.shadowColor='rgba(0,0,0,.28)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;
+      const tx=contentX+contentW*(Number(t.x||50)/100);
+      const ty=contentY+contentH*(Number(t.y||88)/100);
+      const lines=String(t.content||'').split('\n');
+      const lineH=fontSize*1.25;
+      const totalH=lines.length*lineH;
+      lines.forEach((line,i)=>{
+        ctx.fillText(line,tx,ty-totalH/2+lineH*i+lineH/2);
+      });
+      ctx.restore();
     });
     ctx.restore();
   }
   return canvas.toDataURL('image/png');
 }
 async function exportShareImage(snapshotData){
-  const sp=people,sf=frame,sb=frameBgData,sbs=frameBgScale,spb=framePresetBg;
+  const sp=people,sf=frame,sb=frameBgData,sbs=frameBgScale,spb=framePresetBg,st=frameTexts,stid=activeFrameTextId;
   if(snapshotData){
     people=snapshotData.people;
     frame=snapshotData.frame;
     frameBgData=snapshotData.frameBgData;
     frameBgScale=snapshotData.frameBgScale;
     framePresetBg=snapshotData.framePresetBg;
+    frameTexts=Array.isArray(snapshotData.frameTexts)?snapshotData.frameTexts:[];
+    activeFrameTextId=snapshotData.activeFrameTextId || (frameTexts[0]?.id || '');
   }
   try{
     const canvas=document.createElement('canvas');
@@ -4544,7 +4741,7 @@ async function exportShareImage(snapshotData){
     return canvas.toDataURL('image/png');
   }finally{
     if(snapshotData){
-      people=sp;frame=sf;frameBgData=sb;frameBgScale=sbs;framePresetBg=spb;
+      people=sp;frame=sf;frameBgData=sb;frameBgScale=sbs;framePresetBg=spb;frameTexts=st;activeFrameTextId=stid;
     }
   }
 }
@@ -4585,10 +4782,10 @@ function renderPaymentMethods(){
 let currentOrderFrames=[];
 async function exportFrameImage(snapshotData){
   if(!snapshotData)return exportOrderImage();
-  const sp=people,sf=frame,sb=frameBgData,sbs=frameBgScale,spb=framePresetBg;
-  people=snapshotData.people;frame=snapshotData.frame;frameBgData=snapshotData.frameBgData;frameBgScale=snapshotData.frameBgScale;framePresetBg=snapshotData.framePresetBg;
+  const sp=people,sf=frame,sb=frameBgData,sbs=frameBgScale,spb=framePresetBg,st=frameTexts,stid=activeFrameTextId;
+  people=snapshotData.people;frame=snapshotData.frame;frameBgData=snapshotData.frameBgData;frameBgScale=snapshotData.frameBgScale;framePresetBg=snapshotData.framePresetBg;frameTexts=Array.isArray(snapshotData.frameTexts)?snapshotData.frameTexts:[];activeFrameTextId=snapshotData.activeFrameTextId || (frameTexts[0]?.id || '');
   try{return await exportOrderImage();}
-  finally{people=sp;frame=sf;frameBgData=sb;frameBgScale=sbs;framePresetBg=spb;}
+  finally{people=sp;frame=sf;frameBgData=sb;frameBgScale=sbs;framePresetBg=spb;frameTexts=st;activeFrameTextId=stid;}
 }
 function frameSummaryText(item,index){
   const fd=frames.find(f=>f.id===item.frame);
