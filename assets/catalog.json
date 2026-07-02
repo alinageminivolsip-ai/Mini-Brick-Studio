@@ -59,6 +59,38 @@
     {
       "id": "love",
       "name": "Love",
+      "file": "big/love.png",
+      "sizes": [
+        "big"
+      ]
+    },
+    {
+      "id": "you_and_me",
+      "name": "You And Me",
+      "file": "big/you_and_me.png",
+      "sizes": [
+        "big"
+      ]
+    },
+    {
+      "id": "Каракули",
+      "name": "Каракули",
+      "file": "big/Каракули.jpg",
+      "sizes": [
+        "big"
+      ]
+    },
+    {
+      "id": "Красный",
+      "name": "Красный",
+      "file": "big/Красный.jpg",
+      "sizes": [
+        "big"
+      ]
+    },
+    {
+      "id": "love",
+      "name": "Love",
       "file": "small/love.png",
       "sizes": [
         "small"
@@ -97,7 +129,7 @@
       ]
     }
   ],
-  "version": 48,
+  "version": 49,
   "hairBack": [
     "f1",
     "f6"
