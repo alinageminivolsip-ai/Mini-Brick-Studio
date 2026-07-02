@@ -52,6 +52,7 @@
       "scate"
     ],
     "premium": [
+      "box",
       "wedding-dress",
       "wedding-suit"
     ]
@@ -130,7 +131,7 @@
       ]
     }
   ],
-  "version": 51,
+  "version": 52,
   "hairBack": [
     "f1",
     "f6"
