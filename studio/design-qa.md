@@ -35,3 +35,9 @@ Browser checks: 320×700, 390×844, 768×1024, 844×390, 1024×768, 1440×900. R
 | No entry state | Brief 620ms minimum, 240ms opacity exit, static reduced-motion indicator | Avoids a one-frame flash; matches landing typography |
 
 Verified browser screenshots at desktop and 320×700, loader auto-closes, aria-busy clears and next-step button works. Refresh preserves the existing two-person draft. No console errors in the checked session. Failed startup offers retry after 12 seconds; this fallback was code-reviewed, not simulated in the browser.
+
+## Complete asset preload
+
+Supersedes previous short bounded-loader behavior: all 64 valid shipped images and four local font subsets must finish before the loading screen exits. Six concurrent image requests avoid a burst; progress counts only successful files. Failed requests keep the editor locked with retry. Cached visits have a 1.8-second minimum. Images/fonts use scoped versioned caching.
+
+Browser confirmed 68/68 before automatic exit, no console errors. Twelve tests passed, including new cases proving the loader waits for the final image and keeps retry visible after image/font failure.

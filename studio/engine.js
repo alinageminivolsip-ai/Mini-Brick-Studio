@@ -2684,7 +2684,7 @@ function bootAppOnce(){
   initFrameResizeHandle();
   sync();
   // Inline guidance replaces blocking onboarding.
-  window.miglickLoading?.ready(catalogPromise);
+  window.miglickLoading?.ready(catalogPromise, [...shippedAssetPaths]);
 }
 const catalogPromise=loadCatalog().catch(err=>console.log('catalog load failed',err));
 // Защита: если загрузка каталога (fetch + проверка ассетов) зависнет дольше 4с

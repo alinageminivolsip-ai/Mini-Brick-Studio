@@ -11,3 +11,5 @@ Do not publish over the existing GitHub app until local checks and UI validation
 Mobile hair controls must anchor inside viewer at its right edge with explicit top:auto, width:auto and static label, without overlapping figure or people strip. User screenshot is source of reported issue.
 
 User requested a branded entry loading screen. loader.css/loader.js own a cream/violet typographic loading state with actual catalog/font/visible-image readiness, bounded waits, reduced motion and retry if app startup fails. No onboarding questions. Original archive remains untouched.
+
+Loading follow-up: user explicitly wants to wait for all assets. Loader preloads all 64 valid shipped images and four local font subsets with six concurrent requests and real completed/total progress. Do not reveal on a short timeout. Failure keeps loader with retry; a cached visit still has a 1.8-second minimum. Static images/fonts use the versioned scoped cache to avoid downloading them again on selection.
