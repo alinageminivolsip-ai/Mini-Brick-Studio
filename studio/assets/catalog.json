@@ -1,0 +1,141 @@
+{
+  "faces": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9"
+  ],
+  "hair": [
+    "f1",
+    "f2",
+    "f3",
+    "f4",
+    "f5",
+    "f6",
+    "f7",
+    "m1",
+    "m2",
+    "m3"
+  ],
+  "prints": [
+    "drip-smile",
+    "print-sketch-heart",
+    "swoosh-character"
+  ],
+  "accessories": {
+    "animals": [
+      "spider"
+    ],
+    "bags": [
+      "bag"
+    ],
+    "other": [
+      "beer",
+      "bunny",
+      "playstation",
+      "star"
+    ],
+    "children": [
+      "child"
+    ],
+    "food": [
+      "banana",
+      "croissant"
+    ],
+    "hobbys": [
+      "playstation",
+      "scate"
+    ],
+    "premium": [
+      "wedding-dress",
+      "wedding-suit"
+    ],
+    "twohands": [
+      "gloves"
+    ]
+  },
+  "backgrounds": [
+    {
+      "id": "love",
+      "name": "Love",
+      "file": "big/love.png",
+      "sizes": [
+        "big"
+      ]
+    },
+    {
+      "id": "you_and_me",
+      "name": "You And Me",
+      "file": "big/you_and_me.png",
+      "sizes": [
+        "big"
+      ]
+    },
+    {
+      "id": "Каракули",
+      "name": "Каракули",
+      "file": "big/Каракули.jpg",
+      "sizes": [
+        "big"
+      ]
+    },
+    {
+      "id": "Красный",
+      "name": "Красный",
+      "file": "big/Красный.jpg",
+      "sizes": [
+        "big"
+      ]
+    },
+    {
+      "id": "love",
+      "name": "Love",
+      "file": "small/love.png",
+      "sizes": [
+        "small"
+      ]
+    },
+    {
+      "id": "you_and_me",
+      "name": "You And Me",
+      "file": "small/you_and_me.png",
+      "sizes": [
+        "small"
+      ]
+    },
+    {
+      "id": "Каракули",
+      "name": "Каракули",
+      "file": "small/Каракули.jpg",
+      "sizes": [
+        "small"
+      ]
+    },
+    {
+      "id": "Красный",
+      "name": "Красный",
+      "file": "small/Красный.jpg",
+      "sizes": [
+        "small"
+      ]
+    },
+    {
+      "id": "1",
+      "name": "1",
+      "file": "square/1.png",
+      "sizes": [
+        "square"
+      ]
+    }
+  ],
+  "version": 58,
+  "hairBack": [
+    "f1",
+    "f6"
+  ]
+}

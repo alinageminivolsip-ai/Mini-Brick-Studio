@@ -1,0 +1,58 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#F8F7F2"><meta name="description" content="Создайте свою историю MIGLICK: соберите героев, выберите рамку и сохраните готовый проект."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Comforter+Brush&family=Marck+Script&family=Bad+Script&family=Caveat:wght@700&family=Pacifico&display=swap" rel="stylesheet"><title>MIGLICK — ваша история в деталях</title><link rel="manifest" href="./manifest.json"><link rel="stylesheet" href="./renderer-legacy.css"><link rel="stylesheet" href="./studio.css"><link rel="preload" href="./fonts/onest-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="./fonts/unbounded-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin></head><body id="miglickStudio"><div class="app">
+  <header class="topbar">
+    <a class="studio-brand" href="https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/miglik/" aria-label="MIGLICK — на сайт">MIGLICK<span>.</span></a>
+    <div class="studio-flow" aria-label="Этапы создания"><button data-flow="people" class="active"><span>1</span>Герои</button><button data-flow="frame"><span>2</span>Рамка</button><button data-flow="order"><span>3</span>Заказ</button></div>
+    <div class="top-actions"><span id="draftStatus" class="draft-status">Черновик на устройстве</span><button class="btn ghost" id="cartBtn" aria-label="Мои рамки">Мои рамки<span id="cartBadge" class="cart-badge hidden">0</span></button><button class="btn dark" id="orderBtn">К заказу</button><button id="showPeopleBtn" hidden>Герои</button><button id="frameBtn" hidden>Рамка</button></div>
+  </header>
+  <div class="workspace">
+    <aside class="panel left"><div class="panel-pad"><div class="section-eyebrow">ВАША ИСТОРИЯ</div><h2 class="title">Герои <span id="countLabel" class="small"></span></h2><p class="panel-intro">Каждый — с собственным характером.</p><div class="people-list" id="peopleList"></div><button class="btn dark add-card" id="addPerson">+ Добавить героя</button></div></aside>
+    <main class="panel viewer" id="viewer">
+      <div class="stage-toolbar"><button class="btn ghost" id="undoBtn" aria-label="Отменить последнее действие" title="Отменить">Отменить</button><button class="btn ghost" id="zoomPreviewBtn" type="button">Крупнее</button><button class="btn pink" id="randomBtn" aria-label="Случайный образ" title="Случайно">Случайный образ</button></div>
+      <div class="stage-back-wrap" id="stageBackWrap"><button class="stage-back-btn" id="stageBackBtn" type="button" aria-label="Вернуться к предыдущему шагу"><span>←</span></button></div>
+      <div class="stage-next-wrap" id="stageNextWrap"><span class="stage-next-label" id="stageNextLabel">Далее</span><button class="stage-next-btn" id="stageNextBtn" type="button" aria-label="Перейти к следующему шагу"><span id="stageNextArrow">→</span></button></div>
+      <div class="hair-flip-controls" id="hairFlipControls" aria-label="Посмотреть прическу сзади"><button class="hair-flip-btn" id="hairFlipLeft" type="button" title="Повернуть назад">↺</button><span class="hair-flip-label" id="hairFlipLabel">Вид спереди</span><button class="hair-flip-btn" id="hairFlipRight" type="button" title="Повернуть назад">↻</button></div>
+      <section class="figure-viewport" id="figureViewport">
+        <div class="studio-scene" aria-hidden="true">
+          <div class="studio-backdrop"></div>
+          <div class="studio-spotlight left"></div>
+          <div class="studio-spotlight right"></div>
+          <div class="studio-softbox left"></div>
+          <div class="studio-softbox right"></div>
+          <span class="studio-piece brick p1"></span>
+          <span class="studio-piece round p2"></span>
+          <span class="studio-piece tile p3"></span>
+          <span class="studio-piece brick p4"></span>
+          <span class="studio-piece round p5"></span>
+          <span class="studio-piece tile p6"></span>
+          <div class="studio-floor-glow"></div>
+          <div class="studio-podium"></div>
+        </div>
+        <div id="constructorView" class="figure-wrap focus-skin">
+          <div class="part skin"></div><div class="part torso"></div><div class="part arms"></div><div class="part legs"></div>
+          <img class="plastic-shadow" src="./assets/body/plastic-shadow.png" alt=""><img class="plastic-light" src="./assets/body/plastic-light.png" alt=""><img class="shadow-layer" src="./assets/body/base-outline.png" alt=""><div class="torso-print-layer hidden" id="printLayer"><img id="printImg" alt="Принт на одежде"></div><img class="outfit-img hidden" id="outfitImg" alt="Костюм"><img class="board-img hidden" id="boardImg" alt="Скейт под ногами"><img class="center-acc-img hidden" id="centerAccImg" alt="Аксессуар в две руки"><img class="face-img" id="faceImg" alt="Лицо персонажа"><img class="hair-img" id="hairImg" alt="Прическа"><img class="acc-img acc-left hidden" id="accLeftImg" alt="Аксессуар в левой руке"><img class="acc-img acc-right hidden" id="accRightImg" alt="Аксессуар в правой руке">
+        </div>
+        <section id="frameView" class="frame-preview hidden"><div class="frame-box f-square frame-white" id="frameBox"><div class="mini-grid" id="miniGrid"></div></div><b id="frameLabel" class="small"></b></section>
+      </section>
+      <div class="frame-resize-handle" id="frameResizeHandle" role="button" aria-label="Изменить высоту рабочей области рамки">Потяни</div>
+    </main>
+    <section class="mobile-people-strip" id="mobilePeopleStrip">
+      <div class="mobile-people-list" id="mobilePeopleList"></div>
+    </section>
+    <section class="panel editor"><div class="panel-pad">
+      <div class="editor-heading"><p class="section-eyebrow" id="stepCounter">ДЕТАЛИ ПЕРСОНАЖА</p><h2 id="editorHeading">Начнём с характера</h2><p id="editorDescription">Выберите цвет и настроение вашего героя.</p></div><nav class="steps-nav" id="stepsNav" aria-label="Детали персонажа"></nav>
+      <div class="editor-body" id="editorBody"></div><div class="editor-footer"><button class="btn ghost" id="studioPrev">Назад</button><button class="btn dark" id="studioNext">Далее: причёска</button></div>
+    </div></section>
+  </div>
+</div>
+<div class="modal" id="onboardModal"><div class="modal-card onboard-card"><div class="onboard-emoji" id="onEmoji">🧱</div><div class="onboard-title" id="onTitle">Собери мини-фигурку</div><div class="onboard-text" id="onText">Пройди 3 простых этапа: персонаж, рамка и заказ.</div><div class="onboard-steps"><div class="onboard-step"><div class="onboard-step-num">1</div><div><b>Собери человечка</b><span>Выбери кожу, лицо, прическу, одежду и детали.</span></div></div><div class="onboard-step"><div class="onboard-step-num">2</div><div><b>Помести в рамку</b><span>Подбери цвет, размер и фон рамки.</span></div></div><div class="onboard-step"><div class="onboard-step-num">3</div><div><b>Оформи заказ</b><span>Скачай PNG и отправь детали в сообщения.</span></div></div></div><div class="onboard-setup"><p class="onboard-setup-title">Сколько персонажей собираем?</p><div class="onboard-count-row"><button class="onboard-count-btn" id="onCountMinus" type="button" aria-label="Уменьшить количество">−</button><div class="onboard-count-value"><span id="onCountValue">1</span> / 10</div><button class="onboard-count-btn" id="onCountPlus" type="button" aria-label="Увеличить количество">+</button></div><div class="onboard-names" id="onNames"></div></div><div class="dots" id="onDots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div><button class="btn dark" id="onNext">Понятно, начать</button></div></div>
+<div class="modal" id="cartModal"><div class="modal-card"><div class="modal-head"><h2>Корзина</h2><button class="close" id="cartClose" aria-label="Закрыть">×</button></div><div class="cart-current-note">Здесь сохранены ваши рамки. Новый пустой черновик не включается в заказ, пока вы не начнёте его менять.</div><div id="cartItemsList"></div><button class="btn dark" id="cartCheckoutBtn" style="width:100%;margin-top:6px">Перейти к оформлению заказа</button></div></div>
+<div class="modal" id="orderModal"><div class="modal-card"><div class="modal-head"><h2>Ваша история готова</h2><button class="close" id="orderClose" aria-label="Закрыть">×</button></div>
+  <div class="price-bar"><div><div class="price-bar-label">Стоимость по настройкам</div><div class="price-bar-note" id="priceBreakdown"></div></div><div class="price-bar-value" id="priceValue">0 ₽</div></div>
+  <div class="order-preview share-preview" id="orderPreviewBox"><div class="order-loader hidden" id="orderLoader"><div class="order-loader-icon"></div><div class="order-loader-title">⏳ Генерируем ваш заказ…</div><div class="order-loader-subtitle">Собираем картинку для истории ВКонтакте. Подождите пару секунд.</div></div><img id="orderPreviewImg" alt="Готовая картинка для истории ВКонтакте"></div><div class="share-hint" id="shareHint">Поделись этой картинкой в истории ВКонтакте, отметь сообщество <b>MIGLICK</b> и получи скидку <b>10%</b> на заказ.</div><div class="order-zoom hidden" id="orderZoomRow"><button type="button" id="orderZoomMinus" aria-label="Уменьшить">−</button><span id="orderZoomLabel">100%</span><button type="button" id="orderZoomPlus" aria-label="Увеличить">+</button></div>
+  <div id="orderGallery" class="hidden"></div>
+  <div class="order-info" id="orderInfo"></div><textarea id="orderTextarea" class="order-text" readonly></textarea>
+  <div class="small" style="margin:4px 0 8px">Способ оплаты (заполняется для менеджера, фактическая оплата согласовывается в переписке)</div>
+  <div class="payment-methods" id="paymentMethods"></div>
+  <div class="order-steps"><button class="btn dark" id="downloadOrderImg">Скачать изображение</button><button class="btn ghost" id="copyOrderText">2. Скопировать детали заказа</button><a class="btn pink" id="vkLink" href="https://vk.com/write-224539480" target="_blank" rel="noopener">3. Написать нам ВКонтакте</a></div></div></div>
+<div class="modal confirm-modal" id="confirmModal"><div class="modal-card"><div class="onboard-emoji">🗑️</div><h2 class="onboard-title" style="font-size:22px" id="confirmTitle">Удалить фигурку?</h2><p id="confirmText">Это действие нельзя отменить кнопкой назад в этом окне.</p><div class="confirm-actions"><button class="btn ghost" id="confirmCancel">Отмена</button><button class="btn dark" id="confirmOk">Удалить</button></div></div></div>
+<div id="studioStatus" class="studio-toast" role="status" aria-live="polite"></div><script src="./engine.js"></script><script src="./studio.js"></script></body></html>
