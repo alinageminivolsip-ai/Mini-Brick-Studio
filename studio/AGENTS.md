@@ -9,3 +9,5 @@ Use the cream #F8F7F2, ink #26263A, violet #6654F4, lavender #F1EAF1 palette. No
 Do not publish over the existing GitHub app until local checks and UI validation pass. Preserve old version archive.
 
 Mobile hair controls must anchor inside viewer at its right edge with explicit top:auto, width:auto and static label, without overlapping figure or people strip. User screenshot is source of reported issue.
+
+User requested a branded entry loading screen. loader.css/loader.js own a cream/violet typographic loading state with actual catalog/font/visible-image readiness, bounded waits, reduced motion and retry if app startup fails. No onboarding questions. Original archive remains untouched.

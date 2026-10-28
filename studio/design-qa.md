@@ -26,3 +26,12 @@
 | Portrait-only stack left little room in landscape | Preview left, editor right on short wide screens | Details remain scrollable and next step remains visible |
 
 Browser checks: 320×700, 390×844, 768×1024, 844×390, 1024×768, 1440×900. Rotation controls stayed inside the viewer, did not intersect figure bounds, no horizontal overflow, next button visible. Both front/back buttons tested. Physical device testing remains pending.
+
+## Branded loading screen
+
+| Before | After | Why |
+| --- | --- | --- |
+| Interface painted before catalog and visible figure assets were ready | Cream/violet MIGLICK loader waits for catalog, fonts and visible figure images, with bounded waits | Gives a composed entry without showing incomplete layers |
+| No entry state | Brief 620ms minimum, 240ms opacity exit, static reduced-motion indicator | Avoids a one-frame flash; matches landing typography |
+
+Verified browser screenshots at desktop and 320×700, loader auto-closes, aria-busy clears and next-step button works. Refresh preserves the existing two-person draft. No console errors in the checked session. Failed startup offers retry after 12 seconds; this fallback was code-reviewed, not simulated in the browser.

@@ -1,0 +1,16 @@
+/* First paint and exit: a quiet branded loading state, not an onboarding step. */
+#studioLoader{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:#F8F7F2;color:#26263A;opacity:1;transition:opacity 240ms cubic-bezier(.23,1,.32,1);font-family:Onest,system-ui,sans-serif;text-align:center}
+#studioLoader.is-leaving{opacity:0;pointer-events:none}
+#studioLoader[hidden]{display:none}
+#studioLoader .loader-kicker{position:absolute;top:max(32px,env(safe-area-inset-top));font-size:10px;font-weight:500;letter-spacing:.17em;text-transform:uppercase;color:#747181}
+#studioLoader .loader-brand{font-family:Unbounded,system-ui,sans-serif;font-size:clamp(40px,7vw,82px);line-height:1.1;font-weight:850;letter-spacing:-.075em;white-space:nowrap}
+#studioLoader .loader-brand span{color:#6654F4}
+#studioLoader h1{font-family:Onest,system-ui,sans-serif;font-size:clamp(22px,3vw,34px);font-weight:450;letter-spacing:-.035em;line-height:1.23;margin:28px 0 0;text-wrap:balance}
+#studioLoader .loader-track{position:relative;width:min(240px,65vw);height:3px;border-radius:10px;overflow:hidden;background:#e6e1ee;margin-top:40px}
+#studioLoader .loader-track span{display:block;width:45%;height:100%;border-radius:inherit;background:#6654F4;animation:studio-loading 1100ms cubic-bezier(.77,0,.175,1) infinite}
+#studioLoader .loader-status{font-size:12px;color:#747181;margin:14px 0 0;line-height:1.5}
+#studioLoader .loader-footer{position:absolute;bottom:max(30px,env(safe-area-inset-bottom));font-size:10px;letter-spacing:.05em;color:#747181;margin:0}
+#studioLoader .loader-retry{margin-top:20px;min-height:44px;border:1px solid #dcd5ea;border-radius:100px;padding:10px 20px;background:#6654F4;color:white;font:500 13px Onest,system-ui,sans-serif;text-decoration:none}
+@keyframes studio-loading{0%{transform:translateX(-110%)}100%{transform:translateX(330%)}}
+@media(max-width:600px){#studioLoader .loader-kicker{font-size:8px;letter-spacing:.13em}#studioLoader h1{margin-top:22px}#studioLoader .loader-track{margin-top:32px}#studioLoader .loader-footer{font-size:9px}}
+@media(prefers-reduced-motion:reduce){#studioLoader{transition:opacity 120ms ease}#studioLoader .loader-track span{animation:none;transform:translateX(60%)}}
