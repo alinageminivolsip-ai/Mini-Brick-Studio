@@ -1,3 +1,5 @@
+// Static asset inventory: no sequential network probes during startup.
+const shippedAssetPaths=new Set(["./assets/accessories/animals/spider.png", "./assets/accessories/bags/bag.png", "./assets/accessories/beer.png", "./assets/accessories/bunny.png", "./assets/accessories/children/child.png", "./assets/accessories/food/banana-mask.png", "./assets/accessories/food/banana.png", "./assets/accessories/food/croissant.png", "./assets/accessories/food/icecream-right-mask.png", "./assets/accessories/food/icecream-right.png", "./assets/accessories/hobbys/playstation.png", "./assets/accessories/hobbys/scate-mask.png", "./assets/accessories/hobbys/scate.png", "./assets/accessories/playstation.png", "./assets/accessories/premium/wedding-dress.png", "./assets/accessories/premium/wedding-suit.png", "./assets/accessories/star.png", "./assets/accessories/twohands/gloves.png", "./assets/backgrounds/big/love.png", "./assets/backgrounds/big/you_and_me.png", "./assets/backgrounds/big/Каракули.jpg", "./assets/backgrounds/big/Красный.jpg", "./assets/backgrounds/small/love.png", "./assets/backgrounds/small/you_and_me.png", "./assets/backgrounds/small/Каракули.jpg", "./assets/backgrounds/small/Красный.jpg", "./assets/backgrounds/square/1.png", "./assets/body/arms-mask.png", "./assets/body/base-outline.png", "./assets/body/base-white.png", "./assets/body/legs-mask.png", "./assets/body/plastic-light.png", "./assets/body/plastic-shadow.png", "./assets/body/shirt-mask.png", "./assets/body/skin-mask.png", "./assets/body/torso-mask.png", "./assets/faces/A1.png", "./assets/faces/A2.png", "./assets/faces/A3.png", "./assets/faces/A4.png", "./assets/faces/A5.png", "./assets/faces/A6.png", "./assets/faces/A8.png", "./assets/faces/A9.png", "./assets/hair/back/f1.png", "./assets/hair/back/f6.png", "./assets/hair/f1.png", "./assets/hair/f2.png", "./assets/hair/f3.png", "./assets/hair/f4.png", "./assets/hair/f5.png", "./assets/hair/f6.png", "./assets/hair/f7.png", "./assets/hair/m1.png", "./assets/hair/m2.png", "./assets/hair/m3.png", "./assets/hero/hero-bg.png", "./assets/onboarding/step-1.png", "./assets/onboarding/step-2.png", "./assets/podium/pink.png", "./assets/prints/drip-smile.png", "./assets/prints/print-sketch-heart.png", "./assets/prints/swoosh-character.png", "./assets/share-bg.PNG"]);
 /* MIGLICK: persistent draft compatibility and safe UI text. */
 let storageFailed=false;
 const draftStorage={
@@ -192,7 +194,7 @@ function getHairFrontCandidates(id){
 }
 function getHairFrontSrc(id){
   const s=String(id||'').trim();
-  return hairSrcMap[s]||getHairFrontCandidates(s)[0];
+  return hairSrcMap[s]||getHairFrontCandidates(s).find(src=>shippedAssetPaths.has(src))||getHairFrontCandidates(s)[0];
 }
 function getHairBackSrc(id){return `./assets/hair/back/${id}.png`;}
 function hasHairBack(id){
@@ -219,7 +221,7 @@ function updateHairFlipControls(){
   if(label)label.textContent=hairBackView&&canFlip?'Вид сзади':'Вид спереди';
   document.querySelectorAll('.hair-flip-btn').forEach(btn=>btn.classList.toggle('active',hairBackView&&canFlip));
 }
-function getAccSrc(id){return accessorySrcMap[id]||`./assets/accessories/${id}.png`;}
+function getAccSrc(id){return accessorySrcMap[id]||[...shippedAssetPaths].find(src=>src.startsWith("./assets/accessories/")&&src.endsWith(`/${id}.png`))||`./assets/accessories/${id}.png`;}
 function isIcecreamAccessory(id){
   return String(id||'').includes('icecream');
 }
@@ -2382,7 +2384,7 @@ async function openOrderModal(){
   }
 }
 
-function exists(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(true);i.onerror=()=>r(false);i.src=src+'?v='+Date.now()})}
+function exists(src){return Promise.resolve(shippedAssetPaths.has(src))}
 async function filter(list,folder){
   const out=[];
   for(const id of (Array.isArray(list)?list:[])){

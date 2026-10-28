@@ -23,3 +23,10 @@ test('a new untouched draft is excluded from a saved-frame order',()=>{
  scope.currentDraftStarted=true;assert.equal(vm.runInContext('cartTotal()',scope),6180);
  scope.cart=[];scope.currentDraftStarted=false;assert.equal(vm.runInContext('cartTotal()',scope),3090);
 });
+
+test('every shipped asset path exists and startup avoids network probes',()=>{
+ const scope={};vm.createContext(scope);vm.runInContext(code.slice(0,code.indexOf('let storageFailed')),scope);
+ const paths=vm.runInContext('[...shippedAssetPaths]',scope);
+ assert.ok(paths.length>40);for(const p of paths){assert.ok(fs.existsSync(p),p);assert.notEqual(fs.readFileSync(p).subarray(0,4).toString(),'8BPS',p)}
+ assert.match(code,/function exists\(src\)\{return Promise.resolve/);
+});
