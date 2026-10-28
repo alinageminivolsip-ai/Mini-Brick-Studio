@@ -17,3 +17,12 @@
 Ограничения: физические iOS/Android не проверялись. Подготовка PNG подтверждена по изображению 1080×1920; автоматическое подтверждение сохранения файла в системной папке Downloads не выполнялось. Онлайн-оплата и автоматическая отправка заказа отсутствовали в исходнике и не добавлялись.
 
 После проверки публикации последовательные сетевые пробы ассетов заменены статическим списком реальных растровых файлов. PSD, ошибочно названный A7.png в оригинале, исключён из каталога доступных лиц. Локально после повторного открытия нет видимых незагруженных изображений.
+
+## Mobile rotation controls — follow-up
+
+| Before | After | Why |
+| --- | --- | --- |
+| Controls inherited a wide box, top:50% and an absolutely placed label | Explicit edge inset, auto width/top and static label | Buttons stay beside the preview, clear of the figure and people strip |
+| Portrait-only stack left little room in landscape | Preview left, editor right on short wide screens | Details remain scrollable and next step remains visible |
+
+Browser checks: 320×700, 390×844, 768×1024, 844×390, 1024×768, 1440×900. Rotation controls stayed inside the viewer, did not intersect figure bounds, no horizontal overflow, next button visible. Both front/back buttons tested. Physical device testing remains pending.

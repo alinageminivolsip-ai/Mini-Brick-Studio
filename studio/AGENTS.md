@@ -7,3 +7,5 @@ Architecture: index.html is the semantic shell; engine.js contains retained comp
 Use the cream #F8F7F2, ink #26263A, violet #6654F4, lavender #F1EAF1 palette. No blocking introduction or decorative studio scene. Keep the figure visible at a stable scale. Desktop uses people / preview / editor; mobile uses preview / person strip / details with persistent next/back buttons. No touch hover effects or animated keyboard actions.
 
 Do not publish over the existing GitHub app until local checks and UI validation pass. Preserve old version archive.
+
+Mobile hair controls must anchor inside viewer at its right edge with explicit top:auto, width:auto and static label, without overlapping figure or people strip. User screenshot is source of reported issue.
