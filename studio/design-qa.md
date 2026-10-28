@@ -41,3 +41,5 @@ Verified browser screenshots at desktop and 320×700, loader auto-closes, aria-b
 Supersedes previous short bounded-loader behavior: all 64 valid shipped images and four local font subsets must finish before the loading screen exits. Six concurrent image requests avoid a burst; progress counts only successful files. Failed requests keep the editor locked with retry. Cached visits have a 1.8-second minimum. Images/fonts use scoped versioned caching.
 
 Browser confirmed 68/68 before automatic exit, no console errors. Twelve tests passed, including new cases proving the loader waits for the final image and keeps retry visible after image/font failure.
+
+Sheen follow-up: a narrow clipped light band crosses stationary MIGLICK glyphs left-to-right; disabled for reduced motion. Public asset audit found two Unicode red-background URLs returning 404; ASCII red.jpg aliases replace those URLs in inventory and catalog without changing saved background ids.

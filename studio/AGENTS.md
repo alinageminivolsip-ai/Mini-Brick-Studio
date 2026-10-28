@@ -13,3 +13,5 @@ Mobile hair controls must anchor inside viewer at its right edge with explicit t
 User requested a branded entry loading screen. loader.css/loader.js own a cream/violet typographic loading state with actual catalog/font/visible-image readiness, bounded waits, reduced motion and retry if app startup fails. No onboarding questions. Original archive remains untouched.
 
 Loading follow-up: user explicitly wants to wait for all assets. Loader preloads all 64 valid shipped images and four local font subsets with six concurrent requests and real completed/total progress. Do not reveal on a short timeout. Failure keeps loader with retry; a cached visit still has a 1.8-second minimum. Static images/fonts use the versioned scoped cache to avoid downloading them again on selection.
+
+User requested a left-to-right sheen on MIGLICK while loading. Use a clipped light band over stationary text, respect reduced motion. Red background filenames use red.jpg aliases to avoid GitHub Unicode URL mismatches; keep existing catalog ids for saved drafts.

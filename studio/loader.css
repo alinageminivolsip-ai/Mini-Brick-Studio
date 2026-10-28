@@ -16,3 +16,9 @@
 @media(prefers-reduced-motion:reduce){#studioLoader{transition:opacity 120ms ease}#studioLoader .loader-track span{animation:none;transform:translateX(60%)}}
 #studioLoader .loader-track.is-determinate span{width:100%;animation:none;transform:scaleX(0);transform-origin:left center;transition:transform 180ms cubic-bezier(.23,1,.32,1)}
 @media(prefers-reduced-motion:reduce){#studioLoader .loader-track.is-determinate span{transition:none}}
+
+/* A narrow light band travels across fixed glyphs, from left to right. */
+#studioLoader .loader-brand{position:relative}
+#studioLoader .loader-brand::after{content:attr(data-text);position:absolute;inset:0;color:#ffffffed;pointer-events:none;clip-path:polygon(-40% 0,-20% 0,0 100%,-20% 100%);animation:miglick-sheen 2400ms cubic-bezier(.77,0,.175,1) 100ms infinite}
+@keyframes miglick-sheen{0%{clip-path:polygon(-40% 0,-20% 0,0 100%,-20% 100%)}60%,100%{clip-path:polygon(120% 0,140% 0,160% 100%,140% 100%)}}
+@media(prefers-reduced-motion:reduce){#studioLoader .loader-brand::after{animation:none;opacity:0}}

@@ -87,7 +87,7 @@
     {
       "id": "Красный",
       "name": "Красный",
-      "file": "big/Красный.jpg",
+      "file": "big/red.jpg",
       "sizes": [
         "big"
       ]
@@ -119,7 +119,7 @@
     {
       "id": "Красный",
       "name": "Красный",
-      "file": "small/Красный.jpg",
+      "file": "small/red.jpg",
       "sizes": [
         "small"
       ]

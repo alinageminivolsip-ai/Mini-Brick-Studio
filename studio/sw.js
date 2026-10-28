@@ -1,5 +1,5 @@
-const CACHE_NAME='miglick-studio-v8-6';
-const CORE=['./','./index.html','./studio.css?v=83243f6eba','./renderer-legacy.css','./engine.js?v=c3853d844c','./studio.js','./loader.js?v=19ccac8371','./loader.css?v=77fdfb45d1','./manifest.json'];
+const CACHE_NAME='miglick-studio-v8-7';
+const CORE=['./','./index.html','./studio.css?v=83243f6eba','./renderer-legacy.css','./engine.js?v=cf860e2142','./studio.js','./loader.js?v=19ccac8371','./loader.css?v=614f4dd91d','./manifest.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('miglick-studio-')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch', e => {
