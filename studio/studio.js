@@ -39,7 +39,7 @@ modalObserver.observe(document.body,{subtree:true,attributes:true,attributeFilte
 document.addEventListener('keydown',event=>{
  document.documentElement.classList.add('keyboard-mode');
  if(!activeModal)return;
- if(event.key==='Escape'){event.preventDefault();activeModal.classList.remove('open');pendingDeleteIndex=null;return}
+ if(event.key==='Escape'){event.preventDefault();if(activeModal.id==='orderModal'){closeCompletionDialog();return}activeModal.classList.remove('open');pendingDeleteIndex=null;return}
  if(event.key!=='Tab')return;
  const all=[...activeModal.querySelectorAll('button:not(:disabled),a[href],input,textarea,select,[tabindex="0"]')].filter(el=>el.getClientRects().length);
  if(!all.length)return;

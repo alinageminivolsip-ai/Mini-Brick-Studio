@@ -2238,7 +2238,7 @@ let orderZoom=1;
 function setOrderZoom(v){
   orderZoom=Math.min(2.6,Math.max(.75,Number(v)||1));
   if(orderPreviewBox)orderPreviewBox.style.setProperty('--order-zoom',orderZoom);
-  if(orderZoomLabel)orderZoomLabel.textContent=Math.round(orderZoom*100)+'%';
+  if(document.getElementById('orderZoomLabel'))orderZoomLabel.textContent=Math.round(orderZoom*100)+'%';
 }
 const PAYMENT_METHODS=[
   {id:'card_link',icon:'💳',label:'Картой онлайн по ссылке от менеджера'},
@@ -2278,7 +2278,7 @@ async function exportFrameImage(snapshotData){
 function frameSummaryText(item,index){
   const fd=frames.find(f=>f.id===item.frame);
   const {total}=calcOrderPrice(item.people,item.frame,!!item.frameBgData);
-  return `── Рамка ${index+1} ──\nЦвет: ${item.frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd?fd.name:''}\nФигурок: ${item.people.length}\nСтоимость рамки: ${total.toLocaleString('ru-RU')} ₽\n\n`+item.people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПод ногами: ${getBoardAccessory(x)||'нет'}\nВ две руки: ${getCenterAccessory(x)||'нет'}\nЦвет скейта: ${getBoardAccessory(x)?getScateColor(x):'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nПринт: ${x.print?'да':'нет'}\nКомментарий: ${x.note||'нет'}`).join('\n\n');
+  return `── Рамка ${index+1} ──\nЦвет: ${item.frame.startsWith('black')?'черная':'белая'}\nРазмер: ${fd?fd.name:''}\nФигурок: ${item.people.length}\nСтоимость рамки: ${total.toLocaleString('ru-RU')} ₽\n\n`+(Array.isArray(item.frameTexts)&&item.frameTexts.length?'Надписи на рамке:\n'+item.frameTexts.map(t=>String(t.content||'')).filter(Boolean).join('\n')+'\n\n':'')+item.people.map((x,i)=>`${i+1}. ${x.name}\nЛицо: ${x.face}\nПрическа: ${x.hair}\nКожа: ${x.skin}\nТорс: ${x.torso}\nРуки: ${x.sleeveMode==='bare'?'без рукавов':'с рукавами'}\nНоги: ${x.legs}\nКостюм-накладка: ${getOutfitAccessory(x)||'нет'}\nПод ногами: ${getBoardAccessory(x)||'нет'}\nВ две руки: ${getCenterAccessory(x)||'нет'}\nЦвет скейта: ${getBoardAccessory(x)?getScateColor(x):'нет'}\nПравая рука: ${x.rightAccessory||'нет'}\nЛевая рука: ${x.leftAccessory||'нет'}\nПринт: ${x.print?'да':'нет'}\nКомментарий: ${x.note||'нет'}`).join('\n\n');
 }
 function orderFullText(allFrames){
   const total=cartTotal();
@@ -2339,50 +2339,7 @@ function renderCartModal(){
   updateCartBadge();
   if(typeof updateStudioChrome==='function')updateStudioChrome();
 }
-async function openOrderModal(){
-  setOrderZoom(1);
-  renderPaymentMethods();
-  const allFrames=orderFrames();
-  currentOrderFrames=allFrames;
-  renderPriceBar();
-
-  orderModal.classList.add('open');
-  orderModal.classList.add('is-loading');
-  if(orderLoader)orderLoader.classList.remove('hidden');
-  if(orderPreviewImg)orderPreviewImg.removeAttribute('src');
-
-  try{
-    await new Promise(r=>setTimeout(r,350));
-
-    const images=[];
-    if(allFrames.length===1){
-      images.push(await exportShareImage(allFrames[0]));
-    }else{
-      for(const item of allFrames)images.push(await exportFrameImage(item));
-    }
-
-    renderOrderGallery(images,allFrames);
-    orderTextarea.value=orderFullText(allFrames);
-
-    const isSingle=allFrames.length===1;
-    document.getElementById('downloadOrderImg')?.classList.toggle('hidden',false);
-    document.getElementById('downloadOrderImg')?.classList.remove('done');
-    document.getElementById('copyOrderText')?.classList.remove('done');
-    if(shareHint)shareHint.classList.toggle('hidden',!isSingle);
-  }catch(err){
-    console.error('Order image generation failed:',err);
-    const fallback=await exportOrderImage().catch(()=>null);
-    if(fallback){
-      renderOrderGallery([fallback],allFrames);
-      if(orderTextarea)orderTextarea.value=orderFullText(allFrames);
-    }else if(orderPreviewBox){
-      orderPreviewBox.innerHTML='<div style="padding:28px;text-align:center;color:#86536a;font-weight:900">Не получилось собрать картинку. Обновите страницу и попробуйте еще раз.</div>';
-    }
-  }finally{
-    orderModal.classList.remove('is-loading');
-    if(orderLoader)orderLoader.classList.add('hidden');
-  }
-}
+function openOrderModal(){return openCompletionDialog();}
 
 function exists(src){return Promise.resolve(shippedAssetPaths.has(src))}
 async function filter(list,folder){
@@ -2654,7 +2611,7 @@ function initIntroFlow(){
     window.scrollTo({top:0,behavior:'smooth'});
   };
 }
-addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=enterFrameMode;orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};if(hairFlipLeft)hairFlipLeft.onclick=toggleHairBackView;if(hairFlipRight)hairFlipRight.onclick=toggleHairBackView;orderClose.onclick=()=>orderModal.classList.remove('open');if(orderZoomMinus)orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(orderZoomPlus)orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);
+addPerson.onclick=addPersonFn;showPeopleBtn.onclick=()=>{step='skin';sync()};frameBtn.onclick=enterFrameMode;orderBtn.onclick=openOrderModal;undoBtn.onclick=restore;randomBtn.onclick=()=>{snap();if(faces.length)p().face=faces[Math.floor(Math.random()*faces.length)];if(hair.length)p().hair=hair[Math.floor(Math.random()*hair.length)];let sk=Object.keys(skinColors),bd=Object.keys(bodyColors);p().skin=+sk[Math.floor(Math.random()*sk.length)];p().torso=+bd[Math.floor(Math.random()*bd.length)];p().legs=+bd[Math.floor(Math.random()*bd.length)];sync()};if(hairFlipLeft)hairFlipLeft.onclick=toggleHairBackView;if(hairFlipRight)hairFlipRight.onclick=toggleHairBackView;orderClose.onclick=()=>orderModal.classList.remove('open');if(document.getElementById('orderZoomMinus'))orderZoomMinus.onclick=()=>setOrderZoom(orderZoom-.25);if(document.getElementById('orderZoomPlus'))orderZoomPlus.onclick=()=>setOrderZoom(orderZoom+.25);
 if(cartBtn)cartBtn.onclick=()=>{renderCartModal();cartModal.classList.add('open')};
 if(cartClose)cartClose.onclick=closeCartModal;
 if(cartModal)cartModal.addEventListener('click',e=>{if(e.target===cartModal)closeCartModal()});

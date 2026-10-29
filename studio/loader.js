@@ -22,7 +22,7 @@
   const finish = () => {
     status.textContent = 'Всё готово. Ваша очередь создавать.';
     screen.classList.add('is-leaving');
-    const remove = () => { screen.hidden = true; app.inert = false; document.body.removeAttribute('aria-busy'); };
+    const remove = () => { if(screen.hidden) return; screen.hidden = true; app.inert = false; document.body.removeAttribute('aria-busy'); };
     screen.addEventListener('transitionend', remove, { once: true });
     setTimeout(remove, 300);
   };

@@ -43,3 +43,6 @@ Supersedes previous short bounded-loader behavior: all 64 valid shipped images a
 Browser confirmed 68/68 before automatic exit, no console errors. Twelve tests passed, including new cases proving the loader waits for the final image and keeps retry visible after image/font failure.
 
 Sheen follow-up: a narrow clipped light band crosses stationary MIGLICK glyphs left-to-right; disabled for reduced motion. Public asset audit found two Unicode red-background URLs returning 404; ASCII red.jpg aliases replace those URLs in inventory and catalog without changing saved background ids.
+
+## Completion dialog — 29.10.2026
+Real frame preview replaces the share poster as primary content; summary and frame/figures/options breakdown use existing pricing; Continue reveals existing payment/copy/VK actions. Share-card generator unchanged and lazy. Checked 1440×900 and 320/375/390/430 mobile widths, one and two frames, price, inscription preservation, SBP/copy, keyboard trap/Escape and 1080×1920 generated share PNG. 19 tests pass. Full local report: ../outputs/MIGLICK-completion-review.md. Browser Downloads completion and physical phones not verified.

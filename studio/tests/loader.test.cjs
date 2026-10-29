@@ -14,7 +14,7 @@ function fixture(fontFailure=false){
  const document={getElementById:k=>k==='studioLoader'?screen:status,querySelector:()=>app,querySelectorAll:()=>[],body:{removeAttribute(){}},fonts:{load:()=>fontFailure?Promise.reject(Error('font')):Promise.resolve([{}]),ready:Promise.resolve()}};
  const scope={document,window:{},performance:{now:()=>clock++*2000},Image:class{set src(value){this.url=value;images.push(this)}},setTimeout:(cb,ms)=>{const key=++id;timers.set(key,cb);if(ms===0)queueMicrotask(cb);return key},clearTimeout:key=>timers.delete(key),requestAnimationFrame:cb=>queueMicrotask(cb)};
  vm.createContext(scope);vm.runInContext(fs.readFileSync('loader.js','utf8'),scope);
- return {scope,screen,status,track,retry,app,images};
+ return {scope,screen,status,track,retry,app,images,timers};
 }
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 test('loader stays closed to interaction until every image has finished',async()=>{
@@ -34,4 +34,11 @@ test('a failed image keeps loader visible and offers retry instead of opening in
 test('a failed local font cannot count as a completed asset',async()=>{
  const f=fixture(true);const done=f.scope.window.miglickLoading.ready(Promise.resolve(),[]);await done;
  assert.equal(f.retry.hidden,false);assert.equal(f.track.attrs['aria-valuenow'],'0');assert.equal(f.app.inert,true);
+});
+
+test('late loader fallback cannot unlock the app behind a newly opened modal',async()=>{
+ const f=fixture();await f.scope.window.miglickLoading.ready(Promise.resolve(),[]);
+ f.screen.onTransitionEnd();f.app.inert=true;
+ for(const callback of f.timers.values())callback();
+ assert.equal(f.app.inert,true);
 });
