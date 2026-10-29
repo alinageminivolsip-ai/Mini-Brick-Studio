@@ -55,3 +55,49 @@ body#miglickStudio [hidden]{display:none!important}
  body#miglickStudio .cart-item{flex-wrap:wrap}
 }
 @media(prefers-reduced-motion:reduce){body#miglickStudio *,body#miglickStudio *::before,body#miglickStudio *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+body#miglickStudio .studio-welcome,body#miglickStudio #orderBtn,body#miglickStudio .studio-flow,body#miglickStudio #randomBtn,body#miglickStudio #addFrameToCartBtn,body#miglickStudio #openOrderFromEditor{display:none!important}
+body#miglickStudio .editor>.panel-pad>.editor-heading{padding:20px 24px 16px!important}
+body#miglickStudio #editorHeading{font-size:26px!important;line-height:1.2!important;letter-spacing:-.04em!important}
+body#miglickStudio .editorial-heroes .panel-pad{padding:10px 24px!important}
+body#miglickStudio .editorial-heroes .person-card{height:100px!important;min-height:100px!important}
+body#miglickStudio .editorial-heroes .title{display:none!important}
+body#miglickStudio .editorial-heroes .add-card{margin-top:6px!important}
+body#miglickStudio .studio-live-total small{display:none}
+body#miglickStudio .studio-live-total{font-size:14px}
+body#miglickStudio .choice-grid{gap:10px!important}
+body#miglickStudio .choice.active{border:2px solid #6654F4!important;background:#f0edff!important}
+body#miglickStudio .choice.active::after{display:none!important}
+body#miglickStudio .editor-footer .btn{min-height:48px!important;font-size:14px!important}
+body#miglickStudio .cart-item-actions button{border:1px solid var(--line);border-radius:12px}
+@media(max-width:1023px){
+ body#miglickStudio .topbar{position:sticky!important;top:0!important;height:58px!important;min-height:58px!important;z-index:40!important;padding:8px 16px!important}
+ body#miglickStudio .workspace{padding:0!important;gap:0!important;overflow:visible!important}
+ body#miglickStudio .workspace>.viewer{position:sticky!important;top:58px!important;height:42svh!important;min-height:210px!important;max-height:390px!important;z-index:20!important;border:0!important;border-radius:0 0 24px 24px!important;background:#EEE9F5!important;box-shadow:0 5px 18px #26263a08!important;overflow:hidden!important}
+ body#miglickStudio .viewer .figure-viewport{height:100%!important;min-height:0!important;display:grid!important;place-items:center!important;overflow:hidden!important}
+ body#miglickStudio .figure-wrap,body#miglickStudio .figure-wrap[class*="focus-"]{height:calc(42svh - 46px)!important;max-height:344px!important;max-width:calc(100% - 50px)!important;aspect-ratio:2 / 3!important;width:auto!important;transform:none!important;margin:0!important}
+ body#miglickStudio .stage-toolbar{top:8px!important;left:10px!important;right:10px!important}
+ body#miglickStudio .stage-toolbar .btn{min-height:36px!important;padding:6px 12px!important;font-size:11px!important;background:#ffffffd9!important}
+ body#miglickStudio .mobile-people-strip{padding:8px 16px!important;height:auto!important;min-height:60px!important;border:0!important;background:#F8F7F2!important}
+ body#miglickStudio .workspace>.editor{border:0!important;border-radius:0!important;width:100%!important;padding-bottom:115px!important;overflow:visible!important}
+ body#miglickStudio .editor>.panel-pad>.editor-heading{padding:12px 20px 10px!important}
+ body#miglickStudio #stepCounter{display:block!important;font-size:10px!important;color:#6654F4!important;margin-bottom:8px!important}
+ body#miglickStudio #editorHeading{font-size:23px!important;line-height:1.2!important;height:auto!important}
+ body#miglickStudio #editorDescription{font-size:13px!important;margin-top:7px!important}
+ body#miglickStudio .steps-nav{padding:4px 12px 8px!important;gap:4px!important;justify-content:space-between!important;min-height:48px!important}
+ body#miglickStudio .step-btn{min-width:0!important;width:auto!important;flex:1!important;min-height:44px!important;font-size:10px!important;padding:4px 2px!important}
+ body#miglickStudio .step-btn .num{display:none!important}
+ body#miglickStudio .step-btn>span:last-child{font-size:10px!important}
+ body#miglickStudio .editor-body{padding:6px 20px 24px!important;height:auto!important}
+ body#miglickStudio .choice-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ body#miglickStudio .swatch-btn{width:40px!important;height:40px!important}
+ body#miglickStudio .editor-footer{min-height:96px!important;display:grid!important;grid-template-columns:68px minmax(0,1fr)!important;grid-template-rows:auto 48px!important;padding:8px 16px calc(10px + env(safe-area-inset-bottom))!important;gap:6px 10px!important;z-index:50!important;top:auto!important;left:0!important;right:0!important;bottom:0!important}
+ body#miglickStudio .studio-live-total{grid-column:1 / -1!important;margin:0!important}
+ body#miglickStudio .studio-live-total strong{font-size:20px!important}
+ body#miglickStudio #studioPrev{grid-row:2!important;grid-column:1!important}
+ body#miglickStudio #studioNext{grid-row:2!important;grid-column:2!important}
+ body#miglickStudio .frame-preview{height:100%!important;max-height:100%!important;padding:18px 20px 10px!important}
+ body#miglickStudio .frame-preview>.small{font-size:10px!important}
+ body#miglickStudio .hair-flip-controls{top:auto!important;bottom:8px!important}
+}
+@media(max-height:650px) and (max-width:1023px){body#miglickStudio .workspace>.viewer{height:34svh!important;min-height:160px!important}body#miglickStudio .figure-wrap,body#miglickStudio .figure-wrap[class*="focus-"]{height:calc(34svh - 34px)!important}}

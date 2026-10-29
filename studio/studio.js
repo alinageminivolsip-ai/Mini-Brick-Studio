@@ -1,21 +1,22 @@
 /* MIGLICK application shell: navigation, inline guidance, modal accessibility. */
 const studioCopy={
- skin:['Начнём с характера','Выберите цвет и настроение вашего героя.'],
- hair:['Узнаётся с первого взгляда','Найдите ту самую причёску.'],
- torso:['Оденьте по-своему','Цвет, рукава и любимый принт.'],
- legs:['Образ до мелочей','Подберите цвет нижней части.'],
- accessory:['Детали с историей','Добавьте любимую вещь или увлечение.'],
- frame:['Соберите вашу историю','Выберите рамку, фон и расположение героев.']
+ skin:['Лицо и характер','Выберите оттенок кожи и улыбку.'],
+ hair:['Та самая причёска','Выберите форму и цвет волос.'],
+ torso:['Любимая одежда','Цвет, рукава и принт — всё как у вас.'],
+ legs:['Завершим образ','Выберите цвет брюк.'],
+ accessory:['Особенные детали','Любимое увлечение, вещь или питомец.'],
+ frame:['Соберём в рамку','Выберите фон, добавьте надпись и расположите героев.']
 };
 let lastStudioStep='';
 function updateStudioChrome(){
  const index=steps.findIndex(s=>s.key===step),copy=studioCopy[step]||studioCopy.skin;
  document.getElementById('editorHeading').textContent=copy[0];
  document.getElementById('editorDescription').textContent=copy[1];
- document.getElementById('stepCounter').textContent=`ДЕТАЛИ ПЕРСОНАЖА / ${index+1} ИЗ 6`;
+ document.getElementById('stepCounter').textContent=`ШАГ ${index+1} ИЗ 6`;
  const next=document.getElementById('studioNext'),prev=document.getElementById('studioPrev');
  prev.disabled=index===0;
- next.textContent=step==='frame'?'К оформлению':`Далее: ${['','причёска','одежда','ноги','детали','рамка'][index+1]||'рамка'}`;
+ next.textContent=step==='frame'?(editingCartItemId?'Сохранить изменения':'Сохранить рамку'):`Далее: ${['','причёска','одежда','брюки','детали','рамка'][index+1]||'рамка'}`;
+ document.body.dataset.builderStep=step;
  document.getElementById('undoBtn').disabled=!undo.length;
  document.getElementById('addPerson').disabled=people.length>=10;
  document.getElementById('draftStatus').textContent=storageFailed?'Не удалось сохранить черновик':'Сохранено на устройстве';
@@ -24,14 +25,14 @@ function updateStudioChrome(){
  const editActions=document.getElementById('studioEditActions');
  if(editActions)editActions.hidden=!editingCartItemId;
  const saveFrame=document.getElementById('studioSaveFrame');
- if(saveFrame){saveFrame.hidden=step!=='frame';saveFrame.textContent=editingCartItemId?'Сохранить изменения':'Сохранить рамку';}
+ if(saveFrame)saveFrame.hidden=true;
  document.querySelectorAll('[data-flow]').forEach(el=>{const active=(step==='frame'?'frame':'people')===el.dataset.flow;el.classList.toggle('active',active);el.setAttribute('aria-current',active?'step':'false')});
  document.querySelectorAll('.step-btn').forEach((el,i)=>{el.setAttribute('aria-pressed',String(i===index));if(i===index)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current')});
  document.querySelectorAll('.choice,.swatch-btn,.hair-cat,.acc-cat,.frame-choice,.frame-size-card,.frame-bg-choice').forEach(el=>{el.setAttribute('aria-pressed',String(el.classList.contains('active')));if(!el.getAttribute('aria-label')&&!el.textContent.trim())el.setAttribute('aria-label',el.title||el.querySelector('img')?.alt||'Выбрать вариант')});
- if(lastStudioStep!==step){document.getElementById('editorBody').scrollTop=0;lastStudioStep=step}
+ if(lastStudioStep!==step){document.getElementById('editorBody').scrollTop=0;if(lastStudioStep&&matchMedia('(max-width:1023px)').matches)window.scrollTo({top:0,behavior:'instant'});lastStudioStep=step}
 }
 document.getElementById('studioPrev').onclick=()=>{const i=steps.findIndex(s=>s.key===step);if(i>0){step=steps[i-1].key;sync()}};
-document.getElementById('studioNext').onclick=()=>{const i=steps.findIndex(s=>s.key===step);if(step==='frame')openOrderModal();else if(i===4)enterFrameMode();else{step=steps[Math.min(i+1,5)].key;sync()}};
+document.getElementById('studioNext').onclick=()=>{const i=steps.findIndex(s=>s.key===step);if(step==='frame'){addCurrentFrameToCart();renderCartModal();cartModal.classList.add('open')}else if(i===4)enterFrameMode();else{step=steps[Math.min(i+1,5)].key;sync()}};
 document.querySelectorAll('[data-flow]').forEach(el=>el.onclick=()=>{if(el.dataset.flow==='order')openOrderModal();else if(el.dataset.flow==='frame')enterFrameMode();else{step='skin';sync()}});
 // Modal focus is retained across opening, trapped inside and returned on close.
 let activeModal=null,returnFocus=null;
@@ -64,7 +65,7 @@ document.addEventListener('input',event=>{if(event.target.closest('.editor')){cu
 if(new URLSearchParams(location.search).get('ux')!=='legacy'){
 const editorialStyles=document.createElement('link');
 editorialStyles.rel='stylesheet';
-editorialStyles.href='./editorial.css?v=2';
+editorialStyles.href='./editorial.css?v=3';
 document.head.appendChild(editorialStyles);
 const editorHeader=document.querySelector('.editor-head')||document.getElementById('editorHeading').parentElement;
 const introduction=document.createElement('p');

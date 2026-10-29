@@ -1,4 +1,4 @@
-const CACHE_NAME='miglick-studio-v8-9';
+const CACHE_NAME='miglick-studio-v8-10';
 const CORE=['./','./index.html','./studio.css?v=83243f6eba','./renderer-legacy.css','./engine.js?v=7e62224429','./studio.js?v=f266d7ed02','./loader.js?v=c972f106b4','./loader.css?v=614f4dd91d','./completion.js?v=6ece447119','./completion.css?v=b2402774d5','./manifest.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('miglick-studio-')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
