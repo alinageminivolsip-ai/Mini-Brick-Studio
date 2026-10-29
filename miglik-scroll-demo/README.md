@@ -1,6 +1,6 @@
 # MIGLIK — новая scroll-история
 
-Публичная страница: https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/miglik-scroll-demo/ . Главная и конструктор сохранены отдельно.
+Основной публичный адрес: https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/miglik/ . Дополнительный адрес: https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/miglik-scroll-demo/ . Конструктор остаётся /studio/. Прежняя главная сохранена по /miglik/previous.html с исходными файлами.
 
 ## Текущая последовательность
 
@@ -21,6 +21,8 @@ GSAP ScrollTrigger, pin, scrub 0.8, нормальная прокрутка в �
 Между разными сценами — непрозрачные wipes без наложения людей друг на друга. Начальный постер находится прямо в HTML. При уменьшенном движении отображаются пять статичных глав, в упаковке — целая коробка.
 
 ## Запуск и сборка
+
+Для **основной** страницы: `npm run build -- --base=/Mini-Brick-Studio/miglik/ --outDir dist-main`. Размещать содержимое dist-main/ в miglik/, сохраняя previous.html и старые assets. Сборка ниже относится к дополнительной странице.
 
 Из этой папки: `npm ci`, `npm run dev -- --port 5181`. Локальный адрес: http://127.0.0.1:5181/ .
 
