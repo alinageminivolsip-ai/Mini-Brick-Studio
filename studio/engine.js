@@ -162,7 +162,8 @@ function cartItemPrice(item){
   return calcOrderPrice(item.people,item.frame,!!item.frameBgData);
 }
 function cartTotal(){
-  const cartSum=cart.reduce((s,item)=>s+cartItemPrice(item).total,0);
+  const editingId=typeof editingCartItemId==='string'?editingCartItemId:'';
+  const cartSum=cart.filter(item=>item.id!==editingId).reduce((s,item)=>s+cartItemPrice(item).total,0);
   return cartSum+((!cart.length||currentDraftStarted)?calcOrderPrice().total:0);
 }
 function renderPriceBar(){
@@ -550,7 +551,9 @@ if(!frames.some(f=>f.id===frame)) frame='white-square';
 let cart=readList(cartKey,[]);
 let paymentMethod=draftStorage.getItem('mb_payment_method')||'';
 let currentDraftStarted=draftStorage.getItem('miglick_current_started')!=='0';
-function orderFrames(){return cart.length&&!currentDraftStarted?[...cart]:[...cart,snapshotCurrentFrame()]}
+let editingCartItemId=draftStorage.getItem('miglick_editing_item')||'';
+if(!cart.some(item=>item.id===editingCartItemId))editingCartItemId='';
+function orderFrames(){const saved=cart.filter(item=>item.id!==editingCartItemId);return saved.length&&!currentDraftStarted?[...saved]:[...saved,snapshotCurrentFrame()]}
 function saveCart(){draftStorage.setItem(cartKey,JSON.stringify(cart))}
 function snapshotCurrentFrame(){
   return {
@@ -587,25 +590,31 @@ function resetCurrentFrameState(){
 function addCurrentFrameToCart(){
   snap();
   const item=snapshotCurrentFrame();
-  cart.push(item);
+  if(editingCartItemId){item.id=editingCartItemId;cart=cart.map(saved=>saved.id===editingCartItemId?item:saved)}else cart.push(item);
+  editingCartItemId='';
+  draftStorage.removeItem('miglick_editing_item');
   saveCart();
   resetCurrentFrameState();
   sync();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function removeCartItem(id){
+  if(id===editingCartItemId){notify('Сначала сохраните или отмените изменения этой рамки.');return;}
   cart=cart.filter(x=>x.id!==id);
   saveCart();
   sync();
   if(typeof renderCartModal==='function')renderCartModal();
 }
 function editCartItem(id){
+  if(editingCartItemId&&editingCartItemId!==id){notify('Сначала сохраните или отмените изменения текущей рамки.');return;}
   const idx=cart.findIndex(x=>x.id===id);
   if(idx<0)return;
-  const item=cart[idx];
+  const item=JSON.parse(JSON.stringify(cart[idx]));
   snap();
-  cart.splice(idx,1);
-  saveCart();
+  editingCartItemId=id;
+  draftStorage.setItem('miglick_editing_item',id);
+  currentDraftStarted=true;
+  draftStorage.setItem('miglick_current_started','1');
   people=item.people;
   active=0;
   frame=item.frame;
@@ -618,6 +627,24 @@ function editCartItem(id){
   closeCartModal();
   sync();
   window.scrollTo({top:0,behavior:'smooth'});
+}
+function cancelCartEdit(){
+  editingCartItemId='';
+  draftStorage.removeItem('miglick_editing_item');
+  resetCurrentFrameState();
+  sync();
+  renderCartModal();
+  cartModal.classList.add('open');
+}
+function duplicateCartItem(id){
+  const source=cart.find(item=>item.id===id);
+  if(!source)return;
+  const copy=JSON.parse(JSON.stringify(source));
+  copy.id='frame_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);
+  cart.push(copy);
+  saveCart();
+  renderCartModal();
+  notify('Копия рамки добавлена. Её можно изменить отдельно.');
 }
 let frameAutoCentered=draftStorage.getItem('mb_frame_auto_centered')==='1';
 let frameLayoutTouched=draftStorage.getItem('mb_frame_layout_touched')==='1';
@@ -2332,6 +2359,12 @@ function renderCartModal(){
       div.className='cart-item';
       div.innerHTML=`<div class="cart-item-thumb">${miniHTML(item.people[0])}</div><div class="cart-item-info"><b>${item.frame.startsWith('black')?'Черная':'Белая'} рамка, ${fd?fd.name:''}</b><span>${item.people.length} фигурок · ${total.toLocaleString('ru-RU')} ₽</span></div><div class="cart-item-actions"><button class="icon-btn" data-edit title="Редактировать" aria-label="Редактировать">✎</button><button class="icon-btn" data-del title="Удалить" aria-label="Удалить">×</button></div>`;
       div.querySelector('[data-edit]').onclick=()=>editCartItem(item.id);
+      const duplicate=document.createElement('button');
+      duplicate.className='icon-btn';
+      duplicate.textContent='Копия';
+      duplicate.setAttribute('aria-label','Дублировать рамку');
+      duplicate.onclick=()=>duplicateCartItem(item.id);
+      div.querySelector('.cart-item-actions').prepend(duplicate);
       div.querySelector('[data-del]').onclick=()=>{if(confirm('Удалить эту рамку из корзины?'))removeCartItem(item.id)};
       list.appendChild(div);
     });

@@ -1,0 +1,57 @@
+body#miglickStudio .workspace{grid-template-columns:minmax(0,1.15fr) minmax(420px,.85fr)!important;gap:24px!important;padding:24px 32px!important;max-width:1600px;margin:auto;width:100%;box-sizing:border-box}
+body#miglickStudio .workspace>.viewer{grid-area:1 / 1!important;grid-column:1!important;grid-row:1!important;height:100%!important}
+body#miglickStudio .workspace>.editor{grid-area:1 / 2!important;grid-column:2!important;grid-row:1!important}
+body#miglickStudio .workspace{height:calc(100dvh - 80px)!important;min-height:0!important}
+body#miglickStudio .editor>.panel-pad>.editorial-heroes{grid-area:2 / 1!important;grid-column:1!important;grid-row:2!important;width:100%!important}
+body#miglickStudio .editor>.panel-pad>.editor-heading{grid-row:1!important}
+body#miglickStudio .editor>.panel-pad>.steps-nav{grid-row:3!important}
+body#miglickStudio .editor>.panel-pad>.editor-body{grid-row:4!important}
+body#miglickStudio .editor>.panel-pad>.editor-footer{grid-row:5!important}
+body#miglickStudio .editorial-heroes .person-card{height:110px!important;min-height:110px!important;padding:8px!important;grid-template-columns:40px 1fr!important}
+body#miglickStudio .editorial-heroes .mini-preview{height:40px!important;width:40px!important}
+body#miglickStudio .editorial-heroes .person-card>div:last-child{margin-top:0!important}
+body#miglickStudio .viewer{border:1px solid var(--line)!important;border-radius:28px!important;background:#EEE9F5!important;min-width:0}
+body#miglickStudio .editor{border:1px solid var(--line)!important;border-radius:24px!important;min-width:0;overflow:auto!important;display:flex!important;flex-direction:column!important}
+body#miglickStudio .editor>.panel-pad{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto auto minmax(0,1fr) auto!important;height:100%!important;min-height:0!important;overflow:hidden!important}
+body#miglickStudio .editor-heading,body#miglickStudio .steps-nav{flex:none!important}
+body#miglickStudio .editorial-heroes{display:block!important;border:0!important;border-radius:0!important;flex:none;background:#faf9f6!important;width:auto!important;overflow:visible!important}
+body#miglickStudio .editorial-heroes .panel-pad{padding:12px 24px!important}
+body#miglickStudio .editorial-heroes .section-eyebrow,body#miglickStudio .editorial-heroes .panel-intro{display:none!important}
+body#miglickStudio .editorial-heroes .title{font-size:16px!important;margin:0 0 10px!important}
+body#miglickStudio .people-list{display:flex!important;gap:8px!important;overflow-x:auto!important;padding:3px!important}
+body#miglickStudio .person-card{min-width:138px!important;flex:0 0 138px!important;margin:0!important}
+body#miglickStudio .editorial-heroes .add-card{position:static!important;width:auto!important;margin:10px 0 0!important;min-height:44px!important}
+body#miglickStudio .studio-welcome{color:#6654F4;font-size:12px;font-weight:600;margin:0 0 10px}
+body#miglickStudio #editorHeading{font-size:clamp(24px,2.4vw,36px)!important;line-height:1.16!important;letter-spacing:-.045em!important}
+body#miglickStudio .editor-body{overflow:auto!important;min-height:0!important;padding:24px!important}
+body#miglickStudio .editor-footer{position:sticky!important;bottom:0;z-index:10;display:flex!important;flex-wrap:wrap!important;gap:10px!important;background:#fff!important;padding:16px 24px!important;border-top:1px solid var(--line)!important;flex:none!important}
+body#miglickStudio .studio-live-total{display:flex;width:100%;align-items:center;justify-content:space-between;font-size:13px;margin-bottom:4px}
+body#miglickStudio .studio-live-total small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+body#miglickStudio .studio-live-total strong{font-size:25px;letter-spacing:-.04em}
+body#miglickStudio #studioNext{flex:1!important}
+body#miglickStudio #studioSaveFrame{width:100%!important;flex:1 0 100%!important;min-height:48px!important}
+body#miglickStudio .cart-item-actions{display:flex;flex-wrap:wrap;gap:8px}
+body#miglickStudio .cart-item-actions button{min-width:44px;min-height:44px;width:auto;padding:8px}
+body#miglickStudio .cart-add-another{width:100%;margin:12px 0}
+body#miglickStudio .choice{transition:border-color 160ms var(--ease-out),background-color 160ms var(--ease-out)!important}
+body#miglickStudio button:focus-visible{outline:3px solid #6654F4!important;outline-offset:3px!important}
+body#miglickStudio [hidden]{display:none!important}
+@media(max-width:1023px){
+ body#miglickStudio .editor>.panel-pad{display:flex!important;flex-direction:column!important;height:auto!important;overflow:visible!important}
+ html,body#miglickStudio{height:auto!important;overflow:auto!important;overscroll-behavior:auto!important}
+ body#miglickStudio .app{height:auto!important;min-height:100svh!important;overflow:visible!important;display:block!important}
+ body#miglickStudio .topbar{height:64px!important;padding:12px 20px!important}
+ body#miglickStudio .workspace{display:flex!important;flex-direction:column!important;padding:12px!important;gap:12px!important;width:100%!important;height:auto!important}
+ body#miglickStudio .viewer{height:38svh!important;min-height:220px!important;flex:none!important;border-radius:22px!important}
+ body#miglickStudio .figure-viewport{height:100%!important}
+ body#miglickStudio .editor{overflow:visible!important;height:auto!important;flex:none!important;border-radius:22px!important;padding-bottom:170px!important}
+ body#miglickStudio .editorial-heroes{display:none!important}
+ body#miglickStudio .editor-body{max-height:none!important;overflow:visible!important;padding:20px!important}
+ body#miglickStudio .editor-footer{position:fixed!important;bottom:0!important;left:0;right:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom))!important;box-shadow:0 -8px 24px #26263a08}
+ body#miglickStudio .studio-live-total strong{font-size:22px}
+ body#miglickStudio .mobile-people-list{position:static!important}
+ body#miglickStudio #editorHeading{font-size:24px!important;max-width:100%!important;overflow-wrap:anywhere;height:auto!important}
+ body#miglickStudio .studio-welcome{margin-bottom:8px}
+ body#miglickStudio .cart-item{flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){body#miglickStudio *,body#miglickStudio *::before,body#miglickStudio *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}

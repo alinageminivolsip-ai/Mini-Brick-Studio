@@ -19,6 +19,12 @@ function updateStudioChrome(){
  document.getElementById('undoBtn').disabled=!undo.length;
  document.getElementById('addPerson').disabled=people.length>=10;
  document.getElementById('draftStatus').textContent=storageFailed?'Не удалось сохранить черновик':'Сохранено на устройстве';
+ const livePrice=document.getElementById('studioLivePrice');
+ if(livePrice)livePrice.textContent=cartTotal().toLocaleString('ru-RU')+' ₽';
+ const editActions=document.getElementById('studioEditActions');
+ if(editActions)editActions.hidden=!editingCartItemId;
+ const saveFrame=document.getElementById('studioSaveFrame');
+ if(saveFrame){saveFrame.hidden=step!=='frame';saveFrame.textContent=editingCartItemId?'Сохранить изменения':'Сохранить рамку';}
  document.querySelectorAll('[data-flow]').forEach(el=>{const active=(step==='frame'?'frame':'people')===el.dataset.flow;el.classList.toggle('active',active);el.setAttribute('aria-current',active?'step':'false')});
  document.querySelectorAll('.step-btn').forEach((el,i)=>{el.setAttribute('aria-pressed',String(i===index));if(i===index)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current')});
  document.querySelectorAll('.choice,.swatch-btn,.hair-cat,.acc-cat,.frame-choice,.frame-size-card,.frame-bg-choice').forEach(el=>{el.setAttribute('aria-pressed',String(el.classList.contains('active')));if(!el.getAttribute('aria-label')&&!el.textContent.trim())el.setAttribute('aria-label',el.title||el.querySelector('img')?.alt||'Выбрать вариант')});
@@ -54,3 +60,46 @@ zoomPreview.onclick=()=>toggleLargePreview();
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.body.classList.contains('large-preview')){toggleLargePreview(false);zoomPreview.focus()}});
 
 document.addEventListener('input',event=>{if(event.target.closest('.editor')){currentDraftStarted=true;draftStorage.setItem('miglick_current_started','1')}},true);
+
+if(new URLSearchParams(location.search).get('ux')!=='legacy'){
+const editorialStyles=document.createElement('link');
+editorialStyles.rel='stylesheet';
+editorialStyles.href='./editorial.css?v=2';
+document.head.appendChild(editorialStyles);
+const editorHeader=document.querySelector('.editor-head')||document.getElementById('editorHeading').parentElement;
+const introduction=document.createElement('p');
+introduction.className='studio-welcome';
+introduction.textContent='Ваша маленькая история';
+editorHeader.prepend(introduction);
+const heroPanel=document.querySelector('.panel.left');
+heroPanel.classList.add('editorial-heroes');
+editorHeader.after(heroPanel);
+const priceSummary=document.createElement('div');
+priceSummary.className='studio-live-total';
+priceSummary.innerHTML='<span>Весь заказ <small>По выбранным деталям</small></span><strong id="studioLivePrice" aria-live="polite"></strong>';
+document.querySelector('.editor-footer').prepend(priceSummary);
+const editActions=document.createElement('div');
+editActions.id='studioEditActions';
+editActions.hidden=true;
+const cancelEdit=document.createElement('button');
+cancelEdit.className='btn ghost';
+cancelEdit.textContent='Отменить изменения рамки';
+cancelEdit.onclick=cancelCartEdit;
+editActions.appendChild(cancelEdit);
+editorHeader.appendChild(editActions);
+const saveFrame=document.createElement('button');
+saveFrame.id='studioSaveFrame';
+saveFrame.className='btn ghost';
+saveFrame.hidden=true;
+saveFrame.onclick=()=>{addCurrentFrameToCart();renderCartModal();cartModal.classList.add('open');};
+document.querySelector('.editor-footer').appendChild(saveFrame);
+document.querySelector('#cartModal h2').textContent='Ваши истории';
+const cartNote=document.querySelector('.cart-current-note');
+cartNote.textContent='Несколько подарков — один заказ. Каждую сохранённую рамку можно изменить или скопировать.';
+const addAnother=document.createElement('button');
+addAnother.className='btn ghost cart-add-another';
+addAnother.textContent='+ Собрать ещё одну рамку';
+addAnother.onclick=()=>{closeCartModal();if(editingCartItemId){notify('Сначала сохраните или отмените изменения рамки.');return}if(currentDraftStarted){notify('Продолжите текущую рамку. Сохраните её перед созданием следующей.');return}resetCurrentFrameState();sync();};
+document.getElementById('cartItemsList').after(addAnother);
+if(typeof appBooted!=='undefined'&&appBooted)updateStudioChrome();
+}
