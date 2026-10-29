@@ -1,0 +1,2810 @@
+[
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "forward",
+    "point": 0,
+    "broken": 0,
+    "copy": {
+      "bottom": 666.7421875,
+      "right": 1375.1953125,
+      "top": 248.25
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.00000",
+    "scene": "1",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "forward",
+    "point": 17,
+    "broken": 0,
+    "copy": {
+      "bottom": 628.3125,
+      "right": 1375.1953125,
+      "top": 322.6875
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.17000",
+    "scene": "2",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "forward",
+    "point": 31,
+    "broken": 0,
+    "copy": {
+      "bottom": 638.8125,
+      "right": 704.796875,
+      "top": 312.1875
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.31000",
+    "scene": "3",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "forward",
+    "point": 49,
+    "broken": 0,
+    "copy": {
+      "bottom": 628.3125,
+      "right": 704.796875,
+      "top": 322.6875
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.49000",
+    "scene": "4",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "forward",
+    "point": 63,
+    "broken": 0,
+    "copy": {
+      "bottom": 638.8125,
+      "right": 704.796875,
+      "top": 312.1875
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.63000",
+    "scene": "5",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "forward",
+    "point": 77,
+    "broken": 0,
+    "copy": {
+      "bottom": 639.21875,
+      "right": 1375.1953125,
+      "top": 311.78125
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.77000",
+    "scene": "6",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "forward",
+    "point": 87,
+    "broken": 0,
+    "copy": {
+      "bottom": 639.21875,
+      "right": 1375.1953125,
+      "top": 311.78125
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.87000",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "forward",
+    "point": 97,
+    "broken": 0,
+    "copy": {
+      "bottom": 690.96875,
+      "right": 1375.1953125,
+      "top": 260.03125
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.97000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 4.989636
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "forward",
+    "point": 100,
+    "broken": 0,
+    "copy": {
+      "bottom": 672.96875,
+      "right": 1375.1953125,
+      "top": 242.03125
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "1.00000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 4.989636
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "backward",
+    "point": 100,
+    "broken": 0,
+    "copy": {
+      "bottom": 672.96875,
+      "right": 1375.1953125,
+      "top": 242.03125
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "1.00000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 4.989636
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "backward",
+    "point": 97,
+    "broken": 0,
+    "copy": {
+      "bottom": 690.96875,
+      "right": 1375.1953125,
+      "top": 260.03125
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.97000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 4.989636
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "backward",
+    "point": 87,
+    "broken": 0,
+    "copy": {
+      "bottom": 639.21875,
+      "right": 1375.1953125,
+      "top": 311.78125
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.87000",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "backward",
+    "point": 77,
+    "broken": 0,
+    "copy": {
+      "bottom": 639.21875,
+      "right": 1375.1953125,
+      "top": 311.78125
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.77000",
+    "scene": "6",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "backward",
+    "point": 63,
+    "broken": 0,
+    "copy": {
+      "bottom": 638.8125,
+      "right": 704.796875,
+      "top": 312.1875
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.63000",
+    "scene": "5",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "backward",
+    "point": 49,
+    "broken": 0,
+    "copy": {
+      "bottom": 628.3125,
+      "right": 704.796875,
+      "top": 322.6875
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.49000",
+    "scene": "4",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "backward",
+    "point": 31,
+    "broken": 0,
+    "copy": {
+      "bottom": 638.8125,
+      "right": 704.796875,
+      "top": 312.1875
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.31000",
+    "scene": "3",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "backward",
+    "point": 17,
+    "broken": 0,
+    "copy": {
+      "bottom": 628.3125,
+      "right": 1375.1953125,
+      "top": 322.6875
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.17000",
+    "scene": "2",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.970312
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1440,
+      900
+    ],
+    "dir": "backward",
+    "point": 0,
+    "broken": 0,
+    "copy": {
+      "bottom": 666.7421875,
+      "right": 1375.1953125,
+      "top": 248.25
+    },
+    "height": 900,
+    "overflow": false,
+    "progress": "0.00000",
+    "scene": "1",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0.021263
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1440
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "forward",
+    "point": 0,
+    "broken": 0,
+    "copy": {
+      "bottom": 593.9296875,
+      "right": 1222.3984375,
+      "top": 217.0703125
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.00000",
+    "scene": "1",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "forward",
+    "point": 17,
+    "broken": 0,
+    "copy": {
+      "bottom": 563.390625,
+      "right": 1222.3984375,
+      "top": 283.609375
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.17000",
+    "scene": "2",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "forward",
+    "point": 31,
+    "broken": 0,
+    "copy": {
+      "bottom": 573.890625,
+      "right": 686.5859375,
+      "top": 273.109375
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.31000",
+    "scene": "3",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "forward",
+    "point": 49,
+    "broken": 0,
+    "copy": {
+      "bottom": 563.390625,
+      "right": 686.5859375,
+      "top": 283.609375
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.49000",
+    "scene": "4",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "forward",
+    "point": 63,
+    "broken": 0,
+    "copy": {
+      "bottom": 573.890625,
+      "right": 686.5859375,
+      "top": 273.109375
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.63000",
+    "scene": "5",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "forward",
+    "point": 77,
+    "broken": 0,
+    "copy": {
+      "bottom": 557.0859375,
+      "right": 1222.3984375,
+      "top": 289.9140625
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.77000",
+    "scene": "6",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "forward",
+    "point": 87,
+    "broken": 0,
+    "copy": {
+      "bottom": 570.5859375,
+      "right": 1222.3984375,
+      "top": 276.4140625
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.87000",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "forward",
+    "point": 97,
+    "broken": 0,
+    "copy": {
+      "bottom": 623.0859375,
+      "right": 1222.3984375,
+      "top": 223.9140625
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.97000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 4.989636
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "forward",
+    "point": 100,
+    "broken": 0,
+    "copy": {
+      "bottom": 605.0859375,
+      "right": 1222.3984375,
+      "top": 205.9140625
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "1.00000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 4.989636
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "backward",
+    "point": 100,
+    "broken": 0,
+    "copy": {
+      "bottom": 605.0859375,
+      "right": 1222.3984375,
+      "top": 205.9140625
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "1.00000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 4.989636
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "backward",
+    "point": 97,
+    "broken": 0,
+    "copy": {
+      "bottom": 623.0859375,
+      "right": 1222.3984375,
+      "top": 223.9140625
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.97000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 4.989636
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "backward",
+    "point": 87,
+    "broken": 0,
+    "copy": {
+      "bottom": 570.5859375,
+      "right": 1222.3984375,
+      "top": 276.4140625
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.87000",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "backward",
+    "point": 77,
+    "broken": 0,
+    "copy": {
+      "bottom": 557.0859375,
+      "right": 1222.3984375,
+      "top": 289.9140625
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.77000",
+    "scene": "6",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "backward",
+    "point": 63,
+    "broken": 0,
+    "copy": {
+      "bottom": 573.890625,
+      "right": 686.5859375,
+      "top": 273.109375
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.63000",
+    "scene": "5",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "backward",
+    "point": 49,
+    "broken": 0,
+    "copy": {
+      "bottom": 563.390625,
+      "right": 686.5859375,
+      "top": 283.609375
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.49000",
+    "scene": "4",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "backward",
+    "point": 31,
+    "broken": 0,
+    "copy": {
+      "bottom": 573.890625,
+      "right": 686.5859375,
+      "top": 273.109375
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.31000",
+    "scene": "3",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "backward",
+    "point": 17,
+    "broken": 0,
+    "copy": {
+      "bottom": 563.390625,
+      "right": 1222.3984375,
+      "top": 283.609375
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.17000",
+    "scene": "2",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      1280,
+      800
+    ],
+    "dir": "backward",
+    "point": 0,
+    "broken": 0,
+    "copy": {
+      "bottom": 593.9296875,
+      "right": 1222.3984375,
+      "top": 217.0703125
+    },
+    "height": 800,
+    "overflow": false,
+    "progress": "0.00000",
+    "scene": "1",
+    "sequences": [
+      {
+        "decoded": false,
+        "src": null
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0.014828
+      },
+      {
+        "paused": true,
+        "time": 0.014822
+      }
+    ],
+    "width": 1280
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "forward",
+    "point": 0,
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 509.1953125
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.00000",
+    "scene": "1",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/000.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "forward",
+    "point": 17,
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9743041992188,
+      "right": 368,
+      "top": 594.9274291992188
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.17002",
+    "scene": "2",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "forward",
+    "point": 31,
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9733276367188,
+      "right": 368,
+      "top": 580.4264526367188
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.31003",
+    "scene": "3",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "forward",
+    "point": 49,
+    "broken": 0,
+    "copy": {
+      "bottom": 781,
+      "right": 368,
+      "top": 594.953125
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.49000",
+    "scene": "4",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "forward",
+    "point": 63,
+    "broken": 0,
+    "copy": {
+      "bottom": 781,
+      "right": 368,
+      "top": 580.453125
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.63000",
+    "scene": "5",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "forward",
+    "point": 77,
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9835205078125,
+      "right": 368,
+      "top": 586.1632080078125
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.77001",
+    "scene": "6",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "forward",
+    "point": 87,
+    "broken": 0,
+    "copy": {
+      "bottom": 781,
+      "right": 368,
+      "top": 586.1796875
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.87000",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "forward",
+    "point": 97,
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 568.1796875
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.96998",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/060.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "forward",
+    "point": 100,
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 481.9296875
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "1.00000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/060.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "backward",
+    "point": 100,
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 481.9296875
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "1.00000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/060.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "backward",
+    "point": 97,
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 568.1796875
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.96998",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/060.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "backward",
+    "point": 87,
+    "broken": 0,
+    "copy": {
+      "bottom": 781,
+      "right": 368,
+      "top": 586.1796875
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.87000",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "backward",
+    "point": 77,
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9835205078125,
+      "right": 368,
+      "top": 586.1632080078125
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.77001",
+    "scene": "6",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "backward",
+    "point": 63,
+    "broken": 0,
+    "copy": {
+      "bottom": 781,
+      "right": 368,
+      "top": 580.453125
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.63000",
+    "scene": "5",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "backward",
+    "point": 49,
+    "broken": 0,
+    "copy": {
+      "bottom": 781,
+      "right": 368,
+      "top": 594.953125
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.49000",
+    "scene": "4",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "backward",
+    "point": 31,
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9733276367188,
+      "right": 368,
+      "top": 580.4264526367188
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.31003",
+    "scene": "3",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "backward",
+    "point": 17,
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9743041992188,
+      "right": 368,
+      "top": 594.9274291992188
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.17002",
+    "scene": "2",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      390,
+      844
+    ],
+    "dir": "backward",
+    "point": 0,
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 509.1953125
+    },
+    "height": 844,
+    "overflow": false,
+    "progress": "0.00000",
+    "scene": "1",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/000.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 390
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "forward",
+    "point": 0,
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 364.109375
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.00000",
+    "scene": "1",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/000.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "forward",
+    "point": 17,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 453.453125
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.17000",
+    "scene": "2",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "forward",
+    "point": 31,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 438.953125
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.31000",
+    "scene": "3",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "forward",
+    "point": 49,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 453.453125
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.49000",
+    "scene": "4",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "forward",
+    "point": 63,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 425.3046875
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.63000",
+    "scene": "5",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "forward",
+    "point": 77,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 428.90625
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.77000",
+    "scene": "6",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "forward",
+    "point": 87,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 464.3046875
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.87000",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "forward",
+    "point": 97,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 363.3046875
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.97000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/060.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "forward",
+    "point": 100,
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 345.3046875
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "1.00000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/060.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "backward",
+    "point": 100,
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 345.3046875
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "1.00000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/060.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "backward",
+    "point": 97,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 363.3046875
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.97000",
+    "scene": "8",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/060.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "backward",
+    "point": 87,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 464.3046875
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.87000",
+    "scene": "7",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "backward",
+    "point": 77,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 428.90625
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.77000",
+    "scene": "6",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "backward",
+    "point": 63,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 425.3046875
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.63000",
+    "scene": "5",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "backward",
+    "point": 49,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 453.453125
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.49000",
+    "scene": "4",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "backward",
+    "point": 31,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 438.953125
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.31000",
+    "scene": "3",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "backward",
+    "point": 17,
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 453.453125
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.17000",
+    "scene": "2",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/060.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  },
+  {
+    "requestedSize": [
+      320,
+      700
+    ],
+    "dir": "backward",
+    "point": 0,
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 364.109375
+    },
+    "height": 700,
+    "overflow": false,
+    "progress": "0.00000",
+    "scene": "1",
+    "sequences": [
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-0/000.webp"
+      },
+      {
+        "decoded": true,
+        "src": "http://127.0.0.1:5181/assets/sequence-1/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "time": 0
+      },
+      {
+        "paused": true,
+        "time": 0
+      }
+    ],
+    "width": 320
+  }
+]

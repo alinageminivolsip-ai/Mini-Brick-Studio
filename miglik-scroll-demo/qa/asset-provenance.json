@@ -1,0 +1,42 @@
+{
+  "04_empty_frame.jpg": {
+    "archive_path": "исходники миглик/Изображение ChatGPT 29 окт. 2026 г., 10_01_52.jpg",
+    "sha256": "6d5474d1aa832c44af8bc44325453114f496a61e6209ec5bbdef178ed7efdcc4",
+    "bytes": 250035
+  },
+  "06_open_box.jpg": {
+    "archive_path": "исходники миглик/Изображение ChatGPT 29 окт. 2026 г., 10_02_01.jpg",
+    "sha256": "bee34d8b62dc702a65a4b4ecd69189d1517a774efc2ff71c36601f4fd60d74c1",
+    "bytes": 289333
+  },
+  "05_full_frame.jpg": {
+    "archive_path": "исходники миглик/Изображение ChatGPT 29 окт. 2026 г., 10_01_56.jpg",
+    "sha256": "dfa2f36d6d5fdc3e15ac30fa89183581aa61ba45c7372a3a9b34035e9dc5c1ee",
+    "bytes": 281445
+  },
+  "07_closed_box.jpg": {
+    "archive_path": "исходники миглик/Изображение ChatGPT 29 окт. 2026 г., 10_02_06.jpg",
+    "sha256": "47db669005bb08101d389dcf39fadbfb2ebe73d2adaefcbceadda9705ea77e25",
+    "bytes": 204597
+  },
+  "02_couple_standing.jpg": {
+    "archive_path": "исходники миглик/Изображение ChatGPT 29 окт. 2026 г., 10_01_43.jpg",
+    "sha256": "25a20ae86a87e666c900e7e5ee4ecef31af66a1e008755db5419ed9831998700",
+    "bytes": 267374
+  },
+  "01_polaroid_to_people.mp4": {
+    "archive_path": "исходники миглик/2026-10-28 23_41_44(1).mp4",
+    "sha256": "6469258a18b47cb909867e257f5ce2d1d8dd841a249b05ab45c5d4ab9c408c17",
+    "bytes": 2011539
+  },
+  "08_ribbon_bow.mp4": {
+    "archive_path": "исходники миглик/2026-10-28 23_39_34.mp4",
+    "sha256": "35e3988fb587201878532a27a1715c3ec1ebf568a22f9cb7cc440011a4d7240a",
+    "bytes": 1314282
+  },
+  "09_ribbon_tag.jpg": {
+    "archive_path": "исходники миглик/Изображение ChatGPT 29 окт. 2026 г., 10_02_09.jpg",
+    "sha256": "9c94bb41fbeb72a59be8f4f0d7ae60425fedd450715d15bd579b3a082e4c0598",
+    "bytes": 308508
+  }
+}

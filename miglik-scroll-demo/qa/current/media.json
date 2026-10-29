@@ -1,0 +1,56 @@
+[
+  {
+    "p": 8,
+    "state": {
+      "progress": "0.08000",
+      "videos": [
+        {
+          "duration": 5.041667,
+          "paused": true,
+          "time": 2.367062
+        },
+        {
+          "duration": 5.041667,
+          "paused": true,
+          "time": 0.014822
+        }
+      ]
+    }
+  },
+  {
+    "p": 92,
+    "state": {
+      "progress": "0.92000",
+      "videos": [
+        {
+          "duration": 5.041667,
+          "paused": true,
+          "time": 4.991667
+        },
+        {
+          "duration": 5.041667,
+          "paused": true,
+          "time": 2.506111
+        }
+      ]
+    }
+  },
+  {
+    "p": 8,
+    "state": {
+      "progress": "0.08000",
+      "videos": [
+        {
+          "duration": 5.041667,
+          "paused": true,
+          "time": 2.382751
+        },
+        {
+          "duration": 5.041667,
+          "paused": true,
+          "time": 0.031409
+        }
+      ]
+    }
+  }
+]
