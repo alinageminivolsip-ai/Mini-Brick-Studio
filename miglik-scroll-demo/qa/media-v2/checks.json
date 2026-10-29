@@ -1,0 +1,6338 @@
+[
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 0,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 509.1953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.00000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/000.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 10,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 509.1953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.09997",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/011.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 20,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 509.1953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.20001",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/021.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 28,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 509.1953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.27999",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 35,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 562.453125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.34997",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 42,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 562.453125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.42002",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 48,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9962158203125,
+      "right": 368,
+      "top": 594.9493408203125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.48001",
+    "placement": "start",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 52,
+    "amount": "0.0531",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.51999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 56,
+    "amount": "0.3642",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.55998",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 60,
+    "amount": "0.7546",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.59996",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 64,
+    "amount": "0.9917",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.64003",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 68,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.68002",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 72,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9981079101562,
+      "right": 368,
+      "top": 586.1777954101562
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.72000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 78,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 568.1796875
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.77998",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/007.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 84,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 568.1796875
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.83997",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/015.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 90,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 568.1796875
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.90003",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/023.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 96,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9549560546875,
+      "right": 368,
+      "top": 499.8846740722656
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.96001",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "forward",
+    "point": 100,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 481.9296875
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.99999",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 100,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 481.9296875
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.99999",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 96,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9324951171875,
+      "right": 368,
+      "top": 499.8621826171875
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.96002",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 90,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 568.1796875
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.90003",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/023.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 84,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 568.1796875
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.83997",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/015.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 78,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 568.1796875
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.77999",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/007.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 72,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 780.994384765625,
+      "right": 368,
+      "top": 586.174072265625
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.72001",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 68,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.68003",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 64,
+    "amount": "0.9917",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.64004",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 60,
+    "amount": "0.7548",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.59998",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 56,
+    "amount": "0.3643",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.55998",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 52,
+    "amount": "0.0532",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 576.953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.52000",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 48,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 780.9918823242188,
+      "right": 368,
+      "top": 594.9450073242188
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.48001",
+    "placement": "start",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 42,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 562.453125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.42002",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 35,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 562.453125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.34997",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 28,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 781,
+      "right": 368,
+      "top": 580.453125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.28000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 20,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 509.1953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.20001",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/021.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 10,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 509.1953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.09997",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/011.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      390,
+      844
+    ],
+    "direction": "backward",
+    "point": 0,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 763,
+      "right": 368,
+      "top": 509.1953125
+    },
+    "h": 844,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.00000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/000.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 390
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 0,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 364.109375
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.00000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/000.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 10,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 364.109375
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.10000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/011.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 20,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 364.109375
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.20000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/021.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 28,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 438.953125
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.28000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 35,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 420.953125
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.35000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 42,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 420.953125
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.42000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 48,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 439.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.48000",
+    "placement": "start",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 52,
+    "amount": "0.0531",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.51999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 56,
+    "amount": "0.3644",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.55999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 60,
+    "amount": "0.7549",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.59999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 64,
+    "amount": "0.9916",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.63999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 68,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.68000",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 72,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.72000",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 78,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 446.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.77999",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/007.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 84,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 446.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.83999",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/015.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 90,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 446.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.89999",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/022.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 96,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 446.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.95999",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "forward",
+    "point": 100,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 345.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.99999",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 100,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 345.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "1.00000",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 96,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 647.981201171875,
+      "right": 300,
+      "top": 363.285888671875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.96000",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/030.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 90,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 446.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.90001",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/023.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 84,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 446.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.84001",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/015.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 78,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 446.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.78001",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/008.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 72,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 464.3046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.72000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 68,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.68001",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 64,
+    "amount": "0.9917",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.64001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 60,
+    "amount": "0.7550",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.60001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 56,
+    "amount": "0.3645",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.56000",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 52,
+    "amount": "0.0532",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 421.8046875
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.52001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 48,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 647.9962158203125,
+      "right": 300,
+      "top": 439.8009033203125
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.48001",
+    "placement": "start",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 42,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 420.953125
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.42001",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 35,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 420.953125
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.35000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 28,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 648,
+      "right": 300,
+      "top": 438.953125
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.28000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/030.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 20,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 364.109375
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.20000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/021.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 10,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 364.109375
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.10000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/011.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      320,
+      700
+    ],
+    "direction": "backward",
+    "point": 0,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 630,
+      "right": 300,
+      "top": 364.109375
+    },
+    "h": 700,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.00000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/intro-sequence-v2/000.webp"
+      },
+      {
+        "ready": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-sequence-v2/000.webp"
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 320
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 0,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 666.7421875,
+      "right": 1375.1953125,
+      "top": 248.25
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.00000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 10,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 666.7421875,
+      "right": 1375.1953125,
+      "top": 248.25
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.10000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 1.797372
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 20,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 666.7421875,
+      "right": 1375.1953125,
+      "top": 248.25
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.20000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 3.58747
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 28,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 653.0625,
+      "right": 704.796875,
+      "top": 297.9375
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.28000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 35,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 635.0625,
+      "right": 704.796875,
+      "top": 279.9375
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.35000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 42,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 635.0625,
+      "right": 704.796875,
+      "top": 279.9375
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.42000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 48,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 628.3125,
+      "right": 704.796875,
+      "top": 322.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.48000",
+    "placement": "start",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 52,
+    "amount": "0.0531",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.51999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 56,
+    "amount": "0.3644",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.55999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 60,
+    "amount": "0.7549",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.59999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 64,
+    "amount": "0.9916",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.63999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 68,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.67999",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 72,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.71999",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 78,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 621.21875,
+      "right": 1375.1953125,
+      "top": 293.78125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.78000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 1.247245
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 84,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 621.21875,
+      "right": 1375.1953125,
+      "top": 293.78125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.84000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 2.504679
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 90,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 621.21875,
+      "right": 1375.1953125,
+      "top": 293.78125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.90000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 3.759276
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 96,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 690.96875,
+      "right": 1375.1953125,
+      "top": 260.03125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.96000",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 4.991667
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "forward",
+    "point": 100,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 672.96875,
+      "right": 1375.1953125,
+      "top": 242.03125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.99999",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 4.991667
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 100,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 672.96875,
+      "right": 1375.1953125,
+      "top": 242.03125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "1.00000",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 4.991667
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 96,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 690.9462890625,
+      "right": 1375.1953125,
+      "top": 260.0087585449219
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.96001",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 4.991667
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 90,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 621.21875,
+      "right": 1375.1953125,
+      "top": 293.78125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.90000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 3.791795
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 84,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 621.21875,
+      "right": 1375.1953125,
+      "top": 293.78125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.84000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 2.536987
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 78,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 621.21875,
+      "right": 1375.1953125,
+      "top": 293.78125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.78000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 1.267159
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 72,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 639.21875,
+      "right": 1375.1953125,
+      "top": 311.78125
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.72000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 68,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.68000",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 64,
+    "amount": "0.9917",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.64001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 60,
+    "amount": "0.7550",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.60001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 56,
+    "amount": "0.3645",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.56001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 52,
+    "amount": "0.0532",
+    "broken": 0,
+    "copy": {
+      "bottom": 610.3125,
+      "right": 704.796875,
+      "top": 304.6875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.52001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 48,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 628.30810546875,
+      "right": 704.796875,
+      "top": 322.68310546875
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.48001",
+    "placement": "start",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 42,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 635.0625,
+      "right": 704.796875,
+      "top": 279.9375
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.42000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 35,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 635.0625,
+      "right": 704.796875,
+      "top": 279.9375
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.35000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 28,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 653.0625,
+      "right": 704.796875,
+      "top": 297.9375
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.28000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 20,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 666.7421875,
+      "right": 1375.1953125,
+      "top": 248.25
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.20000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 3.608789
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 10,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 666.7421875,
+      "right": 1375.1953125,
+      "top": 248.25
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.10000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 1.815666
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1440,
+      900
+    ],
+    "direction": "backward",
+    "point": 0,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 666.7421875,
+      "right": 1375.1953125,
+      "top": 248.25
+    },
+    "h": 900,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.00000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0.005941
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.019935
+      }
+    ],
+    "w": 1440
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 0,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 593.9296875,
+      "right": 1222.3984375,
+      "top": 217.0703125
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.00000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 10,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 593.9296875,
+      "right": 1222.3984375,
+      "top": 217.0703125
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.10000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 1.800595
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 20,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 593.9296875,
+      "right": 1222.3984375,
+      "top": 217.0703125
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.20000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 3.60119
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 28,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 573.890625,
+      "right": 686.5859375,
+      "top": 273.109375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.28000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 35,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 555.890625,
+      "right": 686.5859375,
+      "top": 255.109375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.35000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 42,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 555.890625,
+      "right": 686.5859375,
+      "top": 255.109375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.42000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 48,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 563.390625,
+      "right": 686.5859375,
+      "top": 283.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.48000",
+    "placement": "start",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 52,
+    "amount": "0.0531",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.51999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 56,
+    "amount": "0.3644",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.56000",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 60,
+    "amount": "0.7549",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.59999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 64,
+    "amount": "0.9916",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.63999",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 68,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.67999",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 72,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.71999",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 78,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 552.5859375,
+      "right": 1222.3984375,
+      "top": 258.4140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.78000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 1.256719
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 84,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 552.5859375,
+      "right": 1222.3984375,
+      "top": 258.4140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.84000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 2.50428
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 90,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 552.5859375,
+      "right": 1222.3984375,
+      "top": 258.4140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.90000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 3.769528
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 96,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 623.0859375,
+      "right": 1222.3984375,
+      "top": 223.9140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.96000",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 4.991667
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "forward",
+    "point": 100,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 605.0859375,
+      "right": 1222.3984375,
+      "top": 205.9140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.99999",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 4.991667
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 100,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 605.0859375,
+      "right": 1222.3984375,
+      "top": 205.9140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.99999",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 4.991667
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 96,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 623.055908203125,
+      "right": 1222.3984375,
+      "top": 223.88406372070312
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.96001",
+    "placement": "settled",
+    "scene": "5",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 4.991667
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 90,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 552.5859375,
+      "right": 1222.3984375,
+      "top": 258.4140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.90000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 3.782573
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 84,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 552.5859375,
+      "right": 1222.3984375,
+      "top": 258.4140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.84000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 2.545306
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 78,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 552.5859375,
+      "right": 1222.3984375,
+      "top": 258.4140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.78000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 1.264113
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 72,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 570.5859375,
+      "right": 1222.3984375,
+      "top": 276.4140625
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.72000",
+    "placement": "settled",
+    "scene": "4",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 68,
+    "amount": "1.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.68001",
+    "placement": "settled",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 64,
+    "amount": "0.9917",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.64001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 60,
+    "amount": "0.7550",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.60001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 56,
+    "amount": "0.3645",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.56001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 52,
+    "amount": "0.0532",
+    "broken": 0,
+    "copy": {
+      "bottom": 545.390625,
+      "right": 686.5859375,
+      "top": 265.609375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.52001",
+    "placement": "moving",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 48,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 563.3868408203125,
+      "right": 686.5859375,
+      "top": 283.6055908203125
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.48001",
+    "placement": "start",
+    "scene": "3",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 42,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 555.890625,
+      "right": 686.5859375,
+      "top": 255.109375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.42000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 35,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 555.890625,
+      "right": 686.5859375,
+      "top": 255.109375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.35000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 28,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 573.890625,
+      "right": 686.5859375,
+      "top": 273.109375
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.28000",
+    "placement": "start",
+    "scene": "2",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 4.991667
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 20,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 593.9296875,
+      "right": 1222.3984375,
+      "top": 217.0703125
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.20000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 3.601298
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 10,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 593.9296875,
+      "right": 1222.3984375,
+      "top": 217.0703125
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.10000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 1.821446
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  },
+  {
+    "requested": [
+      1280,
+      800
+    ],
+    "direction": "backward",
+    "point": 0,
+    "amount": "0.0000",
+    "broken": 0,
+    "copy": {
+      "bottom": 593.9296875,
+      "right": 1222.3984375,
+      "top": 217.0703125
+    },
+    "h": 800,
+    "oldPeopleImage": false,
+    "overflow": false,
+    "p": "0.00000",
+    "placement": "start",
+    "scene": "1",
+    "sequences": [
+      {
+        "ready": false,
+        "src": null
+      },
+      {
+        "ready": false,
+        "src": null
+      }
+    ],
+    "videos": [
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/intro-v2.mp4",
+        "time": 0.016745
+      },
+      {
+        "paused": true,
+        "src": "http://127.0.0.1:5181/assets/packaging-v2.mp4",
+        "time": 0.006659
+      }
+    ],
+    "w": 1280
+  }
+]

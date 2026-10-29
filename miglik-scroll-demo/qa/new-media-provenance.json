@@ -1,0 +1,18 @@
+{
+  "intro-v2.mp4": {
+    "bytes": 8031581,
+    "sha256": "800da616013f57fd5d1cbba6abf41396e002abaa32114d0aca77f52beb8e31d7"
+  },
+  "packaging-v2.mp4": {
+    "bytes": 5342007,
+    "sha256": "5784cb6c48be4deb90a08c2b7d1ba65e4cd950026f51185937d26aba2b4fc7b7"
+  },
+  "frame-alpha.png": {
+    "bytes": 1031511,
+    "sha256": "57194f8f5bc4751be6ea3a4fc88bf0e28ce6765dc71f597dfa202b4bde2b9eb9"
+  },
+  "open-box-alpha.png": {
+    "bytes": 1012213,
+    "sha256": "2154a9f2471d29e3441cbe947a01b66c9f80ad3e65d41ab08395876175d69844"
+  }
+}
