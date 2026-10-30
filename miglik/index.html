@@ -228,6 +228,25 @@
 
 </style>
 
+<style>
+/* MIGLIK — прозрачные кадры первой сцены */
+.chapter[data-scene="0"] .film .sequence.ready {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Видео не должно перекрывать прозрачные кадры */
+.chapter[data-scene="0"] .film video {
+  visibility: hidden !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter[data-scene="0"] .film .sequence {
+    visibility: hidden !important;
+  }
+}
+</style>
+
 
 </head>
 <body>
