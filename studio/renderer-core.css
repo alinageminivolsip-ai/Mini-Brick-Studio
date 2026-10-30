@@ -1,0 +1,453 @@
+
+:root{
+  --pink:#ff6fa8;--pink2:#fff0f6;--red:#ed2b63;--ink:#171717;--brown:#6a351d;--muted:#86536a;--line:#f1d7e2;--soft:#fff7fb;
+  --skin:#FFD200;--torso:#FF6FA8;--legs:#254F9B;--frameColor:#fff;--safe:env(safe-area-inset-bottom,0px);
+}.figure-wrap{position:relative;width:min(40vw,310px);aspect-ratio:1024/1536;filter:drop-shadow(0 24px 28px rgba(70,20,40,.18));transition:transform .45s cubic-bezier(.2,.9,.25,1), width .45s cubic-bezier(.2,.9,.25,1)}
+.figure-wrap.focus-skin{width:min(62vw,470px);transform:translateY(33%) scale(1.8)}.figure-wrap.focus-hair{width:min(56vw,430px);transform:translateY(22%) scale(1.55)}.figure-wrap.focus-torso{width:min(58vw,430px);transform:translateY(-7%) scale(1.65)}.figure-wrap.focus-legs{width:min(44vw,320px);transform:translateY(-16%) scale(1.18)}.figure-wrap.focus-accessory{width:min(42vw,310px);transform:translateY(-4%) scale(1.05)}.figure-wrap.focus-full{width:min(40vw,310px);transform:translateY(2%) scale(1)}
+.part,.shadow-layer,.plastic-shadow,.plastic-light,.face-img,.hair-img,.acc-img,.outfit-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}.skin{z-index:1;background:var(--skin);mask:url('./assets/body/skin-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/skin-mask.png') center/contain no-repeat}.torso{z-index:2;background:var(--torso);mask:url('./assets/body/torso-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/torso-mask.png') center/contain no-repeat}.legs{z-index:3;background:var(--legs);mask:url('./assets/body/legs-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/legs-mask.png') center/contain no-repeat}.arms{z-index:4;background:var(--arms,var(--torso));mask:url('./assets/body/arms-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/arms-mask.png') center/contain no-repeat}.shadow-layer{z-index:8;opacity:.18;mix-blend-mode:multiply;filter:contrast(.85) brightness(1.35)}.plastic-shadow{z-index:6;opacity:.28;mix-blend-mode:multiply}.plastic-light{z-index:7;opacity:.65;mix-blend-mode:screen}.torso-print-layer{position:absolute;inset:0;z-index:9;pointer-events:none;mask:url('./assets/body/shirt-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/shirt-mask.png') center/contain no-repeat}.torso-print-layer img{position:absolute;left:calc(50% + var(--print-x,0%));top:calc(43% + var(--print-y,0%));width:calc(24% * var(--print-scale,1));height:auto;transform:translate(-50%,-50%);object-fit:contain;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}.outfit-img{z-index:14}.face-img{z-index:15}.hair-img{z-index:18}.acc-img{z-index:22;transform:scale(.9)}.mini-preview{position:relative;width:52px;aspect-ratio:1024/1536;filter:drop-shadow(0 4px 8px rgba(0,0,0,.12))}.mini-preview .skin{background:var(--p-skin)}.mini-preview .torso{background:var(--p-torso)}.mini-preview .legs{background:var(--p-legs)}.mini-preview .arms{background:var(--p-arms,var(--p-torso))}.frame-preview{display:grid;place-items:center;gap:16px}.frame-box{position:relative;overflow:hidden;background:#f7f7f7;display:grid;place-items:center;box-shadow:inset 0 0 0 12px var(--frameColor,#fff),inset 0 0 0 16px rgba(0,0,0,.08),0 18px 36px rgba(0,0,0,.12)}.frame-white{--frameColor:#fff}.frame-black{--frameColor:#111}
+.f-small{width:clamp(180px,18vw,260px);height:calc(clamp(180px,18vw,260px)*1.32)}
+.f-square{width:clamp(200px,20vw,300px);height:clamp(200px,20vw,300px)}
+.f-big{width:clamp(180px,18vw,260px);height:calc(clamp(180px,18vw,260px)*1.4)}
+.frame-bg{position:absolute;inset:16px;background-size:cover;background-position:center;z-index:0}.mini-grid{position:relative;width:100%;height:100%;z-index:2}.mini-figure{position:absolute;aspect-ratio:1024/1536;transform:translate(-50%,-50%)}.mini-figure .skin{background:var(--skin)}.mini-figure .torso{background:var(--torso)}.mini-figure .legs{background:var(--legs)}
+@media(max-width:900px){.figure-wrap{width:168px}.figure-wrap.focus-skin{width:240px;transform:translateY(34%) scale(1.75)}.figure-wrap.focus-hair{width:240px;transform:translateY(24%) scale(1.55)}.figure-wrap.focus-torso{width:235px;transform:translateY(-5%) scale(1.55)}.figure-wrap.focus-legs{width:190px;transform:translateY(-14%) scale(1.18)}.figure-wrap.focus-accessory{width:185px;transform:translateY(-4%) scale(1.05)}.figure-wrap.focus-full{width:174px;transform:translateY(0) scale(1)}
+.frame-box.f-small{width:clamp(160px,42vw,220px);height:calc(clamp(160px,42vw,220px)*1.32)}
+.frame-box.f-square{width:clamp(180px,46vw,240px);height:clamp(180px,46vw,240px)}
+.frame-box.f-big{width:clamp(150px,38vw,200px);height:calc(clamp(150px,38vw,200px)*1.4)}
+}
+.acc-img{
+  position:absolute!important;
+  inset:auto!important;
+  left:var(--acc-x,50%)!important;
+  top:var(--acc-y,54%)!important;
+  width:var(--acc-w,62%)!important;
+  height:auto!important;
+  z-index:22;
+  object-fit:contain;
+  object-position:center center;
+  transform:translate(-50%,-50%) rotate(var(--acc-r,0deg))!important;
+  pointer-events:none;
+  filter:drop-shadow(0 6px 8px rgba(0,0,0,.14));
+}
+.mini-preview .acc-img,
+.mini-figure .acc-img{
+  position:absolute!important;
+  inset:auto!important;
+  left:var(--acc-x,50%)!important;
+  top:var(--acc-y,54%)!important;
+  width:var(--acc-w,62%)!important;
+  height:auto!important;
+  z-index:22;
+  object-fit:contain;
+  object-position:center center;
+  transform:translate(-50%,-50%) rotate(var(--acc-r,0deg))!important;
+}
+.mobile-person-chip .mini-preview{
+  width:26px;
+}
+:root{
+  --fs-xs:11px;
+  --fs-sm:12px;
+  --fs-base:14px;
+  --fs-md:16px;
+  --fs-lg:20px;
+  --fs-xl:24px;
+}
+@media(max-width:900px){
+  .frame-preview{
+    transform:scale(.92);
+  }
+}
+.plastic-shadow{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:6;opacity:.28;mix-blend-mode:multiply}
+.plastic-light{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:7;opacity:.65;mix-blend-mode:screen}
+@media(max-width:900px){
+  .frame-bg,
+  .mini-grid{
+    inset:24px!important;
+  }
+}
+.frame-box{
+  --frame-pad:42px;
+}
+.mini-figure{
+  cursor:grab;
+  pointer-events:auto;
+  user-select:none;
+  touch-action:none;
+  transition:left .18s ease, top .18s ease, transform .18s ease, filter .18s ease;
+}
+.mini-figure.is-dragging{
+  cursor:grabbing;
+  z-index:30!important;
+  filter:drop-shadow(0 10px 14px rgba(237,43,99,.22));
+  transition:none;
+}
+.frame-box.arranging .slot-ghost{
+  opacity:.34;
+  animation:legoSlotBlink 1.05s ease-in-out infinite;
+}
+@media(max-width:900px){
+  .frame-box{
+    --frame-pad:32px;
+  }
+}
+.frame-box{
+  --frame-pad:12px!important;
+  --frame-color-real:#f8f8f8;
+  --frame-bg-color:#ececec;
+  position:relative!important;
+  overflow:hidden!important;
+  background:var(--frame-color-real)!important;
+  border-radius:1px!important;
+  box-shadow:0 16px 40px rgba(40,20,30,.20),0 3px 8px rgba(40,20,30,.08)!important;
+  isolation:isolate;
+}
+.frame-black{
+  --frame-color-real:#1c1c1c!important;
+  --frame-bg-color:#2a2a2a!important;
+}
+.frame-white{
+  --frame-color-real:#f8f8f8!important;
+  --frame-bg-color:#ececec!important;
+}
+.frame-bg{
+  position:absolute!important;
+  inset:var(--frame-pad)!important;
+  z-index:1!important;
+  overflow:hidden!important;
+  background-color:var(--frame-bg-color)!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+  transform:none!important;
+}
+.mini-grid{
+  position:absolute!important;
+  inset:var(--frame-pad)!important;
+  z-index:2!important;
+  width:auto!important;
+  height:auto!important;
+  overflow:hidden!important;
+  touch-action:none;
+}
+.frame-box::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:10;
+  pointer-events:none;
+  box-shadow:
+    inset 0 0 0 var(--frame-pad) var(--frame-color-real),
+    inset 2px 2px 0 rgba(255,255,255,.55),
+    inset -2px -2px 0 rgba(0,0,0,.15),
+    inset 0 0 0 calc(var(--frame-pad) + 1px) rgba(0,0,0,.08);
+}
+.frame-black::after{
+  box-shadow:
+    inset 0 0 0 var(--frame-pad) var(--frame-color-real),
+    inset 2px 2px 0 rgba(255,255,255,.08),
+    inset -2px -2px 0 rgba(0,0,0,.5),
+    inset 0 0 0 calc(var(--frame-pad) + 1px) rgba(255,255,255,.05)!important;
+}
+.frame-box::before{
+  content:"";
+  position:absolute;
+  inset:var(--frame-pad);
+  z-index:9;
+  pointer-events:none;
+  box-shadow:0 0 0 1px rgba(0,0,0,.08);
+}
+.frame-black::before{
+  box-shadow:0 0 0 1px rgba(255,255,255,.06)!important;
+}
+.frame-box .slot-ghost{z-index:3!important}
+.frame-box .mini-figure{z-index:4!important}
+@media(max-width:900px){
+  .frame-box{--frame-pad:10px!important}
+}
+.snap-guide{
+  position:absolute;
+  pointer-events:none;
+  z-index:30;
+  opacity:0;
+  transition:opacity .08s ease;
+}
+.snap-guide.visible{opacity:1}
+@media(max-width:900px){
+  :root{
+    --frame-mobile-drop:0px;
+  }
+  body.frame-mode .frame-preview{
+    gap:10px;
+  }
+}
+.figure-wrap.view-back .face-img,
+.figure-wrap.view-back .acc-img,
+.figure-wrap.view-back .torso-print-layer{
+  opacity:0;
+}
+@media(min-width:901px){
+  .figure-wrap,
+  .figure-wrap.focus-skin,
+  .figure-wrap.focus-hair,
+  .figure-wrap.focus-torso,
+  .figure-wrap.focus-legs,
+  .figure-wrap.focus-accessory,
+  .figure-wrap.focus-full{
+    width:auto!important;
+    height:min(88%, calc(100dvh - 170px))!important;
+    max-height:760px!important;
+    min-height:520px!important;
+    aspect-ratio:1024/1536!important;
+    transform:none!important;
+    margin:auto!important;
+  }
+}
+@media(min-width:901px) and (max-height:760px){
+  .figure-wrap,
+  .figure-wrap.focus-skin,
+  .figure-wrap.focus-hair,
+  .figure-wrap.focus-torso,
+  .figure-wrap.focus-legs,
+  .figure-wrap.focus-accessory,
+  .figure-wrap.focus-full{
+    height:min(86%, calc(100dvh - 145px))!important;
+    min-height:440px!important;
+  }
+}
+@media(min-width:1100px){
+  body.frame-mode .frame-box.f-square{
+    width:min(88%, calc(100dvh - 240px), 720px)!important;
+    height:min(88%, calc(100dvh - 240px), 720px)!important;
+  }
+  body.frame-mode .frame-box.f-small{
+    height:min(90%, calc(100dvh - 230px), 760px)!important;
+    width:auto!important;
+    aspect-ratio:15.5/20.5!important;
+  }
+  body.frame-mode .frame-box.f-big{
+    height:min(90%, calc(100dvh - 230px), 780px)!important;
+    width:auto!important;
+    aspect-ratio:22.5/31.5!important;
+  }
+}
+@media(min-width:1400px){
+  body.frame-mode .frame-box.f-square{
+    width:min(92%, calc(100dvh - 220px), 780px)!important;
+    height:min(92%, calc(100dvh - 220px), 780px)!important;
+  }
+  body.frame-mode .frame-box.f-small{
+    height:min(92%, calc(100dvh - 220px), 820px)!important;
+  }
+  body.frame-mode .frame-box.f-big{
+    height:min(92%, calc(100dvh - 220px), 840px)!important;
+  }
+}
+.frame-box{
+  flex:0 0 auto!important;
+  max-width:none!important;
+  max-height:none!important;
+}
+.frame-box.f-square{
+  aspect-ratio:1/1!important;
+}
+body.frame-mode .frame-box.f-square,
+body.frame-mode .frame-box.f-small,
+body.frame-mode .frame-box.f-big{
+  max-width:none!important;
+  max-height:none!important;
+  flex:none!important;
+}
+body.frame-mode .frame-box.f-square{
+  aspect-ratio:1 / 1!important;
+}
+.frame-bg{
+  transform:none!important;
+  width:auto!important;
+  height:auto!important;
+  contain:paint!important;
+}
+.frame-box{
+  transform-origin:center center!important;
+}
+body.frame-mode .frame-preview{
+  flex:1 1 auto!important;
+}
+body.frame-mode .frame-box{
+  box-sizing:border-box!important;
+}
+body.frame-mode .frame-box{
+  flex:0 0 auto!important;
+  contain:layout paint!important;
+}
+body.frame-mode .mini-grid,
+body.frame-mode .frame-bg{
+  contain:paint!important;
+}
+@media(max-width:900px){
+  body.frame-mode .frame-preview{
+    transform:none!important;
+  }
+}
+/* === NEW: цена заказа === */
+/* === NEW: подтверждение удаления === */
+/* === NEW: кнопка дублирования персонажа === */
+/* === NEW: чек-лист шагов заказа === */
+/* === NEW: плавающая стрелка «далее» рядом с фигуркой === */
+/* === NEW: компактные карточки превью (кожа/лицо/прическа/аксессуары) === */
+/* === NEW: скрыть текстовое описание заказа, оставить только цену === */
+/* === NEW: рамка в заказе строго по центру, отступы одинаковые со всех сторон === */
+/* === NEW: эффект настоящего полупрозрачного LEGO-пластика (цвета 3, 6, 20, 33) === */
+.part.translucent{
+  opacity:.78;
+  background-image:
+    linear-gradient(118deg,rgba(255,255,255,.72) 0%,rgba(255,255,255,.18) 18%,rgba(255,255,255,0) 38%),
+    radial-gradient(circle at 30% 14%,rgba(255,255,255,.74),rgba(255,255,255,.16) 24%,rgba(255,255,255,0) 48%),
+    radial-gradient(circle at 66% 80%,rgba(0,0,0,.16),rgba(0,0,0,0) 46%);
+  background-blend-mode:screen,screen,multiply;
+  backdrop-filter:blur(2.6px) saturate(1.45) brightness(1.04);
+  -webkit-backdrop-filter:blur(2.6px) saturate(1.45) brightness(1.04);
+  filter:saturate(1.18) contrast(1.06);
+}
+.part.translucent::before,
+.part.translucent::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+.part.translucent::after{
+  z-index:2;
+  mix-blend-mode:screen;
+  opacity:.95;
+  background:
+    linear-gradient(112deg,transparent 18%,rgba(255,255,255,.88) 34%,rgba(255,255,255,.22) 48%,transparent 62%),
+    linear-gradient(168deg,transparent 52%,rgba(255,255,255,.34) 64%,transparent 76%);
+}
+.part.translucent::before{
+  z-index:1;
+  mix-blend-mode:multiply;
+  opacity:.64;
+  background:
+    radial-gradient(circle at 50% 48%,transparent 45%,rgba(20,10,24,.34) 100%),
+    linear-gradient(90deg,rgba(0,0,0,.18),transparent 16%,transparent 84%,rgba(0,0,0,.18));
+}
+.torso.translucent,.legs.translucent,.arms.translucent{
+  box-shadow:inset 0 0 18px rgba(255,255,255,.28), inset 0 0 28px rgba(0,0,0,.16);
+}
+.skin.translucent::before,.skin.translucent::after{mask:url('./assets/body/skin-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/skin-mask.png') center/contain no-repeat}
+.torso.translucent::before,.torso.translucent::after{mask:url('./assets/body/torso-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/torso-mask.png') center/contain no-repeat}
+.legs.translucent::before,.legs.translucent::after{mask:url('./assets/body/legs-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/legs-mask.png') center/contain no-repeat}
+.arms.translucent::before,.arms.translucent::after{mask:url('./assets/body/arms-mask.png') center/contain no-repeat;-webkit-mask:url('./assets/body/arms-mask.png') center/contain no-repeat}
+/* миниатюры и рамка: эффект легче, чтобы телефон не тормозил */
+.mini-preview .part.translucent,
+.mini-figure .part.translucent{
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  opacity:.82;
+}
+
+
+/* === FIX: аксессуары в левой и правой руке зеркально === */
+.acc-img{
+  transform:
+    translate(-50%,-50%)
+    rotate(var(--acc-r,0deg))
+    scaleX(var(--acc-flip,1))!important;
+}
+
+.mini-preview .acc-img,
+.mini-figure .acc-img{
+  transform:
+    translate(-50%,-50%)
+    rotate(var(--acc-r,0deg))
+    scaleX(var(--acc-flip,1))!important;
+}
+
+
+
+/* === FIX: на мобилке стрелки шагов не перекрывают кнопки переворота прически === */
+
+/* === NEW: студийный предпросмотр с подиумом, софитами и движущимися LEGO-деталями === */
+.figure-wrap{
+  z-index:5;
+}
+.figure-wrap::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:2%;
+  width:70%;
+  height:9%;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(86,24,55,.18),rgba(86,24,55,0) 72%);
+  filter:blur(4px);
+  z-index:-1;
+}
+
+/* === NEW: корзина рамок === */
+.cart-item-thumb .mini-preview{width:40px}
+/* === NEW: выбор способа оплаты === */
+/* === NEW: галерея нескольких рамок в заказе === */
+/* === НАДПИСИ В РАМКЕ === */
+/* Надписи в реальной рамке */
+.frame-text-overlay{
+  position:absolute;
+  z-index:6;
+  text-align:center;
+  transform:translate(-50%,-50%);
+  white-space:pre-wrap;
+  word-break:break-word;
+  line-height:1.2;
+  max-width:88%;
+  text-shadow:0 2px 8px rgba(0,0,0,.18);
+  cursor:grab;
+  pointer-events:auto;
+  user-select:none;
+  touch-action:none;
+  padding:2px 6px;
+  border-radius:10px;
+}
+.frame-text-overlay.active{outline:2px dashed rgba(237,43,99,.55);background:rgba(255,255,255,.16)}
+.frame-text-overlay.is-dragging{cursor:grabbing;z-index:32!important;outline:2px solid var(--red);background:rgba(255,255,255,.22)}
+
+
+/* === FIX: превью для VK Stories === */
+
+
+
+
+/* === NEW: аксессуар в две руки, по центру как костюм/ребенок === */
+.center-acc-img{
+  position:absolute!important;
+  inset:auto!important;
+  left:var(--center-acc-x,50%)!important;
+  top:var(--center-acc-y,50%)!important;
+  width:var(--center-acc-w,100%)!important;
+  height:auto!important;
+  z-index:21!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  transform:translate(-50%,-50%) rotate(var(--center-acc-r,0deg)) scaleX(var(--center-acc-flip,1))!important;
+  pointer-events:none!important;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.12));
+}
+
+/* === NEW: скейт строго под ногами фигурки === */
+.board-img{
+  position:absolute!important;
+  inset:auto!important;
+  left:var(--board-x,50%)!important;
+  top:var(--board-y,94%)!important;
+  width:var(--board-w,92%)!important;
+  height:auto!important;
+  z-index:5!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  transform:translate(-50%,-50%) rotate(var(--board-r,0deg)) scaleX(var(--board-flip,1))!important;
+  pointer-events:none!important;
+  filter:drop-shadow(0 8px 9px rgba(0,0,0,.14));
+}
+
+
+/* === FIX: блокировка рук, если выбран аксессуар в две руки === */
+

@@ -34,6 +34,15 @@
       image.src = src;
     });
   }
+  async function decodeStable(image){
+    for(let attempt=0;attempt<5;attempt++){
+      const source=image.src;
+      try{if(image.decode)await image.decode();if(image.src===source&&image.naturalWidth>0)return;}catch(error){if(image.src===source&&image.complete&&!image.naturalWidth)throw error;}
+      await new Promise(resolve=>requestAnimationFrame(resolve));
+    }
+    if(image.complete&&image.naturalWidth>0)return;
+    throw new Error('Visible image not ready');
+  }
   window.miglickLoading = {
     async ready(catalog, assets = []) {
       if (finishing) return;
@@ -79,7 +88,7 @@
         await deadline(document.fonts.ready);
         await new Promise(resolve => requestAnimationFrame(resolve));
         const visible = [...document.querySelectorAll('#constructorView img')].filter(img => img.getClientRects().length && getComputedStyle(img).display !== 'none' && img.getAttribute('src'));
-        await deadline(Promise.all(visible.map(img => img.decode ? img.decode() : Promise.resolve())));
+        await deadline(Promise.all(visible.map(decodeStable)));
         await wait(Math.max(0, 1800 - (performance.now() - started)));
         finish();
       } catch (error) {

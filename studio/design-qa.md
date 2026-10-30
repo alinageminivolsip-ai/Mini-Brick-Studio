@@ -1,48 +1,13 @@
-# Проверка MIGLICK — 28.10.2026
+# MIGLIK — проверка выбранного направления 1 · 30.10.2026
 
-Визуальный ориентир: существующий лендинг MIGLIK/MIGLICK, кремовый фон #F8F7F2, фиолетовый #6654F4, тёмный #26263A, локальные Onest и Unbounded. Компоновка конструктора намеренно рассчитана на редактирование, а не повторяет hero лендинга.
+Final result: passed for implemented web layout, with explicit product constraints below.
 
-| Before | After | Why |
-| --- | --- | --- |
-| Блокирующее вступление | Сразу доступен герой и первый шаг | Можно начать создание без вводного экрана |
-| Перегруженная палитра | Популярные цвета и раскрываемая полная палитра | Упрощён первый выбор, все оттенки сохранены |
-| Неустойчивая компоновка на узком экране | Превью, полоса героев, прокручиваемые детали, закреплённые кнопки | Следующий шаг всегда доступен |
-| Смена масштаба героя между деталями | Стабильный масштаб и отдельная кнопка «Крупнее» | Выбранная деталь не меняет положение всей фигуры |
-| Пустой новый черновик попадал в заказ | После сохранённой рамки включается только начатый черновик | Нет лишней рамки и удвоения стоимости |
-| Старый розовый шаблон MiniBrick | Кремовый экспорт MIGLICK 1080×1920 | Согласованность с новым сайтом |
-| Ошибка хранилища могла остановить загрузку | Защищённое чтение/запись и безопасные значения | Конструктор открывается при повреждённых данных |
+Источник: docs/redesign-2026-10-30/concepts/01.png (853×1844). Реализация: qa/redesign-2026-10-30/after/mobile-hair.png (390×844 CSS px). Сравнение нормализовано до ширины 390; обе картинки открыты вместе в comparison.jpg и comparison-final.jpg. Состояние: второй герой Маша / волосы; в реализации другая реальная рамка, фон, лицо, аксессуар и состав корзины. Поэтому тексты, суммы и продуктовые изображения не оцениваются как пиксельная копия генерации.
 
-Проверены размеры 320×700, 375×812, 390×844, 768×1024, 1024×768, 1440×900, 1920×1080: нет горизонтального переполнения, доступна кнопка следующего шага. Проверены изменение волос и отмена, добавление/удаление героя и отмена удаления, поля имени/заметки, выбор рамки, крупный просмотр и Escape, подготовка изображения заказа, заказ с одной сохранённой рамкой. Девять автоматических проверок пройдены.
+Первое сравнение: лишняя строка отмены редактирования отодвигала сетку (P2); перенесена после настроек. Кнопка увеличения имела цель меньше 44 px (P2); увеличена. На desktop верх рамки обрезался (P1); зарезервирована высота подписи. Исправленные состояния: comparison-final.jpg, desktop-hair.png. Повторная визуальная проверка: верхняя рамка видна целиком, крупный герой отделён, шесть вариантов волос доступны, нижнее действие закреплено. Открытых P0/P1/P2 в проверенных состояниях нет.
 
-Ограничения: физические iOS/Android не проверялись. Подготовка PNG подтверждена по изображению 1080×1920; автоматическое подтверждение сохранения файла в системной папке Downloads не выполнялось. Онлайн-оплата и автоматическая отправка заказа отсутствовали в исходнике и не добавлялись.
+Typography: локальные Onest / Unbounded, заголовки и кнопки читаемы. Rhythm: пять этапов, двойной просмотр, полоса героев, четыре категории, сетка, footer. Tokens: тёплый белый, графит, бордовый и blush. Image quality: исходные пользовательские PNG и девять производных WebP лиц; никакие случайные иллюстрации не подставлены. Copy: человеческие названия вместо f1/A1; реальная стоимость и честное оформление через менеджера.
 
-После проверки публикации последовательные сетевые пробы ассетов заменены статическим списком реальных растровых файлов. PSD, ошибочно названный A7.png в оригинале, исключён из каталога доступных лиц. Локально после повторного открытия нет видимых незагруженных изображений.
+Намеренные ограничения: физический масштаб фигурки 4 см оставлен исходным; на генерации он увеличен. Отдельный крупный герой компенсирует это без искажения товара. Фоны, лица и аксессуары берутся только из реального каталога. Фото заменяет фон рамки, не создаёт несуществующую полароид-функцию.
 
-## Mobile rotation controls — follow-up
-
-| Before | After | Why |
-| --- | --- | --- |
-| Controls inherited a wide box, top:50% and an absolutely placed label | Explicit edge inset, auto width/top and static label | Buttons stay beside the preview, clear of the figure and people strip |
-| Portrait-only stack left little room in landscape | Preview left, editor right on short wide screens | Details remain scrollable and next step remains visible |
-
-Browser checks: 320×700, 390×844, 768×1024, 844×390, 1024×768, 1440×900. Rotation controls stayed inside the viewer, did not intersect figure bounds, no horizontal overflow, next button visible. Both front/back buttons tested. Physical device testing remains pending.
-
-## Branded loading screen
-
-| Before | After | Why |
-| --- | --- | --- |
-| Interface painted before catalog and visible figure assets were ready | Cream/violet MIGLICK loader waits for catalog, fonts and visible figure images, with bounded waits | Gives a composed entry without showing incomplete layers |
-| No entry state | Brief 620ms minimum, 240ms opacity exit, static reduced-motion indicator | Avoids a one-frame flash; matches landing typography |
-
-Verified browser screenshots at desktop and 320×700, loader auto-closes, aria-busy clears and next-step button works. Refresh preserves the existing two-person draft. No console errors in the checked session. Failed startup offers retry after 12 seconds; this fallback was code-reviewed, not simulated in the browser.
-
-## Complete asset preload
-
-Supersedes previous short bounded-loader behavior: all 64 valid shipped images and four local font subsets must finish before the loading screen exits. Six concurrent image requests avoid a burst; progress counts only successful files. Failed requests keep the editor locked with retry. Cached visits have a 1.8-second minimum. Images/fonts use scoped versioned caching.
-
-Browser confirmed 68/68 before automatic exit, no console errors. Twelve tests passed, including new cases proving the loader waits for the final image and keeps retry visible after image/font failure.
-
-Sheen follow-up: a narrow clipped light band crosses stationary MIGLICK glyphs left-to-right; disabled for reduced motion. Public asset audit found two Unicode red-background URLs returning 404; ASCII red.jpg aliases replace those URLs in inventory and catalog without changing saved background ids.
-
-## Completion dialog — 29.10.2026
-Real frame preview replaces the share poster as primary content; summary and frame/figures/options breakdown use existing pricing; Continue reveals existing payment/copy/VK actions. Share-card generator unchanged and lazy. Checked 1440×900 and 320/375/390/430 mobile widths, one and two frames, price, inscription preservation, SBP/copy, keyboard trap/Escape and 1080×1920 generated share PNG. 19 tests pass. Full local report: ../outputs/MIGLICK-completion-review.md. Browser Downloads completion and physical phones not verified.
+Проверка не доказывает удобство на реальном iPhone или рост конверсии. Физическое устройство и исследование с покупателями не проводились.

@@ -1,0 +1,4 @@
+@font-face{font-family:Onest;src:url('./fonts/onest-cyrillic-wght-normal.woff2') format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0400-045F,U+2116}
+@font-face{font-family:Onest;src:url('./fonts/onest-latin-wght-normal.woff2') format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Unbounded;src:url('./fonts/unbounded-cyrillic-wght-normal.woff2') format('woff2');font-weight:200 900;font-display:swap;unicode-range:U+0400-045F,U+2116}
+@font-face{font-family:Unbounded;src:url('./fonts/unbounded-latin-wght-normal.woff2') format('woff2');font-weight:200 900;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F}
