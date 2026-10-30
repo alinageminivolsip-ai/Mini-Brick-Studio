@@ -81,6 +81,72 @@
 </style>
 
 
+<style>
+/* MIGLIK — плавное 3D-покачивание рамок в историях */
+
+#stories .gallery-figure {
+  perspective: 1400px;
+  background: transparent !important;
+  overflow: visible;
+}
+
+#stories .gallery-figure img {
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* 01 — Для двоих */
+#couple .gallery-figure img {
+  animation: miglikCoupleFloat 7s ease-in-out infinite;
+}
+
+/* 02 — Лучшей подруге */
+#friends .gallery-figure img {
+  animation: miglikFriendsFloat 8.5s ease-in-out infinite;
+}
+
+/* 03 — Свадебная история */
+#wedding .gallery-figure img {
+  animation: miglikWeddingFloat 9s ease-in-out infinite;
+}
+
+@keyframes miglikCoupleFloat {
+  0%, 100% {
+    transform: translateY(0) rotateY(-3deg) rotateZ(-1deg);
+  }
+  50% {
+    transform: translateY(-12px) rotateY(3deg) rotateZ(1deg);
+  }
+}
+
+@keyframes miglikFriendsFloat {
+  0%, 100% {
+    transform: translateY(-5px) rotateY(3deg) rotateZ(1.5deg);
+  }
+  50% {
+    transform: translateY(-16px) rotateY(-3deg) rotateZ(-1deg);
+  }
+}
+
+@keyframes miglikWeddingFloat {
+  0%, 100% {
+    transform: translateY(0) rotateX(-2deg) rotateZ(-1deg);
+  }
+  50% {
+    transform: translateY(-10px) rotateX(2deg) rotateZ(1deg);
+  }
+}
+
+/* Отключение анимации при соответствующей настройке */
+@media (prefers-reduced-motion: reduce) {
+  #stories .gallery-figure img {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <a class="skip-link" href="#main">К содержимому</a>
