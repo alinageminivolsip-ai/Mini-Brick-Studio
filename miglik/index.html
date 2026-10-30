@@ -27,18 +27,38 @@
   <script type="module" crossorigin src="/Mini-Brick-Studio/miglik/assets/index-DOE2Nm44.js"></script>
   <link rel="stylesheet" crossorigin href="/Mini-Brick-Studio/miglik/assets/index-DvwcqADe.css">
   
-<style>
-  .gallery-figure,
-  .story-entry .gallery-figure {
-    background: transparent !important;
-  }
 
-  .apartment-story,
-  .apartment-stage,
-  .apartment-figure,
-  .apartment-media {
-    background: #FFFFFF !important;
-  }
+<style>
+/* Прозрачный фон за рамками */
+.gallery-figure,
+.story-entry .gallery-figure {
+  background: transparent !important;
+}
+
+/* Белый фон раздела с квартирой */
+.apartment-story,
+.apartment-stage,
+.apartment-figure,
+.apartment-media {
+  background: #FFFFFF !important;
+}
+
+/* Мягкое свечение каждой сцены */
+.story .stage,
+.story .stage .chapter {
+  background:
+    radial-gradient(
+      ellipse 34% 48% at 76% 48%,
+      rgba(218, 145, 163, 0.20) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 28% 38% at 94% 70%,
+      rgba(141, 40, 63, 0.08) 0%,
+      transparent 100%
+    ),
+    #FFFFFF !important;
+}
 </style>
 
 
@@ -206,10 +226,6 @@
     #FFFFFF !important;
 }
 
-/* Убираем белую заливку отдельных сцен */
-.story .stage .chapter {
-  background: transparent !important;
-}
 </style>
 
 
