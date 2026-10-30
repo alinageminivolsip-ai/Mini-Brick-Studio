@@ -41,21 +41,35 @@
   }
 </style>
 
+
 <style>
-/* MIGLIK — нежное покачивание рамки */
+/* MIGLIK — 3D-покачивание рамки */
+.chapter[data-scene="1"] .visual {
+  perspective: 1200px;
+}
+
 .chapter[data-scene="1"] .visual > img {
-  animation: miglikFrameFloat 6s ease-in-out infinite;
-  transform-origin: 50% 55%;
+  animation: miglikFrame3D 7s ease-in-out infinite;
+  transform-origin: center center;
+  transform-style: preserve-3d;
   will-change: transform;
 }
 
-@keyframes miglikFrameFloat {
+@keyframes miglikFrame3D {
   0%, 100% {
-    transform: translateY(0) rotate(-2deg);
+    transform:
+      translateY(0)
+      rotateX(0deg)
+      rotateY(-5deg)
+      rotateZ(-1deg);
   }
 
   50% {
-    transform: translateY(-12px) rotate(2deg);
+    transform:
+      translateY(-12px)
+      rotateX(3deg)
+      rotateY(5deg)
+      rotateZ(1deg);
   }
 }
 
@@ -65,6 +79,7 @@
   }
 }
 </style>
+
 
 </head>
 <body>
