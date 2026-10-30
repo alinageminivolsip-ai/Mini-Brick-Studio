@@ -41,6 +41,31 @@
   }
 </style>
 
+<style>
+/* MIGLIK — нежное покачивание рамки */
+.chapter[data-scene="1"] .visual > img {
+  animation: miglikFrameFloat 6s ease-in-out infinite;
+  transform-origin: 50% 55%;
+  will-change: transform;
+}
+
+@keyframes miglikFrameFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter[data-scene="1"] .visual > img {
+    animation: none;
+  }
+}
+</style>
+
 </head>
 <body>
 <a class="skip-link" href="#main">К содержимому</a>
