@@ -147,6 +147,40 @@
 }
 </style>
 
+<style>
+/* MIGLIK — ускорение и увеличение рамок при наведении */
+
+/* Плавное изменение масштаба */
+#stories .gallery-figure img {
+  transition: scale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  scale: 1;
+}
+
+/* Увеличение и ускорение при наведении */
+@media (hover: hover) and (pointer: fine) {
+  #stories .gallery-figure:hover img {
+    scale: 1.05;
+    animation-duration: 4s !important;
+  }
+}
+
+/* При нажатии на мобильных не увеличиваем */
+@media (hover: none) {
+  #stories .gallery-figure img {
+    scale: 1;
+  }
+}
+
+/* Учитываем настройки уменьшения анимаций */
+@media (prefers-reduced-motion: reduce) {
+  #stories .gallery-figure img {
+    animation: none !important;
+    transition: none !important;
+    scale: 1 !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <a class="skip-link" href="#main">К содержимому</a>
