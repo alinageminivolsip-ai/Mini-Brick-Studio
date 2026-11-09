@@ -1,0 +1,6 @@
+export function field(catalog,config){const f=catalog.frames.find(f=>f.id===config.size)||catalog.frames[1];const land=config.orientation==='landscape'&&f.width!==f.height;return {frame:f,w:land?f.usableHeight:f.usableWidth,h:land?f.usableWidth:f.usableHeight,ow:land?f.height:f.width,oh:land?f.width:f.height};}
+export function demoConfig(catalog,{size='M',color='white',background='peach',count=2,title='Вместе — моё любимое место'}={}){
+ const conf={version:1,kind:'miniatures',size,color,glazing:'plastic',orientation:'portrait',background,backgroundScale:1,backgroundX:0,backgroundY:0,characters:[],texts:[]},f=field(catalog,conf),cols=Math.min(count,Math.floor(f.w/30)),rows=Math.ceil(count/Math.max(cols,1));
+ for(let i=0;i<count;i++){const n=Math.min(cols,count-Math.floor(i/cols)*cols);conf.characters.push({id:'person-'+(i+1),name:'Персонаж '+(i+1),x:Math.round((f.w-n*30)/2+(i%cols)*30+4),y:Math.round((f.h-rows*52)*.72+Math.floor(i/cols)*52),parts:Object.fromEntries(['head','face','hair','hat','torso','arms','hands','legs','accessory'].map(cat=>[cat,cat+'-'+(['hair','torso','arms','legs'].includes(cat)?i%2:0)]))});}
+ conf.texts=[{id:'caption',value:title,x:f.w/2,y:Math.min(24,Math.round(f.h*.17*10)/10),size:4.8,color:'#34483e',font:'sans',align:'middle'}];return conf;
+}
