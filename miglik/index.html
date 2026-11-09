@@ -24,7 +24,7 @@
 <script src="/Mini-Brick-Studio/miglik/shop/homepage-inline-0.js"></script>
 <noscript><style>.story{min-height:0!important}.chapter{height:auto!important;min-height:100svh}.apartment-story{min-height:0!important}</style></noscript>
 
-  <script type="module" crossorigin src="/Mini-Brick-Studio/miglik/assets/index-DOE2Nm44.js"></script>
+  <script type="module" crossorigin src="/Mini-Brick-Studio/miglik/assets/index-DOE2Nm44.js?v=alpha-1"></script>
   <link rel="stylesheet" crossorigin href="/Mini-Brick-Studio/miglik/assets/index-DvwcqADe.css">
 
 
@@ -230,12 +230,16 @@
 
 <style>
 /* MIGLIK — прозрачные кадры первой сцены */
+.chapter[data-scene="0"] .film:has(.sequence.ready) .fallback {
+  opacity: 0;
+}
 .chapter[data-scene="0"] .film .sequence.ready {
   visibility: visible !important;
   opacity: 1 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .chapter[data-scene="0"] .film .fallback { opacity: 1 !important; }
   .chapter[data-scene="0"] .film .sequence {
     visibility: hidden !important;
   }
@@ -257,7 +261,7 @@
 <div class="story-meta"><span class="story-meta-label">MIGLIK / STORY No. 01</span><span class="counter" aria-hidden="true">01 <i>/ 05</i></span></div>
   <div class="chapters" id="start">
 <article class="chapter" data-scene="0">
-<figure class="visual film"><img class="fallback" fetchpriority="high" src="/Mini-Brick-Studio/miglik/assets/intro-poster-v2.webp" width="728" height="910" alt="Любимая фотография пары в полароиде"><video muted playsinline preload="none" poster="/Mini-Brick-Studio/miglik/assets/intro-poster-v2.webp" aria-hidden="true"><source data-src="/Mini-Brick-Studio/miglik/assets/intro-v2.mp4" type="video/mp4"></video><img class="sequence" alt="" aria-hidden="true" width="512" height="640"><figcaption>СОХРАНИТЬ ТО, ЧТО ДОРОГО</figcaption></figure>
+<figure class="visual film"><img class="fallback" fetchpriority="high" src="/Mini-Brick-Studio/miglik/assets/intro-transparent/intro-v2_00000.webp" width="960" height="1199" alt="Любимая фотография пары в полароиде"><video muted playsinline preload="none" poster="/Mini-Brick-Studio/miglik/assets/intro-transparent/intro-v2_00000.webp" aria-hidden="true"></video><img class="sequence" alt="" aria-hidden="true" width="960" height="1199"><figcaption>СОХРАНИТЬ ТО, ЧТО ДОРОГО</figcaption></figure>
 <div class="copy hero-copy"><span class="eyebrow">MIGLIK — ПЕРСОНАЛЬНЫЕ ПОДАРКИ</span><h1>У каждой <span class="highlight">истории<i aria-hidden="true"></i></span><br>есть свои <span class="highlight">особенности<i aria-hidden="true"></i></span></h1><p>Превращаем ваши фотографии, важные даты и маленькие воспоминания в подарки, которые хочется хранить.</p><div class="hero-actions"><a class="button" href="https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/studio/">Создать свой подарок <span aria-hidden="true">↗</span></a><a class="hero-secondary" href="#stories">Посмотреть истории <span aria-hidden="true">↓</span></a></div></div>
 </article>
 <article class="chapter reverse" data-scene="1">
