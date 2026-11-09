@@ -1,7 +1,5 @@
-const track = document.querySelector('#process-slides');
-const controls = document.querySelector('.process-controls');
-
-if (track && controls) {
+function setupSlider(track, controls, {label, unit}) {
+  if (!track || !controls) return;
   const cards = [...track.children];
   const previous = controls.querySelector('[data-process-prev]');
   const next = controls.querySelector('[data-process-next]');
@@ -17,7 +15,7 @@ if (track && controls) {
     cards.forEach((card, i) => card.classList.toggle('is-current', i === index));
     previous.disabled = index === 0;
     next.disabled = index === cards.length - 1;
-    status.value = `Шаг ${index + 1} из ${cards.length}`;
+    status.value = `${unit} ${index + 1} из ${cards.length}`;
   }
 
   function measure() {
@@ -46,7 +44,7 @@ if (track && controls) {
     requested = null;
     if (mobile.matches) {
       track.tabIndex = 0;
-      track.setAttribute('aria-label', 'Пять шагов создания подарка');
+      track.setAttribute('aria-label', label);
       track.dataset.enhanced = '';
       schedule();
     } else {
@@ -69,3 +67,10 @@ if (track && controls) {
   show(0);
   updateLayout();
 }
+
+setupSlider(document.querySelector('#process-slides'), document.querySelector('#process .process-controls'), {
+  label: 'Пять шагов создания подарка', unit: 'Шаг'
+});
+setupSlider(document.querySelector('#occasion-slides'), document.querySelector('#occasion-controls'), {
+  label: 'Поводы для подарка', unit: 'Повод'
+});

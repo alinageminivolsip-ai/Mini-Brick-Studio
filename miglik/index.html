@@ -243,7 +243,7 @@
 </style>
 
 
-<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/shop/styles/privacy.css"><link rel="stylesheet" href="/Mini-Brick-Studio/miglik/shop/styles/website.css"><script type="module" src="/Mini-Brick-Studio/miglik/shop/homepage-store.js"></script><link rel="stylesheet" href="/Mini-Brick-Studio/miglik/process-slider.css"><script type="module" src="/Mini-Brick-Studio/miglik/process-slider.js"></script></head>
+<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/shop/styles/privacy.css"><link rel="stylesheet" href="/Mini-Brick-Studio/miglik/shop/styles/website.css"><script type="module" src="/Mini-Brick-Studio/miglik/shop/homepage-store.js"></script><link rel="stylesheet" href="/Mini-Brick-Studio/miglik/process-slider.css?v=2"><script type="module" src="/Mini-Brick-Studio/miglik/process-slider.js?v=2"></script></head>
 <body class="authored-home">
 <a class="skip-link" href="#main">К содержимому</a>
 <header class="site-header">
@@ -324,12 +324,20 @@
 <section class="occasions-section editorial-section" id="occasions" aria-labelledby="occasions-heading">
   <div class="section-number" aria-hidden="true">05 — ПОВОД ЕСТЬ ВСЕГДА</div>
   <div class="section-heading"><h2 id="occasions-heading" data-reveal><span class="line">Для тех, кто</span><span class="line">значит <span class="highlight">больше<i aria-hidden="true"></i></span></span></h2><p class="section-lead">На годовщину, день рождения,<br>свадьбу или просто так.</p></div>
-  <div class="occasion-list"><a class="occasion-link" href="#couple"><img src="/Mini-Brick-Studio/miglik/editorial/images/couple-480.webp" width="72" height="90" loading="lazy" decoding="async" alt=""><span><strong>Подарок девушке</strong><small>Про неё, про вас, про особенный момент.</small></span><span class="occasion-arrow" aria-hidden="true">↗</span></a>
+  <div class="occasion-list" id="occasion-slides"><a class="occasion-link" href="#couple"><img src="/Mini-Brick-Studio/miglik/editorial/images/couple-480.webp" width="72" height="90" loading="lazy" decoding="async" alt=""><span><strong>Подарок девушке</strong><small>Про неё, про вас, про особенный момент.</small></span><span class="occasion-arrow" aria-hidden="true">↗</span></a>
 <a class="occasion-link" href="#couple"><img src="/Mini-Brick-Studio/miglik/editorial/images/couple-480.webp" width="72" height="90" loading="lazy" decoding="async" alt=""><span><strong>Подарок парню</strong><small>Узнаваемый образ и ваши маленькие секреты.</small></span><span class="occasion-arrow" aria-hidden="true">↗</span></a>
 <a class="occasion-link" href="#friends"><img src="/Mini-Brick-Studio/miglik/editorial/images/friends-480.webp" width="72" height="90" loading="lazy" decoding="async" alt=""><span><strong>Подарок подруге</strong><small>Всё, над чем смеётесь только вы.</small></span><span class="occasion-arrow" aria-hidden="true">↗</span></a>
 <a class="occasion-link" href="#couple"><img src="/Mini-Brick-Studio/miglik/editorial/images/couple-480.webp" width="72" height="90" loading="lazy" decoding="async" alt=""><span><strong>На годовщину</strong><small>Ваша дата. Ваша история. Снова вместе.</small></span><span class="occasion-arrow" aria-hidden="true">↗</span></a>
 <a class="occasion-link" href="#wedding"><img src="/Mini-Brick-Studio/miglik/editorial/images/wedding-480.webp" width="72" height="90" loading="lazy" decoding="async" alt=""><span><strong>На свадьбу</strong><small>Сохранить тот самый день в деталях.</small></span><span class="occasion-arrow" aria-hidden="true">↗</span></a>
 <a class="occasion-link" href="#apartment"><img src="/Mini-Brick-Studio/miglik/editorial/apartment/key-60.webp" width="72" height="90" loading="lazy" decoding="async" alt=""><span><strong>На новоселье</strong><small>Любимый дом — в маленьком масштабе.</small></span><span class="occasion-arrow" aria-hidden="true">↗</span></a></div>
+  <div class="process-controls" id="occasion-controls" hidden>
+    <p class="process-swipe-hint">Листайте, чтобы увидеть все поводы</p>
+    <div class="process-pagination">
+      <button type="button" data-process-prev aria-label="Предыдущий повод" aria-controls="occasion-slides">←</button>
+      <output aria-live="polite" aria-atomic="true">Повод 1 из 6</output>
+      <button type="button" data-process-next aria-label="Следующий повод" aria-controls="occasion-slides">→</button>
+    </div>
+  </div>
 </section>
 
 <section class="final-section editorial-section" id="your-story" aria-labelledby="final-heading">
