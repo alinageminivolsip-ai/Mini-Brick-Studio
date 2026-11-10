@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="782" viewBox="0 0 600 782">
+  <defs>
+    <radialGradient id="paper"><stop stop-color="#f3e2d1"/><stop offset="1" stop-color="#e1c5ad"/></radialGradient>
+    <radialGradient id="light"><stop stop-color="#fff7c8" stop-opacity=".95"/><stop offset="1" stop-color="#fff7c8" stop-opacity="0"/></radialGradient>
+    <g id="lamp">
+      <circle cy="23" r="52" fill="url(#light)"/>
+      <path d="M-9 0h18v15H-9z" fill="#291b14"/>
+      <path d="M-7 13C-7 24-26 27-26 47a26 26 0 0 0 52 0c0-20-19-23-19-34z" fill="#fffbdf"/>
+      <path d="M0 47c-12-8-13-18-6-19 5-1 6 4 6 4s2-5 7-4c7 2 3 12-7 19z" fill="none" stroke="#ab7433" stroke-width="1.5"/>
+    </g>
+    <path id="heart" d="M0 16C-16 4-27-8-18-17-12-23-4-17 0-10 4-17 12-23 18-17 27-8 16 4 0 16Z"/>
+  </defs>
+  <rect width="600" height="782" fill="url(#paper)"/>
+  <g transform="translate(6.75 0) scale(0.9775)">
+  <path d="M-12 18C40 99 155 120 205 49c24-34-24-42-29-12-12 70 147 113 204 35 31-41-27-56-30-18-6 77 185 75 262-37" fill="none" stroke="#633918" stroke-width="3"/>
+  <use href="#lamp" x="61" y="74"/><use href="#lamp" x="136" y="92"/><use href="#lamp" x="297" y="113"/><use href="#lamp" x="448" y="98"/><use href="#lamp" x="553" y="73"/>
+  <use href="#heart" x="300" y="237" fill="#b92728"/>
+  </g>
+  <g transform="translate(6.75 0) scale(0.9775)">
+  <use href="#heart" fill="#b92728" transform="translate(300 562) scale(.75)"/>
+  <g text-anchor="middle" fill="#73232b" font-family="Arial, sans-serif" font-weight="800">
+    <text x="300" y="632" font-size="69">мы</text>
+    <text x="300" y="676" font-size="39" font-style="italic" font-family="Georgia, serif" font-weight="400">это</text>
+    <text x="300" y="742" font-size="66">счастье</text>
+  </g>
+  </g>
+</svg>

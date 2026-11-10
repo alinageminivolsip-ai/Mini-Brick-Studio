@@ -4,6 +4,10 @@ let flow=Math.max(0,Math.min(4,Number(draftStorage.getItem('miglik_flow_v2')||0)
 const legacyRenderEditor=renderEditor,legacyRenderFigure=renderFigure,legacyAddCart=addCurrentFrameToCart,legacyEditCart=editCartItem,legacyReset=resetCurrentFrameState,legacyCancelCart=cancelCartEdit;
 let parkedDraft=null;try{parkedDraft=JSON.parse(draftStorage.getItem('miglik_parked_draft')||'null');}catch{}
 let savedUI={};try{savedUI=JSON.parse(draftStorage.getItem('miglik_ui_v2')||'{}');}catch{}
+if (giftTemplate && (giftTemplate.hero !== null || giftTemplate.frameOverride || !draftStorage.getItem('miglik_flow_v2'))) {
+  flow = 1;
+  savedUI = { ...savedUI, active: giftTemplate.hero ?? 0, part: 'hair' };
+}
 active=Math.max(0,Math.min(people.length-1,Number(savedUI.active)||0));if(flow===1&&['skin','hair','torso','legs','accessory'].includes(savedUI.part))step=savedUI.part;
 const money=n=>n.toLocaleString('ru-RU')+' ₽',el=id=>document.getElementById(id),escape=escapeHTML;
 const labels={skin:'Лицо',hair:'Волосы',torso:'Одежда',accessory:'Детали',legs:'Брюки'};

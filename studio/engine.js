@@ -2,10 +2,16 @@
 const shippedAssetPaths=new Set(["./assets/optimized/faces/A1.webp","./assets/optimized/faces/A2.webp","./assets/optimized/faces/A3.webp","./assets/optimized/faces/A4.webp","./assets/optimized/faces/A5.webp","./assets/optimized/faces/A6.webp","./assets/optimized/faces/A7.webp","./assets/optimized/faces/A8.webp","./assets/optimized/faces/A9.webp","./assets/accessories/animals/spider.png", "./assets/accessories/bags/bag.png", "./assets/accessories/beer.png", "./assets/accessories/bunny.png", "./assets/accessories/children/child.png", "./assets/accessories/food/banana-mask.png", "./assets/accessories/food/banana.png", "./assets/accessories/food/croissant.png", "./assets/accessories/food/icecream-right-mask.png", "./assets/accessories/food/icecream-right.png", "./assets/accessories/hobbys/playstation.png", "./assets/accessories/hobbys/scate-mask.png", "./assets/accessories/hobbys/scate.png", "./assets/accessories/playstation.png", "./assets/accessories/premium/wedding-dress.png", "./assets/accessories/premium/wedding-suit.png", "./assets/accessories/star.png", "./assets/accessories/twohands/gloves.png", "./assets/backgrounds/big/love.png", "./assets/backgrounds/big/you_and_me.png", "./assets/backgrounds/big/Каракули.jpg", "./assets/backgrounds/big/red.jpg", "./assets/backgrounds/small/love.png", "./assets/backgrounds/small/you_and_me.png", "./assets/backgrounds/small/Каракули.jpg", "./assets/backgrounds/small/red.jpg", "./assets/backgrounds/square/1.png", "./assets/body/arms-mask.png", "./assets/body/base-outline.png", "./assets/body/base-white.png", "./assets/body/legs-mask.png", "./assets/body/plastic-light.png", "./assets/body/plastic-shadow.png", "./assets/body/shirt-mask.png", "./assets/body/skin-mask.png", "./assets/body/torso-mask.png", "./assets/faces/A1.png", "./assets/faces/A2.png", "./assets/faces/A3.png", "./assets/faces/A4.png", "./assets/faces/A5.png", "./assets/faces/A6.png", "./assets/faces/A8.png", "./assets/faces/A9.png", "./assets/hair/back/f1.png", "./assets/hair/back/f6.png", "./assets/hair/f1.png", "./assets/hair/f2.png", "./assets/hair/f3.png", "./assets/hair/f4.png", "./assets/hair/f5.png", "./assets/hair/f6.png", "./assets/hair/f7.png", "./assets/hair/m1.png", "./assets/hair/m2.png", "./assets/hair/m3.png", "./assets/hero/hero-bg.png", "./assets/onboarding/step-1.png", "./assets/onboarding/step-2.png", "./assets/podium/pink.png", "./assets/prints/drip-smile.png", "./assets/prints/print-sketch-heart.png", "./assets/prints/swoosh-character.png", "./assets/share-bg.PNG"]);
 /* MIGLICK: persistent draft compatibility and safe UI text. */
 let storageFailed=false;
+const giftTemplate = typeof studioGiftTemplate === 'undefined' ? null : studioGiftTemplate;
+function draftKey(key) {
+  if (!giftTemplate || key === 'mb_cart_v1' || key === 'mb_payment_method') return key;
+  return 'miglik_template_' + giftTemplate.id + '_' + key;
+}
+
 const draftStorage={
- getItem(key){try{return typeof window!=='undefined'&&window.miglikStorage?window.miglikStorage.getItem(key):localStorage.getItem(key)}catch{return null}},
- setItem(key,value){try{typeof window!=='undefined'&&window.miglikStorage?window.miglikStorage.setItem(key,value):localStorage.setItem(key,value)}catch{storageFailed=true}},
- removeItem(key){try{typeof window!=='undefined'&&window.miglikStorage?window.miglikStorage.removeItem(key):localStorage.removeItem(key)}catch{storageFailed=true}}
+ getItem(key){try{return typeof window!=='undefined'&&window.miglikStorage?window.miglikStorage.getItem(draftKey(key)):localStorage.getItem(draftKey(key))}catch{return null}},
+ setItem(key,value){try{typeof window!=='undefined'&&window.miglikStorage?window.miglikStorage.setItem(draftKey(key),value):localStorage.setItem(draftKey(key),value)}catch{storageFailed=true}},
+ removeItem(key){try{typeof window!=='undefined'&&window.miglikStorage?window.miglikStorage.removeItem(draftKey(key)):localStorage.removeItem(draftKey(key))}catch{storageFailed=true}}
 };
 function readList(key,fallback,nonempty=false){try{const data=JSON.parse(draftStorage.getItem(key)||'null');return Array.isArray(data)&&(!nonempty||data.length)&&data.every(x=>x&&typeof x==='object')?data:fallback}catch{return fallback}}
 function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -318,7 +324,8 @@ async function getAccessoryRenderUrl(id, src, color){
 }
 const frames=[{id:'white-small',name:'15,5×20,5',cls:'frame-white f-small',m:'small'},{id:'white-square',name:'22×22',cls:'frame-white f-square',m:'square'},{id:'white-big',name:'22,5×31,5',cls:'frame-white f-big',m:'big'},{id:'black-small',name:'15,5×20,5',cls:'frame-black f-small',m:'small'},{id:'black-square',name:'22×22',cls:'frame-black f-square',m:'square'},{id:'black-big',name:'22,5×31,5',cls:'frame-black f-big',m:'big'}];
 let framePresetBackgrounds=[
-  {id:'none',name:'Без фона',src:''}
+  {id:'none',name:'Без фона',src:''},
+  ...(typeof togetherBackground === 'undefined' ? [] : [togetherBackground])
 ];
 function prettyBgName(id){
   return String(id||'')
@@ -360,8 +367,8 @@ function normalizeBackgroundItem(raw){
   return null;
 }
 async function resolveBackgrounds(raw){
-  const result=[{id:'none',name:'Без фона',src:''}];
-  const seen=new Set(['none']);
+  const result=[{id:'none',name:'Без фона',src:''}, ...(typeof togetherBackground === 'undefined' ? [] : [togetherBackground])];
+  const seen=new Set(result.map(background => background.id));
   const exts=['png','jpg','jpeg','webp','svg'];
   const items=(Array.isArray(raw)?raw:[]).map(normalizeBackgroundItem).filter(Boolean);
   for(const item of items){
@@ -545,7 +552,7 @@ const steps=[{key:'skin',num:'01',title:'Лицо',focus:'focus-skin'},{key:'hai
 const storeKey='mb_v4_people';
 function firstHairId(){return (Array.isArray(hair)&&hair.length?hair[0]:'f1')}
 function newPerson(n){return{name:'Герой '+n,note:'',face:'A1',hair:firstHairId(),skin:15,torso:19,legs:7,print:'',printScale:1,printX:0,printY:0,accessory:'',leftAccessory:'',rightAccessory:'',outfitAccessory:'',boardAccessory:'',centerAccessory:'',icecreamColor:'#fd98c6',bananaColor:'#ffe066',scateColor:'#79c943',sleeveMode:'sleeves',frameX:null,frameY:null}}
-let people=readList(storeKey,[newPerson(1)],true);people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;cleanOutfitFromHands(merged);merged.accessory='';return merged});let active=0,step='skin',frame=draftStorage.getItem('mb_v4_frame')||'white-square',undo=[],frameBgData=draftStorage.getItem('mb_frame_bg')||'',frameBgScale=draftStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=draftStorage.getItem('mb_frame_preset_bg')||'none',frameMobileDrop=draftStorage.getItem('mb_frame_mobile_drop')||'0';
+let people=readList(storeKey,giftTemplate?.people ?? [newPerson(1)],true);people=people.map((p,i)=>{const merged={...newPerson(i+1),...p};if(merged.accessory&&!merged.rightAccessory)merged.rightAccessory=merged.accessory;cleanOutfitFromHands(merged);merged.accessory='';return merged});let active=0,step='skin',frame=giftTemplate?.frameOverride||draftStorage.getItem('mb_v4_frame')||giftTemplate?.frame||'white-square',undo=[],frameBgData=draftStorage.getItem('mb_frame_bg')||'',frameBgScale=draftStorage.getItem('mb_frame_bg_scale')||'1',framePresetBg=draftStorage.getItem('mb_frame_preset_bg')||giftTemplate?.background.id||'none',frameMobileDrop=draftStorage.getItem('mb_frame_mobile_drop')||'0';
 const cartKey='mb_cart_v1';
 if(!frames.some(f=>f.id===frame)) frame='white-square';
 let cart=readList(cartKey,[]);
@@ -1790,14 +1797,18 @@ function updateFrameBackground(){
   }
   const bgScaleNum=Math.max(0.5,Number(frameBgScale||1));
   const presetBg=getFramePresetBackground(framePresetBg);
-  const bgSrc=frameBgData || presetBg.src || '';
+  const isTogether = !frameBgData && framePresetBg === 'gift-together';
+  const bgSrc=frameBgData || (isTogether ? togetherBackgroundFor(frameType()) : presetBg.src) || '';
   if(bgSrc){
     bg.style.backgroundImage=`url(${bgSrc})`;
     bg.style.backgroundPosition='center center';
     bg.style.backgroundRepeat='no-repeat';
-    bg.style.backgroundSize=`${Math.round(bgScaleNum*100)}%`;
+    const percent = `${Math.round(bgScaleNum*100)}%`;
+    bg.style.backgroundColor = isTogether ? '#e1c5ad' : '';
+    bg.style.backgroundSize = isTogether && bgScaleNum === 1 ? 'contain' : percent;
   }else{
     bg.style.backgroundImage='none';
+    bg.style.backgroundColor='';
     bg.style.backgroundSize='';
   }
 }
@@ -2067,13 +2078,23 @@ async function exportOrderImage(){
   ctx.beginPath();ctx.rect(contentX,contentY,contentW,contentH);ctx.clip();
   ctx.fillStyle='#ececec';ctx.fillRect(contentX,contentY,contentW,contentH);
   const presetBg=getFramePresetBackground(framePresetBg);
-  const bgSrc=frameBgData || presetBg.src || '';
+  const isTogether = !frameBgData && framePresetBg === 'gift-together';
+  const bgSrc=frameBgData || (isTogether ? togetherBackgroundFor(frameType()) : presetBg.src) || '';
   if(bgSrc){
     const bgImg=await loadImg(bgSrc);
     if(bgImg){
       const us=Math.max(0.5,Number(frameBgScale||1));
-      const cs=Math.max(contentW/bgImg.naturalWidth,contentH/bgImg.naturalHeight)*us;
-      ctx.drawImage(bgImg,contentX+(contentW-bgImg.naturalWidth*cs)/2,contentY+(contentH-bgImg.naturalHeight*cs)/2,bgImg.naturalWidth*cs,bgImg.naturalHeight*cs);
+      if (isTogether) {
+        ctx.fillStyle = '#e1c5ad';
+        ctx.fillRect(contentX, contentY, contentW, contentH);
+        const scale = Math.min(contentW / bgImg.naturalWidth, contentH / bgImg.naturalHeight) * us;
+        const width = bgImg.naturalWidth * scale;
+        const height = bgImg.naturalHeight * scale;
+        ctx.drawImage(bgImg, contentX + (contentW - width) / 2, contentY + (contentH - height) / 2, width, height);
+      } else {
+        const cs=Math.max(contentW/bgImg.naturalWidth,contentH/bgImg.naturalHeight)*us;
+        ctx.drawImage(bgImg,contentX+(contentW-bgImg.naturalWidth*cs)/2,contentY+(contentH-bgImg.naturalHeight*cs)/2,bgImg.naturalWidth*cs,bgImg.naturalHeight*cs);
+      }
     }
   }
   ctx.restore();
@@ -2518,7 +2539,7 @@ async function loadCatalog(){
     });
   }catch(e){
     window.miglikCatalogFailed=true;console.warn('Каталог недоступен; сохранённые настройки не сброшены.');
-    framePresetBackgrounds=[{id:'none',name:'Без фона',src:''}];
+    framePresetBackgrounds=[{id:'none',name:'Без фона',src:''}, ...(typeof togetherBackground === 'undefined' ? [] : [togetherBackground])];
     
     faces=await filter(defaultFaces,'faces');
     hair=await resolveHairCatalog(defaultHair);
