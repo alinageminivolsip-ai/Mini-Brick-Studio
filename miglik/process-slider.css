@@ -90,3 +90,20 @@
   #process .process-list li { transition: none; }
   #process .process-list li:hover { scale: 1 !important; }
 }
+
+/* Occasion cards share the process cards’ whole-card feedback. */
+@media (min-width: 768px) {
+  #occasions .occasion-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  #occasions .occasion-link { position: relative; display: grid; align-content: start; gap: 14px; min-width: 0; padding: 12px 12px 20px; border: 1px solid #e8e2df; border-radius: 18px; background: #faf7f5; text-decoration: none; }
+  #occasions .occasion-link img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; border-radius: 12px; background: #f3efed; }
+  #occasions .occasion-arrow { position: absolute; right: 20px; top: 20px; }
+}
+#occasions .occasion-link:focus-visible { outline: 2px solid #8d283f; outline-offset: 3px; background-color: #f6e9eb; }
+@media (hover: hover) and (pointer: fine) {
+  #occasions .occasion-link { transition: scale 220ms ease-out, background-color 220ms ease-out, border-color 220ms ease-out; }
+  #occasions .occasion-link:hover { z-index: 1; scale: 1.025 !important; background-color: #f6e9eb; border-color: #dfc4ca; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #occasions .occasion-link { transition: none; }
+  #occasions .occasion-link:hover { scale: 1 !important; }
+}
