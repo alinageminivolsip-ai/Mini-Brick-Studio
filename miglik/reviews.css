@@ -1,0 +1,19 @@
+
+.reviews-section { overflow: hidden; }
+.reviews-track { display: flex; gap: 24px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; padding: 4px 4px 20px; }
+.review-card { flex: 0 0 min(42vw, 440px); display: flex; flex-direction: column; align-items: flex-start; gap: 24px; padding: 32px; border: 1px solid var(--stone, #e8e2df); border-radius: 24px; background: #fff; scroll-snap-align: start; min-width: 0; }
+.review-card h3 { font: inherit; font-size: 20px; font-weight: 600; margin: 0; }
+.review-card blockquote { font-size: 18px; line-height: 1.9; margin: 0; overflow-wrap: anywhere; }
+.review-rating { flex-shrink: 0; }
+.review-photo { display: block; width: 100%; height: auto; aspect-ratio: 393 / 524; object-fit: cover; margin-top: auto; }
+#review-controls:not([hidden]) { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; }
+#review-controls .process-swipe-hint { color: var(--muted, #756e68); font-size: 14px; }
+#review-controls .process-pagination { display: flex; gap: 12px; align-items: center; color: #8d283f; font-size: 14px; }
+#review-controls button { width: 48px; height: 48px; border-radius: 50%; border: 1px solid #e8d8db; background: #fff; color: #8d283f; font: inherit; font-size: 24px; cursor: pointer; touch-action: manipulation; }
+#review-controls button:disabled { opacity: .35; cursor: default; }
+#review-controls button:focus-visible, .reviews-track:focus-visible { outline: 2px solid #8d283f; outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { #review-controls button { transition: background-color 180ms ease-out; } #review-controls button:hover:not(:disabled) { background: #f6e9eb; } }
+@media (max-width: 767px) { .reviews-track { gap: 12px; } .review-card { flex-basis: 86%; padding: 24px; gap: 20px; } .review-card blockquote { font-size: 16px; line-height: 1.7; } #review-controls:not([hidden]) { flex-wrap: wrap; } }
+@media (prefers-reduced-motion: reduce) { #review-controls button { transition: none; } }
+.reviews-track::after { content: ''; flex: 0 0 max(0px, calc(100% - min(42vw, 440px) - 24px)); }
+@media (max-width: 767px) { .reviews-track::after { flex-basis: max(0px, calc(14% - 12px)); } }

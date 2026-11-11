@@ -1,10 +1,10 @@
-function setupSlider(track, controls, {label, unit}) {
+function setupSlider(track, controls, {label, unit, breakpoint = '(max-width: 767px)'}) {
   if (!track || !controls) return;
   const cards = [...track.children];
   const previous = controls.querySelector('[data-process-prev]');
   const next = controls.querySelector('[data-process-next]');
   const status = controls.querySelector('output');
-  const mobile = matchMedia('(max-width: 767px)');
+  const mobile = matchMedia(breakpoint);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let active = 0;
   let frame = 0;
@@ -73,4 +73,8 @@ setupSlider(document.querySelector('#process-slides'), document.querySelector('#
 });
 setupSlider(document.querySelector('#occasion-slides'), document.querySelector('#occasion-controls'), {
   label: 'Поводы для подарка', unit: 'Повод'
+});
+
+setupSlider(document.querySelector('#review-slides'), document.querySelector('#review-controls'), {
+  label: 'Отзывы покупателей', unit: 'Отзыв', breakpoint: '(min-width: 0px)'
 });
