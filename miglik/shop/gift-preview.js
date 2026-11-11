@@ -1,3 +1,4 @@
+import { icon } from './icons.js';
 import { giftStudioURL } from './gift-photos.js';
 
 const studioAssets = '/Mini-Brick-Studio/studio/assets/';
@@ -17,7 +18,7 @@ function figure(person, index, product, variant) {
       <img class="gift-preview-light" src="${studioAssets}body/plastic-light.png" alt="">
       <img src="${studioAssets}optimized/faces/${person.face}.webp" alt="">
       <img src="${studioAssets}hair/${person.hair}.png" alt="">
-    </span><span class="gift-hero-marker" aria-hidden="true">✎</span>
+    </span><span class="gift-hero-marker" aria-hidden="true">${icon('edit')}</span>
   </a>`;
 }
 

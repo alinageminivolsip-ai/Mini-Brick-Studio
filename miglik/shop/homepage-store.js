@@ -20,7 +20,7 @@ function enhance(){
  if(!existing)hero.parentElement.append(buy);
  for(const a of document.querySelectorAll('a[href*="studio"]'))a.href=constructorURL;
  const foot=document.createElement('nav');foot.className='home-store-footer';foot.setAttribute('aria-label','Покупателям');foot.innerHTML='<a href="/catalog">Каталог рамок</a><a href="/delivery">Доставка и оплата</a><a href="/account">Личный кабинет</a><a href="/legal">Документы</a><a href="/returns">Возврат</a><a href="/contacts">Контакты</a><a href="/cookies">Память браузера</a>';document.body.append(foot);
- const label=document.createElement('span');label.className='website-mode';label.textContent='Демонстрация магазина · тестовые цены';document.body.append(label);
+ const label=document.createElement('p');label.className='site-demo-notice';label.textContent='Демонстрационная версия. Реальные заказы пока не принимаются.';document.querySelector('.site-footer')?.prepend(label);
  header.querySelector(".mobile-navigation")?.addEventListener("keydown",event=>{if(event.key==="Escape"){event.currentTarget.open=false;event.currentTarget.querySelector("summary")?.focus();}});
  for(const a of document.querySelectorAll('.home-store-links a, .mobile-navigation a[href^="/"], .home-store-footer a'))a.href=shop(a.getAttribute('href'));
  observer.disconnect();
