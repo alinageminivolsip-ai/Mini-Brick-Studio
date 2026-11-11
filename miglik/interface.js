@@ -71,7 +71,7 @@ function enhanceCopy() {
     button.innerHTML = icon('arrow');
     button.classList.toggle('slider-previous', button.hasAttribute('data-process-prev'));
   });
-  document.querySelectorAll('.text-link > span[aria-hidden], .button > span[aria-hidden]').forEach(span => {
+  document.querySelectorAll('.text-link > span[aria-hidden], .button > span[aria-hidden], .occasion-arrow').forEach(span => {
     if (span.textContent.trim() === '↗') span.innerHTML = icon('up');
   });
   const storeMenu = document.querySelector('.mobile-nav');

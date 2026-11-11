@@ -141,3 +141,12 @@ body:not(:has(.builder)) .discount-hint { display: flex; flex-wrap: wrap; align-
   body:not(:has(.builder)) .cart-line-copy .text-button { min-height: 44px; }
   body:not(:has(.builder)) .discount-hint, body:not(:has(.builder)) .detail-facts { font-size: 14px; line-height: 1.5; }
 }
+.authored-home .final-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.authored-home .occasion-arrow { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--site-line); border-radius: 50%; background: white; color: var(--site-accent); }
+.authored-home .occasion-arrow .icon { width: 22px; height: 22px; }
+@media (max-width: 767px) {
+  .authored-home .story-copy { padding-inline: 0; }
+  .authored-home .memory-words { padding-inline: 0; }
+  .authored-home .home-store-footer { padding-inline: 20px; }
+}
+@media (max-width: 359px) { .authored-home .home-store-footer { padding-inline: 16px; } }
