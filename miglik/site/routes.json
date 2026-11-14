@@ -1,0 +1,175 @@
+{
+  "base": "/Mini-Brick-Studio/miglik/",
+  "pages": [
+    {
+      "path": "ramki-s-minifigurkami/",
+      "title": "Рамка с минифигурками по фото на заказ | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "miniatura-doma/",
+      "title": "3D-миниатюра квартиры и дома по планировке | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/",
+      "title": "Идеи персональных подарков | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/dlya-devushki/",
+      "title": "Подарок девушке по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/dlya-parnya/",
+      "title": "Подарок парню по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/dlya-muzha/",
+      "title": "Подарок мужу по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/dlya-zheny/",
+      "title": "Подарок жене по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/dlya-podrugi/",
+      "title": "Подарок подруге по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/dlya-roditeley/",
+      "title": "Подарок родителям по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/na-godovshchinu/",
+      "title": "Подарок на годовщину по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/na-svadbu/",
+      "title": "Подарок на свадьбу по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/na-den-rozhdeniya/",
+      "title": "Подарок на день рождения по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/na-novosele/",
+      "title": "Подарок на новоселье по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "podarki/na-14-fevralya/",
+      "title": "Подарок на 14 февраля по вашей истории | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "primery/",
+      "title": "Примеры персональных рамок и миниатюр | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "otzyvy/",
+      "title": "Отзывы о персональных подарках MIGLIK",
+      "index": true
+    },
+    {
+      "path": "kak-zakazat/",
+      "title": "Как заказать персональный подарок | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "tseny/",
+      "title": "Стоимость персональных рамок и миниатюр | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "faq/",
+      "title": "Вопросы о подарках и заказе | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "dostavka-i-oplata/",
+      "title": "Доставка и оплата | MIGLIK",
+      "index": true
+    },
+    {
+      "path": "o-miglik/",
+      "title": "О MIGLIK — подарки из личных историй",
+      "index": true
+    },
+    {
+      "path": "kontakty/",
+      "title": "Контакты MIGLIK — обсудить подарок",
+      "index": true
+    },
+    {
+      "path": "constructor/",
+      "title": "Конструктор рамки | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "cart/",
+      "title": "Корзина | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "checkout/",
+      "title": "Проверка заказа | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "account/",
+      "title": "Личный кабинет | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "account/orders/",
+      "title": "Мои заказы | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "account/saved/",
+      "title": "Сохранённые рамки | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "privacy/",
+      "title": "Конфиденциальность | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "personal-data-consent/",
+      "title": "Согласие на обработку данных | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "offer/",
+      "title": "Оферта | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "terms/",
+      "title": "Условия | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "cookies/",
+      "title": "Cookie и память браузера | MIGLIK",
+      "index": false
+    },
+    {
+      "path": "vozvrat/",
+      "title": "Возврат | MIGLIK",
+      "index": false
+    }
+  ]
+}

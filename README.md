@@ -1,8 +1,38 @@
-# MIGLICK
+# MIGLIK · многостраничный сайт
 
-- [Основной сайт](https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/miglik/)
-- [Действующий конструктор](https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/studio/)
-- [Предыдущая главная](https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/miglik/previous.html)
-- [Дополнительная ссылка на историю](https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/miglik-scroll-demo/)
+Существующий GitHub Pages проект. Ветка `rebuild/multipage-miglik`. Главная, медиа и отдельный конструктор сохранены.
 
-GitHub Pages публикует main / root. Корневое старое приложение сохранено. Конструктор и его рабочие интеграции остаются в studio/.
+## Запуск и сборка
+
+Нужен Python 3 и macOS `sips` для чтения размеров изображений. Дополнительные Python/npm-пакеты не нужны.
+
+```sh
+python3 scripts/build-site.py
+python3 scripts/check-site.py
+python3 scripts/document-site.py
+mkdir -p /private/tmp/miglik-preview
+ln -sfn "$PWD" /private/tmp/miglik-preview/Mini-Brick-Studio
+python3 -m http.server 5320 --bind 127.0.0.1 --directory /private/tmp/miglik-preview
+```
+
+Открыть `/Mini-Brick-Studio/miglik/` на локальном сервере. Сборка генерирует готовые HTML в существующем miglik/, отдельного dist нет. Это же preview production-файлов. Нельзя запускать от корня miglik/: абсолютные пути содержат префикс GitHub Pages.
+
+## Редактирование
+
+- `scripts/build-site.py`: страницы, контент, общие header/footer/cards/FAQ; добавление нового SEO-маршрута — вызов `add(...)`.
+- `site-src/home.html`: исходная анимационная главная до генерации. Не редактировать сгенерированный `miglik/index.html` напрямую.
+- `miglik/site/site.css` и `site.js`: адаптивные стили и общая навигация/движение.
+- `miglik/site/apartment-player.js`: генерируется из существующего бандла без изменения алгоритма.
+- `miglik/editorial/`, `miglik/assets/`, `miglik/fonts/`: существующие медиа и локальные шрифты; не перемещать без обновления ссылок.
+- `studio/`: защищённый действующий конструктор. Ссылка ведёт напрямую в него. Внутренний код не изменён.
+- `miglik/shop/`: действующий демонстрационный магазин; корзина/кабинет подключены ссылками, без фиктивного backend.
+
+## Анимации
+
+Главная использует существующие GSAP/ScrollTrigger и пять сцен. Новые страницы используют локальные GSAP-модули, matchMedia/cleanup и статическую альтернативу при reduced motion. Страница дома повторно использует существующий проигрыватель кадров с ограниченным кэшем. Слайдеры — существующий process-slider.js.
+
+## Проверки и выпуск
+
+`docs/audit/` — аудит, `docs/architecture/` — маршруты и пути, `docs/assets/` — ассеты, `docs/seo/` — индексация, `docs/qa/` — реальные проверки и ограничения.
+
+Публикация: после полного тестирования проверить diff, сделать commit и push согласованной версии в main существующего репозитория. Автоматическую публикацию эта сборка не запускает. Пока не пройдены итоговые проверки, действующий публичный сайт остаётся прежним.
