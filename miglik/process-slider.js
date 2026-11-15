@@ -1,4 +1,4 @@
-function setupSlider(track, controls, {label, unit, breakpoint = '(max-width: 767px)'}) {
+export function setupSlider(track, controls, {label, unit, breakpoint = '(max-width: 767px)'}) {
   if (!track || !controls) return;
   const cards = [...track.children];
   const previous = controls.querySelector('[data-process-prev]');

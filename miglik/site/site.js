@@ -1,7 +1,10 @@
 import {gsap} from '../assets/index-Bvu9zNsI.js';
 import {ScrollTrigger} from '../assets/ScrollTrigger-7Zy99s9Q.js';
 import {ApartmentPlayer} from './apartment-player.js';
-import '../process-slider.js';
+import {setupSlider} from '../process-slider.js?v=unify-1';
+for(const track of document.querySelectorAll('[data-step-track]')){
+ setupSlider(track,document.querySelector('[data-step-controls="'+track.id+'"]'),{label:track.dataset.stepLabel,unit:'Этап'});
+}
 const dialog=document.querySelector('#mp-menu'),toggle=document.querySelector('.mp-menu-toggle');
 if(dialog&&toggle){
  const close=()=>{dialog.close();toggle.setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');toggle.focus();};

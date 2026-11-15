@@ -1,0 +1,9 @@
+/* One heading family and weight across the public website; never loaded by studio. */
+:root{--heading-family:Unbounded,Arial,sans-serif;--heading-weight:700;--heading-tracking:-.035em;--heading-leading:1.18;--heading-1:clamp(34px,4.4vw,68px);--heading-2:clamp(28px,3.2vw,48px);--heading-3:clamp(18px,1.55vw,23px)}
+body:not(:has(.builder)) :is(h1,h2,h3){font-family:var(--heading-family)!important;font-weight:var(--heading-weight)!important;font-style:normal!important;letter-spacing:var(--heading-tracking)!important;line-height:var(--heading-leading)!important;text-wrap:balance;overflow-wrap:anywhere}
+body:not(:has(.builder)) h1{font-size:var(--heading-1)!important}
+body:not(:has(.builder)) h2{font-size:var(--heading-2)!important}
+body:not(:has(.builder)) h3{font-size:var(--heading-3)!important}
+body:not(:has(.builder)) :is(h1,h2,h3) :is(em,.highlight){font-family:inherit;font-weight:inherit;font-style:normal}
+@media(max-width:767px){:root{--heading-1:clamp(26px,7.4vw,36px);--heading-2:clamp(25px,6.8vw,32px);--heading-3:20px}}
+@media(max-width:359px){:root{--heading-1:26px;--heading-2:25px;--heading-3:18px}}
