@@ -3,97 +3,97 @@
   "pages": [
     {
       "path": "ramki-s-minifigurkami/",
-      "title": "Рамка с минифигурками по фото на заказ | MIGLIK",
+      "title": "Рамки с минифигурками по фото — от 2 490 ₽ | MIGLIK",
       "index": true
     },
     {
       "path": "miniatura-doma/",
-      "title": "3D-миниатюра квартиры и дома по планировке | MIGLIK",
+      "title": "3D-миниатюра вашей квартиры или дома | MIGLIK",
       "index": true
     },
     {
       "path": "podarki/",
-      "title": "Идеи персональных подарков | MIGLIK",
+      "title": "Идеи персональных подарков для близких | MIGLIK",
       "index": true
     },
     {
       "path": "podarki/dlya-devushki/",
-      "title": "Подарок девушке по вашей истории | MIGLIK",
+      "title": "Персональный подарок девушке | MIGLIK",
       "index": true
     },
     {
       "path": "podarki/dlya-parnya/",
-      "title": "Подарок парню по вашей истории | MIGLIK",
+      "title": "Необычный подарок парню | MIGLIK",
       "index": true
     },
     {
       "path": "podarki/dlya-muzha/",
-      "title": "Подарок мужу по вашей истории | MIGLIK",
-      "index": true
+      "title": "Подарок мужу по вашим фотографиям | MIGLIK",
+      "index": false
     },
     {
       "path": "podarki/dlya-zheny/",
-      "title": "Подарок жене по вашей истории | MIGLIK",
-      "index": true
+      "title": "Персональный подарок жене | MIGLIK",
+      "index": false
     },
     {
       "path": "podarki/dlya-podrugi/",
-      "title": "Подарок подруге по вашей истории | MIGLIK",
+      "title": "Подарок подруге с вашими фигурками | MIGLIK",
       "index": true
     },
     {
       "path": "podarki/dlya-roditeley/",
-      "title": "Подарок родителям по вашей истории | MIGLIK",
+      "title": "Персональный подарок родителям | MIGLIK",
       "index": true
     },
     {
       "path": "podarki/na-godovshchinu/",
-      "title": "Подарок на годовщину по вашей истории | MIGLIK",
+      "title": "Персональный подарок на годовщину | MIGLIK",
       "index": true
     },
     {
       "path": "podarki/na-svadbu/",
-      "title": "Подарок на свадьбу по вашей истории | MIGLIK",
+      "title": "Подарок на свадьбу с фигурками молодожёнов | MIGLIK",
       "index": true
     },
     {
       "path": "podarki/na-den-rozhdeniya/",
-      "title": "Подарок на день рождения по вашей истории | MIGLIK",
-      "index": true
+      "title": "Необычный подарок на день рождения | MIGLIK",
+      "index": false
     },
     {
       "path": "podarki/na-novosele/",
-      "title": "Подарок на новоселье по вашей истории | MIGLIK",
+      "title": "3D-миниатюра квартиры в подарок на новоселье | MIGLIK",
       "index": true
     },
     {
       "path": "podarki/na-14-fevralya/",
-      "title": "Подарок на 14 февраля по вашей истории | MIGLIK",
-      "index": true
+      "title": "Подарок на 14 февраля по вашим фотографиям | MIGLIK",
+      "index": false
     },
     {
       "path": "primery/",
-      "title": "Примеры персональных рамок и миниатюр | MIGLIK",
+      "title": "Примеры рамок и 3D-миниатюр | MIGLIK",
       "index": true
     },
     {
       "path": "otzyvy/",
-      "title": "Отзывы о персональных подарках MIGLIK",
+      "title": "Отзывы покупателей MIGLIK | MIGLIK",
       "index": true
     },
     {
       "path": "kak-zakazat/",
-      "title": "Как заказать персональный подарок | MIGLIK",
+      "title": "Как заказать рамку или миниатюру | MIGLIK",
       "index": true
     },
     {
       "path": "tseny/",
-      "title": "Стоимость персональных рамок и миниатюр | MIGLIK",
+      "title": "Цены на рамки и 3D-миниатюры | MIGLIK",
       "index": true
     },
     {
       "path": "faq/",
-      "title": "Вопросы о подарках и заказе | MIGLIK",
+      "title": "Частые вопросы | MIGLIK",
       "index": true
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": "o-miglik/",
-      "title": "О MIGLIK — подарки из личных историй",
+      "title": "О MIGLIK | MIGLIK",
       "index": true
     },
     {
       "path": "kontakty/",
-      "title": "Контакты MIGLIK — обсудить подарок",
+      "title": "Как связаться с MIGLIK | MIGLIK",
       "index": true
     },
     {
