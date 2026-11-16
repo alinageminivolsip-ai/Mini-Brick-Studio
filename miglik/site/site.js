@@ -1,21 +1,12 @@
 import {gsap} from '../assets/index-Bvu9zNsI.js';
 import {ScrollTrigger} from '../assets/ScrollTrigger-7Zy99s9Q.js';
 import {ApartmentPlayer} from './apartment-player.js';
-import {setupSlider} from '../process-slider.js?v=content-3';
+import {setupSlider} from '../process-slider.js?v=shopping-1';
 for(const track of document.querySelectorAll('[data-step-track]')){
  setupSlider(track,document.querySelector('[data-step-controls="'+track.id+'"]'),{label:track.dataset.stepLabel,unit:'Этап'});
 }
-const dialog=document.querySelector('#mp-menu'),toggle=document.querySelector('.mp-menu-toggle');
-if(dialog&&toggle){
- const close=()=>{dialog.close();toggle.setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');toggle.focus();};
- toggle.addEventListener('click',()=>{dialog.showModal();toggle.setAttribute('aria-expanded','true');document.body.classList.add('menu-open');dialog.querySelector('button').focus();});
- dialog.querySelector('[data-close-menu]').addEventListener('click',close);
- dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
- dialog.addEventListener('click',e=>{if(e.target===dialog)close();});
- dialog.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{dialog.close();document.body.classList.remove('menu-open');toggle.setAttribute('aria-expanded','false');}));
-}
-const current=location.pathname;
-document.querySelectorAll('.mp-desktop a,#mp-menu nav>a').forEach(a=>{if(new URL(a.href).pathname===current)a.setAttribute('aria-current','page');});
+import {mountNavigation} from './navigation.js?v=shopping-1';
+mountNavigation();
 // The existing homepage bundle owns its scenes. New pages have a scoped lifecycle.
 if(document.body.classList.contains('multipage')){
  gsap.registerPlugin(ScrollTrigger);
@@ -76,3 +67,18 @@ for(const button of document.querySelectorAll('[data-example-filter]'))button.ad
  document.querySelectorAll('[data-example-kind]').forEach(card=>{card.hidden=kind!=='all'&&card.dataset.exampleKind!==kind;});
  ScrollTrigger.refresh();
 });
+
+// Collection rails share the same controller as process and review tracks.
+for(const track of document.querySelectorAll('[data-collection-track]'))setupSlider(track,document.querySelector('[data-collection-controls="'+track.id+'"]'),{label:'Подборки подарков',unit:'Подборка'});
+for(const selection of document.querySelectorAll('[data-gift-selection]')){
+ const recipient=selection.querySelector('[data-gift-recipient]'),occasion=selection.querySelector('[data-gift-occasion]');
+ if(!recipient||!occasion)continue;
+ const update=()=>{let count=0;selection.querySelectorAll('[data-gift-card]').forEach(card=>{card.hidden=!(recipient.value==='all'||card.dataset.recipient===recipient.value)||!(occasion.value==='all'||card.dataset.occasion===occasion.value);if(!card.hidden)count++;});selection.querySelector('[data-gift-empty]').hidden=count!==0;selection.querySelector('[data-gift-status]').textContent='Найдено композиций: '+count;ScrollTrigger.refresh();};
+ recipient.addEventListener('change',update);occasion.addEventListener('change',update);
+ selection.querySelector('[data-gift-reset]').addEventListener('click',()=>{recipient.value='all';occasion.value='all';update();});window.addEventListener('pageshow',update);update();
+}
+// Layout changes outside the authored timeline must refresh its measured start as well.
+let refreshFrame=0;
+const refreshScenes=()=>{cancelAnimationFrame(refreshFrame);refreshFrame=requestAnimationFrame(()=>ScrollTrigger.refresh());};
+for(const img of document.querySelectorAll('main img'))if(!img.complete)img.addEventListener('load',refreshScenes,{once:true});
+for(const detail of document.querySelectorAll('details'))detail.addEventListener('toggle',refreshScenes);

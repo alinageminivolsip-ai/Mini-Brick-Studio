@@ -1,0 +1,43 @@
+{
+  "new_placeholders": [
+    {
+      "page": "miniatura-doma/",
+      "slot": "house-production-track: step 3",
+      "source": "scripts/shopping_pages.py",
+      "label": "Фото 3D-печати",
+      "status": "neutral placeholder authorized by owner; real production photo needed"
+    }
+  ],
+  "retained_sketches": [
+    {
+      "product": "family",
+      "page": "shop/?view=%2Fproduct%2Ffamily",
+      "status": "existing labeled sketch; owner product photograph needed"
+    },
+    {
+      "product": "birthday",
+      "page": "shop/?view=%2Fproduct%2Fbirthday",
+      "status": "existing labeled sketch; owner product photograph needed"
+    },
+    {
+      "product": "wedding",
+      "page": "shop/?view=%2Fproduct%2Fwedding",
+      "status": "existing labeled sketch; owner product photograph needed"
+    },
+    {
+      "product": "new-year",
+      "page": "shop/?view=%2Fproduct%2Fnew-year",
+      "status": "existing labeled sketch; owner product photograph needed"
+    },
+    {
+      "product": "friends",
+      "page": "shop/?view=%2Fproduct%2Ffriends",
+      "status": "existing labeled sketch; owner product photograph needed"
+    }
+  ],
+  "missing_process_photograph": {
+    "page": "miniatura-doma/",
+    "slot": "3D-printing production step",
+    "rendered": "neutral labeled placeholder, no fabricated printer photograph"
+  }
+}
