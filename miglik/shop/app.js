@@ -1,5 +1,5 @@
-import {siteHeader,siteFooter} from '../site/chrome.js?v=shopping-1';
-import {mountNavigation} from '../site/navigation.js?v=shopping-1';
+import {siteHeader,siteFooter} from '../site/chrome.js?v=disclosure-1';
+import {mountNavigation} from '../site/navigation.js?v=disclosure-1';
 import { giftPreview, hasGiftPreview } from './gift-preview.js?v=polish-1';
 import { giftPhotos, giftStudioURL } from './gift-photos.js';
 import { previewApi, previewRoute, previewURL, rewriteLinks } from './preview.js';

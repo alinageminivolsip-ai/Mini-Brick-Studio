@@ -24,7 +24,7 @@ if(document.querySelector('[data-editorial-reveal]')){
 for(const track of document.querySelectorAll('[data-step-track]')){
  setupSlider(track,document.querySelector('[data-step-controls="'+track.id+'"]'),{label:track.dataset.stepLabel,unit:'Этап'});
 }
-import {mountNavigation} from './navigation.js?v=shopping-1';
+import {mountNavigation} from './navigation.js?v=disclosure-1';
 mountNavigation();
 // The existing homepage bundle owns its scenes. New pages have a scoped lifecycle.
 if(document.body.classList.contains('multipage')){

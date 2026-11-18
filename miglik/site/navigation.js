@@ -1,7 +1,5 @@
 // Shared website/store navigation. No commerce writes and no scene dependency.
 const mounted = new WeakSet();
-const mobileFooter=matchMedia('(max-width:767px)');
-mobileFooter.addEventListener('change',()=>document.querySelectorAll('.mp-footer-group').forEach(group=>{group.open=!mobileFooter.matches;}));
 export function mountNavigation(root=document){
  const header=root.querySelector('.mp-header');
  if(header&&!mounted.has(header)){
@@ -14,7 +12,6 @@ export function mountNavigation(root=document){
   dialog.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{dialog.close();document.body.classList.remove('menu-open');toggle.setAttribute('aria-expanded','false');}));
  }
  root.querySelectorAll('.mp-desktop a,#mp-menu nav>a').forEach(a=>{const url=new URL(a.href);if(url.pathname===location.pathname&&url.search===location.search)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
- root.querySelectorAll('.mp-footer-group').forEach(group=>{if(mounted.has(group))return;mounted.add(group);group.open=!mobileFooter.matches;group.addEventListener('toggle',()=>{if(!mobileFooter.matches&&!group.open)group.open=true;});});
  syncCartCount(root);
 }
 export function syncCartCount(root=document){

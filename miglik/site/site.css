@@ -155,3 +155,37 @@ html{scroll-padding-top:96px;-webkit-text-size-adjust:100%}body{margin:0}.multip
 @media(max-width:767px) {
   .mp-faq { grid-template-columns:minmax(0,1fr);gap:20px; }
 }
+
+/* Footer links stay grouped behind visible, keyboard-accessible disclosure controls. */
+.mp-footer { padding-top:clamp(24px,3vw,36px); }
+.mp-footer-brand { margin-bottom:20px; }
+.mp-footer .mp-footer-columns { display:grid;gap:12px;align-items:start; }
+.mp-footer .mp-footer-group {
+  padding:0;
+  border:1px solid var(--mp-line);
+  border-radius:12px;
+  background:#fff;
+}
+.mp-footer .mp-footer-group > summary {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  cursor:pointer;
+  min-height:48px;
+  padding:8px 12px;
+  border-radius:11px;
+  list-style:none;
+}
+.mp-footer .mp-footer-group > summary::after { content:none; }
+.mp-footer .mp-footer-group > summary:focus-visible { outline:2px solid var(--mp-accent);outline-offset:2px; }
+.mp-footer .mp-footer-group > nav { padding:0 12px 8px; }
+.mp-footer .mp-footer-group[open] > summary { background:var(--mp-active); }
+.mp-footer .mp-footer-group[open] > summary .mp-faq-chevron { color:#fff;background:var(--mp-accent); }
+.mp-footer .mp-footer-group[open] > summary .mp-faq-chevron::before { transform:translateY(2px) rotate(225deg); }
+.mp-footer .mp-footer-bottom { margin-top:20px;align-items:center; }
+.mp-footer .mp-footer-legal { width:min(100%,270px); }
+@media(max-width:767px) {
+  .mp-footer .mp-footer-columns { grid-template-columns:minmax(0,1fr); }
+  .mp-footer .mp-footer-legal { width:100%;margin-top:8px; }
+}
