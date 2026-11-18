@@ -61,6 +61,16 @@ function selectPhoto() {
 }
 
 function cells(count, layout) {
+  if (layout === 'border' && count >= 2) {
+    const band = .26;
+    const hasSides = count >= 5;
+    const topCount = Math.ceil((count - Number(hasSides) - Number(count === 6)) / 2);
+    const bottomCount = count - topCount - Number(hasSides) - Number(count === 6);
+    const row = (length, y) => Array.from({length}, (_, i) => [i / length, y, 1 / length, band]);
+    const sides = hasSides ? [[0, .53, .23, .21]] : [];
+    if (count === 6) sides.push([.77, band, .23, .21]);
+    return [...row(topCount, 0), ...sides, ...row(bottomCount, 1 - band)];
+  }
   if (layout === 'hero' && count >= 2) {
     return [[0, 0, .62, 1], ...Array.from({length: count - 1}, (_, i) => [.62, i / (count - 1), .38, 1 / (count - 1)])];
   }

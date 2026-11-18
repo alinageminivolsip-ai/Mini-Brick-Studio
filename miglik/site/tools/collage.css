@@ -122,3 +122,6 @@
 .collage-controls input[type=file] { width:100%;min-width:0; }
 .collage-controls .mp-actions > * { min-width:0; }
 .layout-hint:empty,.collage-controls > [role=status]:empty { display:none; }
+
+.layout-border { grid-template-rows:1fr 1.6fr 1fr; }
+.layout-border i:nth-child(n+3) { grid-row:3; }

@@ -3,7 +3,7 @@
 
 def add_tools(add, base):
     path = 'tools/kollazh-iz-foto/'
-    styles = f'<link rel="stylesheet" href="{base}site/tools/collage.css?v=ux-3">'
+    styles = f'<link rel="stylesheet" href="{base}site/tools/collage.css?v=border-1">'
     photos = [
         ('collection', 'Коллекция рамок с фигурками'),
         ('dresser', 'Рамка с фигурками на комоде'),
@@ -11,7 +11,7 @@ def add_tools(add, base):
     ]
     tiles = ''.join(f'<img src="{base}editorial/integration/{file}.webp" alt="{alt}" decoding="async">' for file, alt in photos)
     layouts = [('wide', 'Два рядом'), ('four', 'Четыре фото'), ('hero', 'Большой и два малых'),
-               ('polaroid', 'Полароиды'), ('asymmetric', 'Асимметрия')]
+               ('polaroid', 'Полароиды'), ('asymmetric', 'Асимметрия'), ('border', 'Фото по краям')]
     choices = ''.join(
         f'<button type="button" data-layout="{value}" aria-pressed="{str(value == "wide").lower()}">'
         f'<span class="layout-diagram layout-{value}" aria-hidden="true"><i></i><i></i><i></i><i></i></span>{label}</button>'
@@ -40,7 +40,7 @@ def add_tools(add, base):
         <div class="collage-controls">
         <label class="collage-upload">Добавить фотографии<input type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
         <div role="group" aria-label="Макет" class="layout-picker">{choices}</div><p class="layout-hint" role="status"></p>
-        <select name="layout" hidden aria-label="Выбранный макет"><option value="wide">Два рядом</option><option value="four">Четыре фото</option><option value="hero">Большой и два малых</option><option value="polaroid">Полароиды</option><option value="asymmetric">Асимметрия</option><option value="grid">Сетка</option><option value="strip">Вертикальная подборка</option></select>
+        <select name="layout" hidden aria-label="Выбранный макет"><option value="wide">Два рядом</option><option value="four">Четыре фото</option><option value="hero">Большой и два малых</option><option value="polaroid">Полароиды</option><option value="asymmetric">Асимметрия</option><option value="border">Фото по краям</option><option value="grid">Сетка</option><option value="strip">Вертикальная подборка</option></select>
         <label>Формат рамки <select name="ratio"><option value="M">M — прямоугольная</option><option value="L" selected>L — квадратная</option><option value="XL">XL — высокая</option></select></label>
         <details class="collage-adjust"><summary>Настроить фотографии и фон</summary>
         <label>Фон <input name="background" type="color" value="#faf9f6"></label>
@@ -60,4 +60,4 @@ def add_tools(add, base):
         <h2>Примеры макетов</h2><div class="tools-examples"><figure><div class="tools-sample tools-sample-pair">{tiles}</div><figcaption>Два снимка рядом</figcaption></figure><figure><div class="tools-sample">{tiles}</div><figcaption>Один крупный и два маленьких</figcaption></figure></div>
         <h2>Нужна регистрация?</h2><p>Коллаж можно создать и скачать бесплатно, без аккаунта.</p>
         <a class="mp-link" href="{base}tools/">Все инструменты</a></section>
-        <script type="module" src="{base}site/tools/collage.js?v=ux-2"></script>''')
+        <script type="module" src="{base}site/tools/collage.js?v=border-1"></script>''')
