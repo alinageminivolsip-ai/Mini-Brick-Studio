@@ -37,7 +37,7 @@ def header(path=''):
     cart=B+'shop/?view=%2Fcart'; account=B+'shop/?view=%2Faccount'
     return f'''<header class="mp-header"><div class="mp-header-inner"><a class="mp-logo" href="{B}" aria-label="MIGLIK — главная">MIGLIK<span>.</span></a><nav class="mp-desktop" aria-label="Основная навигация">{links}</nav><div class="mp-header-actions"><a class="mp-account" href="{account}">Кабинет</a><a class="mp-cart" href="{cart}">Корзина<span data-cart-count hidden></span></a><button class="mp-menu-toggle" type="button" aria-expanded="false" aria-controls="mp-menu">Меню</button></div></div><dialog id="mp-menu" aria-label="Меню сайта"><div class="mp-menu-top"><span class="mp-logo">MIGLIK<span>.</span></span><button type="button" data-close-menu>Закрыть</button></div><nav aria-label="Разделы сайта">{links}{link('podarki/','Подобрать подарок')}{link('primery/','Наши работы')}{link('tseny/','Стоимость')}{link('otzyvy/','Отзывы')}{link('faq/','Вопросы')}<a href="{account}">Личный кабинет</a><a href="{STUDIO}">Создать рамку</a></nav></dialog></header>'''
 def footer():
-    groups=[('Подарки',[('ramki-s-minifigurkami/','Рамки с минифигурками'),('miniatura-doma/','Миниатюры дома'),('podarki/','Подобрать подарок'),('primery/','Примеры оформления')]),('Покупателям',[('kak-zakazat/','Как заказать'),('tseny/','Стоимость'),('dostavka-i-oplata/','Доставка и оплата'),('faq/','Вопросы и ответы'),('otzyvy/','Отзывы'),('shop/?view=%2Fcart','Корзина'),('shop/?view=%2Faccount','Личный кабинет')]),('О MIGLIK',[('o-miglik/','О бренде'),('kontakty/','Контакты')])]
+    groups=[('Подарки',[('ramki-s-minifigurkami/','Рамки с минифигурками'),('miniatura-doma/','Миниатюры дома'),('podarki/','Подобрать подарок'),('primery/','Примеры оформления')]),('Покупателям',[('kak-zakazat/','Как заказать'),('tseny/','Стоимость'),('dostavka-i-oplata/','Доставка и оплата'),('faq/','Вопросы и ответы'),('otzyvy/','Отзывы'),('shop/?view=%2Fcart','Корзина'),('shop/?view=%2Faccount','Личный кабинет')]),('О MIGLIK',[('o-miglik/','О бренде'),('tools/','Бесплатные инструменты'),('kontakty/','Контакты')])]
     columns=''.join('<details class="mp-footer-group" open><summary>'+title+'</summary><nav aria-label="'+title+'">'+''.join(link(p,t) for p,t in items)+'</nav></details>' for title,items in groups)
     legal=[('privacy/','Конфиденциальность'),('personal-data-consent/','Согласие на обработку данных'),('offer/','Оферта'),('terms/','Условия'),('cookies/','Cookie'),('vozvrat/','Возврат')]
     return f'''<footer class="mp-footer"><div class="mp-footer-inner"><div class="mp-footer-brand"><a class="mp-logo" href="{B}">MIGLIK<span>.</span></a><p>Подарки с вашей историей.</p><a class="mp-contact" href="{VK}">Написать ВКонтакте</a></div><div class="mp-footer-columns">{columns}</div><div class="mp-footer-bottom"><span>© MIGLIK, 2026</span><nav aria-label="Правовые документы">{''.join(link(p,t) for p,t in legal)}</nav></div><p class="mp-demo">Демонстрационная версия магазина. Реальные заказы пока не принимаются.</p></div></footer>'''
@@ -122,6 +122,8 @@ from shopping_pages import refine_pages, refine_home
 refine_pages(globals())
 from editorial_images import add_to_pages, add_to_home
 add_to_pages(pages)
+from tools_pages import add_tools
+add_tools(add, B)
 (M/'site/chrome.js').write_text('// Generated shared storefront navigation.\nexport const siteHeader = '+json.dumps(header(),ensure_ascii=False)+';\nexport const siteFooter = '+json.dumps(footer(),ensure_ascii=False)+';\n')
 for path,p in pages.items():
     crumbs=[('','Главная')]+([('podarki/','Подарки')] if p['group'] else [])
@@ -163,4 +165,4 @@ bundle=(M/'assets/index-DOE2Nm44.js').read_text(); start=bundle.index('ee={count
 (M/'site/apartment-player.js').write_text('// Existing apartment player, extracted unchanged from index-DOE2Nm44.js.\n'+'const '+bundle[start:end]+'\nexport {V as ApartmentPlayer};\n')
 manifest={'base':B,'pages':[{'path':p,'title':v['title'],'index':v['index']} for p,v in pages.items()]}
 (M/'site/routes.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
-print(f'Built homepage + {len(pages)} static routes; {len(urls)} indexable URLs. Constructor untouched.')
+print(f'Built homepage + {len(pages)} static routes; {len(urls)} indexable URLs.')
