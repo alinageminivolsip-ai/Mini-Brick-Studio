@@ -93,3 +93,65 @@ html{scroll-padding-top:96px;-webkit-text-size-adjust:100%}body{margin:0}.multip
 @media(prefers-reduced-motion:reduce){.editorial-layout .editorial-photo-inner{will-change:auto}}
 
 .editorial-layout{scroll-margin-top:24px}
+
+.mp-faq {
+  display:grid;
+  grid-template-columns:minmax(0, .8fr) minmax(0, 1.35fr);
+  align-items:start;
+  gap:clamp(24px, 5vw, 72px);
+}
+.mp-faq-intro h2 { margin:0 0 16px; }
+.mp-faq-intro p { color:var(--mp-muted);margin:0 0 18px; }
+.mp-faq-intro .mp-button { gap:10px; }
+.shopping-home #faq .mp-faq-intro .mp-button { margin-top:0; }
+.mp-faq-intro > .mp-link { display:flex;width:fit-content;margin-top:10px; }
+.mp-faq-list { display:grid;gap:10px;min-width:0; }
+:is(.multipage,.shopping-home #faq) .mp-faq-list details {
+  padding:0;
+  border:1px solid transparent;
+  border-radius:18px;
+  background:var(--mp-paper);
+}
+:is(.multipage,.shopping-home #faq) .mp-faq-list details[open] {
+  background:var(--mp-active);
+  border-color:#e5ccd2;
+}
+:is(.multipage,.shopping-home #faq) .mp-faq-list summary {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  min-height:64px;
+  padding:12px clamp(14px, 2vw, 24px);
+  border-radius:17px;
+  list-style:none;
+  font:600 clamp(16px, 1.45vw, 20px)/1.35 Onest,sans-serif;
+}
+.mp-faq-list summary::-webkit-details-marker { display:none; }
+.mp-faq-chevron {
+  display:grid;
+  place-items:center;
+  flex:0 0 34px;
+  height:34px;
+  border-radius:50%;
+  background:#fff;
+  color:var(--mp-accent);
+}
+.mp-faq-chevron::before {
+  content:'';
+  width:7px;
+  height:7px;
+  border:solid currentColor;
+  border-width:0 2px 2px 0;
+  transform:translateY(-2px) rotate(45deg);
+}
+.mp-faq-list details[open] .mp-faq-chevron { color:white;background:var(--mp-accent); }
+.mp-faq-list details[open] .mp-faq-chevron::before { transform:translateY(2px) rotate(225deg); }
+:is(.multipage,.shopping-home #faq) .mp-faq-list details > p {
+  margin:0;
+  padding:0 clamp(14px, 2vw, 24px) 18px;
+  max-width:65ch;
+}
+@media(max-width:767px) {
+  .mp-faq { grid-template-columns:minmax(0,1fr);gap:20px; }
+}

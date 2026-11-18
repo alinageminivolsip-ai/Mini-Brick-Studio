@@ -45,8 +45,23 @@ def hero(title,text,file,alt,action=None):
     return f'<section class="mp-hero"><div><h1>{title}</h1><p class="mp-lead">{text}</p><div class="mp-actions">{action or button("ramki-s-minifigurkami/","Выбрать рамку")}</div></div><figure>{image(file,alt,False)}</figure></section>'
 def textsection(title,text,extra=''):
     return f'<section class="mp-section mp-copy"><h2>{title}</h2><p>{text}</p>{extra}</section>'
-def faq(items):
-    return '<section class="mp-section mp-copy"><h2>Частые вопросы</h2>'+''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q,a in items)+'</section>'
+def faq(items, *, home=False, contact=True):
+    attributes = 'class="faq-section editorial-section mp-faq" id="faq"' if home else 'class="mp-section mp-faq"'
+    heading = 'Вопросы и ответы' if home else 'Частые вопросы'
+    questions = ''.join(
+        f'<details><summary>{q}<span class="mp-faq-chevron" aria-hidden="true"></span></summary><p>{a}</p></details>'
+        for q, a in items
+    )
+    more = link('faq/', 'Все вопросы', 'mp-link') if home else ''
+    help_link = (
+        '<p>Не нашли ответ? Напишите нам ВКонтакте.</p>'
+        '<a class="mp-button" href="https://vk.com/write-224539480">Написать нам <span aria-hidden="true">↗</span></a>'
+    ) if contact else ''
+    return (
+        f'<section {attributes}><div class="mp-faq-intro"><h2>{heading}</h2>'
+        f'{help_link}{more}</div><div class="mp-faq-list">{questions}</div></section>'
+    )
+
 def cards(items):
     return '<div class="mp-cards">'+''.join(f'<a class="mp-card" href="{B+p}"><figure>{image(f,t)}</figure><h3>{t}</h3><p>{d}</p><span class="mp-card-action">Подробнее</span></a>' for p,t,d,f in items)+'</div>'
 def step_cards(items,label='Этапы',key='steps'):
@@ -134,14 +149,14 @@ for path,p in pages.items():
     # Examples refer to current integrated constructor and product pages; approved copy stays intact.
     if path in ['otzyvy/','faq/']:
         body=re.sub(r'<div class="section-heading">[\s\S]*?</div>','<h2>Впечатления о подарках</h2>',body,count=1) if path=='otzyvy/' else body.replace('<h2 id="faq-heading" data-reveal>Вопросы, которые могут возникнуть</h2>','<h2 id="faq-heading">Выбор и оформление</h2>')
-    document=f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>{esc(p['title'])}</title><meta name="description" content="{esc(p['desc'])}"><meta name="robots" content="{'index,follow' if p['index'] else 'noindex,follow'}"><link rel="canonical" href="{ORIGIN+B+path}"><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:title" content="{esc(p['title'])}"><meta property="og:description" content="{esc(p['desc'])}"><meta property="og:url" content="{ORIGIN+B+path}"><meta property="og:image" content="{ORIGIN+B}editorial/images/share.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="{B}shop/favicon.svg"><link rel="stylesheet" href="{B}assets/index-DvwcqADe.css"><link rel="stylesheet" href="{B}process-slider.css"><link rel="stylesheet" href="{B}reviews.css"><link rel="stylesheet" href="{B}site/site.css?v=editorial-2"><link rel="stylesheet" href="{B}site/typography.css?v=shopping-1"><script type="module" src="{B}site/site.js?v=editorial-1"></script><script type="application/ld+json">{json.dumps(schema,ensure_ascii=False)}</script></head><body class="multipage"><a class="mp-skip" href="#main">К содержимому</a>{header(path)}<main id="main" tabindex="-1">{bread}{body}</main>{footer()}</body></html>'''
+    document=f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>{esc(p['title'])}</title><meta name="description" content="{esc(p['desc'])}"><meta name="robots" content="{'index,follow' if p['index'] else 'noindex,follow'}"><link rel="canonical" href="{ORIGIN+B+path}"><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:title" content="{esc(p['title'])}"><meta property="og:description" content="{esc(p['desc'])}"><meta property="og:url" content="{ORIGIN+B+path}"><meta property="og:image" content="{ORIGIN+B}editorial/images/share.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="{B}shop/favicon.svg"><link rel="stylesheet" href="{B}assets/index-DvwcqADe.css"><link rel="stylesheet" href="{B}process-slider.css"><link rel="stylesheet" href="{B}reviews.css"><link rel="stylesheet" href="{B}site/site.css?v=faq-1"><link rel="stylesheet" href="{B}site/typography.css?v=shopping-1"><script type="module" src="{B}site/site.js?v=editorial-1"></script><script type="application/ld+json">{json.dumps(schema,ensure_ascii=False)}</script></head><body class="multipage"><a class="mp-skip" href="#main">К содержимому</a>{header(path)}<main id="main" tabindex="-1">{bread}{body}</main>{footer()}</body></html>'''
     out=M/path/'index.html';out.parent.mkdir(parents=True,exist_ok=True);out.write_text(document)
 # Integrate navigation and product discovery on existing homepage, retaining all authored scenes.
 home=source.replace('process-slider.js?v=reviews-1','process-slider.js?v=shopping-1').replace('<meta name="robots" content="noindex,nofollow">','<meta name="robots" content="index,follow">\n<link rel="canonical" href="'+ORIGIN+B+'">')
 home=home.replace('<title>MIGLIK — персональные подарки по вашим фотографиям</title>','<title>MIGLIK — персональные подарки по фото и 3D-миниатюры</title>')
 home=home.replace('<script type="module" src="/Mini-Brick-Studio/miglik/shop/homepage-store.js?v=polish-1"></script>','')
 home=re.sub(r'<header class="site-header">[\s\S]*?</header>',header(),home,count=1)
-home=home.replace('<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/interface.css?v=2">','<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/interface.css?v=2"><link rel="stylesheet" href="'+B+'site/site.css?v=editorial-2"><script type="module" src="'+B+'site/site.js?v=editorial-1"></script>')
+home=home.replace('<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/interface.css?v=2">','<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/interface.css?v=2"><link rel="stylesheet" href="'+B+'site/site.css?v=faq-1"><script type="module" src="'+B+'site/site.js?v=editorial-1"></script>')
 # Keep the animation's .brand hook without intercepting cross-page navigation.
 home=home.replace('class="mp-logo" href="'+B+'" aria-label','class="mp-logo brand" href="#start" aria-label',1)
 home=home.replace('<section class="memory-section', '<section class="mp-section mp-directions" id="products"><h2>Какую историю вы хотите <em>сохранить?</em></h2>'+cards(products)+'</section>\n<section class="memory-section',1)

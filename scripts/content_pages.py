@@ -12,7 +12,7 @@ def size_selector():
 
 def apply_content(ns):
     pages=ns['pages']; image=ns['image']; hero=ns['hero']; section=ns['section']; text=ns['textsection']; cards=ns['cards']; steps=ns['step_cards']; link=ns['link']; button=ns['button']; faq_base=ns['faq']
-    def faq(title,items): return faq_base(items).replace('<h2>Частые вопросы</h2>',f'<h2>{title}</h2>')
+    def faq(title,items,contact=True): return faq_base(items,contact=contact).replace('<h2>Частые вопросы</h2>',f'<h2>{title}</h2>')
     def cta(label,url=STUDIO): return f'<a class="mp-button" href="{url}">{label}</a>'
     def setpage(path,h1,body,desc,title=None,index=None):
         p=pages[path];p.update(title=title or h1+' | MIGLIK',desc=desc,body=body)
@@ -72,7 +72,7 @@ def apply_content(ns):
     body=heading('Цены на рамки и 3D-миниатюры')+text('Рамки с минифигурками — от 2 490 ₽','Выберите размер M, L или XL. Итоговая стоимость зависит от комплектации.',size_selector()+cta('Открыть конструктор'))+text('3D-миниатюры дома — индивидуальный расчёт','Стоимость зависит от планировки, размера и детализации.',cta('Узнать стоимость',VK))
     setpage('tseny/','Цены на рамки и 3D-миниатюры',body,'Рамки с минифигурками от 2 490 ₽, размеры M/L/XL. Стоимость 3D-миниатюры дома рассчитывается индивидуально.')
     categories=[('Фигурки и рамки',frame_faq[2:3]),('Размеры и цена',frame_faq[:2]),('Миниатюры дома',home_faq),('Заказ',frame_faq[3:]),('Доставка и оплата',[('Как узнать сроки и условия?','Уточните срок изготовления, оплату и способ получения у MIGLIK до подтверждения заказа.')])]
-    setpage('faq/','Частые вопросы',heading('Частые вопросы')+''.join(faq(t,qs) for t,qs in categories),'Ответы о фигурках, размерах M/L/XL, стоимости от 2 490 ₽, миниатюрах дома и передаче заказа.')
+    setpage('faq/','Частые вопросы',heading('Частые вопросы')+''.join(faq(t,qs,contact=i==0) for i,(t,qs) in enumerate(categories)),'Ответы о фигурках, размерах M/L/XL, стоимости от 2 490 ₽, миниатюрах дома и передаче заказа.')
     setpage('dostavka-i-oplata/','Доставка и оплата',heading('Доставка и оплата')+''.join(text(t,c) for t,c in [('Сроки изготовления','Уточняются для конкретного проекта до заказа.'),('Способы получения','Доступный способ и стоимость получения согласуйте с MIGLIK.'),('Оплата','Порядок и способ оплаты уточняйте в переписке. Демо-магазин не принимает платежи.'),('Что делать при повреждении','Напишите MIGLIK и приложите фотографии, чтобы обсудить ситуацию.')])+cta('Уточнить условия',VK),'Уточните сроки изготовления, получение и оплату персонального подарка MIGLIK. Условия согласуются до заказа.')
     setpage('o-miglik/','О MIGLIK',hero('О MIGLIK','Создаём рамки с персональными минифигурками и 3D-миниатюры квартир и домов.','editorial/images/process/review-frame-800.webp','Визуализация персональной рамки MIGLIK',button('primery/','Посмотреть примеры'))+text('Как мы работаем','Для рамки вы выбираете образы и оформление. Для миниатюры дома присылаете планировку и фотографии; по ним создаём модель для 3D-печати.',cta('Написать нам',VK)),'MIGLIK: персональные рамки с минифигурками и 3D-печатные миниатюры домов. Продукты, процесс и связь с брендом.')
     setpage('kontakty/','Как связаться с MIGLIK',heading('Как связаться с MIGLIK','Напишите ВКонтакте, чтобы обсудить рамку, миниатюру дома или детали заказа.')+text('Что прислать','Для рамки — пожелания по оформлению. Для дома — планировку и фотографии комнат.',cta('Написать ВКонтакте',VK)),'Связаться с MIGLIK ВКонтакте: обсудить рамку с фигурками, миниатюру дома и условия заказа.')
@@ -104,7 +104,11 @@ def rewrite_home(home,ns):
     home=re.sub(r'<section\b[^>]*id="process"[\s\S]*?</section>',process,home,count=1)
     price='<section class="mp-directions mp-section"><h2>Сколько стоит рамка</h2><p>'+PRICE+'</p>'+button('tseny/','Посмотреть размеры и цены')+'</section>'
     home=home.replace('<section class="process-section',price+'<section class="process-section',1)
-    faq='<section class="faq-section editorial-section" id="faq"><h2>Частые вопросы</h2>'+''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q,a in [('Сколько стоит рамка?',PRICE),('Можно изменить фигурки?','Да. Выбирайте лица, причёски, одежду и аксессуары в конструкторе.'),('Как заказать миниатюру дома?','Пришлите планировку и фотографии MIGLIK ВКонтакте для индивидуального расчёта.')])+button('faq/','Все вопросы')+'</section>'
+    faq=ns['faq']([
+        ('Сколько стоит рамка?', PRICE),
+        ('Можно изменить фигурки?', 'Да. Выбирайте лица, причёски, одежду и аксессуары в конструкторе.'),
+        ('Как заказать миниатюру дома?', 'Пришлите планировку и фотографии MIGLIK ВКонтакте для индивидуального расчёта.'),
+    ], home=True)
     home=re.sub(r'<section\b[^>]*id="faq"[\s\S]*?</section>',faq,home,count=1)
     home=home.replace('Теперь <span class="highlight">ваша<i aria-hidden="true"></i></span> очередь','Создайте свою рамку').replace('Теперь ваша очередь','Создайте свою рамку')
     home=home.replace('Начать можно с одной фотографии и пары слов о человеке, для которого вы готовите подарок.','Выберите образы и оформление в конструкторе.')
