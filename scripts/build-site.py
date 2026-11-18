@@ -120,6 +120,8 @@ from content_pages import apply_content, rewrite_home
 apply_content(globals())
 from shopping_pages import refine_pages, refine_home
 refine_pages(globals())
+from editorial_images import add_to_pages, add_to_home
+add_to_pages(pages)
 (M/'site/chrome.js').write_text('// Generated shared storefront navigation.\nexport const siteHeader = '+json.dumps(header(),ensure_ascii=False)+';\nexport const siteFooter = '+json.dumps(footer(),ensure_ascii=False)+';\n')
 for path,p in pages.items():
     crumbs=[('','Главная')]+([('podarki/','Подарки')] if p['group'] else [])
@@ -130,14 +132,14 @@ for path,p in pages.items():
     # Examples refer to current integrated constructor and product pages; approved copy stays intact.
     if path in ['otzyvy/','faq/']:
         body=re.sub(r'<div class="section-heading">[\s\S]*?</div>','<h2>Впечатления о подарках</h2>',body,count=1) if path=='otzyvy/' else body.replace('<h2 id="faq-heading" data-reveal>Вопросы, которые могут возникнуть</h2>','<h2 id="faq-heading">Выбор и оформление</h2>')
-    document=f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>{esc(p['title'])}</title><meta name="description" content="{esc(p['desc'])}"><meta name="robots" content="{'index,follow' if p['index'] else 'noindex,follow'}"><link rel="canonical" href="{ORIGIN+B+path}"><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:title" content="{esc(p['title'])}"><meta property="og:description" content="{esc(p['desc'])}"><meta property="og:url" content="{ORIGIN+B+path}"><meta property="og:image" content="{ORIGIN+B}editorial/images/share.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="{B}shop/favicon.svg"><link rel="stylesheet" href="{B}assets/index-DvwcqADe.css"><link rel="stylesheet" href="{B}process-slider.css"><link rel="stylesheet" href="{B}reviews.css"><link rel="stylesheet" href="{B}site/site.css?v=gallery-2"><link rel="stylesheet" href="{B}site/typography.css?v=shopping-1"><script type="module" src="{B}site/site.js?v=shopping-1"></script><script type="application/ld+json">{json.dumps(schema,ensure_ascii=False)}</script></head><body class="multipage"><a class="mp-skip" href="#main">К содержимому</a>{header(path)}<main id="main" tabindex="-1">{bread}{body}</main>{footer()}</body></html>'''
+    document=f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>{esc(p['title'])}</title><meta name="description" content="{esc(p['desc'])}"><meta name="robots" content="{'index,follow' if p['index'] else 'noindex,follow'}"><link rel="canonical" href="{ORIGIN+B+path}"><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:title" content="{esc(p['title'])}"><meta property="og:description" content="{esc(p['desc'])}"><meta property="og:url" content="{ORIGIN+B+path}"><meta property="og:image" content="{ORIGIN+B}editorial/images/share.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="{B}shop/favicon.svg"><link rel="stylesheet" href="{B}assets/index-DvwcqADe.css"><link rel="stylesheet" href="{B}process-slider.css"><link rel="stylesheet" href="{B}reviews.css"><link rel="stylesheet" href="{B}site/site.css?v=editorial-2"><link rel="stylesheet" href="{B}site/typography.css?v=shopping-1"><script type="module" src="{B}site/site.js?v=editorial-1"></script><script type="application/ld+json">{json.dumps(schema,ensure_ascii=False)}</script></head><body class="multipage"><a class="mp-skip" href="#main">К содержимому</a>{header(path)}<main id="main" tabindex="-1">{bread}{body}</main>{footer()}</body></html>'''
     out=M/path/'index.html';out.parent.mkdir(parents=True,exist_ok=True);out.write_text(document)
 # Integrate navigation and product discovery on existing homepage, retaining all authored scenes.
 home=source.replace('process-slider.js?v=reviews-1','process-slider.js?v=shopping-1').replace('<meta name="robots" content="noindex,nofollow">','<meta name="robots" content="index,follow">\n<link rel="canonical" href="'+ORIGIN+B+'">')
 home=home.replace('<title>MIGLIK — персональные подарки по вашим фотографиям</title>','<title>MIGLIK — персональные подарки по фото и 3D-миниатюры</title>')
 home=home.replace('<script type="module" src="/Mini-Brick-Studio/miglik/shop/homepage-store.js?v=polish-1"></script>','')
 home=re.sub(r'<header class="site-header">[\s\S]*?</header>',header(),home,count=1)
-home=home.replace('<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/interface.css?v=2">','<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/interface.css?v=2"><link rel="stylesheet" href="'+B+'site/site.css?v=gallery-2"><script type="module" src="'+B+'site/site.js?v=shopping-1"></script>')
+home=home.replace('<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/interface.css?v=2">','<link rel="stylesheet" href="/Mini-Brick-Studio/miglik/interface.css?v=2"><link rel="stylesheet" href="'+B+'site/site.css?v=editorial-2"><script type="module" src="'+B+'site/site.js?v=editorial-1"></script>')
 # Keep the animation's .brand hook without intercepting cross-page navigation.
 home=home.replace('class="mp-logo" href="'+B+'" aria-label','class="mp-logo brand" href="#start" aria-label',1)
 home=home.replace('<section class="memory-section', '<section class="mp-section mp-directions" id="products"><h2>Какую историю вы хотите <em>сохранить?</em></h2>'+cards(products)+'</section>\n<section class="memory-section',1)
@@ -151,7 +153,7 @@ home=re.sub(r'<footer class="site-footer"[\s\S]*?</footer>',footer(),home,count=
 home=home.replace('https://alinageminivolsip-ai.github.io/Mini-Brick-Studio/studio/',STUDIO)
 home=home.replace('</head>','<link rel="stylesheet" href="'+B+'site/typography.css?v=shopping-1"></head>')
 home=rewrite_home(home,globals())
-home=refine_home(home,globals())
+home=add_to_home(refine_home(home,globals()))
 (M/'index.html').write_text(home)
 urls=['']+[p for p,v in pages.items() if v['index']]
 (M/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+ORIGIN+B+p+'</loc></url>' for p in urls)+'</urlset>')

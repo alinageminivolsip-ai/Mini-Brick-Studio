@@ -2,6 +2,25 @@ import {gsap} from '../assets/index-Bvu9zNsI.js';
 import {ScrollTrigger} from '../assets/ScrollTrigger-7Zy99s9Q.js';
 import {ApartmentPlayer} from './apartment-player.js';
 import {setupSlider} from '../process-slider.js?v=shopping-1';
+// Editorial photography has its own scoped motion; authored story timelines remain untouched.
+if(document.querySelector('[data-editorial-reveal]')){
+ gsap.registerPlugin(ScrollTrigger);
+ const editorialMotion=gsap.matchMedia();
+ editorialMotion.add({'motion':'(prefers-reduced-motion: no-preference)','fine':'(hover: hover) and (pointer: fine)'},context=>{
+  if(!context.conditions.motion)return;
+  for(const frame of document.querySelectorAll('[data-editorial-reveal]')){
+   const inner=frame.querySelector('.editorial-photo-inner');
+   gsap.fromTo(inner,{autoAlpha:0,y:24,scale:.985},{autoAlpha:1,y:0,scale:1,duration:.75,ease:'power3.out',scrollTrigger:{trigger:frame,start:'top 88%',once:true}});
+   if(context.conditions.fine){
+    const enter=()=>gsap.to(inner,{scale:1.025,rotation:.4,duration:.48,ease:'power2.out',overwrite:'auto'});
+    const leave=()=>gsap.to(inner,{scale:1,rotation:0,duration:.48,ease:'power2.out',overwrite:'auto'});
+    frame.addEventListener('pointerenter',enter);frame.addEventListener('pointerleave',leave);
+    context.add(()=>()=>{frame.removeEventListener('pointerenter',enter);frame.removeEventListener('pointerleave',leave);});
+   }
+  }
+ });
+ window.addEventListener('pagehide',event=>{if(!event.persisted)editorialMotion.revert();},{once:true});
+}
 for(const track of document.querySelectorAll('[data-step-track]')){
  setupSlider(track,document.querySelector('[data-step-controls="'+track.id+'"]'),{label:track.dataset.stepLabel,unit:'Этап'});
 }
