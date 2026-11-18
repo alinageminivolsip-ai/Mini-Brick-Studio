@@ -1,10 +1,11 @@
+import {gsap} from '../../assets/index-Bvu9zNsI.js';
 import {projectStore} from './project-store.js';
 
 const editor = document.querySelector('#collage-editor');
 const canvas = editor.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 const field = name => editor.querySelector('[name="' + name + '"]');
-const status = editor.querySelector('[role=status]');
+const status = editor.querySelector('.collage-controls > [role=status]:last-child');
 const download = editor.querySelector('[data-download]');
 const transfer = editor.querySelector('[data-transfer]');
 const upload = editor.querySelector('[type=file]');
@@ -16,6 +17,19 @@ let selected = 0;
 let history = [];
 let cursor = -1;
 let busy = false;
+const minimum = {four: 4, hero: 3, asymmetric: 3};
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const layoutButtons = [...editor.querySelectorAll('[data-layout]')];
+function insufficient() {
+  return photos.length > 0 && photos.length < (minimum[field('layout').value] || 2);
+}
+for (const button of layoutButtons) {
+  button.addEventListener('click', () => {
+    field('layout').value = button.dataset.layout;
+    record();
+    if (!reduced.matches) gsap.fromTo(canvas, {opacity: .75}, {opacity: 1, duration: .22, overwrite: true});
+  });
+}
 let drag;
 let hitAreas = [];
 const formats = {M: [15.5, 20.5], L: [22, 22], XL: [22.5, 31.5]};
@@ -50,7 +64,11 @@ function cells(count, layout) {
   if (layout === 'hero' && count >= 2) {
     return [[0, 0, .62, 1], ...Array.from({length: count - 1}, (_, i) => [.62, i / (count - 1), .38, 1 / (count - 1)])];
   }
-  const cols = layout === 'strip' ? 1 : layout === 'wide' ? count : count > 4 ? 3 : 2;
+  if (layout === 'asymmetric' && count >= 3) {
+    return [[0, 0, .62, .56], [.62, 0, .38, .56],
+      ...Array.from({length: count - 2}, (_, i) => [i / (count - 2), .56, 1 / (count - 2), .44])];
+  }
+  const cols = layout === 'strip' ? 1 : layout === 'wide' ? Math.min(count, 2) : count > 4 ? 3 : 2;
   const rows = Math.ceil(count / cols);
   return Array.from({length: count}, (_, i) => {
     const row = Math.floor(i / cols);
@@ -65,7 +83,13 @@ function draw() {
   mockup.style.setProperty('--frame-ratio', ratio);
   guides.style.setProperty('--figure-width', (4 / width * 2 / 3 * 100) + '%');
   guides.style.setProperty('--figure-height', (4 / height * 100) + '%');
-  guides.hidden = !field('guides').checked;
+  guides.hidden = !field('guides').checked || !photos.length;
+  editor.querySelector('.collage-empty').hidden = photos.length > 0;
+  for (const button of layoutButtons) {
+    button.setAttribute('aria-pressed', String(button.dataset.layout === field('layout').value));
+  }
+  const hint = editor.querySelector('.layout-hint');
+  hint.textContent = insufficient() ? 'Для этого макета нужно минимум ' + minimum[field('layout').value] + ' фото.' : '';
   canvas.classList.toggle('can-pan', photos.length > 0);
   hitAreas = [];
   canvas.height = Math.round(canvas.width / ratio);
@@ -95,7 +119,7 @@ function draw() {
     ctx.drawImage(bitmap, x - (imageW - w) * panX, y - (imageH - h) * panY, imageW, imageH);
     ctx.restore();
   });
-  download.disabled = transfer.disabled = busy || photos.length < 2;
+  download.disabled = transfer.disabled = busy || photos.length < 2 || insufficient();
   for (const name of [...crop, 'photo']) field(name).disabled = !photos.length;
   editor.querySelector('[data-history="-1"]').disabled = cursor <= 0;
   editor.querySelector('[data-history="1"]').disabled = cursor >= history.length - 1;
@@ -116,6 +140,7 @@ upload.addEventListener('change', async () => {
     status.textContent = 'Выберите от двух до шести фотографий.';
     return;
   }
+  status.textContent = 'Загружаем фотографии…';
   busy = upload.disabled = true;
   draw();
   try {
@@ -227,6 +252,7 @@ download.addEventListener('click', async () => {
     link.href = url;
     link.download = 'miglik-кoллаж.png';
     link.click();
+    status.textContent = 'PNG подготовлен к скачиванию.';
     setTimeout(() => URL.revokeObjectURL(url), 1500);
   } catch {
     status.textContent = 'Не удалось скачать коллаж. Попробуйте ещё раз.';
