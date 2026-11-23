@@ -4,7 +4,7 @@ const collagePage = '../miglik/tools/kollazh-iz-foto/';
 const url = new URL(location.href);
 let id = url.searchParams.get('collage');
 const toolbar = document.createElement('div');
-toolbar.style.cssText = 'padding:12px;display:flex;gap:12px;flex-wrap:wrap;align-items:center';
+toolbar.className = 'studio-collage-tools';
 const link = document.createElement('a');
 link.className = 'btn ghost';
 link.href = collagePage;
@@ -13,7 +13,7 @@ toolbar.append(link);
 const status = document.createElement('span');
 status.setAttribute('role', 'status');
 toolbar.append(status);
-document.querySelector('main')?.before(toolbar);
+document.querySelector('.workspace')?.before(toolbar);
 if (!toolbar.isConnected) document.body.append(toolbar);
 
 function background(data, preset, scale) {

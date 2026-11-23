@@ -105,3 +105,11 @@ body#miglickStudio.simple-studio .frame-size-thumb { scale:1.2; margin-block:8px
     gap:3px !important;
   }
 }
+
+.studio-collage-tools {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:0 clamp(16px,3vw,36px) 10px;
+}
