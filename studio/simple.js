@@ -143,9 +143,7 @@ renderFrame = function () {
     figure.setAttribute('aria-label', 'Настроить ' + people[index].name);
     figure.classList.toggle('simple-selected', flow === 1 && index === active);
     const edit = () => { active = index; simpleOpen('heroes'); };
-    const original = figure.onpointerdown;
-    figure.onpointerdown = event => { if (flow === 2) original?.(event); };
-    figure.onclick = () => { if (flow !== 2) edit(); };
+    figure.onclick = edit;
     figure.onkeydown = event => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); edit(); }
     };

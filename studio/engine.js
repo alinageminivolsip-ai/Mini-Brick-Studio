@@ -1680,48 +1680,54 @@ function showSnapGuides(guides){
   });
 }
 function attachFrameDragHandlers(){
-  miniGrid.querySelectorAll('.mini-figure').forEach(el=>{
-    el.onpointerdown=e=>{
-      if(step!=='frame')return;
-      e.preventDefault();
-      const idx=Number(el.dataset.index);
-      const rect=miniGrid.getBoundingClientRect();
-      el.setPointerCapture?.(e.pointerId);
-      el.classList.add('is-dragging');
-      active=idx;
-      renderPeople();renderMobilePeople();
-      const startX=e.clientX-rect.left;
-      const startY=e.clientY-rect.top;
-      const move=ev=>{
-        const rawX=Math.min(98,Math.max(2,(ev.clientX-rect.left)/rect.width*100));
-        const rawY=Math.min(95,Math.max(5,(ev.clientY-rect.top)/rect.height*100));
-        const {x,y,guides}=calcSnap(idx,rawX,rawY);
-        el.style.left=x+'%';
-        el.style.top=y+'%';
-        showSnapGuides(guides);
-      };
-      const up=ev=>{
-        el.releasePointerCapture?.(e.pointerId);
-        const rawX=Math.min(98,Math.max(2,(ev.clientX-rect.left)/rect.width*100));
-        const rawY=Math.min(95,Math.max(5,(ev.clientY-rect.top)/rect.height*100));
-        const {x,y}=calcSnap(idx,rawX,rawY);
-        snap();
-        frameLayoutTouched=true;
-        draftStorage.setItem('mb_frame_layout_touched','1');
-        people[idx].frameX=Math.round(x*10)/10;
-        people[idx].frameY=Math.round(y*10)/10;
-        el.classList.remove('is-dragging');
+  miniGrid.querySelectorAll('.mini-figure').forEach(figure=>{
+    figure.onpointerdown = event => {
+      if (!event.isPrimary || event.button !== 0 || (!document.body.classList.contains('simple-studio') && step !== 'frame')) return;
+      const index = Number(figure.dataset.index);
+      const rect = miniGrid.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const [startX, startY] = getPersonFramePos(index);
+      const pointer = event.pointerId;
+      let moved = false;
+      let position;
+      figure.setPointerCapture(pointer);
+      function move(next) {
+        if (next.pointerId !== pointer) return;
+        const dx = next.clientX - event.clientX;
+        const dy = next.clientY - event.clientY;
+        if (!moved && Math.hypot(dx, dy) < 5) return;
+        moved = true;
+        figure.classList.add('is-dragging');
+        position = calcSnap(index,
+          Math.min(98, Math.max(2, startX + dx / rect.width * 100)),
+          Math.min(95, Math.max(5, startY + dy / rect.height * 100)));
+        figure.style.left = position.x + '%';
+        figure.style.top = position.y + '%';
+        showSnapGuides(position.guides);
+      }
+      function finish(next) {
+        if (next.pointerId !== pointer) return;
+        figure.removeEventListener('pointermove', move);
+        figure.removeEventListener('pointerup', finish);
+        figure.removeEventListener('pointercancel', finish);
+        figure.removeEventListener('lostpointercapture', finish);
+        if (!moved) return;
         clearSnapGuides();
-        save();
-        renderFrame();renderPeople();renderMobilePeople();
-        window.removeEventListener('pointermove',move);
-        window.removeEventListener('pointerup',up);
-        window.removeEventListener('pointercancel',up);
-      };
-      move(e);
-      window.addEventListener('pointermove',move);
-      window.addEventListener('pointerup',up);
-      window.addEventListener('pointercancel',up);
+        if (next.type === 'pointerup') {
+          snap();
+          active = index;
+          frameLayoutTouched = true;
+          draftStorage.setItem('mb_frame_layout_touched', '1');
+          people[index].frameX = Math.round(position.x * 10) / 10;
+          people[index].frameY = Math.round(position.y * 10) / 10;
+          sync();
+        }
+        renderFrame();
+      }
+      figure.addEventListener('pointermove', move);
+      figure.addEventListener('pointerup', finish);
+      figure.addEventListener('pointercancel', finish);
+      figure.addEventListener('lostpointercapture', finish);
     };
   });
 }
