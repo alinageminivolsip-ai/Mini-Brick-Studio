@@ -29,7 +29,7 @@ for f in paths:
   if not target.exists():errors.append(f'{f.relative_to(R)}: missing {u}')
 # Guard protected constructor against baseline.
 changed=subprocess.check_output(['git','diff','--name-only','fd5b185','--','studio/','assets/'],cwd=R,text=True).strip()
-integration = {'studio/boot.js', 'studio/index.html', 'studio/sw.js', 'studio/collage-import.js', 'studio/engine.js', 'studio/simple.js', 'studio/simple.css'}
+integration = {'studio/boot.js', 'studio/index.html', 'studio/sw.js', 'studio/collage-import.js', 'studio/engine.js', 'studio/simple.js', 'studio/simple.css', 'studio/guided.js', 'studio/immersive.js', 'studio/immersive.css', 'studio/loader.js'}
 unexpected = [path for path in changed.splitlines() if path not in integration]
 if unexpected:errors.append('Protected files changed: ' + ', '.join(unexpected))
 print(json.dumps({'pages':len(paths),'errors':errors,'protected_constructor_files_unchanged':not unexpected},ensure_ascii=False,indent=2))

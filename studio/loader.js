@@ -84,7 +84,7 @@
             catch (error) { failed.push(error); }
           }
         }));
-        if (failed.length) throw new Error('Some assets did not load');
+        if (failed.length) throw failed[0];
         await deadline(document.fonts.ready);
         await new Promise(resolve => requestAnimationFrame(resolve));
         const visible = [...document.querySelectorAll('#constructorView img')].filter(img => img.getClientRects().length && getComputedStyle(img).display !== 'none' && img.getAttribute('src'));
@@ -92,6 +92,7 @@
         await wait(Math.max(0, 1800 - (performance.now() - started)));
         finish();
       } catch (error) {
+        console.error('MIGLIK preview assets:', error);
         fail('Не все детали загрузились. Проверьте соединение и попробуйте ещё раз.');
       }
     }

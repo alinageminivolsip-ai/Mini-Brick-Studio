@@ -1679,10 +1679,11 @@ function showSnapGuides(guides){
     c.appendChild(line);
   });
 }
+let framePointerActive = false;
 function attachFrameDragHandlers(){
   miniGrid.querySelectorAll('.mini-figure').forEach(figure=>{
     figure.onpointerdown = event => {
-      if (!event.isPrimary || event.button !== 0 || (!document.body.classList.contains('simple-studio') && step !== 'frame')) return;
+      if (framePointerActive || !event.isPrimary || event.button !== 0 || (!document.body.classList.contains('simple-studio') && step !== 'frame')) return;
       const index = Number(figure.dataset.index);
       const rect = miniGrid.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
@@ -1691,6 +1692,7 @@ function attachFrameDragHandlers(){
       let moved = false;
       let position;
       figure.setPointerCapture(pointer);
+      framePointerActive = true;
       function move(next) {
         if (next.pointerId !== pointer) return;
         const dx = next.clientX - event.clientX;
@@ -1707,6 +1709,8 @@ function attachFrameDragHandlers(){
       }
       function finish(next) {
         if (next.pointerId !== pointer) return;
+        if (next.type === 'pointerup') move(next);
+        framePointerActive = false;
         figure.removeEventListener('pointermove', move);
         figure.removeEventListener('pointerup', finish);
         figure.removeEventListener('pointercancel', finish);
@@ -1819,6 +1823,8 @@ function updateFrameBackground(){
   }
 }
 function renderFrame(){
+  // Keep the captured figure in the DOM until the pointer gesture finishes.
+  if (framePointerActive) return;
   const fd=frames.find(f=>f.id===frame);if(!fd)return;
   frameBox.className='frame-box '+fd.cls;
   applyFrameBoxSize();

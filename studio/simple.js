@@ -24,10 +24,60 @@ function simpleOpen(category, part = 'skin') {
   sync();
 }
 
+const accessoryPlaces = [
+  ['outfitBlock', 'Костюмы'], ['bagBlock', 'Сумки'],
+  ['rightHandBlock', 'Правая рука'], ['leftHandBlock', 'Левая рука'],
+  ['centerBlock', 'В обе руки'], ['boardBlock', 'Под ноги']
+];
+let accessoryPlace = 'outfitBlock';
+
+function showAccessoryPlace(body) {
+  const nav = document.createElement('div');
+  nav.className = 'simple-accessory-places';
+  nav.setAttribute('role', 'group');
+  nav.setAttribute('aria-label', 'Куда добавить аксессуар');
+  for (const [id, label] of accessoryPlaces) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = label;
+    button.setAttribute('aria-pressed', String(accessoryPlace === id));
+    button.onclick = event => {
+      accessoryPlace = id;
+      renderEditor();
+      if (!event.detail) body.querySelector('.simple-accessory-places button[aria-pressed="true"]')?.focus({preventScroll:true});
+    };
+    nav.append(button);
+    const block = body.querySelector('#' + id);
+    if (block) block.hidden = id !== accessoryPlace;
+  }
+  const colorControls = [
+    ['.board-color-panel', accessoryPlace === 'boardBlock'],
+    ['.icecream-color-panel',
+      (accessoryPlace === 'rightHandBlock' && isIcecreamAccessory(p().rightAccessory)) ||
+      (accessoryPlace === 'leftHandBlock' && isIcecreamAccessory(p().leftAccessory))]
+  ];
+  for (const [selector, visible] of colorControls) {
+    const panel = body.querySelector(selector);
+    if (!panel) continue;
+    if (!visible) { panel.remove(); continue; }
+    for (const swatch of panel.querySelectorAll('button')) {
+      swatch.setAttribute('aria-label', swatch.title);
+      swatch.setAttribute('aria-pressed', String(swatch.classList.contains('active')));
+    }
+  }
+  body.querySelector('#accCats')?.replaceWith(nav);
+  body.querySelector('.section-title')?.remove();
+  body.querySelectorAll('.acc-hand-title').forEach(title => title.remove());
+}
+
 renderEditor = function () {
   if (flow === 0) { flow = 1; step = 'skin'; simpleCategory = 'heroes'; }
+  if (flow === 1 && step === 'accessory') {
+    activeAccessoryCategory = accessoryPlace === 'bagBlock' ? 'bags' : 'all';
+  }
   simpleRender();
   const body = el('editorBody');
+  if (flow === 1 && step === 'accessory') showAccessoryPlace(body);
   if (flow === 3 && detailTab === 'text') {
     body.querySelector('.frame-text-move-hint')?.remove();
     const date = document.createElement('input');
@@ -105,6 +155,8 @@ updateStudioChrome = function () {
   simpleChrome();
   const category = flow === 1 ? (step === 'accessory' ? 'details' : 'heroes') :
     flow === 2 ? 'frame' : flow === 3 ? (detailTab === 'photo' ? 'background' : 'text') : null;
+  el('characterTabs').querySelector('[data-part-tab=accessory]')?.remove();
+  if (category === 'details') el('characterTabs').hidden = true;
   const nav = el('flowNav');
   nav.setAttribute('aria-label', 'Настройки рамки');
   nav.innerHTML = simpleCategories.map(([id, label, icon]) =>

@@ -39,7 +39,56 @@ setStepFocus=function(){constructorView.className='figure-wrap focus-full';frame
 renderFigure=function(){legacyRenderFigure();el('heroZoomLabel').textContent=(p().name||'Герой')+' · крупно';};
 renderMobilePeople=()=>{};
 renderPeople=function(){
- const region=el('guidedPeople');if(!region)return;region.innerHTML='';people.forEach((person,i)=>{const card=document.createElement('div');card.className='guided-person';const choose=document.createElement('button');choose.type='button';choose.className='person-select'+(i===active?' selected':'');choose.setAttribute('aria-pressed',String(i===active));choose.setAttribute('aria-label','Настроить '+(person.name||'героя'));choose.innerHTML=miniHTML(person)+'<span>'+escape(person.name||`Герой ${i+1}`)+'</span>';choose.onclick=()=>{active=i;flow=1;if(step==='frame')step='hair';sync();window.scrollTo({top:0,behavior:'instant'});};card.append(choose);region.append(card);});
+ const region=el('guidedPeople');
+ if(!region)return;
+ region.replaceChildren();
+ people.forEach((person,i)=>{
+  const name=person.name || `Герой ${i+1}`;
+  const card=document.createElement('div');
+  card.className='guided-person person-select'+(i===active?' selected':'');
+  const choose=document.createElement('button');
+  choose.type='button';
+  choose.className='person-avatar';
+  choose.setAttribute('aria-pressed',String(i===active));
+  choose.setAttribute('aria-label','Настроить '+name);
+  choose.innerHTML=miniHTML(person);
+  choose.onclick=()=>{active=i;flow=1;if(step==='frame')step='hair';sync();window.scrollTo({top:0,behavior:'instant'});};
+  const rename=document.createElement('button');
+  rename.type='button';
+  rename.className='person-rename';
+  rename.textContent=name;
+  rename.setAttribute('aria-label','Изменить имя: '+name);
+  rename.onclick=()=>{
+   const dialog=document.createElement('dialog');
+   dialog.className='simple-quick person-name-dialog';
+   dialog.setAttribute('aria-labelledby','rename-title');
+   dialog.innerHTML='<form method="dialog"><h2 id="rename-title">Имя героя</h2><input class="person-name-input" aria-label="Имя героя" maxlength="40" required><div class="simple-quick-actions"><button type="button">Отмена</button><button type="submit">Сохранить</button></div></form>';
+   const input=dialog.querySelector('input');
+   input.value=name;
+   dialog.querySelector('[type="button"]').onclick=()=>dialog.close();
+   dialog.querySelector('form').onsubmit=event=>{
+    event.preventDefault();
+    const next=input.value.trim();
+    if(!next)return;
+    dialog.close();
+    if(next!==name && people[i]){
+     snap();
+     people[i].name=next;
+     sync();
+    }
+   };
+   dialog.addEventListener('close',()=>{
+    dialog.remove();
+    region.querySelectorAll('.person-rename')[i]?.focus({preventScroll:true});
+   },{once:true});
+   document.body.append(dialog);
+   dialog.showModal();
+   input.focus();
+   input.select();
+  };
+  card.append(choose,rename);
+  region.append(card);
+ });
  const add=document.createElement('button');add.type='button';add.className='person-add';add.textContent='+ Герой';add.disabled=people.length>=10;add.onclick=()=>{flow=1;addPersonFn();};region.append(add);
 };
 function addPersonTools(){if(flow!==1)return;const tools=document.createElement('details');tools.className='person-tools';tools.innerHTML='<summary>Управлять героем</summary><div><button type="button" data-person="undo">Отменить последнее</button><button type="button" data-person="random">Случайный образ</button><button type="button" data-person="duplicate">Сделать копию</button><button type="button" data-person="before">Передвинуть влево</button><button type="button" data-person="after">Передвинуть вправо</button><button type="button" data-person="delete">Удалить героя</button></div>';
