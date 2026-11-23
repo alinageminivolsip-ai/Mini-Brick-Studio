@@ -1,0 +1,107 @@
+.simple-studio #flowNav button {
+  min-height: 46px;
+  border-radius: 12px;
+}
+.simple-studio #flowNav button[aria-pressed=true] {
+  background: #f3e4e8;
+  color: #8d283f;
+}
+.simple-studio #flowNav button span { font-size: 17px; }
+.simple-studio #editorDescription:empty,
+.simple-studio #stepCounter:empty,
+.simple-studio #studioPrev[hidden] { display: none !important; }
+.simple-studio .mini-figure.simple-selected { filter: drop-shadow(0 0 4px #8d283faa); }
+.simple-studio .mini-figure:focus-visible { outline: 2px solid #8d283f; }
+.simple-quick {
+  width: min(560px, calc(100% - 32px));
+  max-height: 85dvh;
+  padding: clamp(16px, 4vw, 28px);
+  border: 1px solid #eadfe0;
+  border-radius: 20px;
+  background: #faf9f6;
+  color: #272421;
+  font: 16px/1.4 Onest, sans-serif;
+}
+.simple-quick::backdrop { background: #27242170; }
+.simple-quick h2 { margin: 0 0 16px; font-size: clamp(20px, 5vw, 27px); }
+.simple-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px; }
+.simple-options button,.simple-quick-actions button {
+  min-height: 44px;
+  padding: 8px;
+  border: 1px solid #dccdd0;
+  border-radius: 10px;
+  background: white;
+  color: #272421;
+  font: inherit;
+  cursor: pointer;
+}
+.simple-options button:disabled { opacity: .45; cursor: default; }
+.simple-options button:focus-visible,.simple-quick-actions button:focus-visible { outline: 2px solid #8d283f; }
+.simple-count { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 4px; }
+.simple-count img { width: 14px; height: 14px; object-fit: contain; }
+.simple-size,.simple-bg { display: block; margin: 0 auto 8px; height: 44px; background: #efe5e3; }
+.simple-size { border: 4px ridge #fff; width: 44px; }
+.simple-size.small { width: 34px; }
+.simple-size.big { width: 31px; }
+.simple-bg { background-position: center; background-size: cover; border-radius: 5px; }
+.simple-quick-actions { display: flex; justify-content: space-between; gap: 8px; margin-top: 16px; }
+
+body#miglickStudio.simple-studio #flowNav button b { display:block !important; }
+body#miglickStudio.simple-studio #flowNav button { min-width:0 !important; }
+@media(max-width:480px) {
+  body#miglickStudio.simple-studio #flowNav button b { font-size:10px !important; }
+}
+
+body#miglickStudio.simple-studio #flowNav button {
+  display:flex !important;
+  flex:1 1 0 !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:7px !important;
+  border:1px solid #e7ded9 !important;
+  background:#fff !important;
+  color:#272421 !important;
+}
+body#miglickStudio.simple-studio #flowNav button[aria-pressed="true"] {
+  border-color:#8d283f !important;
+  background:#f5e9ec !important;
+  color:#8d283f !important;
+}
+.simple-studio #flowNav svg { width:22px;height:22px;flex:none; }
+body#miglickStudio.simple-studio .choice-grid {
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:12px !important;
+}
+body#miglickStudio.simple-studio .choice,
+body#miglickStudio.simple-studio #hairGrid .choice {
+  height:clamp(118px,16vw,164px) !important;
+  background:#faf9f6 !important;
+  border-radius:15px !important;
+}
+body#miglickStudio.simple-studio .choice.active { background:#f5e9ec !important; }
+body#miglickStudio.simple-studio .frame-bg-thumb {
+  display:block;
+  width:100%;
+  height:clamp(76px,12vw,124px);
+  background-size:cover;
+  background-position:center;
+  border-radius:8px;
+}
+body#miglickStudio.simple-studio .frame-size-thumb { scale:1.2; margin-block:8px; }
+.simple-quick .simple-options button { min-height:76px; }
+.simple-quick .simple-bg { height:68px; }
+.simple-quick .simple-count img { width:20px;height:20px; }
+@media(max-width:1023px) {
+  body#miglickStudio.simple-studio .viewer,
+  body#miglickStudio.simple-studio[data-flow="1"] .viewer {
+    height:clamp(250px,37svh,355px) !important;
+  }
+  body#miglickStudio.simple-studio.keyboard-open .viewer { height:170px !important; }
+}
+@media(max-width:480px) {
+  body#miglickStudio.simple-studio #flowNav button {
+    flex-direction:column !important;
+    padding:5px 2px !important;
+    gap:3px !important;
+  }
+}
